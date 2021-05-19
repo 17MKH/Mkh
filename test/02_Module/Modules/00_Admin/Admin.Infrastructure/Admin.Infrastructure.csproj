@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\src\02_Module\Module.Abstractions\Module.Abstractions.csproj" />
+    <ProjectReference Include="..\Admin.Domain\Admin.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

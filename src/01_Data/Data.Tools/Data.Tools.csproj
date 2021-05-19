@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>17MKH数据访问工具库</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Data.Abstractions\Internal\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="4.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data.Core\Data.Core.csproj" />
+  </ItemGroup>
+
+</Project>

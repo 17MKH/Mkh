@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\04_Host\Host.Web\Host.Web.csproj" />
+    <ProjectReference Include="..\00_Admin\Admin.Web\Admin.Web.csproj" />
+    <ProjectReference Include="..\01_Blog\Blog.Web\Blog.Web.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,29 @@
+<Project>
+
+  <PropertyGroup>
+    <ModulesDir>_modules\$(Id)_$(Code)</ModulesDir>
+    <ModuleName>$(ModulesDir)\_module.json</ModuleName>
+    <ModuleInfo>{"Id": $(Id),"Name":"$(Name)","Code":"$(Code)","Icon":"$(Icon)","Version":"$(Version)","Description":"$(Description)"}</ModuleInfo>
+  </PropertyGroup>
+
+  <!--生产_module.json文件-->
+  <Target Name="ModulesBuild" AfterTargets="Build">
+
+    <!--创建modules目录-->
+    <MakeDir Directories="$(ModulesDir)"/>
+
+    <!--生成module.json文件，Note：项目需要生成两次，否则Nuget包中的文件不是最新的-->
+    <WriteLinesToFile File="$(ModuleName)" Overwrite="true" Lines="$(ModuleInfo)" />
+
+  </Target>
+
+  <!--复制程序集-->
+  <Target Name="CopyAssemblies" AfterTargets="AfterBuild">
+
+    <ItemGroup>
+      <AssemblyRootPath Include="$(OutputPath)**\*.dll"></AssemblyRootPath>
+    </ItemGroup>
+
+  </Target>
+
+</Project>
