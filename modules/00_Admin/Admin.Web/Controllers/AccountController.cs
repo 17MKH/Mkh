@@ -5,9 +5,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers
 {
-    /// <summary>
-    /// 账户管理
-    /// </summary>
     [SwaggerTag("账户管理")]
     public class AccountController : ModuleController
     {
@@ -25,15 +22,7 @@ namespace Mkh.Mod.Admin.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok(_modules);
+            return Ok(ResultModel.Success(_modules));
         }
-    }
-
-    public class Test
-    {
-        /// <summary>
-        /// 主键
-        /// </summary>
-        public int Id { get; set; }
     }
 }

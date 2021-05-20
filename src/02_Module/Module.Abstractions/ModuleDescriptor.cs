@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Mkh.Module.Abstractions
 {
@@ -51,6 +52,7 @@ namespace Mkh.Module.Abstractions
         /// <summary>
         /// 分层信息
         /// </summary>
+        [JsonIgnore]
         public ModuleLayerAssemblies LayerAssemblies { get; } = new();
 
         /// <summary>

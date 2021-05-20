@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Mkh.Module.Abstractions
 {
@@ -17,6 +18,7 @@ namespace Mkh.Module.Abstractions
         /// <summary>
         /// 枚举类型
         /// </summary>
+        [JsonIgnore]
         public Type Type { get; set; }
 
         /// <summary>
