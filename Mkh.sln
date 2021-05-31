@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.31213.239
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4C4AE223-7E2A-41CE-9974-D0C7A3E751B0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00_Utils", "00_Utils", "{D69D62D4-B9A5-4034-AED9-53EC2F18824F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Utils", "01_Utils", "{D69D62D4-B9A5-4034-AED9-53EC2F18824F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "src\00_Utils\Utils\Utils.csproj", "{A0160E32-B91E-4B92-98F2-A9037468AA08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "src\01_Utils\Utils\Utils.csproj", "{A0160E32-B91E-4B92-98F2-A9037468AA08}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{A2146507-F8BE-43D6-859A-2D670DAD6C85}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,61 +15,61 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{A2146507
 		modules\module.build.targets = modules\module.build.targets
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils.Web", "src\00_Utils\Utils.Web\Utils.Web.csproj", "{B49F381C-9072-44D1-9E32-078E7533E856}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils.Web", "src\01_Utils\Utils.Web\Utils.Web.csproj", "{B49F381C-9072-44D1-9E32-078E7533E856}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Data", "01_Data", "{1D542BE0-6F46-41E8-A4B4-C0226A01927E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Data", "02_Data", "{1D542BE0-6F46-41E8-A4B4-C0226A01927E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{A132CD55-1C29-48AC-A415-6D4E1EED04D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Abstractions", "src\01_Data\Data.Abstractions\Data.Abstractions.csproj", "{FC1BA31B-BB6E-4F30-9407-A4EA4AB8F2B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Abstractions", "src\02_Data\Data.Abstractions\Data.Abstractions.csproj", "{FC1BA31B-BB6E-4F30-9407-A4EA4AB8F2B6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Core", "src\01_Data\Data.Core\Data.Core.csproj", "{065142C9-9D73-490E-B119-376863A38DA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Core", "src\02_Data\Data.Core\Data.Core.csproj", "{065142C9-9D73-490E-B119-376863A38DA2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Tools", "src\01_Data\Data.Tools\Data.Tools.csproj", "{2AB273CF-E260-4DD1-B5A3-97C23AF4A07C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Tools", "src\02_Data\Data.Tools\Data.Tools.csproj", "{2AB273CF-E260-4DD1-B5A3-97C23AF4A07C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Adapter.MySql", "src\01_Data\Adapters\Data.Adapter.MySql\Data.Adapter.MySql.csproj", "{A609812E-CD31-4CCA-8134-8D89D5515B0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Adapter.MySql", "src\02_Data\Adapters\Data.Adapter.MySql\Data.Adapter.MySql.csproj", "{A609812E-CD31-4CCA-8134-8D89D5515B0B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Adapter.Sqlite", "src\01_Data\Adapters\Data.Adapter.Sqlite\Data.Adapter.Sqlite.csproj", "{99BDC76F-F0B1-4A74-A2B8-5D919BF19F2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Adapter.Sqlite", "src\02_Data\Adapters\Data.Adapter.Sqlite\Data.Adapter.Sqlite.csproj", "{99BDC76F-F0B1-4A74-A2B8-5D919BF19F2C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Adapter.SqlServer", "src\01_Data\Adapters\Data.Adapter.SqlServer\Data.Adapter.SqlServer.csproj", "{4D0441C8-1163-460B-A724-3EC74EAC2533}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Adapter.SqlServer", "src\02_Data\Adapters\Data.Adapter.SqlServer\Data.Adapter.SqlServer.csproj", "{4D0441C8-1163-460B-A724-3EC74EAC2533}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Module", "02_Module", "{780E43B5-2436-4EA0-A7CB-B3365F3A6ABA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_Module", "03_Module", "{780E43B5-2436-4EA0-A7CB-B3365F3A6ABA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Abstractions", "src\02_Module\Module.Abstractions\Module.Abstractions.csproj", "{D97979C0-DB93-4F5A-B9D4-C04E5BDB24E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Abstractions", "src\03_Module\Module.Abstractions\Module.Abstractions.csproj", "{D97979C0-DB93-4F5A-B9D4-C04E5BDB24E2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Core", "src\02_Module\Module.Core\Module.Core.csproj", "{FA540547-DE5E-4B31-8E79-94FA354954EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Core", "src\03_Module\Module.Core\Module.Core.csproj", "{FA540547-DE5E-4B31-8E79-94FA354954EE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Web", "src\02_Module\Module.Web\Module.Web.csproj", "{A9B90939-9428-40B9-AD51-0C0D3B853FCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Web", "src\03_Module\Module.Web\Module.Web.csproj", "{A9B90939-9428-40B9-AD51-0C0D3B853FCE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D2CB45B2-F355-429B-8844-0CA07CE9CB1A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00_Utils", "00_Utils", "{1EB23099-1891-448D-AC4A-E0916FE96C7E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Utils", "01_Utils", "{1EB23099-1891-448D-AC4A-E0916FE96C7E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils.Tests", "test\00_Utils\Utils.Tests\Utils.Tests.csproj", "{D5FF0B9C-26F6-4C5D-BB58-527859CE6EB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils.Tests", "test\01_Utils\Utils.Tests\Utils.Tests.csproj", "{D5FF0B9C-26F6-4C5D-BB58-527859CE6EB7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils.Web.Test", "test\00_Utils\Utils.Web.Test\Utils.Web.Test.csproj", "{E1255231-E4C2-4D3E-AE0C-24F11A3B4C8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils.Web.Test", "test\01_Utils\Utils.Web.Test\Utils.Web.Test.csproj", "{E1255231-E4C2-4D3E-AE0C-24F11A3B4C8B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Data", "01_Data", "{D3E82606-00CF-4E6D-9490-27ED5EFEA953}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Data", "02_Data", "{D3E82606-00CF-4E6D-9490-27ED5EFEA953}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Common.Test", "test\01_Data\Data.Common.Test\Data.Common.Test.csproj", "{AD921CB6-3D5F-431D-B6B0-EAF596835EAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Common.Test", "test\02_Data\Data.Common.Test\Data.Common.Test.csproj", "{AD921CB6-3D5F-431D-B6B0-EAF596835EAC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Core.Test", "test\01_Data\Data.Core.Test\Data.Core.Test.csproj", "{A63B668A-38FB-4948-BB94-170F02F4F850}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Core.Test", "test\02_Data\Data.Core.Test\Data.Core.Test.csproj", "{A63B668A-38FB-4948-BB94-170F02F4F850}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Web.Test", "test\01_Data\Data.Web.Test\Data.Web.Test.csproj", "{7AEF0463-0EEE-442B-B556-14C764492790}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Web.Test", "test\02_Data\Data.Web.Test\Data.Web.Test.csproj", "{7AEF0463-0EEE-442B-B556-14C764492790}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Adapter.MySql.Test", "test\01_Data\Data.Adapter.MySql.Test\Data.Adapter.MySql.Test.csproj", "{C7ECB684-EF21-4EFE-B355-261A60CCFFDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Adapter.MySql.Test", "test\02_Data\Data.Adapter.MySql.Test\Data.Adapter.MySql.Test.csproj", "{C7ECB684-EF21-4EFE-B355-261A60CCFFDF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Adapter.Sqlite.Test", "test\01_Data\Data.Adapter.Sqlite.Test\Data.Adapter.Sqlite.Test.csproj", "{FB491B19-6365-4345-AEB7-2481E1FDD633}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Adapter.Sqlite.Test", "test\02_Data\Data.Adapter.Sqlite.Test\Data.Adapter.Sqlite.Test.csproj", "{FB491B19-6365-4345-AEB7-2481E1FDD633}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Adapter.SqlServer.Test", "test\01_Data\Data.Adapter.SqlServer.Test\Data.Adapter.SqlServer.Test.csproj", "{F68AC521-C331-4C03-AA88-22CD7A0FAA25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Adapter.SqlServer.Test", "test\02_Data\Data.Adapter.SqlServer.Test\Data.Adapter.SqlServer.Test.csproj", "{F68AC521-C331-4C03-AA88-22CD7A0FAA25}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_Auth", "03_Auth", "{345F1E3C-1E51-41CE-B1C1-9AD88093F705}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04_Auth", "04_Auth", "{345F1E3C-1E51-41CE-B1C1-9AD88093F705}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth.Abstractions", "src\03_Auth\Auth.Abstractions\Auth.Abstractions.csproj", "{04543491-B8A7-442D-A71A-D261C51E9666}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth.Abstractions", "src\04_Auth\Auth.Abstractions\Auth.Abstractions.csproj", "{04543491-B8A7-442D-A71A-D261C51E9666}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth.Core", "src\03_Auth\Auth.Core\Auth.Core.csproj", "{07528622-A0C3-4018-8ECB-2BECA686F848}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth.Core", "src\04_Auth\Auth.Core\Auth.Core.csproj", "{07528622-A0C3-4018-8ECB-2BECA686F848}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth.Jwt", "src\03_Auth\Auth.Jwt\Auth.Jwt.csproj", "{55FA8200-19AF-4E11-806B-C2A2ADBD7535}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth.Jwt", "src\04_Auth\Auth.Jwt\Auth.Jwt.csproj", "{55FA8200-19AF-4E11-806B-C2A2ADBD7535}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{47697AF4-5A6B-4044-92F8-DE95D7A91D3D}"
 EndProject
@@ -79,6 +79,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00_Admin", "00_Admin", "{3E
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Blog", "01_Blog", "{AC243BF9-4E30-4C8B-8A94-07735FFBFCCD}"
+	ProjectSection(SolutionItems) = preProject
+		modules\01_Blog\Directory.Build.props = modules\01_Blog\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin.Core", "modules\00_Admin\Admin.Core\Admin.Core.csproj", "{AD44BB22-EA8D-4FEE-95DE-FA547F1AF1B3}"
 EndProject
@@ -90,9 +93,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Core", "modules\01_Blo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Web", "modules\01_Blog\Blog.Web\Blog.Web.csproj", "{C7C082AE-63A8-413A-B452-AA4A90EB5998}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04_Host", "04_Host", "{48D63535-D0A7-41C6-BDE9-D5638103531C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00_Host", "00_Host", "{48D63535-D0A7-41C6-BDE9-D5638103531C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Host.Web", "src\04_Host\Host.Web\Host.Web.csproj", "{968E0A21-2CB3-4768-B0C3-5D74421675CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Host.Web", "src\00_Host\Host.Web\Host.Web.csproj", "{968E0A21-2CB3-4768-B0C3-5D74421675CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05_Cache", "05_Cache", "{7EE8323D-BD7F-4B33-B8C9-F3910DCFB3D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cache.Abstractions", "src\05_Cache\Cache.Abstractions\Cache.Abstractions.csproj", "{1ACF89AA-9832-4DFA-8464-9C0439A8623F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cache.Redis", "src\05_Cache\Cache.Redis\Cache.Redis.csproj", "{A76C8276-C7FD-4848-A774-EE7CA787D520}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -212,6 +221,14 @@ Global
 		{968E0A21-2CB3-4768-B0C3-5D74421675CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{968E0A21-2CB3-4768-B0C3-5D74421675CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{968E0A21-2CB3-4768-B0C3-5D74421675CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ACF89AA-9832-4DFA-8464-9C0439A8623F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ACF89AA-9832-4DFA-8464-9C0439A8623F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ACF89AA-9832-4DFA-8464-9C0439A8623F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ACF89AA-9832-4DFA-8464-9C0439A8623F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A76C8276-C7FD-4848-A774-EE7CA787D520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A76C8276-C7FD-4848-A774-EE7CA787D520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A76C8276-C7FD-4848-A774-EE7CA787D520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A76C8276-C7FD-4848-A774-EE7CA787D520}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -255,6 +272,9 @@ Global
 		{C7C082AE-63A8-413A-B452-AA4A90EB5998} = {AC243BF9-4E30-4C8B-8A94-07735FFBFCCD}
 		{48D63535-D0A7-41C6-BDE9-D5638103531C} = {4C4AE223-7E2A-41CE-9974-D0C7A3E751B0}
 		{968E0A21-2CB3-4768-B0C3-5D74421675CD} = {48D63535-D0A7-41C6-BDE9-D5638103531C}
+		{7EE8323D-BD7F-4B33-B8C9-F3910DCFB3D9} = {4C4AE223-7E2A-41CE-9974-D0C7A3E751B0}
+		{1ACF89AA-9832-4DFA-8464-9C0439A8623F} = {7EE8323D-BD7F-4B33-B8C9-F3910DCFB3D9}
+		{A76C8276-C7FD-4848-A774-EE7CA787D520} = {7EE8323D-BD7F-4B33-B8C9-F3910DCFB3D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4407CDC3-D496-4513-B0DD-23D049039145}

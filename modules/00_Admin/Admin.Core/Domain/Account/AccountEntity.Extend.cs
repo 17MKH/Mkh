@@ -1,4 +1,4 @@
-﻿using Mkh.Utils.Annotations;
+﻿using Mkh.Data.Abstractions.Annotations;
 
 namespace Mkh.Mod.Admin.Core.Domain.Account
 {
@@ -7,7 +7,7 @@ namespace Mkh.Mod.Admin.Core.Domain.Account
         /// <summary>
         /// 租户名称
         /// </summary>
-        [Ignore]
+        [NotMappingColumn]
         public string TenantName { get; set; }
     }
 }

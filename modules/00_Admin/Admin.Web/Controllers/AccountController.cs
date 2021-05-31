@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Mkh.Module.Abstractions;
-using Mkh.Utils.Result;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Mkh.Mod.Admin.Core.Application.Account;
+using Mkh.Mod.Admin.Core.Application.Account.Dto;
+using Mkh.Utils.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers
@@ -8,21 +11,22 @@ namespace Mkh.Mod.Admin.Web.Controllers
     [SwaggerTag("账户管理")]
     public class AccountController : ModuleController
     {
-        private readonly IModuleCollection _modules;
+        private readonly IAccountService _service;
 
-        public AccountController(IModuleCollection modules)
+        public AccountController(IAccountService service)
         {
-            _modules = modules;
+            _service = service;
         }
 
         /// <summary>
         /// 账户列表
         /// </summary>
         /// <remarks>获取账户列表</remarks>
-        [HttpGet]
-        public IActionResult Index()
+        [HttpPost]
+        [AllowAnonymous]
+        public Task<IResultModel> Index(AccountAddDto dto)
         {
-            return Ok(ResultModel.Success(_modules));
+            return _service.Add(dto);
         }
     }
 }

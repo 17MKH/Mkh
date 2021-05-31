@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\01_Data\Adapters\Data.Adapter.MySql\Data.Adapter.MySql.csproj" />
-    <ProjectReference Include="..\..\..\src\01_Data\Data.Tools\Data.Tools.csproj" />
+    <ProjectReference Include="..\..\..\src\02_Data\Adapters\Data.Adapter.MySql\Data.Adapter.MySql.csproj" />
+    <ProjectReference Include="..\..\..\src\02_Data\Data.Tools\Data.Tools.csproj" />
     <ProjectReference Include="..\Data.Common.Test\Data.Common.Test.csproj" />
   </ItemGroup>
 

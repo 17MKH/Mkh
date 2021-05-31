@@ -9,14 +9,14 @@ namespace Mkh.Mod.Admin.Core.Domain.Account
     /// 账户信息
     /// </summary>
     [Table("Account")]
-    public partial class AccountEntity : EntityBaseSoftDelete, ITenant
+    public partial class AccountEntity : EntityBaseSoftDelete<Guid>, ITenant
     {
         public Guid? TenantId { get; set; }
 
         /// <summary>
         /// 用户名
         /// </summary>
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         /// <summary>
         /// 密码
@@ -81,11 +81,6 @@ namespace Mkh.Mod.Admin.Core.Domain.Account
         /// 禁用
         /// </summary>
         [Description("禁用")]
-        Disabled,
-        /// <summary>
-        /// 注销
-        /// </summary>
-        [Description("注销")]
-        Closed
+        Disabled
     }
 }

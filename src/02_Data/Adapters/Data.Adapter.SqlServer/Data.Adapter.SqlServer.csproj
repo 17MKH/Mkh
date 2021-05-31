@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>17mkh数据访问SqlServer数据库适配器</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\Data.Abstractions\Internal\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.0-preview3.21140.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data.Core\Data.Core.csproj" />
+  </ItemGroup>
+
+</Project>

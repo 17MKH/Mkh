@@ -5,12 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Repositories\" />
-    <Folder Include="Application\" />
+    <ProjectReference Include="..\..\..\src\02_Data\Data.Core\Data.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\02_Data\Data.Tools\Data.Tools.csproj" />
+    <ProjectReference Include="..\..\..\src\03_Module\Module.Abstractions\Module.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\04_Auth\Auth.Abstractions\Auth.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\05_Cache\Cache.Abstractions\Cache.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\01_Data\Data.Core\Data.Core.csproj" />
+    <Folder Include="Domain\Menu\" />
+    <Folder Include="Domain\RoleMenu\" />
+    <Folder Include="Domain\RoleButton\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta12" />
   </ItemGroup>
 
 </Project>

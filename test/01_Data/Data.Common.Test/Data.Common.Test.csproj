@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\01_Data\Data.Core\Data.Core.csproj" />
-    <ProjectReference Include="..\..\..\src\01_Data\Data.Tools\Data.Tools.csproj" />
+    <ProjectReference Include="..\..\..\src\02_Data\Data.Core\Data.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\02_Data\Data.Tools\Data.Tools.csproj" />
   </ItemGroup>
 
 </Project>

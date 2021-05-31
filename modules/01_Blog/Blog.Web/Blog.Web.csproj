@@ -4,4 +4,27 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\03_Module\Module.Web\Module.Web.csproj" />
+    <ProjectReference Include="..\Blog.Core\Blog.Core.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\module.build.targets" />
+
+  <ItemGroup>
+    <Content Include="_modules*\**\_module.json" PackagePath="contentFiles\any\any">
+      <Pack>true</Pack>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.4" />
+  </ItemGroup>
+
 </Project>

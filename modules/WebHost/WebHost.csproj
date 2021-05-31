@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\04_Host\Host.Web\Host.Web.csproj" />
+    <ProjectReference Include="..\..\src\02_Data\Adapters\Data.Adapter.MySql\Data.Adapter.MySql.csproj" />
+    <ProjectReference Include="..\..\src\00_Host\Host.Web\Host.Web.csproj" />
+    <ProjectReference Include="..\..\src\02_Data\Adapters\Data.Adapter.SqlServer\Data.Adapter.SqlServer.csproj" />
     <ProjectReference Include="..\00_Admin\Admin.Web\Admin.Web.csproj" />
     <ProjectReference Include="..\01_Blog\Blog.Web\Blog.Web.csproj" />
   </ItemGroup>
