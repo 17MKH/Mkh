@@ -23,14 +23,16 @@ namespace Mkh.Mod.Admin.Web.Controllers
         private readonly ICredentialBuilder _credentialBuilder;
         private readonly ICredentialClaimExtender _credentialClaimExtender;
         private readonly IVerifyCodeProvider _verifyCodeProvider;
+        private readonly IAccount _account;
 
-        public AuthorizeController(IAuthorizeService service, IPResolver ipHelper, ICredentialBuilder credentialBuilder, ICredentialClaimExtender credentialClaimExtender, IVerifyCodeProvider verifyCodeProvider)
+        public AuthorizeController(IAuthorizeService service, IPResolver ipHelper, ICredentialBuilder credentialBuilder, ICredentialClaimExtender credentialClaimExtender, IVerifyCodeProvider verifyCodeProvider, IAccount account)
         {
             _service = service;
             _ipResolver = ipHelper;
             _credentialBuilder = credentialBuilder;
             _credentialClaimExtender = credentialClaimExtender;
             _verifyCodeProvider = verifyCodeProvider;
+            _account = account;
         }
 
         /// <summary>
@@ -79,6 +81,16 @@ namespace Mkh.Mod.Admin.Web.Controllers
             }
 
             return loginResult;
+        }
+
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public Task<IResultModel> Profile()
+        {
+            return _service.GetProfile(_account.AccountId);
         }
     }
 }

@@ -33,13 +33,22 @@ namespace Mkh.Mod.Admin.Core.Domain.Account
         /// 手机号
         /// </summary>
         [Length(20)]
-        public string Phone { get; set; } = string.Empty;
+        [Nullable]
+        public string Phone { get; set; }
 
         /// <summary>
         /// 邮箱
         /// </summary>
         [Length(300)]
-        public string Email { get; set; } = string.Empty;
+        [Nullable]
+        public string Email { get; set; }
+
+        /// <summary>
+        /// 头像
+        /// </summary>
+        [Length(500)]
+        [Nullable]
+        public string Avatar { get; set; }
 
         /// <summary>
         /// 状态

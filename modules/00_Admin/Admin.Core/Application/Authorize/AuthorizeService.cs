@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Mod.Admin.Core.Application.Authorize.Dto;
+using Mkh.Mod.Admin.Core.Application.Authorize.Vo;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Infrastructure;
 using Mkh.Utils.Models;
@@ -28,7 +30,7 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize
             var result = new ResultModel<AccountEntity>();
 
             //检测验证码
-            if (_authOptions.CurrentValue.VerifyCode)
+            if (_authOptions.CurrentValue.EnableVerifyCode)
             {
                 var verifyCodeCheckResult = await _verifyCodeProvider.Verify(dto.VerifyCodeId, dto.VerifyCode);
                 if (!verifyCodeCheckResult.Successful)
@@ -60,6 +62,28 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize
             }
 
             return result.Success(account);
+        }
+
+        public async Task<IResultModel> GetProfile(Guid accountId)
+        {
+            var account = await _accountRepository.Get(accountId);
+            if (account == null)
+                return ResultModel.Failed("账户不存在");
+
+            if (account.Status == AccountStatus.Disabled)
+                return ResultModel.Failed("账户已禁用，请联系管理员");
+
+            var vo = new ProfileVo
+            {
+                AccountId = accountId,
+                Avatar = account.Avatar,
+                Username = account.Username,
+                Name = account.Name,
+                Phone = account.Phone,
+                Email = account.Email,
+            };
+
+            return ResultModel.Success(vo);
         }
     }
 }

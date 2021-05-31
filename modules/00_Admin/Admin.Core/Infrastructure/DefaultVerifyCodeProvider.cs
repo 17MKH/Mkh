@@ -55,7 +55,7 @@ namespace Mkh.Mod.Admin.Core.Infrastructure
         public async Task<IResultModel> Verify(string id, string code)
         {
             //启用验证码
-            if (_authOptions.CurrentValue.VerifyCode)
+            if (_authOptions.CurrentValue.EnableVerifyCode)
             {
                 if (code.IsNull())
                     return ResultModel.Failed("请输入验证码");

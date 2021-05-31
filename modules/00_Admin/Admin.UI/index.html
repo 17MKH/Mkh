@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="./favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <style type="text/css">
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+          Arial;
+        font-size: 14px;
+        height: 100%;
+      }
+
+      *,
+      ::after,
+      ::before {
+        box-sizing: border-box;
+      }
+
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+
+      a {
+        text-decoration: none;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      pre,
+      code {
+        margin: 0;
+        padding: 0;
+      }
+
+      .mu-loader {
+        position: absolute;
+        margin: -75px;
+        top: 50%;
+        left: 50%;
+        width: 150px;
+        height: 150px;
+      }
+
+      .mu-loader_wrapper {
+        position: relative;
+        margin: 10px 0 0 25px;
+        height: 64px;
+        width: 96px;
+        transform-style: preserve-3d;
+        transform-origin: 50% 50%;
+        transform: rotateX(60deg) rotateZ(45deg) rotateY(0deg) translateZ(0px);
+      }
+
+      .mu-loader_box {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 32px;
+        height: 32px;
+        transform-style: preserve-3d;
+      }
+      .mu-loader_box:nth-child(1) {
+        transform: translate(100%, 0);
+        animation: mu-loader-box1 0.8s linear infinite;
+      }
+      .mu-loader_box:nth-child(2) {
+        transform: translate(0, 100%);
+        animation: mu-loader-box2 0.8s linear infinite;
+      }
+      .mu-loader_box:nth-child(3) {
+        transform: translate(100%, 100%);
+        animation: mu-loader-box3 0.8s linear infinite;
+      }
+      .mu-loader_box:nth-child(4) {
+        transform: translate(200%, 0);
+        animation: mu-loader-box4 0.8s linear infinite;
+      }
+      .mu-loader_box > div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #5c8df6;
+        top: auto;
+        right: auto;
+        bottom: auto;
+        left: auto;
+      }
+
+      .mu-loader_box > div:nth-child(1) {
+        top: 0;
+        left: 0;
+        transform: rotateY(0deg) rotateX(0deg) translateZ(16px);
+      }
+      .mu-loader_box > div:nth-child(2) {
+        right: 0;
+        background: #145af2;
+        transform: rotateY(90deg) rotateX(0deg) translateZ(16px);
+      }
+      .mu-loader_box > div:nth-child(3) {
+        background: #447cf5;
+        transform: rotateY(0deg) rotateX(-90deg) translateZ(16px);
+      }
+      .mu-loader_box > div:nth-child(4) {
+        top: 0;
+        left: 0;
+        background: #dbe3f4;
+        transform: rotateY(0deg) rotateX(0deg) translateZ(-96px);
+      }
+
+      @keyframes mu-loader-box1 {
+        0%,
+        50% {
+          transform: translate(100%, 0);
+        }
+        100% {
+          transform: translate(200%, 0);
+        }
+      }
+
+      @keyframes mu-loader-box2 {
+        0% {
+          transform: translate(0, 100%);
+        }
+        50% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(100%, 0);
+        }
+      }
+
+      @keyframes mu-loader-box3 {
+        0%,
+        50% {
+          transform: translate(100%, 100%);
+        }
+        100% {
+          transform: translate(0, 100%);
+        }
+      }
+
+      @keyframes mu-loader-box4 {
+        0% {
+          transform: translate(200%, 0);
+        }
+        50% {
+          transform: translate(200%, 100%);
+        }
+        100% {
+          transform: translate(100%, 100%);
+        }
+      }
+
+      .mu-copyright {
+        position: absolute;
+        left: 0;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .mu-copyright_logo {
+        position: relative;
+        top: 10px;
+        width: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="mu-loader">
+        <div class="mu-loader_wrapper">
+          <div class="mu-loader_box">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div class="mu-loader_box">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div class="mu-loader_box">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div class="mu-loader_box">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+      <div class="mu-copyright">
+        <img class="mu-copyright_logo" src="<%= logo %>" />
+        <span><%= copyright %></span>
+      </div>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
