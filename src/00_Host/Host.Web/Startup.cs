@@ -79,6 +79,21 @@ namespace Mkh.Host.Web
             //使用全局异常处理中间件
             app.UseMiddleware<ExceptionHandleMiddleware>();
 
+            //基地址
+            var pathBase = hostOptions.PathBase;
+            if (pathBase.NotNull())
+            {
+                //1、配置请求基地址：
+                app.Use((context, next) =>
+                {
+                    context.Request.PathBase = pathBase;
+                    return next();
+                });
+
+                // 2、配置静态文件基地址：
+                app.UsePathBase(pathBase);
+            }
+
             //反向代理
             if (hostOptions!.Proxy)
             {

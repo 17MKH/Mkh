@@ -109,7 +109,7 @@ namespace Mkh.Host.Web.Swagger
                     foreach (var module in modules)
                     {
                         var code = module.Code.ToLower();
-                        var url = $"/swagger/{code}/swagger.json";
+                        var url = $"{code}/swagger.json";
 
                         c.SwaggerEndpoint(url, $"{module.Name}({module.Code})");
                     }
