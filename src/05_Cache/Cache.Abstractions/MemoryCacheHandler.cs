@@ -87,12 +87,12 @@ namespace Mkh.Cache.Abstractions
 
         public bool Exists(string key)
         {
-            return TryGetValue(key, out _);
+            return _cache.TryGetValue(key, out _);
         }
 
         public Task<bool> ExistsAsync(string key)
         {
-            return Task.FromResult(TryGetValue(key, out _));
+            return Task.FromResult(_cache.TryGetValue(key, out _));
         }
 
         public async Task RemoveByPrefixAsync(string prefix)
