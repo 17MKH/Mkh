@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Mod.Admin.Core.Application.Authorize.Dto;
-using Mkh.Mod.Admin.Core.Application.Authorize.Vo;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Infrastructure;
 using Mkh.Utils.Models;
@@ -16,13 +15,15 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize
         private readonly IVerifyCodeProvider _verifyCodeProvider;
         private readonly IAccountRepository _accountRepository;
         private readonly IPasswordHandler _passwordHandler;
+        private readonly IAccountProfileResolver _accountProfileResolver;
 
-        public AuthorizeService(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler)
+        public AuthorizeService(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler, IAccountProfileResolver accountProfileResolver)
         {
             _authOptions = authOptions;
             _verifyCodeProvider = verifyCodeProvider;
             _accountRepository = accountRepository;
             _passwordHandler = passwordHandler;
+            _accountProfileResolver = accountProfileResolver;
         }
 
         public async Task<IResultModel<AccountEntity>> Login(LoginDto dto)
@@ -38,12 +39,12 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize
             }
 
             //查询账户
-            var account = await _accountRepository.GetByUserName(dto.Username);
+            var account = await _accountRepository.GetByUserName(dto.Username.FromBase64());
             if (account == null)
                 return result.Failed("用户名或密码错误");
 
             //检测密码
-            var password = _passwordHandler.Encrypt(dto.Password);
+            var password = _passwordHandler.Encrypt(dto.Password.FromBase64());
             if (!account.Password.Equals(password))
                 return result.Failed("用户名或密码错误");
 
@@ -73,17 +74,10 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize
             if (account.Status == AccountStatus.Disabled)
                 return ResultModel.Failed("账户已禁用，请联系管理员");
 
-            var vo = new ProfileVo
-            {
-                AccountId = accountId,
-                Avatar = account.Avatar,
-                Username = account.Username,
-                Name = account.Name,
-                Phone = account.Phone,
-                Email = account.Email,
-            };
+            var profile = await _accountProfileResolver.Resolve(account);
 
-            return ResultModel.Success(vo);
+            return ResultModel.Success(profile);
         }
     }
 }
+

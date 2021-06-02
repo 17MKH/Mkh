@@ -54,6 +54,7 @@ namespace Mkh.Mod.Admin.Web.Controllers
         [AllowAnonymous]
         public async Task<IResultModel> Login(LoginDto dto)
         {
+            dto.IP = _ipResolver.IP;
             dto.IPv4 = _ipResolver.IPv4;
             dto.IPv6 = _ipResolver.IPv6;
             dto.UserAgent = _ipResolver.UserAgent;
@@ -69,7 +70,8 @@ namespace Mkh.Mod.Admin.Web.Controllers
                     new(MkhClaimTypes.ACCOUNT_ID, account.Id.ToString()),
                     new(MkhClaimTypes.ACCOUNT_NAME, account.Name),
                     new(MkhClaimTypes.PLATFORM, dto.Platform.ToInt().ToString()),
-                    new(MkhClaimTypes.LOGIN_TIME, dto.LoginTime.ToString())
+                    new(MkhClaimTypes.LOGIN_TIME, dto.LoginTime.ToString()),
+                    new(MkhClaimTypes.IP, dto.IP)
                 };
 
                 if (_credentialClaimExtender != null)
@@ -77,10 +79,20 @@ namespace Mkh.Mod.Admin.Web.Controllers
                     await _credentialClaimExtender.Extend(claims, account.Id);
                 }
 
-                return _credentialBuilder.Build(claims);
+                return await _credentialBuilder.Build(claims);
             }
 
             return loginResult;
+        }
+
+        /// <summary>
+        /// 刷新令牌
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public Task<IResultModel> RefreshToken(RefreshTokenDto dto)
+        {
+            return Task.FromResult(ResultModel.Success(""));
         }
 
         /// <summary>

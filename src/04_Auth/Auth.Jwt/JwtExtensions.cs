@@ -28,7 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton(jwtOptions);
 
             //添加凭证构造器
-            services.AddSingleton<ICredentialBuilder, JwtCredentialBuilder>();
+            services.AddScoped<ICredentialBuilder, JwtCredentialBuilder>();
 
             //添加身份认证服务
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

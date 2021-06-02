@@ -80,10 +80,10 @@ namespace Mkh.Host.Web
             app.UseMiddleware<ExceptionHandleMiddleware>();
 
             //基地址
-            var pathBase = hostOptions.PathBase;
+            var pathBase = hostOptions!.Base;
             if (pathBase.NotNull())
             {
-                //1、配置请求基地址：
+                //1、配置请求基础地址：
                 app.Use((context, next) =>
                 {
                     context.Request.PathBase = pathBase;

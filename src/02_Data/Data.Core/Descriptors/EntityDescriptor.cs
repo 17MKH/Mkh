@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Annotations;
 using Mkh.Data.Abstractions.Descriptors;
@@ -105,17 +106,24 @@ namespace Mkh.Data.Core.Descriptors
             {
                 //去掉Entity后缀
                 TableName = EntityType.Name.Substring(0, EntityType.Name.Length - 6);
+
+                //给表名称添加分隔符
+                if (DbContext.Options.TableNameSeparator.NotNull())
+                {
+                    var matchs = Regex.Matches(TableName, "[A-Z][^A-Z]+");
+                    TableName = string.Join(DbContext.Options.TableNameSeparator, matchs);
+                }
             }
 
-            var setPrefix = tableArr != null ? tableArr.SetPrefix : true;
+            var setPrefix = tableArr?.SetPrefix ?? true;
             //设置前缀
-            if (setPrefix && DbContext.Options.TablePrefix.NotNull())
+            if (setPrefix && DbContext.Options.TableNamePrefix.NotNull())
             {
-                TableName = DbContext.Options.TablePrefix + TableName;
+                TableName = DbContext.Options.TableNamePrefix + TableName;
             }
 
             //设置自动创建表
-            AutoCreate = tableArr != null ? tableArr.AutoCreate : true;
+            AutoCreate = tableArr?.AutoCreate ?? true;
 
             //表名称小写
             if (DbContext.Adapter.SqlLowerCase)

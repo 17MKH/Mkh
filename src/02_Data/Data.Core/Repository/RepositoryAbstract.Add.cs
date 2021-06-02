@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Entities;
+using Mkh.Data.Core.Internal;
 
 namespace Mkh.Data.Core.Repository
 {
@@ -70,7 +71,9 @@ namespace Mkh.Data.Core.Repository
             {
                 var id = (Guid)primaryKey.PropertyInfo.GetValue(entity)!;
                 if (id == Guid.Empty)
-                    primaryKey.PropertyInfo.SetValue(entity, Guid.NewGuid());
+                {
+                    primaryKey.PropertyInfo.SetValue(entity, _adapter.CreateSequentialGuid());
+                }
 
                 _logger.Write("NewID", id.ToString());
 

@@ -144,20 +144,6 @@ namespace Mkh.Data.Core
 
             foreach (var assembly in _repositoryAssemblies)
             {
-                var serviceLifetime = DbContext.Options.RepositoryServiceLifetime;
-                if (serviceLifetime == ServiceLifetime.Transient)
-                {
-                    throw new ArgumentException("仓储暂不支持瞬时模式(Transient)注入");
-                }
-
-                var services = Services;
-                if (serviceLifetime == ServiceLifetime.Scoped)
-                {
-                    //尝试添加仓储实例管理器
-                    services.TryAddScoped<IRepositoryManager, RepositoryManager>();
-                }
-
-
                 /*
                  * 仓储约定：
                  * 1、仓储统一放在Repositories目录中
@@ -194,28 +180,19 @@ namespace Mkh.Data.Core
                     //优先使用兼容仓储
                     var implementationType = compatibilityRepositoryTypes.FirstOrDefault(m => m.Name == type.Name) ?? type;
 
-                    if (serviceLifetime == ServiceLifetime.Scoped)
-                    {
-                        Services.AddScoped(interfaceType, sp =>
-                        {
-                            var instance = Activator.CreateInstance(implementationType);
-                            var initMethod = implementationType.GetMethod("Init", BindingFlags.Instance | BindingFlags.NonPublic);
-                            initMethod!.Invoke(instance, new Object[] { DbContext });
-
-                            //保存仓储实例
-                            var manager = sp.GetService<IRepositoryManager>();
-                            manager?.Add((IRepository)instance);
-
-                            return instance;
-                        });
-                    }
-                    else
+                    Services.AddScoped(interfaceType, sp =>
                     {
                         var instance = Activator.CreateInstance(implementationType);
                         var initMethod = implementationType.GetMethod("Init", BindingFlags.Instance | BindingFlags.NonPublic);
                         initMethod!.Invoke(instance, new Object[] { DbContext });
-                        Services.AddSingleton(interfaceType, instance!);
-                    }
+
+                            //保存仓储实例
+                            var manager = sp.GetService<IRepositoryManager>();
+                        manager?.Add((IRepository)instance);
+
+                        return instance;
+                    });
+
                     //保存仓储描述符
                     DbContext.RepositoryDescriptors.Add(new RepositoryDescriptor(interfaceType, implementationType));
                 }

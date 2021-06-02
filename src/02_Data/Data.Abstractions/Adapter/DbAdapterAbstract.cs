@@ -1,9 +1,9 @@
 using System;
 using System.Data;
-using System.Linq.Expressions;
 using System.Text;
 using Mkh.Data.Abstractions.Descriptors;
 using Mkh.Data.Abstractions.Options;
+using Mkh.Utils.Helpers;
 
 namespace Mkh.Data.Abstractions.Adapter
 {
@@ -12,6 +12,8 @@ namespace Mkh.Data.Abstractions.Adapter
     /// </summary>
     public abstract class DbAdapterAbstract : IDbAdapter
     {
+        protected static SequentialGuidGenerator GuidGenerator = new SequentialGuidGenerator();
+
         public abstract DbProvider Provider { get; }
 
         public DbOptions Options { get; set; }
@@ -65,5 +67,7 @@ namespace Mkh.Data.Abstractions.Adapter
         public abstract void ResolveColumn(IColumnDescriptor columnDescriptor);
 
         public abstract string FunctionMapper(string sourceName, string columnName, Type dataType = null, object[] args = null);
+
+        public abstract Guid CreateSequentialGuid();
     }
 }

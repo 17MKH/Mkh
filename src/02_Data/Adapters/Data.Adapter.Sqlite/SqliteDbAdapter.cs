@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Data.Sqlite;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Descriptors;
+using Mkh.Utils.Helpers;
 
 namespace Mkh.Data.Adapter.Sqlite
 {
@@ -142,6 +143,11 @@ namespace Mkh.Data.Adapter.Sqlite
                 default:
                     return string.Empty;
             }
+        }
+
+        public override Guid CreateSequentialGuid()
+        {
+            return GuidGenerator.Create(SequentialGuidType.SequentialAsString);
         }
 
         private string Mapper_Substring(string columnName, object arg0, object arg1)

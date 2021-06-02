@@ -8,7 +8,6 @@ namespace Mkh.Mod.Admin.Core.Domain.Account
     /// <summary>
     /// 账户信息
     /// </summary>
-    [Table("Account")]
     public partial class AccountEntity : EntityBaseSoftDelete<Guid>, ITenant
     {
         public Guid? TenantId { get; set; }
@@ -58,7 +57,7 @@ namespace Mkh.Mod.Admin.Core.Domain.Account
         /// <summary>
         /// 激活时间
         /// </summary>
-        public DateTime ActivateTime { get; set; } = DateTime.Now;
+        public DateTime ActivatedTime { get; set; } = DateTime.Now;
 
         /// <summary>
         /// 注销时间

@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Auth.Abstractions.Options;
+using Mkh.Utils.Web;
 
 namespace Mkh.Auth.Core
 {
@@ -13,15 +15,29 @@ namespace Mkh.Auth.Core
     {
         private readonly ILogger _logger;
         private readonly IOptionsMonitor<AuthOptions> _options;
+        private readonly IPResolver _ipResolver;
 
-        public PermissionHandler(ILogger<PermissionHandler> logger, IOptionsMonitor<AuthOptions> options)
+        public PermissionHandler(ILogger<PermissionHandler> logger, IOptionsMonitor<AuthOptions> options, IPResolver ipResolver)
         {
             _logger = logger;
             _options = options;
+            _ipResolver = ipResolver;
         }
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
+            //此处判断一下是否已认证
+            if (!context.User.Identity!.IsAuthenticated)
+            {
+                return Task.CompletedTask;
+            }
+
+            //检测IP地址
+            if (_options.CurrentValue.EnableCheckIP && _ipResolver.IP != context.User.Claims.First(m => m.Type.Equals(MkhClaimTypes.IP)).Value)
+            {
+                return Task.CompletedTask;
+            }
+
             var httpContext = (context.Resource as DefaultHttpContext)!.HttpContext;
 
             //禁用权限验证

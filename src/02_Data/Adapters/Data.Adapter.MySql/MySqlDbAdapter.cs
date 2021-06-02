@@ -3,6 +3,7 @@ using System.Data;
 using System.Text;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Descriptors;
+using Mkh.Utils.Helpers;
 using MySql.Data.MySqlClient;
 
 namespace Mkh.Data.Adapter.MySql
@@ -206,6 +207,11 @@ namespace Mkh.Data.Adapter.MySql
                 default:
                     return string.Empty;
             }
+        }
+
+        public override Guid CreateSequentialGuid()
+        {
+            return GuidGenerator.Create(SequentialGuidType.SequentialAsString);
         }
 
         private string Mapper_Substring(string columnName, object arg0, object arg1)

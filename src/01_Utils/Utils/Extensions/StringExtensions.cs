@@ -125,5 +125,16 @@ namespace Mkh
 
             return Convert.ToBase64String(bytes);
         }
+
+        /// <summary>
+        /// Base64解析
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string FromBase64(this string s)
+        {
+            byte[] data = Convert.FromBase64String(s);
+            return Encoding.UTF8.GetString(data);
+        }
     }
 }

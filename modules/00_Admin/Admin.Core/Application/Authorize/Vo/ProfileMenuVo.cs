@@ -12,22 +12,17 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize.Vo
         /// <summary>
         /// 编号
         /// </summary>
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// 父节点编号
         /// </summary>
-        public Guid ParentId { get; set; }
+        public int ParentId { get; set; }
 
         /// <summary>
         /// 类型
         /// </summary>
         public MenuType Type { get; set; }
-
-        /// <summary>
-        /// 模块编码
-        /// </summary>
-        public string ModuleCode { get; set; }
 
         /// <summary>
         /// 名称

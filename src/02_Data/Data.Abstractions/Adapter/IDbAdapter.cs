@@ -126,6 +126,12 @@ namespace Mkh.Data.Abstractions.Adapter
         /// <returns></returns>
         string FunctionMapper(string sourceName, string columnName, Type dataType = null, object[] args = null);
 
+        /// <summary>
+        /// 创建有序Guid
+        /// </summary>
+        /// <returns></returns>
+        Guid CreateSequentialGuid();
+
         #endregion
     }
 

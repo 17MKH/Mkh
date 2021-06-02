@@ -14,6 +14,11 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize.Vo
         public Guid AccountId { get; set; }
 
         /// <summary>
+        /// 平台
+        /// </summary>
+        public int Platform { get; set; }
+
+        /// <summary>
         /// 用户名
         /// </summary>
         public string Username { get; set; }

@@ -11,7 +11,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\01_Utils\Utils\Utils.csproj" />
     <ProjectReference Include="..\..\02_Data\Data.Core\Data.Core.csproj" />
-    <ProjectReference Include="..\..\02_Data\Data.Tools\Data.Tools.csproj" />
     <ProjectReference Include="..\..\03_Module\Module.Web\Module.Web.csproj" />
     <ProjectReference Include="..\..\04_Auth\Auth.Jwt\Auth.Jwt.csproj" />
     <ProjectReference Include="..\..\05_Cache\Cache.Abstractions\Cache.Abstractions.csproj" />

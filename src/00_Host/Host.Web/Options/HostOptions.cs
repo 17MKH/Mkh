@@ -11,9 +11,9 @@
         public string Urls { get; set; }
 
         /// <summary>
-        /// 基路径
+        /// 基础路径
         /// </summary>
-        public string PathBase { get; set; }
+        public string Base { get; set; }
 
         /// <summary>
         /// 是否开启Swagger功能

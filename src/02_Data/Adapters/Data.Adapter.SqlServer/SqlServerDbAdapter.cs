@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Data.SqlClient;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Descriptors;
+using Mkh.Utils.Helpers;
 
 namespace Mkh.Data.Adapter.SqlServer
 {
@@ -230,6 +231,11 @@ namespace Mkh.Data.Adapter.SqlServer
                 default:
                     return string.Empty;
             }
+        }
+
+        public override Guid CreateSequentialGuid()
+        {
+            return GuidGenerator.Create(SequentialGuidType.SequentialAtEnd);
         }
 
         private string Mapper_Substring(string columnName, object arg0, object arg1)

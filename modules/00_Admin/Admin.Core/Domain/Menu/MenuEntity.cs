@@ -6,14 +6,8 @@ namespace Mkh.Mod.Admin.Core.Domain.Menu
     /// <summary>
     /// 菜单
     /// </summary>
-    [Table("Menu")]
     public partial class MenuEntity : EntityBase
     {
-        /// <summary>
-        /// 分组编号
-        /// </summary>
-        public int GroupId { get; set; }
-
         /// <summary>
         /// 类型
         /// </summary>

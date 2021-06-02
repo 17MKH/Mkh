@@ -7,7 +7,6 @@ namespace Mkh.Mod.Admin.Core.Domain.AccountRole
     /// <summary>
     /// 账户角色实体
     /// </summary>
-    [Table("Account_Role")]
     public class AccountRoleEntity : EntityBase
     {
         /// <summary>

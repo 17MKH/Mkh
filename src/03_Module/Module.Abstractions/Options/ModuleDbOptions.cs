@@ -28,9 +28,14 @@ namespace Mkh.Module.Abstractions.Options
         public string Version { get; set; }
 
         /// <summary>
-        /// 表前缀
+        /// 表名称前缀
         /// </summary>
-        public string TablePrefix { get; set; }
+        public string TableNamePrefix { get; set; }
+
+        /// <summary>
+        /// 表名称分隔符
+        /// </summary>
+        public string TableNameSeparator { get; set; } = "_";
 
         /// <summary>
         /// 启用代码优先

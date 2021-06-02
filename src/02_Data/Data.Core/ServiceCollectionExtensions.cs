@@ -1,4 +1,5 @@
 using System;
+using Castle.DynamicProxy;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Mkh;
 using Mkh.Data.Abstractions;
@@ -38,6 +39,9 @@ namespace Microsoft.Extensions.DependencyInjection
             configure?.Invoke(options);
 
             Check.NotNull(options.ConnectionString, "连接字符串未配置");
+
+            //添加仓储实例管理器
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
 
             //尝试添加默认账户信息解析器
             services.TryAddSingleton<IAccountResolver, DefaultAccountResolver>();

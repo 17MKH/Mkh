@@ -111,11 +111,9 @@ namespace Mkh.Host.Web
                     opt.Provider = dbOptions.Provider;
                     opt.ConnectionString = dbOptions.ConnectionString;
                     opt.Log = dbOptions.Log;
-                    opt.TablePrefix = dbOptions.TablePrefix;
+                    opt.TableNamePrefix = dbOptions.TableNamePrefix;
+                    opt.TableNameSeparator = dbOptions.TableNameSeparator;
                     opt.Version = dbOptions.Version;
-
-                    //使用TransactionAttribute功能必须采用Scoped方式注入仓储
-                    opt.RepositoryServiceLifetime = ServiceLifetime.Scoped;
                 });
 
                 //加载仓储
@@ -151,7 +149,7 @@ namespace Mkh.Host.Web
         /// <returns></returns>
         public static IServiceCollection AddCache(this IServiceCollection services, IConfiguration cfg)
         {
-          var builder=  services.AddCache();
+            var builder = services.AddCache();
 
             var provider = cfg["Mkh:Cache:Provider"].ToInt();
             if (provider == 1)

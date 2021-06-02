@@ -29,5 +29,10 @@
         /// 登录时间
         /// </summary>
         public const string LOGIN_TIME = "lt";
+
+        /// <summary>
+        /// 客户IP
+        /// </summary>
+        public const string IP = "ip";
     }
 }

@@ -24,5 +24,10 @@
         /// 启用审计日志
         /// </summary>
         public bool EnableAuditingLog { get; set; }
+
+        /// <summary>
+        /// 启用检测用户IP地址
+        /// </summary>
+        public bool EnableCheckIP { get; set; }
     }
 }

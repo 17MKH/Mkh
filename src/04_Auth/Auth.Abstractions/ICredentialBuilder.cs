@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Mkh.Utils.Models;
 
 namespace Mkh.Auth.Abstractions
@@ -12,8 +13,8 @@ namespace Mkh.Auth.Abstractions
         /// <summary>
         /// 生成凭证
         /// </summary>
-        /// <param name="claims"></param>
+        /// <param name="claims">账户声明</param>
         /// <returns></returns>
-        IResultModel Build(List<Claim> claims);
+        Task<IResultModel> Build(List<Claim> claims);
     }
 }

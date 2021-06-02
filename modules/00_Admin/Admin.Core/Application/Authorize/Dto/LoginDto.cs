@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Mkh.Mod.Admin.Core.Application.Authorize.Dto
@@ -35,6 +34,12 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize.Dto
         /// </summary>
         [Required(ErrorMessage = "请输入密码")]
         public string Password { get; set; }
+
+        /// <summary>
+        /// 客户IP地址
+        /// </summary>
+        [JsonIgnore]
+        public string IP { get; set; }
 
         /// <summary>
         /// 客户IPv4地址

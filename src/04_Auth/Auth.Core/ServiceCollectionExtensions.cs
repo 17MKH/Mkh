@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Auth.Core;

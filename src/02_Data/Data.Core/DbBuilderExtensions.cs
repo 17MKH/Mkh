@@ -1,7 +1,10 @@
 using System;
+using Castle.DynamicProxy;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Options;
+using Mkh.Data.Core.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection
@@ -58,6 +61,34 @@ namespace Microsoft.Extensions.DependencyInjection
                     //后有表
                     provider.CreateTable();
                 }
+            });
+
+            return builder;
+        }
+
+        /// <summary>
+        /// 添加事务特性功能
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="serviceType"></param>
+        /// <param name="implementationType"></param>
+        /// <returns></returns>
+        public static IDbBuilder AddTransactionAttribute(this IDbBuilder builder, Type serviceType, Type implementationType)
+        {
+            var services = builder.Services;
+
+            //尝试添加代理生成器
+            services.TryAddSingleton<IProxyGenerator, ProxyGenerator>();
+
+            //添加需要特性事务的服务
+            services.AddScoped(serviceType, sp =>
+            {
+                var target = sp.GetService(implementationType);
+                var generator = sp.GetService<IProxyGenerator>();
+                var manager = sp.GetService<IRepositoryManager>();
+                var interceptor = new TransactionInterceptor(builder.DbContext, manager);
+                var proxy = generator!.CreateInterfaceProxyWithTarget(serviceType, target, interceptor);
+                return proxy;
             });
 
             return builder;

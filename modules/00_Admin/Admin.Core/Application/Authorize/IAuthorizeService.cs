@@ -19,6 +19,13 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize
         Task<IResultModel<AccountEntity>> Login(LoginDto dto);
 
         /// <summary>
+        /// 刷新令牌
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        //Task<IResultModel> RefreshToken(RefreshTokenDto dto);
+
+        /// <summary>
         /// 获取指定账户的个人信息
         /// </summary>
         /// <param name="accountId"></param>

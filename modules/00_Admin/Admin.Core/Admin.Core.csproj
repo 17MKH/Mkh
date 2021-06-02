@@ -6,15 +6,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\02_Data\Data.Core\Data.Core.csproj" />
-    <ProjectReference Include="..\..\..\src\02_Data\Data.Tools\Data.Tools.csproj" />
     <ProjectReference Include="..\..\..\src\03_Module\Module.Abstractions\Module.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\src\04_Auth\Auth.Abstractions\Auth.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\04_Auth\Auth.Jwt\Auth.Jwt.csproj" />
     <ProjectReference Include="..\..\..\src\05_Cache\Cache.Abstractions\Cache.Abstractions.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Domain\RoleMenu\" />
-    <Folder Include="Domain\RoleButton\" />
   </ItemGroup>
 
   <ItemGroup>

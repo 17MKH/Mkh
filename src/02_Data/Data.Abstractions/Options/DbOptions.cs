@@ -29,13 +29,13 @@ namespace Mkh.Data.Abstractions.Options
         public string Version { get; set; }
 
         /// <summary>
-        /// 表前缀
+        /// 表名称前缀
         /// </summary>
-        public string TablePrefix { get; set; }
+        public string TableNamePrefix { get; set; }
 
         /// <summary>
-        /// 仓储服务生命周期类型
+        /// 表名称分隔符
         /// </summary>
-        public ServiceLifetime RepositoryServiceLifetime { get; set; } = ServiceLifetime.Singleton;
+        public string TableNameSeparator { get; set; } = "_";
     }
 }

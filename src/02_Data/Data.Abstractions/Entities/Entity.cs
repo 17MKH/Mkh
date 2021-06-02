@@ -16,7 +16,7 @@ namespace Mkh.Data.Abstractions.Entities
     /// <summary>
     /// 含有自增主键的实体
     /// </summary>
-    public class Entity : Entity<Guid>
+    public class Entity : Entity<int>
     {
 
     }

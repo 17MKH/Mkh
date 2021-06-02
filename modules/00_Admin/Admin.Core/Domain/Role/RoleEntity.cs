@@ -6,7 +6,6 @@ namespace Mkh.Mod.Admin.Core.Domain.Role
     /// <summary>
     /// 角色
     /// </summary>
-    [Table("Role")]
     public class RoleEntity : EntityBaseSoftDelete
     {
         /// <summary>
