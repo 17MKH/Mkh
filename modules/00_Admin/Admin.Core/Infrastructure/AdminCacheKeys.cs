@@ -1,14 +1,27 @@
-﻿namespace Mkh.Mod.Admin.Core.Infrastructure
+﻿using System;
+using Mkh.Utils.Annotations;
+
+namespace Mkh.Mod.Admin.Core.Infrastructure
 {
     /// <summary>
     /// 权限管理模块缓存键
     /// </summary>
-    public static class AdminCacheKeys
+    [Singleton]
+    public class AdminCacheKeys
     {
         /// <summary>
         /// 验证码
-        /// <para>VERIFY_CODE:验证码编号</para>
         /// </summary>
-        public const string VERIFY_CODE = "ADMIN:VERIFY_CODE:";
+        /// <param name="id">验证码ID</param>
+        /// <returns></returns>
+        public string VerifyCode(string id) => $"ADMIN:VERIFY_CODE:{id}";
+
+        /// <summary>
+        /// 刷新令牌
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="platform"></param>
+        /// <returns></returns>
+        public string RefreshToken(Guid accountId, int platform) => $"ADMIN:REFRESH_TOKEN:{accountId}:{platform}";
     }
 }

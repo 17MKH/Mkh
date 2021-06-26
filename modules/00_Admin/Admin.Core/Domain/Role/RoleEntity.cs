@@ -14,7 +14,7 @@ namespace Mkh.Mod.Admin.Core.Domain.Role
         public string Name { get; set; }
 
         /// <summary>
-        /// 编码(唯一)
+        /// 编码
         /// </summary>
         public string Code { get; set; }
 
@@ -25,7 +25,7 @@ namespace Mkh.Mod.Admin.Core.Domain.Role
         public string Remarks { get; set; }
 
         /// <summary>
-        /// 锁定的
+        /// 锁定的，不允许修改
         /// </summary>
         public bool Locked { get; set; }
     }

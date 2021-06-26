@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
-using AutoMapper;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,38 +9,12 @@ using Mkh.Data.Core;
 using Mkh.Host.Web.Swagger.Conventions;
 using Mkh.Module.Abstractions;
 using Mkh.Module.Web;
-using Mkh.Utils.Mapper;
+using Mkh.Utils.Json.Converters;
 
 namespace Mkh.Host.Web
 {
     public static class ServiceCollectionExtensions
     {
-        /// <summary>
-        /// 添加对象映射
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="modules">模块集合</param>
-        /// <returns></returns>
-        public static IServiceCollection AddMappers(this IServiceCollection services, IModuleCollection modules)
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                foreach (var module in modules)
-                {
-                    var types = module.LayerAssemblies.Core.GetTypes().Where(t => typeof(IMapperConfig).IsAssignableFrom(t));
-
-                    foreach (var type in types)
-                    {
-                        ((IMapperConfig)Activator.CreateInstance(type))!.Bind(cfg);
-                    }
-                }
-            });
-
-            services.AddSingleton(config.CreateMapper());
-
-            return services;
-        }
-
         /// <summary>
         /// 添加MVC功能
         /// </summary>
@@ -57,6 +32,17 @@ namespace Mkh.Host.Web
                         //API分组约定
                         c.Conventions.Add(new ApiExplorerGroupConvention());
                     }
+                })
+                .AddJsonOptions(options =>
+                {
+                    //不区分大小写的反序列化
+                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                    //属性名称使用 camel 大小写
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                    //最大限度减少字符转义
+                    options.JsonSerializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
+                    //添加日期转换器
+                    options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
                 })
                 //添加模块
                 .AddModules(modules);
@@ -97,7 +83,6 @@ namespace Mkh.Host.Web
         /// </summary>
         /// <param name="services"></param>
         /// <param name="modules"></param>
-        /// <param name="options"></param>
         /// <returns></returns>
         public static IServiceCollection AddData(this IServiceCollection services, IModuleCollection modules)
         {

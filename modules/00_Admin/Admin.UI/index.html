@@ -10,8 +10,9 @@
       body {
         margin: 0;
         padding: 0;
-        font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
-          Arial;
+        font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu,
+          Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Helvetica Neue",
+          "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial;
         font-size: 14px;
         height: 100%;
       }
@@ -43,7 +44,7 @@
         padding: 0;
       }
 
-      .mu-loader {
+      .m-loader {
         position: absolute;
         margin: -75px;
         top: 50%;
@@ -52,7 +53,7 @@
         height: 150px;
       }
 
-      .mu-loader_wrapper {
+      .m-loader_wrapper {
         position: relative;
         margin: 10px 0 0 25px;
         height: 64px;
@@ -62,7 +63,7 @@
         transform: rotateX(60deg) rotateZ(45deg) rotateY(0deg) translateZ(0px);
       }
 
-      .mu-loader_box {
+      .m-loader_box {
         position: absolute;
         top: 0;
         left: 0;
@@ -70,23 +71,23 @@
         height: 32px;
         transform-style: preserve-3d;
       }
-      .mu-loader_box:nth-child(1) {
+      .m-loader_box:nth-child(1) {
         transform: translate(100%, 0);
-        animation: mu-loader-box1 0.8s linear infinite;
+        animation: m-loader-box1 0.8s linear infinite;
       }
-      .mu-loader_box:nth-child(2) {
+      .m-loader_box:nth-child(2) {
         transform: translate(0, 100%);
-        animation: mu-loader-box2 0.8s linear infinite;
+        animation: m-loader-box2 0.8s linear infinite;
       }
-      .mu-loader_box:nth-child(3) {
+      .m-loader_box:nth-child(3) {
         transform: translate(100%, 100%);
-        animation: mu-loader-box3 0.8s linear infinite;
+        animation: m-loader-box3 0.8s linear infinite;
       }
-      .mu-loader_box:nth-child(4) {
+      .m-loader_box:nth-child(4) {
         transform: translate(200%, 0);
-        animation: mu-loader-box4 0.8s linear infinite;
+        animation: m-loader-box4 0.8s linear infinite;
       }
-      .mu-loader_box > div {
+      .m-loader_box > div {
         position: absolute;
         width: 100%;
         height: 100%;
@@ -97,28 +98,28 @@
         left: auto;
       }
 
-      .mu-loader_box > div:nth-child(1) {
+      .m-loader_box > div:nth-child(1) {
         top: 0;
         left: 0;
         transform: rotateY(0deg) rotateX(0deg) translateZ(16px);
       }
-      .mu-loader_box > div:nth-child(2) {
+      .m-loader_box > div:nth-child(2) {
         right: 0;
         background: #145af2;
         transform: rotateY(90deg) rotateX(0deg) translateZ(16px);
       }
-      .mu-loader_box > div:nth-child(3) {
+      .m-loader_box > div:nth-child(3) {
         background: #447cf5;
         transform: rotateY(0deg) rotateX(-90deg) translateZ(16px);
       }
-      .mu-loader_box > div:nth-child(4) {
+      .m-loader_box > div:nth-child(4) {
         top: 0;
         left: 0;
         background: #dbe3f4;
         transform: rotateY(0deg) rotateX(0deg) translateZ(-96px);
       }
 
-      @keyframes mu-loader-box1 {
+      @keyframes m-loader-box1 {
         0%,
         50% {
           transform: translate(100%, 0);
@@ -128,7 +129,7 @@
         }
       }
 
-      @keyframes mu-loader-box2 {
+      @keyframes m-loader-box2 {
         0% {
           transform: translate(0, 100%);
         }
@@ -140,7 +141,7 @@
         }
       }
 
-      @keyframes mu-loader-box3 {
+      @keyframes m-loader-box3 {
         0%,
         50% {
           transform: translate(100%, 100%);
@@ -150,7 +151,7 @@
         }
       }
 
-      @keyframes mu-loader-box4 {
+      @keyframes m-loader-box4 {
         0% {
           transform: translate(200%, 0);
         }
@@ -162,7 +163,7 @@
         }
       }
 
-      .mu-copyright {
+      .m-copyright {
         position: absolute;
         left: 0;
         bottom: 20px;
@@ -170,7 +171,7 @@
         text-align: center;
       }
 
-      .mu-copyright_logo {
+      .m-copyright_logo {
         position: relative;
         top: 10px;
         width: 30px;
@@ -179,27 +180,27 @@
   </head>
   <body>
     <div id="app">
-      <div class="mu-loader">
-        <div class="mu-loader_wrapper">
-          <div class="mu-loader_box">
+      <div class="m-loader">
+        <div class="m-loader_wrapper">
+          <div class="m-loader_box">
             <div></div>
             <div></div>
             <div></div>
             <div></div>
           </div>
-          <div class="mu-loader_box">
+          <div class="m-loader_box">
             <div></div>
             <div></div>
             <div></div>
             <div></div>
           </div>
-          <div class="mu-loader_box">
+          <div class="m-loader_box">
             <div></div>
             <div></div>
             <div></div>
             <div></div>
           </div>
-          <div class="mu-loader_box">
+          <div class="m-loader_box">
             <div></div>
             <div></div>
             <div></div>
@@ -207,8 +208,8 @@
           </div>
         </div>
       </div>
-      <div class="mu-copyright">
-        <img class="mu-copyright_logo" src="<%= logo %>" />
+      <div class="m-copyright">
+        <img class="m-copyright_logo" src="<%= logo %>" />
         <span><%= copyright %></span>
       </div>
     </div>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mkh.Mod.Admin.Core.Application.Account.Dto
 {
-    class AccountQueryDto
+    public class AccountQueryDto
     {
     }
 }

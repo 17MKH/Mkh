@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mkh.Data.Abstractions;
+﻿using Mkh.Data.Abstractions;
 
 namespace Mkh.Mod.Admin.Core.Domain.Role
 {
@@ -8,5 +7,6 @@ namespace Mkh.Mod.Admin.Core.Domain.Role
     /// </summary>
     public interface IRoleRepository : IRepository<RoleEntity>
     {
+        
     }
 }

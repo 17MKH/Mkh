@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.Extensions.Options;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Data.Abstractions.Annotations;
@@ -9,6 +8,7 @@ using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Domain.AccountRole;
 using Mkh.Mod.Admin.Core.Domain.Role;
 using Mkh.Mod.Admin.Core.Infrastructure;
+using Mkh.Utils.Map;
 using Mkh.Utils.Models;
 
 namespace Mkh.Mod.Admin.Core.Application.Account
@@ -54,14 +54,14 @@ namespace Mkh.Mod.Admin.Core.Application.Account
             {
                 if (dto.Roles != null && dto.Roles.Any())
                 {
-                    dto.Roles.ForEach(async r =>
+                    dto.Roles.ForEach(async roleId =>
                     {
-                        if (await _roleRepository.Find(m => m.Code == r).ToExists())
+                        if (await _roleRepository.Find(m => m.Id == roleId).ToExists())
                         {
                             await _accountRoleRepository.Add(new AccountRoleEntity
                             {
                                 AccountId = account.Id,
-                                RoleCode = r
+                                RoleId = roleId
                             });
                         }
                     });

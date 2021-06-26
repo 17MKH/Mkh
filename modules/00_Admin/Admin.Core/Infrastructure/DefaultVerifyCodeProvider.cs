@@ -27,12 +27,14 @@ namespace Mkh.Mod.Admin.Core.Infrastructure
         private readonly StringHelper _stringHelper;
         private readonly ICacheHandler _cacheHandler;
         private readonly IOptionsMonitor<AuthOptions> _authOptions;
+        private readonly AdminCacheKeys _cacheKeys;
 
-        public DefaultVerifyCodeProvider(StringHelper stringHelper, ICacheHandler cacheHandler, IOptionsMonitor<AuthOptions> authOptions)
+        public DefaultVerifyCodeProvider(StringHelper stringHelper, ICacheHandler cacheHandler, IOptionsMonitor<AuthOptions> authOptions, AdminCacheKeys cacheKeys)
         {
             _stringHelper = stringHelper;
             _cacheHandler = cacheHandler;
             _authOptions = authOptions;
+            _cacheKeys = cacheKeys;
         }
 
         public async Task<VerifyCodeModel> Create()
@@ -43,7 +45,7 @@ namespace Mkh.Mod.Admin.Core.Infrastructure
 
             var id = Guid.NewGuid().ToString();
 
-            await _cacheHandler.SetAsync(AdminCacheKeys.VERIFY_CODE + id, code);
+            await _cacheHandler.Set(_cacheKeys.VerifyCode(id), code, 5);
 
             return new VerifyCodeModel
             {
@@ -63,7 +65,7 @@ namespace Mkh.Mod.Admin.Core.Infrastructure
                 if (id.IsNull())
                     return ResultModel.Failed("验证码不存在");
 
-                var cacheCode =await _cacheHandler.GetAsync(AdminCacheKeys.VERIFY_CODE +id);
+                var cacheCode = await _cacheHandler.Get(_cacheKeys.VerifyCode(id));
                 if (cacheCode.IsNull())
                     return ResultModel.Failed("验证码不存在");
 

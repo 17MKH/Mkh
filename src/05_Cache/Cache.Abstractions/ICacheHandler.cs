@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Mkh.Cache.Abstractions
 {
@@ -12,7 +13,7 @@ namespace Mkh.Cache.Abstractions
         /// </summary>
         /// <param name="key">键</param>
         /// <returns></returns>
-        string Get(string key);
+        Task<string> Get(string key);
 
         /// <summary>
         /// 获取
@@ -20,56 +21,7 @@ namespace Mkh.Cache.Abstractions
         /// <typeparam name="T"></typeparam>
         /// <param name="key">键</param>
         /// <returns></returns>
-        T Get<T>(string key);
-
-        /// <summary>
-        /// 获取
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <returns></returns>
-        Task<string> GetAsync(string key);
-
-        /// <summary>
-        /// 获取
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">键</param>
-        /// <returns></returns>
-        Task<T> GetAsync<T>(string key);
-
-        /// <summary>
-        /// 尝试获取
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="value">返回值</param>
-        /// <returns></returns>
-        bool TryGetValue(string key, out string value);
-
-        /// <summary>
-        /// 尝试获取
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="value">返回值</param>
-        /// <returns></returns>
-        bool TryGetValue<T>(string key, out T value);
-
-        /// <summary>
-        /// 设置
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="value">值</param>
-        bool Set<T>(string key, T value);
-
-        /// <summary>
-        /// 设置
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="value">值</param>
-        /// <param name="expires">有效期(分钟)</param>
-        bool Set<T>(string key, T value, int expires);
+        Task<T> Get<T>(string key);
 
         /// <summary>
         /// 设置
@@ -78,7 +30,7 @@ namespace Mkh.Cache.Abstractions
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        Task<bool> SetAsync<T>(string key, T value);
+        Task<bool> Set<T>(string key, T value);
 
         /// <summary>
         /// 设置
@@ -88,40 +40,37 @@ namespace Mkh.Cache.Abstractions
         /// <param name="value">值</param>
         /// <param name="expires">有效期(分钟)</param>
         /// <returns></returns>
-        Task<bool> SetAsync<T>(string key, T value, int expires);
+        Task<bool> Set<T>(string key, T value, int expires);
 
         /// <summary>
-        /// 删除
+        /// 设置
         /// </summary>
-        /// <param name="key"></param>
-        bool Remove(string key);
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="expires">有效期，截止时间</param>
+        /// <returns></returns>
+        Task<bool> Set<T>(string key, T value, DateTime expires);
 
         /// <summary>
         /// 删除
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        Task<bool> RemoveAsync(string key);
+        Task<bool> Remove(string key);
 
         /// <summary>
         /// 指定键是否存在
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        bool Exists(string key);
-
-        /// <summary>
-        /// 指定键是否存在
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        Task<bool> ExistsAsync(string key);
+        Task<bool> Exists(string key);
 
         /// <summary>
         /// 删除指定前缀的缓存
         /// </summary>
         /// <param name="prefix"></param>
         /// <returns></returns>
-        Task RemoveByPrefixAsync(string prefix);
+        Task RemoveByPrefix(string prefix);
     }
 }

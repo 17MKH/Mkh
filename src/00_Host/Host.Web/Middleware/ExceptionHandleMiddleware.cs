@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Net;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Mkh.Utils.Helpers;
 using Mkh.Utils.Models;
-using Mkh.Utils.Result;
 
 namespace Mkh.Host.Web.Middleware
 {
@@ -15,12 +14,14 @@ namespace Mkh.Host.Web.Middleware
         private readonly RequestDelegate _next;
         private readonly IHostEnvironment _env;
         private readonly ILogger _logger;
+        private readonly JsonHelper _jsonHelper;
 
-        public ExceptionHandleMiddleware(RequestDelegate next, IHostEnvironment env, ILogger<ExceptionHandleMiddleware> logger)
+        public ExceptionHandleMiddleware(RequestDelegate next, IHostEnvironment env, ILogger<ExceptionHandleMiddleware> logger, JsonHelper jsonHelper)
         {
             _next = next;
             _env = env;
             _logger = logger;
+            _jsonHelper = jsonHelper;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -45,7 +46,7 @@ namespace Mkh.Host.Web.Middleware
 
             _logger.LogError(error);
 
-            return context.Response.WriteAsync(JsonSerializer.Serialize(ResultModel.Failed(error)));
+            return context.Response.WriteAsync(_jsonHelper.Serialize(ResultModel.Failed(error)));
         }
     }
 }

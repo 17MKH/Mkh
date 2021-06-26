@@ -9,14 +9,14 @@ namespace Mkh.Mod.Admin.Core.Domain.Menu
     public partial class MenuEntity : EntityBase
     {
         /// <summary>
-        /// 类型
-        /// </summary>
-        public MenuType Type { get; set; }
-
-        /// <summary>
         /// 父节点
         /// </summary>
         public int ParentId { get; set; }
+
+        /// <summary>
+        /// 类型
+        /// </summary>
+        public MenuType Type { get; set; }
 
         /// <summary>
         /// 名称

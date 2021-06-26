@@ -17,85 +17,47 @@ namespace Mkh.Cache.Abstractions
             _cache = cache;
         }
 
-        public string Get(string key)
+        public Task<string> Get(string key)
         {
             var value = _cache.Get(key);
-            return value?.ToString();
+            return Task.FromResult(value?.ToString());
         }
 
-        public T Get<T>(string key)
-        {
-            return _cache.Get<T>(key);
-        }
-
-        public Task<string> GetAsync(string key)
-        {
-            var value = Get(key);
-            return Task.FromResult(value);
-        }
-
-        public Task<T> GetAsync<T>(string key)
+        public Task<T> Get<T>(string key)
         {
             return Task.FromResult(_cache.Get<T>(key));
         }
 
-        public bool TryGetValue(string key, out string value)
-        {
-            return _cache.TryGetValue(key, out value);
-        }
-
-        public bool TryGetValue<T>(string key, out T value)
-        {
-            return _cache.TryGetValue(key, out value);
-        }
-
-        public bool Set<T>(string key, T value)
+        public Task<bool> Set<T>(string key, T value)
         {
             _cache.Set(key, value);
-            return true;
+            return Task.FromResult(true);
         }
 
-        public bool Set<T>(string key, T value, int expires)
+        public Task<bool> Set<T>(string key, T value, int expires)
         {
             _cache.Set(key, value, new TimeSpan(0, 0, expires, 0));
-            return true;
-        }
-
-        public Task<bool> SetAsync<T>(string key, T value)
-        {
-            Set(key, value);
             return Task.FromResult(true);
         }
 
-        public Task<bool> SetAsync<T>(string key, T value, int expires)
+        public Task<bool> Set<T>(string key, T value, DateTime expires)
         {
-            Set(key, value, expires);
+            _cache.Set(key, value, expires - DateTime.Now);
             return Task.FromResult(true);
         }
 
-        public bool Remove(string key)
-        {
-            _cache.Remove(key);
-            return true;
-        }
-
-        public Task<bool> RemoveAsync(string key)
+        public Task<bool> Remove(string key)
         {
             _cache.Remove(key);
             return Task.FromResult(true);
         }
 
-        public bool Exists(string key)
-        {
-            return _cache.TryGetValue(key, out _);
-        }
-
-        public Task<bool> ExistsAsync(string key)
+        public Task<bool> Exists(string key)
         {
             return Task.FromResult(_cache.TryGetValue(key, out _));
         }
 
-        public async Task RemoveByPrefixAsync(string prefix)
+        public async Task RemoveByPrefix(string prefix)
         {
             if (prefix.IsNull())
                 return;
@@ -103,7 +65,7 @@ namespace Mkh.Cache.Abstractions
             var keys = GetAllKeys().Where(m => m.StartsWith(prefix));
             foreach (var key in keys)
             {
-                await RemoveAsync(key);
+                await Remove(key);
             }
         }
 

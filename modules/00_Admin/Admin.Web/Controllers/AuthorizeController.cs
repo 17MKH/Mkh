@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,17 +18,13 @@ namespace Mkh.Mod.Admin.Web.Controllers
     {
         private readonly IAuthorizeService _service;
         private readonly IPResolver _ipResolver;
-        private readonly ICredentialBuilder _credentialBuilder;
-        private readonly ICredentialClaimExtender _credentialClaimExtender;
         private readonly IVerifyCodeProvider _verifyCodeProvider;
         private readonly IAccount _account;
 
-        public AuthorizeController(IAuthorizeService service, IPResolver ipHelper, ICredentialBuilder credentialBuilder, ICredentialClaimExtender credentialClaimExtender, IVerifyCodeProvider verifyCodeProvider, IAccount account)
+        public AuthorizeController(IAuthorizeService service, IPResolver ipResolver, IVerifyCodeProvider verifyCodeProvider, IAccount account)
         {
             _service = service;
-            _ipResolver = ipHelper;
-            _credentialBuilder = credentialBuilder;
-            _credentialClaimExtender = credentialClaimExtender;
+            _ipResolver = ipResolver;
             _verifyCodeProvider = verifyCodeProvider;
             _account = account;
         }
@@ -52,7 +46,7 @@ namespace Mkh.Mod.Admin.Web.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IResultModel> Login(LoginDto dto)
+        public Task<IResultModel> Login(LoginDto dto)
         {
             dto.IP = _ipResolver.IP;
             dto.IPv4 = _ipResolver.IPv4;
@@ -60,29 +54,7 @@ namespace Mkh.Mod.Admin.Web.Controllers
             dto.UserAgent = _ipResolver.UserAgent;
             dto.LoginTime = DateTime.Now.ToTimestamp();
 
-            var loginResult = await _service.Login(dto);
-            if (loginResult.Successful)
-            {
-                var account = loginResult.Data;
-                var claims = new List<Claim>
-                {
-                    new(MkhClaimTypes.TENANT_ID, account.TenantId != null ? account.TenantId.ToString() : ""),
-                    new(MkhClaimTypes.ACCOUNT_ID, account.Id.ToString()),
-                    new(MkhClaimTypes.ACCOUNT_NAME, account.Name),
-                    new(MkhClaimTypes.PLATFORM, dto.Platform.ToInt().ToString()),
-                    new(MkhClaimTypes.LOGIN_TIME, dto.LoginTime.ToString()),
-                    new(MkhClaimTypes.IP, dto.IP)
-                };
-
-                if (_credentialClaimExtender != null)
-                {
-                    await _credentialClaimExtender.Extend(claims, account.Id);
-                }
-
-                return await _credentialBuilder.Build(claims);
-            }
-
-            return loginResult;
+            return _service.Login(dto);
         }
 
         /// <summary>
@@ -90,9 +62,11 @@ namespace Mkh.Mod.Admin.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AllowAnonymous]
         public Task<IResultModel> RefreshToken(RefreshTokenDto dto)
         {
-            return Task.FromResult(ResultModel.Success(""));
+            dto.IP = _ipResolver.IP;
+            return _service.RefreshToken(dto);
         }
 
         /// <summary>

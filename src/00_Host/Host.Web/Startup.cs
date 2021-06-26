@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Mkh.Host.Web.Middleware;
 using Mkh.Host.Web.Swagger;
+using Mkh.Mapper;
 using Mkh.Module.Abstractions;
 using Mkh.Module.Core;
 using Mkh.Module.Web;

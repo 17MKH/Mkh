@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Mkh.Mod.Admin.Core.Application.Authorize.Dto;
-using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Utils.Models;
 
 namespace Mkh.Mod.Admin.Core.Application.Authorize
@@ -16,14 +15,14 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<IResultModel<AccountEntity>> Login(LoginDto dto);
+        Task<IResultModel> Login(LoginDto dto);
 
         /// <summary>
         /// 刷新令牌
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        //Task<IResultModel> RefreshToken(RefreshTokenDto dto);
+        Task<IResultModel> RefreshToken(RefreshTokenDto dto);
 
         /// <summary>
         /// 获取指定账户的个人信息

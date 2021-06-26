@@ -2,14 +2,12 @@ using System;
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Entities;
-using Mkh.Data.Core.Internal;
 
 namespace Mkh.Data.Core.Repository
 {
     /// <summary>
     /// 新增
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
     public abstract partial class RepositoryAbstract<TEntity>
     {
         public Task<bool> Add(TEntity entity, IUnitOfWork uow = null)

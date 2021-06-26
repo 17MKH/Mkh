@@ -16,7 +16,7 @@ namespace Mkh.Utils.Helpers
     [Singleton]
     public class JsonHelper
     {
-        private readonly JsonSerializerOptions _options = new JsonSerializerOptions();
+        private readonly JsonSerializerOptions _options = new();
 
         public JsonHelper()
         {

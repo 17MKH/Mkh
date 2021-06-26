@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mkh.Mod.Admin.Core.Application.Account;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
@@ -22,8 +21,7 @@ namespace Mkh.Mod.Admin.Web.Controllers
         /// 账户列表
         /// </summary>
         /// <remarks>获取账户列表</remarks>
-        [HttpPost]
-        [AllowAnonymous]
+        [HttpGet]
         public Task<IResultModel> Index(AccountAddDto dto)
         {
             return _service.Add(dto);

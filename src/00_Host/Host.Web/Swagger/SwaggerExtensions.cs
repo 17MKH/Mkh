@@ -21,8 +21,7 @@ namespace Mkh.Host.Web.Swagger
         /// <returns></returns>
         public static IServiceCollection AddSwagger(this IServiceCollection services, IModuleCollection modules, HostOptions hostOptions)
         {
-            //手动开启或者开发模式下才会启用swagger功能
-            if (hostOptions.Swagger || modules.HostEnvironment.IsDevelopment())
+            if (Check(modules, hostOptions))
             {
                 services.AddSwaggerGen(c =>
                 {
@@ -99,7 +98,7 @@ namespace Mkh.Host.Web.Swagger
         public static IApplicationBuilder UseSwagger(this IApplicationBuilder app, IModuleCollection modules, HostOptions hostOptions)
         {
             //手动开启或者开发模式下才会启用swagger功能
-            if (hostOptions.Swagger || modules.HostEnvironment.IsDevelopment())
+            if (Check(modules, hostOptions))
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
@@ -117,6 +116,19 @@ namespace Mkh.Host.Web.Swagger
             }
 
             return app;
+        }
+
+        /// <summary>
+        /// 检测是否开启Swagger
+        /// </summary>
+        /// <param name="modules"></param>
+        /// <param name="hostOptions"></param>
+        /// <returns></returns>
+        private static bool Check(IModuleCollection modules, HostOptions hostOptions)
+        {
+            //手动开启或者开发模式以及本地模式下才会启用swagger功能
+            return hostOptions.Swagger || modules.HostEnvironment.IsDevelopment() ||
+                   modules.HostEnvironment.EnvironmentName.Equals("Local");
         }
     }
 }

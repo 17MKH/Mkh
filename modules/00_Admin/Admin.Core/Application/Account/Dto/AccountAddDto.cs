@@ -37,8 +37,8 @@ namespace Mkh.Mod.Admin.Core.Application.Account.Dto
         public string Email { get; set; } = string.Empty;
 
         /// <summary>
-        /// 角色编码列表
+        /// 绑定的角色编号列表
         /// </summary>
-        public List<string> Roles { get; set; }
+        public List<int> Roles { get; set; }
     }
 }

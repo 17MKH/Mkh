@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Options;
+using Mkh.Auth.Jwt;
 using Mkh.Mod.Admin.Core.Application.Authorize.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Infrastructure;
@@ -16,17 +20,23 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize
         private readonly IAccountRepository _accountRepository;
         private readonly IPasswordHandler _passwordHandler;
         private readonly IAccountProfileResolver _accountProfileResolver;
+        private readonly ICredentialClaimExtender _credentialClaimExtender;
+        private readonly ICredentialBuilder _credentialBuilder;
+        private readonly IJwtTokenStorageProvider _jwtTokenStorageProvider;
 
-        public AuthorizeService(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler, IAccountProfileResolver accountProfileResolver)
+        public AuthorizeService(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler, IAccountProfileResolver accountProfileResolver, ICredentialClaimExtender credentialClaimExtender, ICredentialBuilder credentialBuilder, IJwtTokenStorageProvider jwtTokenStorageProvider)
         {
             _authOptions = authOptions;
             _verifyCodeProvider = verifyCodeProvider;
             _accountRepository = accountRepository;
             _passwordHandler = passwordHandler;
             _accountProfileResolver = accountProfileResolver;
+            _credentialClaimExtender = credentialClaimExtender;
+            _credentialBuilder = credentialBuilder;
+            _jwtTokenStorageProvider = jwtTokenStorageProvider;
         }
 
-        public async Task<IResultModel<AccountEntity>> Login(LoginDto dto)
+        public async Task<IResultModel> Login(LoginDto dto)
         {
             var result = new ResultModel<AccountEntity>();
 
@@ -62,7 +72,48 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize
                     });
             }
 
-            return result.Success(account);
+            var claims = new List<Claim>
+            {
+                new(MkhClaimTypes.TENANT_ID, account.TenantId != null ? account.TenantId.ToString() : ""),
+                new(MkhClaimTypes.ACCOUNT_ID, account.Id.ToString()),
+                new(MkhClaimTypes.ACCOUNT_NAME, account.Name),
+                new(MkhClaimTypes.PLATFORM, dto.Platform.ToInt().ToString()),
+                new(MkhClaimTypes.LOGIN_TIME, dto.LoginTime.ToString()),
+                new(MkhClaimTypes.IP, dto.IP)
+            };
+
+            if (_credentialClaimExtender != null)
+            {
+                await _credentialClaimExtender.Extend(claims, account.Id);
+            }
+
+            return await _credentialBuilder.Build(claims);
+        }
+
+        public async Task<IResultModel> RefreshToken(RefreshTokenDto dto)
+        {
+            if (await _jwtTokenStorageProvider.Check(dto.RefreshToken, dto.AccountId, dto.Platform))
+            {
+                var account = await _accountRepository.Get(dto.AccountId);
+                var claims = new List<Claim>
+                {
+                    new(MkhClaimTypes.TENANT_ID, account.TenantId != null ? account.TenantId.ToString() : ""),
+                    new(MkhClaimTypes.ACCOUNT_ID, account.Id.ToString()),
+                    new(MkhClaimTypes.ACCOUNT_NAME, account.Name),
+                    new(MkhClaimTypes.PLATFORM, dto.Platform.ToInt().ToString()),
+                    new(MkhClaimTypes.LOGIN_TIME, DateTime.Now.ToTimestamp().ToString()),
+                    new(MkhClaimTypes.IP, dto.IP)
+                };
+
+                if (_credentialClaimExtender != null)
+                {
+                    await _credentialClaimExtender.Extend(claims, account.Id);
+                }
+
+                return await _credentialBuilder.Build(claims);
+            }
+
+            return ResultModel.Failed("令牌无效");
         }
 
         public async Task<IResultModel> GetProfile(Guid accountId)

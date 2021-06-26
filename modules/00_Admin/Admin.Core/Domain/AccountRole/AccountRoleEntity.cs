@@ -1,5 +1,4 @@
 ﻿using System;
-using Mkh.Data.Abstractions.Annotations;
 using Mkh.Data.Abstractions.Entities;
 
 namespace Mkh.Mod.Admin.Core.Domain.AccountRole
@@ -15,8 +14,8 @@ namespace Mkh.Mod.Admin.Core.Domain.AccountRole
         public Guid AccountId { get; set; }
 
         /// <summary>
-        /// 角色编码
+        /// 角色编号
         /// </summary>
-        public string RoleCode { get; set; }
+        public int RoleId { get; set; }
     }
 }

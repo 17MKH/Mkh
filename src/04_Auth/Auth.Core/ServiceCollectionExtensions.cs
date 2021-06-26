@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Auth.Core;
+using Mkh.Data.Abstractions;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection
@@ -37,6 +38,9 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+
+            //添加数据访问的账户解析器实现
+            services.AddSingleton<IAccountResolver, AccountResolver>();
 
             var builder = new MkhAuthBuilder(services, configuration);
 

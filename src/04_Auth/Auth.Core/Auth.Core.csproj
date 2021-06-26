@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\01_Utils\Utils.Web\Utils.Web.csproj" />
+    <ProjectReference Include="..\..\02_Data\Data.Abstractions\Data.Abstractions.csproj" />
     <ProjectReference Include="..\Auth.Abstractions\Auth.Abstractions.csproj" />
   </ItemGroup>
 
