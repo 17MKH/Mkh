@@ -5,12 +5,6 @@ namespace Mkh.Mod.Admin.Core.Domain.Menu
     public partial class MenuEntity
     {
         /// <summary>
-        /// 父节点名称
-        /// </summary>
-        [Ignore]
-        public string ParentName { get; set; }
-
-        /// <summary>
         /// 类型名称
         /// </summary>
         [Ignore]
@@ -20,6 +14,6 @@ namespace Mkh.Mod.Admin.Core.Domain.Menu
         /// 打开方式名称
         /// </summary>
         [Ignore]
-        public string TargetName => Target.ToDescription();
+        public string OpenTargetName => OpenTarget.ToDescription();
     }
 }

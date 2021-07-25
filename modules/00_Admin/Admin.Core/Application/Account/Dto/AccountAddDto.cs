@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Mkh.Mod.Admin.Core.Domain.Account;
+using Mkh.Utils.Annotations;
 
 namespace Mkh.Mod.Admin.Core.Application.Account.Dto
 {
     /// <summary>
     /// 账户新增模型
     /// </summary>
+    [ObjectMap(typeof(AccountEntity))]
     public class AccountAddDto
     {
         /// <summary>
@@ -37,8 +38,9 @@ namespace Mkh.Mod.Admin.Core.Application.Account.Dto
         public string Email { get; set; } = string.Empty;
 
         /// <summary>
-        /// 绑定的角色编号列表
+        /// 绑定角色
         /// </summary>
-        public List<int> Roles { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "请选择角色")]
+        public int RoleId { get; set; }
     }
 }

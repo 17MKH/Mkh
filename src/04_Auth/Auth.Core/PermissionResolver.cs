@@ -38,9 +38,9 @@ namespace Mkh.Auth.Core
                     {
                         Action = action.Name,
                         Controller = controller.Name,
-                        Description = action.Description,
                         ModuleCode = controller.Area,
-                        HttpMethod = HttpMethod.Unknown
+                        HttpMethod = HttpMethod.Get,
+                        Mode = PermissionMode.Authorization
                     };
 
                     //请求方式
@@ -65,10 +65,6 @@ namespace Mkh.Auth.Core
                         {
                             permission.Mode = PermissionMode.Login;
                         }
-                        else
-                        {
-
-                        }
                     }
 
                     #endregion
@@ -78,9 +74,9 @@ namespace Mkh.Auth.Core
             }
         }
 
-        public List<PermissionDescriptor> GetPermissions()
+        public List<PermissionDescriptor> GetPermissions(string moduleCode)
         {
-            return _descriptors;
+            return _descriptors.Where(m => m.ModuleCode.EqualsIgnoreCase(moduleCode)).ToList();
         }
     }
 }

@@ -9,6 +9,11 @@ namespace Mkh.Mod.Admin.Core.Domain.Menu
     public partial class MenuEntity : EntityBase
     {
         /// <summary>
+        /// 分组编号
+        /// </summary>
+        public int GroupId { get; set; }
+
+        /// <summary>
         /// 父节点
         /// </summary>
         public int ParentId { get; set; }
@@ -22,6 +27,11 @@ namespace Mkh.Mod.Admin.Core.Domain.Menu
         /// 名称
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// 路由所属模块编码
+        /// </summary>
+        public string Module { get; set; }
 
         /// <summary>
         /// 路由名称(对应前端路由菜单的菜单编码)
@@ -63,19 +73,9 @@ namespace Mkh.Mod.Admin.Core.Domain.Menu
         public int Level { get; set; }
 
         /// <summary>
-        /// 是否显示
-        /// </summary>
-        public bool Show { get; set; }
-
-        /// <summary>
-        /// 排序
-        /// </summary>
-        public int Sort { get; set; }
-
-        /// <summary>
         /// 打开方式
         /// </summary>
-        public MenuTarget Target { get; set; }
+        public MenuOpenTarget OpenTarget { get; set; }
 
         /// <summary>
         /// 对话框宽度
@@ -95,9 +95,25 @@ namespace Mkh.Mod.Admin.Core.Domain.Menu
         public bool DialogFullscreen { get; set; }
 
         /// <summary>
+        /// 自定义脚本
+        /// </summary>
+        public string CustomJs { get; set; }
+
+        /// <summary>
         /// 备注
         /// </summary>
         [Nullable]
         public string Remarks { get; set; }
+
+        /// <summary>
+        /// 是否显示
+        /// </summary>
+        public bool Show { get; set; }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public int Sort { get; set; }
+
     }
 }

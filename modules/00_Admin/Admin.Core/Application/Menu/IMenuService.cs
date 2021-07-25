@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Mkh.Mod.Admin.Core.Application.Menu.Dto;
+using Mkh.Mod.Admin.Core.Domain.Menu;
 using Mkh.Utils.Models;
 
 namespace Mkh.Mod.Admin.Core.Application.Menu
@@ -13,7 +15,7 @@ namespace Mkh.Mod.Admin.Core.Application.Menu
         /// 查询
         /// </summary>
         /// <returns></returns>
-        Task<IResultModel> Query();
+        Task<IResultModel> Query(MenuQueryDto dto);
 
         /// <summary>
         /// 添加
@@ -42,5 +44,19 @@ namespace Mkh.Mod.Admin.Core.Application.Menu
         /// <param name="id"></param>
         /// <returns></returns>
         Task<IResultModel> Delete(int id);
+
+        /// <summary>
+        /// 查询菜单树
+        /// </summary>
+        /// <param name="groupId">菜单分组编号</param>
+        /// <returns></returns>
+        Task<IResultModel> GetTree(int groupId);
+
+        /// <summary>
+        /// 修改菜单排序
+        /// </summary>
+        /// <param name="menus"></param>
+        /// <returns></returns>
+        Task<IResultModel> UpdateSort(IList<MenuEntity> menus);
     }
 }

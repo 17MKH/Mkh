@@ -14,6 +14,11 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize.Vo
         public Guid AccountId { get; set; }
 
         /// <summary>
+        /// 角色编码
+        /// </summary>
+        public int RoleId { get; set; }
+
+        /// <summary>
         /// 平台
         /// </summary>
         public int Platform { get; set; }
@@ -54,14 +59,9 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize.Vo
         public IList<ProfileMenuVo> Menus { get; set; }
 
         /// <summary>
-        /// 页面编码列表
-        /// </summary>
-        public IList<string> Pages { get; set; }
-
-        /// <summary>
         /// 按钮编码列表
         /// </summary>
-        public IList<string> Buttons { get; set; }
+        public IList<string> Buttons { get; set; } = new List<string>();
 
         /// <summary>
         /// 详情信息(用于扩展登录对象信息)

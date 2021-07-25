@@ -1,18 +1,17 @@
-const { resolve } = require("path");
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import mkh from "mkh-ui/lib/plugins";
+const { resolve } = require('path')
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import mkh from 'mkh-ui/lib/plugins'
 
 export default defineConfig({
   plugins: [
     mkh({
       htmlTransform: {
-        custom: resolve(__dirname, "./node_modules/mkh-ui/entries/index.html"),
         render: {
           /** 版权信息 */
-          copyright: "版权所有：OLDLI",
+          copyright: '版权所有：OLDLI',
           /** Logo */
-          logo: "./logo.png",
+          logo: './logo.png',
         },
       },
     }),
@@ -20,10 +19,13 @@ export default defineConfig({
   ],
   server: {
     port: 5220,
+    fs: {
+      strict: false,
+    },
   },
   resolve: {
     alias: {
-      "@": resolve(__dirname, "package"),
+      '@': resolve(__dirname, 'package'),
     },
   },
-});
+})

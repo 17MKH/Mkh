@@ -13,6 +13,11 @@ namespace Mkh.Mod.Admin.Core.Domain.Account
         public Guid? TenantId { get; set; }
 
         /// <summary>
+        /// 角色编号
+        /// </summary>
+        public int RoleId { get; set; }
+
+        /// <summary>
         /// 用户名
         /// </summary>
         public string Username { get; set; }
@@ -43,13 +48,6 @@ namespace Mkh.Mod.Admin.Core.Domain.Account
         public string Email { get; set; }
 
         /// <summary>
-        /// 头像
-        /// </summary>
-        [Length(500)]
-        [Nullable]
-        public string Avatar { get; set; }
-
-        /// <summary>
         /// 状态
         /// </summary>
         public AccountStatus Status { get; set; }
@@ -58,11 +56,6 @@ namespace Mkh.Mod.Admin.Core.Domain.Account
         /// 激活时间
         /// </summary>
         public DateTime ActivatedTime { get; set; } = DateTime.Now;
-
-        /// <summary>
-        /// 注销时间
-        /// </summary>
-        public DateTime ClosedTime { get; set; } = DateTime.Now;
     }
 
     /// <summary>

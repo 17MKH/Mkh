@@ -9,6 +9,7 @@ using Mkh.Data.Abstractions.Queryable;
 using Mkh.Data.Abstractions.Queryable.Grouping;
 using Mkh.Data.Core.Internal.QueryStructure;
 using Mkh.Data.Core.Queryable.Grouping;
+using Mkh.Utils.Models;
 using IQueryable = Mkh.Data.Abstractions.Queryable.IQueryable;
 
 namespace Mkh.Data.Core.Queryable
@@ -332,6 +333,11 @@ namespace Mkh.Data.Core.Queryable
         public Task<IList<TEntity>> ToPagination(Paging paging)
         {
             return ToPagination<TEntity>(paging);
+        }
+
+        public Task<IResultModel> ToPaginationResult(Paging paging)
+        {
+            return ToPaginationResult<TEntity>(paging);
         }
 
         #endregion

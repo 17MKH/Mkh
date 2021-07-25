@@ -26,6 +26,11 @@ namespace Mkh.Mod.Admin.Core.Domain.Menu
         /// 链接菜单
         /// </summary>
         [Description("链接")]
-        Link
+        Link,
+        /// <summary>
+        /// 自定义脚本
+        /// </summary>
+        [Description("自定义脚本")]
+        CustomJs
     }
 }

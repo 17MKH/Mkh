@@ -8,9 +8,10 @@ namespace Mkh.Auth.Abstractions
     public interface IPermissionResolver
     {
         /// <summary>
-        /// 获取权限列表
+        /// 获取指定模块的权限列表
         /// </summary>
+        /// <param name="moduleCode">模块编码</param>
         /// <returns></returns>
-        List<PermissionDescriptor> GetPermissions();
+        List<PermissionDescriptor> GetPermissions(string moduleCode);
     }
 }

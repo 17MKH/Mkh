@@ -135,9 +135,9 @@ namespace Mkh.Utils.Models
         /// </summary>
         /// <param name="success"></param>
         /// <returns></returns>
-        public static async Task<IResultModel> Result<T>(Task<bool> success)
+        public static async Task<IResultModel> Result(Task<bool> success)
         {
-            return await success ? Success<T>() : Failed<T>();
+            return await success ? Success() : Failed();
         }
 
         /// <summary>

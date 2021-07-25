@@ -9,6 +9,7 @@ namespace Mkh.Module.Web
     [Route("api/[area]/[controller]/[action]")]
     [ApiController]
     [Authorize(Policy = "MKH")]
+    [ValidateResultFormat]
     public abstract class ControllerAbstract : ControllerBase
     {
         

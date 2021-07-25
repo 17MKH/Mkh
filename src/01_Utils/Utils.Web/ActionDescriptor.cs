@@ -14,11 +14,6 @@ namespace Mkh.Utils.Web
 		public string Name { get; set; }
 
 		/// <summary>
-		/// 描述
-		/// </summary>
-		public string Description { get; set; }
-
-		/// <summary>
 		/// 方法信息
 		/// </summary>
 		[JsonIgnore]

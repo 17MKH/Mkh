@@ -28,7 +28,8 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize
         /// 获取指定账户的个人信息
         /// </summary>
         /// <param name="accountId"></param>
+        /// <param name="platform">登录平台</param>
         /// <returns></returns>
-        Task<IResultModel> GetProfile(Guid accountId);
+        Task<IResultModel> GetProfile(Guid accountId, int platform);
     }
 }

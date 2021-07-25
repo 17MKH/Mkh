@@ -12,8 +12,9 @@ namespace Mkh.Mod.Admin.Core.Infrastructure
         /// <summary>
         /// 解析
         /// </summary>
-        /// <param name="account"></param>
+        /// <param name="account">账户信息</param>
+        /// <param name="platform">登录平台</param>
         /// <returns></returns>
-        Task<ProfileVo> Resolve(AccountEntity account);
+        Task<ProfileVo> Resolve(AccountEntity account, int platform);
     }
 }

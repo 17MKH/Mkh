@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Logger;
 using Mkh.Data.Abstractions.Pagination;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Data.Abstractions.Queryable;
 using Mkh.Data.Core.Internal.QueryStructure;
 using Mkh.Data.Core.SqlBuilder;
+using Mkh.Utils.Models;
 using IQueryable = Mkh.Data.Abstractions.Queryable.IQueryable;
 
 namespace Mkh.Data.Core.Queryable
@@ -118,6 +120,12 @@ namespace Mkh.Data.Core.Queryable
             }
 
             return (await task).ToList();
+        }
+
+        public async Task<IResultModel> ToPaginationResult<TResult>(Paging paging)
+        {
+            var rows = await ToPagination<TResult>(paging);
+            return ResultModel.Success(new QueryResultModel<TResult>(rows, paging.TotalCount));
         }
 
         public string ToPaginationSql(Paging paging)

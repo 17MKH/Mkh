@@ -6,7 +6,7 @@ namespace Mkh.Mod.Admin.Core.Domain.Role
     /// <summary>
     /// 角色
     /// </summary>
-    public class RoleEntity : EntityBaseSoftDelete
+    public partial class RoleEntity : EntityBaseSoftDelete
     {
         /// <summary>
         /// 名称
@@ -28,5 +28,10 @@ namespace Mkh.Mod.Admin.Core.Domain.Role
         /// 锁定的，不允许修改
         /// </summary>
         public bool Locked { get; set; }
+
+        /// <summary>
+        /// 绑定的菜单分组编号
+        /// </summary>
+        public int MenuGroupId { get; set; }
     }
 }

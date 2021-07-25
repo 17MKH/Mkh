@@ -46,6 +46,12 @@ namespace Mkh.Cache.Abstractions
             return Task.FromResult(true);
         }
 
+        public Task<bool> Set<T>(string key, T value, TimeSpan expires)
+        {
+            _cache.Set(key, value, expires);
+            return Task.FromResult(true);
+        }
+
         public Task<bool> Remove(string key)
         {
             _cache.Remove(key);

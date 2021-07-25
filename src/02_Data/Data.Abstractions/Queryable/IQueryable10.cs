@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Mkh.Data.Abstractions.Entities;
 using Mkh.Data.Abstractions.Pagination;
 using Mkh.Data.Abstractions.Queryable.Grouping;
+using Mkh.Utils.Models;
 
 namespace Mkh.Data.Abstractions.Queryable
 {
@@ -382,6 +383,13 @@ namespace Mkh.Data.Abstractions.Queryable
         /// <param name="paging">分页对象</param>
         /// <returns></returns>
         Task<IList<TEntity>> ToPagination(Paging paging);
+
+        /// <summary>
+        /// 分页查询，返回实体类型
+        /// </summary>
+        /// <param name="paging">分页对象</param>
+        /// <returns></returns>
+        Task<IResultModel> ToPaginationResult(Paging paging);
 
         #endregion
 

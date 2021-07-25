@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using Mkh.Mod.Admin.Core.Domain.Account;
+using Mkh.Utils.Annotations;
 
 namespace Mkh.Mod.Admin.Core.Application.Account.Dto
 {
-    class AccountUpdateDto
+    [ObjectMap(typeof(AccountEntity), true)]
+    public class AccountUpdateDto : AccountAddDto
     {
+        [Required(ErrorMessage = "请选择账户")]
+        [GuidNotEmpty(ErrorMessage = "请选择账户")]
+        public Guid Id { get; set; }
     }
 }

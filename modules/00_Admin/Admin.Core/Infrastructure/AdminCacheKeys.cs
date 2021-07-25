@@ -19,9 +19,17 @@ namespace Mkh.Mod.Admin.Core.Infrastructure
         /// <summary>
         /// 刷新令牌
         /// </summary>
-        /// <param name="accountId"></param>
-        /// <param name="platform"></param>
+        /// <param name="accountId">账户编号</param>
+        /// <param name="platform">平台</param>
         /// <returns></returns>
         public string RefreshToken(Guid accountId, int platform) => $"ADMIN:REFRESH_TOKEN:{accountId}:{platform}";
+
+        /// <summary>
+        /// 账户权限列表
+        /// </summary>
+        /// <param name="accountId">账户编号</param>
+        /// <param name="platform">平台</param>
+        /// <returns></returns>
+        public string AccountPermissions(Guid accountId, int platform) => $"ADMIN:ACCOUNT:PERMISSIONS:{accountId}:{platform}";
     }
 }

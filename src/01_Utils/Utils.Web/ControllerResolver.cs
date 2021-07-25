@@ -41,7 +41,7 @@ namespace Mkh.Utils.Web
 		/// <returns></returns>
 		public List<ActionDescriptor> GetActions(string area, string name)
 		{
-			return Controllers.FirstOrDefault((ControllerDescriptor m) => StringExtensions.EqualsIgnoreCase(m.Area, area) && StringExtensions.EqualsIgnoreCase(m.Name, name))?.Actions;
+			return Controllers.FirstOrDefault(m => m.Area.EqualsIgnoreCase(area) && m.Name.EqualsIgnoreCase(name))?.Actions;
 		}
 
 		/// <summary>
@@ -72,12 +72,11 @@ namespace Mkh.Utils.Web
 				MethodInfo[] methods = item2.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
 				foreach (MethodInfo methodInfo in methods)
 				{
-					if (methodInfo.CustomAttributes.Any((CustomAttributeData m) => m.AttributeType == typeof(HttpGetAttribute) || m.AttributeType == typeof(HttpPostAttribute) || m.AttributeType == typeof(HttpPutAttribute) || m.AttributeType == typeof(HttpOptionsAttribute) || m.AttributeType == typeof(HttpHeadAttribute) || m.AttributeType == typeof(HttpPatchAttribute) || m.AttributeType == typeof(HttpDeleteAttribute)))
+					if (methodInfo.CustomAttributes.Any(m => m.AttributeType == typeof(HttpGetAttribute) || m.AttributeType == typeof(HttpPostAttribute) || m.AttributeType == typeof(HttpPutAttribute) || m.AttributeType == typeof(HttpOptionsAttribute) || m.AttributeType == typeof(HttpHeadAttribute) || m.AttributeType == typeof(HttpPatchAttribute) || m.AttributeType == typeof(HttpDeleteAttribute)))
 					{
 						ActionDescriptor item = new ActionDescriptor
 						{
 							Name = methodInfo.Name,
-							Description = _attributeHelper.GetDescription(methodInfo),
 							MethodInfo = methodInfo
 						};
 						controllerDescriptor.Actions.Add(item);

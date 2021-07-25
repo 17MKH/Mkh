@@ -8,11 +8,6 @@ namespace Mkh.Auth.Abstractions
     public class PermissionDescriptor
     {
         /// <summary>
-        /// 说明
-        /// </summary>
-        public string Description { get; set; }
-
-        /// <summary>
         /// 模块编码
         /// </summary>
         public string ModuleCode { get; set; }
@@ -31,6 +26,11 @@ namespace Mkh.Auth.Abstractions
         /// 请求方式
         /// </summary>
         public HttpMethod HttpMethod { get; set; }
+
+        /// <summary>
+        /// 请求方式名称
+        /// </summary>
+        public string HttpMethodName => HttpMethod.ToDescription();
 
         /// <summary>
         /// 唯一编码
@@ -67,8 +67,6 @@ namespace Mkh.Auth.Abstractions
     /// </summary>
     public enum HttpMethod
     {
-        [Description("Unknown")]
-        Unknown,
         [Description("GET")]
         Get,
         [Description("PUT")]

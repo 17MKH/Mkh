@@ -78,9 +78,14 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize
                 new(MkhClaimTypes.ACCOUNT_ID, account.Id.ToString()),
                 new(MkhClaimTypes.ACCOUNT_NAME, account.Name),
                 new(MkhClaimTypes.PLATFORM, dto.Platform.ToInt().ToString()),
-                new(MkhClaimTypes.LOGIN_TIME, dto.LoginTime.ToString()),
-                new(MkhClaimTypes.IP, dto.IP)
+                new(MkhClaimTypes.LOGIN_TIME, dto.LoginTime.ToString())
             };
+
+            //验证IP
+            if (_authOptions.CurrentValue.EnableCheckIP)
+            {
+                claims.Add(new(MkhClaimTypes.IP, dto.IP));
+            }
 
             if (_credentialClaimExtender != null)
             {
@@ -116,7 +121,7 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize
             return ResultModel.Failed("令牌无效");
         }
 
-        public async Task<IResultModel> GetProfile(Guid accountId)
+        public async Task<IResultModel> GetProfile(Guid accountId, int platform)
         {
             var account = await _accountRepository.Get(accountId);
             if (account == null)
@@ -125,7 +130,7 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize
             if (account.Status == AccountStatus.Disabled)
                 return ResultModel.Failed("账户已禁用，请联系管理员");
 
-            var profile = await _accountProfileResolver.Resolve(account);
+            var profile = await _accountProfileResolver.Resolve(account, platform);
 
             return ResultModel.Success(profile);
         }

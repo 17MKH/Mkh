@@ -24,7 +24,7 @@ namespace Mkh.Mapper
 
                     foreach (var type in types)
                     {
-                        var map = (MapAttribute)Attribute.GetCustomAttribute(type, typeof(MapAttribute));
+                        var map = (ObjectMapAttribute)Attribute.GetCustomAttribute(type, typeof(ObjectMapAttribute));
                         if (map != null)
                         {
                             cfg.CreateMap(type, map.TargetType);

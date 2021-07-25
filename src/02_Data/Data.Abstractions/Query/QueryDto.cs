@@ -13,6 +13,8 @@ namespace Mkh.Data.Abstractions.Query
         /// </summary>
         public QueryPagingDto Page { get; set; } = new();
 
+        private Paging _paging;
+
         /// <summary>
         /// 转换成Paging分页类
         /// </summary>
@@ -20,17 +22,20 @@ namespace Mkh.Data.Abstractions.Query
         {
             get
             {
-                var paging = new Paging(Page.Index, Page.Size);
-
-                if (Page.Sort != null && Page.Sort.Any())
+                if (_paging == null)
                 {
-                    foreach (var sort in Page.Sort)
+                    _paging = new Paging(Page.Index, Page.Size);
+
+                    if (Page.Sort != null && Page.Sort.Any())
                     {
-                        paging.OrderBy.Add(new Sort(sort.Field, sort.Type));
+                        foreach (var sort in Page.Sort)
+                        {
+                            _paging.OrderBy.Add(new Sort(sort.Field, sort.Type));
+                        }
                     }
                 }
 
-                return paging;
+                return _paging;
             }
         }
     }

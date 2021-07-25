@@ -53,6 +53,16 @@ namespace Mkh.Cache.Abstractions
         Task<bool> Set<T>(string key, T value, DateTime expires);
 
         /// <summary>
+        /// 设置
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="expires">有效期，截止时间</param>
+        /// <returns></returns>
+        Task<bool> Set<T>(string key, T value, TimeSpan expires);
+
+        /// <summary>
         /// 删除
         /// </summary>
         /// <param name="key"></param>

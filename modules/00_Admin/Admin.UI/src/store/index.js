@@ -1,8 +1,9 @@
+const state = {}
+
+const mutations = {}
+
 export default {
   namespaced: true,
-  state: {
-    user: {
-      id: 1,
-    },
-  },
+  state,
+  mutations,
 }

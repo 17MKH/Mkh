@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Mod.Admin.Core.Application.Role;
 using Mkh.Mod.Admin.Core.Application.Role.Dto;
 using Mkh.Utils.Models;
@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Mkh.Mod.Admin.Web.Controllers
 {
     [SwaggerTag("角色管理")]
-    public class RoleController : ModuleController
+    public class RoleController : BaseController
     {
         private readonly IRoleService _service;
 
@@ -42,7 +42,7 @@ namespace Mkh.Mod.Admin.Web.Controllers
         /// <summary>
         /// 编辑
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">主键</param>
         /// <returns></returns>
         [HttpGet]
         public Task<IResultModel> Edit(int id)
@@ -60,11 +60,48 @@ namespace Mkh.Mod.Admin.Web.Controllers
             return _service.Update(dto);
         }
 
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <returns></returns>
         [HttpDelete]
-        [Description("删除")]
         public Task<IResultModel> Delete([BindRequired] int id)
         {
             return _service.Delete(id);
+        }
+
+        /// <summary>
+        /// 查询角色绑定菜单信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public Task<IResultModel> QueryBindMenus([BindRequired] int id)
+        {
+            return _service.QueryBindMenus(id);
+        }
+
+        /// <summary>
+        /// 更新绑定菜单信息
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Task<IResultModel> UpdateBindMenus(RoleBindMenusUpdateDto dto)
+        {
+            return _service.UpdateBindMenus(dto);
+        }
+
+        /// <summary>
+        /// 下拉列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowWhenAuthenticated]
+        public Task<IResultModel> Select()
+        {
+            return _service.Select();
         }
     }
 }

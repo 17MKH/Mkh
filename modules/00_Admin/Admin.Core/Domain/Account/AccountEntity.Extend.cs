@@ -9,5 +9,11 @@ namespace Mkh.Mod.Admin.Core.Domain.Account
         /// </summary>
         [NotMappingColumn]
         public string TenantName { get; set; }
+
+        /// <summary>
+        /// 角色名称
+        /// </summary>
+        [NotMappingColumn]
+        public string RoleName { get; set; }
     }
 }

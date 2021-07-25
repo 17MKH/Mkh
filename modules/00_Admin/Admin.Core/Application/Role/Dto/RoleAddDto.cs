@@ -7,7 +7,7 @@ namespace Mkh.Mod.Admin.Core.Application.Role.Dto
     /// <summary>
     /// 角色添加
     /// </summary>
-    [Map(typeof(RoleEntity))]
+    [ObjectMap(typeof(RoleEntity))]
     public class RoleAddDto
     {
         /// <summary>
@@ -23,5 +23,11 @@ namespace Mkh.Mod.Admin.Core.Application.Role.Dto
         /// 备注
         /// </summary>
         public string Remarks { get; set; }
+
+        /// <summary>
+        /// 绑定的菜单分组编号
+        /// </summary>
+        [Range(1, int.MaxValue, ErrorMessage = "请选择绑定的菜单分组")]
+        public int MenuGroupId { get; set; }
     }
 }

@@ -38,6 +38,11 @@ namespace Mkh.Cache.Redis
             return _helper.StringSetAsync(key, value, expires - DateTime.Now);
         }
 
+        public Task<bool> Set<T>(string key, T value, TimeSpan expires)
+        {
+            return _helper.StringSetAsync(key, value, expires);
+        }
+
         public Task<bool> Remove(string key)
         {
             return _helper.KeyDeleteAsync(key);

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mkh.Mod.Admin.Core.Domain.Menu;
+using Mkh.Utils.Annotations;
 
 namespace Mkh.Mod.Admin.Core.Application.Authorize.Vo
 {
     /// <summary>
     /// 个人信息菜单信息
     /// </summary>
+    [ObjectMap(typeof(MenuEntity), true)]
     public class ProfileMenuVo
     {
         /// <summary>
@@ -62,7 +63,7 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize.Vo
         /// <summary>
         /// 链接菜单打开方式
         /// </summary>
-        public MenuTarget Target { get; set; }
+        public MenuOpenTarget Target { get; set; }
 
         /// <summary>
         /// 对话框宽度
@@ -93,6 +94,11 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize.Vo
         /// 是否显示
         /// </summary>
         public bool Show { get; set; }
+
+        /// <summary>
+        /// 按钮编码列表
+        /// </summary>
+        public List<string> Buttons { get; set; }
 
         /// <summary>
         /// 子菜单

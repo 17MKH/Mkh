@@ -37,7 +37,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.AddPolicy("MKH", policy => policy.Requirements.Add(new PermissionRequirement()));
             });
 
-            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+            //自定义权限验证处理器
+            services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
             //添加数据访问的账户解析器实现
             services.AddSingleton<IAccountResolver, AccountResolver>();
