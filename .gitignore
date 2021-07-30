@@ -362,3 +362,6 @@ MigrationBackup/
 FodyWeavers.xsd
 /modules/00_Admin/Admin.UI/dist
 /modules/WebHost/appsettings.Local.json
+/modules/00_Admin/Admin.UI/lib
+/modules/00_Admin/Admin.UI/public
+/modules/01_Blog/Blog.UI/public

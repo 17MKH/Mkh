@@ -6,7 +6,7 @@ import mkh from 'mkh-ui/lib/plugins'
 export default defineConfig(({ mode, command }) => {
   let config = {
     server: {
-      port: 5220,
+      port: 5221,
     },
     plugins: [
       mkh({

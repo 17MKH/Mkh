@@ -2,6 +2,8 @@ import { configure } from 'mkh-ui'
 import 'mkh-ui/lib/style.css'
 import zhCN from '@mkh-locale/zh-cn'
 import en from '@mkh-locale/en'
+import 'mkh-mod-admin'
+import 'mkh-mod-admin/lib/style.css'
 import './index'
 
 configure({ locale: { messages: [zhCN, en] } })

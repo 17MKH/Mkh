@@ -1,3 +1,4 @@
+import component from './index.vue'
 const name = 'admin_account'
 
 export default {
@@ -10,7 +11,7 @@ export default {
   //路由路径
   path: '/admin/account',
   //绑定权限
-  permissions: [`${name}_query_get`],
+  permissions: [`${name}_query_get`, `${name}_DefaultPassword_get`],
   //绑定按钮
   buttons: {
     add: {
@@ -30,5 +31,5 @@ export default {
     },
   },
   //路由组件
-  component: () => import('./index.vue'),
+  component,
 }

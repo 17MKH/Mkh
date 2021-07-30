@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="./favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <style type="text/css">
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+          Arial;
+        font-size: 14px;
+        height: 100%;
+      }
+
+      *,
+      ::after,
+      ::before {
+        box-sizing: border-box;
+      }
+
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+
+      a {
+        text-decoration: none;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      pre,
+      code {
+        margin: 0;
+        padding: 0;
+      }
+
+      .m-loader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+      }
+
+      .m-loader .m-loader_main {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 172px;
+        height: 128px;
+        margin: 0;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+      }
+
+      .m-loader_square {
+        position: relative;
+      }
+
+      .m-loader_square:nth-child(1) {
+        margin-left: 0px;
+      }
+
+      .m-loader_square:nth-child(2) {
+        margin-left: 44px;
+      }
+
+      .m-loader_square:nth-child(3) {
+        margin-left: 88px;
+      }
+
+      .m-loader_square:nth-child(4) {
+        margin-left: 132px;
+      }
+
+      .m-loader_square span {
+        position: absolute;
+        top: 0px;
+        left: 20px;
+        height: 36px;
+        width: 36px;
+        border-radius: 2px;
+        background-color: #409eff;
+      }
+
+      .m-loader_square span:nth-child(1) {
+        top: 0px;
+      }
+
+      .m-loader_square span:nth-child(2) {
+        top: 44px;
+      }
+
+      .m-loader_square span:nth-child(3) {
+        top: 88px;
+      }
+
+      .m-loader_square:nth-child(1) span {
+        -webkit-animation: animsquare1 2s infinite ease-in;
+        animation: animsquare1 2s infinite ease-in;
+      }
+
+      .m-loader_square:nth-child(2) span {
+        -webkit-animation: animsquare2 2s infinite ease-in;
+        animation: animsquare2 2s infinite ease-in;
+      }
+
+      .m-loader_square:nth-child(3) span {
+        -webkit-animation: animsquare3 2s infinite ease-in;
+        animation: animsquare3 2s infinite ease-in;
+      }
+
+      .m-loader_square:nth-child(4) span {
+        -webkit-animation: animsquare4 2s infinite ease-in;
+        animation: animsquare4 2s infinite ease-in;
+      }
+
+      .m-loader_square span:nth-child(1) {
+        -webkit-animation-delay: 0s;
+        animation-delay: 0s;
+      }
+
+      .m-loader_square span:nth-child(2) {
+        -webkit-animation-delay: 0.15s;
+        animation-delay: 0.15s;
+      }
+
+      .m-loader_square span:nth-child(3) {
+        -webkit-animation-delay: 0.3s;
+        animation-delay: 0.3s;
+      }
+
+      @-webkit-keyframes animsquare1 {
+        0%,
+        5%,
+        95%,
+        100% {
+          -webkit-transform: translate(0px, 0px) rotate(0deg);
+          transform: translate(0px, 0px) rotate(0deg);
+        }
+        30%,
+        70% {
+          -webkit-transform: translate(-40px, 0px) rotate(-90deg);
+          transform: translate(-40px, 0px) rotate(-90deg);
+        }
+      }
+      @keyframes animsquare1 {
+        0%,
+        5%,
+        95%,
+        100% {
+          -webkit-transform: translate(0px, 0px) rotate(0deg);
+          transform: translate(0px, 0px) rotate(0deg);
+        }
+        30%,
+        70% {
+          -webkit-transform: translate(-40px, 0px) rotate(-90deg);
+          transform: translate(-40px, 0px) rotate(-90deg);
+        }
+      }
+      @-webkit-keyframes animsquare2 {
+        0%,
+        10%,
+        90%,
+        100% {
+          -webkit-transform: translate(0px, 0px) rotate(0deg);
+          transform: translate(0px, 0px) rotate(0deg);
+        }
+        35%,
+        65% {
+          -webkit-transform: translate(-40px, 0px) rotate(-90deg);
+          transform: translate(-40px, 0px) rotate(-90deg);
+        }
+      }
+      @keyframes animsquare2 {
+        0%,
+        10%,
+        90%,
+        100% {
+          -webkit-transform: translate(0px, 0px) rotate(0deg);
+          transform: translate(0px, 0px) rotate(0deg);
+        }
+        35%,
+        65% {
+          -webkit-transform: translate(-40px, 0px) rotate(-90deg);
+          transform: translate(-40px, 0px) rotate(-90deg);
+        }
+      }
+      @-webkit-keyframes animsquare3 {
+        0%,
+        15%,
+        85%,
+        100% {
+          -webkit-transform: translate(0px, 0px) rotate(0deg);
+          transform: translate(0px, 0px) rotate(0deg);
+        }
+        40%,
+        60% {
+          -webkit-transform: translate(-40px, 0px) rotate(-90deg);
+          transform: translate(-40px, 0px) rotate(-90deg);
+        }
+      }
+      @keyframes animsquare3 {
+        0%,
+        15%,
+        85%,
+        100% {
+          -webkit-transform: translate(0px, 0px) rotate(0deg);
+          transform: translate(0px, 0px) rotate(0deg);
+        }
+        40%,
+        60% {
+          -webkit-transform: translate(-40px, 0px) rotate(-90deg);
+          transform: translate(-40px, 0px) rotate(-90deg);
+        }
+      }
+      @-webkit-keyframes animsquare4 {
+        0%,
+        20%,
+        80%,
+        100% {
+          -webkit-transform: translate(0px, 0px) rotate(0deg);
+          transform: translate(0px, 0px) rotate(0deg);
+        }
+        45%,
+        55% {
+          -webkit-transform: translate(-40px, 0px) rotate(-90deg);
+          transform: translate(-40px, 0px) rotate(-90deg);
+        }
+      }
+      @keyframes animsquare4 {
+        0%,
+        20%,
+        80%,
+        100% {
+          -webkit-transform: translate(0px, 0px) rotate(0deg);
+          transform: translate(0px, 0px) rotate(0deg);
+        }
+        45%,
+        55% {
+          -webkit-transform: translate(-40px, 0px) rotate(-90deg);
+          transform: translate(-40px, 0px) rotate(-90deg);
+        }
+      }
+
+      .m-copyright {
+        position: absolute;
+        left: 0;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .m-copyright_logo {
+        position: relative;
+        top: 10px;
+        width: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="m-loader">
+        <div class="m-loader_main">
+          <div class="m-loader_square"><span></span><span></span><span></span></div>
+          <div class="m-loader_square"><span></span><span></span><span></span></div>
+          <div class="m-loader_square"><span></span><span></span><span></span></div>
+          <div class="m-loader_square"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+      <div class="m-copyright">
+        <img class="m-copyright_logo" src="<%= logo %>" />
+        <span><%= copyright %></span>
+      </div>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

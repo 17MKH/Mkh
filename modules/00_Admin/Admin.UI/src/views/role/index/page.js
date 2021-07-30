@@ -1,3 +1,4 @@
+import component from './index.vue'
 const name = 'admin_role'
 
 export default {
@@ -35,5 +36,5 @@ export default {
     },
   },
   //路由组件
-  component: () => import('./index.vue'),
+  component,
 }

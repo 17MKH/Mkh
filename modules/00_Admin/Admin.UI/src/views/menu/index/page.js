@@ -1,3 +1,4 @@
+import component from './index.vue'
 const name = 'admin_menu'
 export default {
   name,
@@ -42,5 +43,5 @@ export default {
       permissions: [`admin_menugroup_delete_delete`],
     },
   },
-  component: () => import('./index.vue'),
+  component,
 }

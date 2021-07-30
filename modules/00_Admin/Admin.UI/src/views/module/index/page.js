@@ -1,3 +1,4 @@
+import component from './index.vue'
 export default {
   title: '模块中心',
   icon: 'component',
@@ -5,5 +6,5 @@ export default {
   path: '/admin/module',
   permissions: ['admin_Module_Permissions_get'],
   buttons: [],
-  component: () => import('./index.vue'),
+  component,
 }
