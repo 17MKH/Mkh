@@ -1,6 +1,7 @@
 ﻿using Mkh.Utils.Abstracts;
 
-namespace Mkh.Utils.Result
+// ReSharper disable once CheckNamespace
+namespace Mkh
 {
     /// <summary>
     /// 选项集合模型

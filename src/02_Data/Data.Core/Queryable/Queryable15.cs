@@ -7,7 +7,6 @@ using Mkh.Data.Abstractions.Entities;
 using Mkh.Data.Abstractions.Pagination;
 using Mkh.Data.Abstractions.Queryable;
 using Mkh.Data.Core.Internal.QueryStructure;
-using Mkh.Utils.Models;
 using IQueryable = Mkh.Data.Abstractions.Queryable.IQueryable;
 
 namespace Mkh.Data.Core.Queryable

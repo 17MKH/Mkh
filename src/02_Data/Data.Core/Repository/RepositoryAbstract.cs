@@ -9,7 +9,6 @@ using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Descriptors;
 using Mkh.Data.Abstractions.Entities;
 using Mkh.Data.Abstractions.Logger;
-using Mkh.Data.Core.Descriptors;
 
 namespace Mkh.Data.Core.Repository
 {

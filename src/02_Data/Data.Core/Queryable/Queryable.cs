@@ -10,7 +10,6 @@ using Mkh.Data.Abstractions.Query;
 using Mkh.Data.Abstractions.Queryable;
 using Mkh.Data.Core.Internal.QueryStructure;
 using Mkh.Data.Core.SqlBuilder;
-using Mkh.Utils.Models;
 using IQueryable = Mkh.Data.Abstractions.Queryable.IQueryable;
 
 namespace Mkh.Data.Core.Queryable

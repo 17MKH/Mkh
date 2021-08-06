@@ -7,7 +7,6 @@ using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Mod.Admin.Core.Application.Authorize;
 using Mkh.Mod.Admin.Core.Application.Authorize.Dto;
 using Mkh.Mod.Admin.Core.Infrastructure;
-using Mkh.Utils.Models;
 using Mkh.Utils.Web;
 
 namespace Mkh.Mod.Admin.Web.Controllers

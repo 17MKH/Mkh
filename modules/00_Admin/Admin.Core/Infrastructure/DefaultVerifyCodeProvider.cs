@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Cache.Abstractions;
 using Mkh.Utils.Helpers;
-using Mkh.Utils.Models;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;

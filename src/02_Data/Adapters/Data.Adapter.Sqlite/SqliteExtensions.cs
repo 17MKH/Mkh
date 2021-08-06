@@ -1,9 +1,7 @@
 using System;
-using Dapper;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Options;
-using Mkh.Data.Adapter.Sqlite;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection

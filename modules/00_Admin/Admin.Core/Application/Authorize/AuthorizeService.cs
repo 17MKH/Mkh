@@ -9,7 +9,6 @@ using Mkh.Auth.Jwt;
 using Mkh.Mod.Admin.Core.Application.Authorize.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Infrastructure;
-using Mkh.Utils.Models;
 
 namespace Mkh.Mod.Admin.Core.Application.Authorize
 {

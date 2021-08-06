@@ -4,14 +4,12 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Logger;
 using Mkh.Data.Abstractions.Options;
 using Mkh.Data.Abstractions.Schema;
 using Mkh.Data.Core.Descriptors;
-using Mkh.Data.Core.Internal;
 
 namespace Mkh.Data.Core
 {

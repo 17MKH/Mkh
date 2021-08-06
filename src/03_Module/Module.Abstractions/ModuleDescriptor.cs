@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
 using Mkh.Module.Abstractions.Options;
 
 namespace Mkh.Module.Abstractions

@@ -1,39 +1,39 @@
 <template>
   <m-container class="m-admin-role">
     <m-flex-row>
-      <m-flex-fixed width="250px" class="m-margin-r-10">
-        <m-box page title="角色管理" icon="role" no-padding>
+      <m-flex-fixed width="300px" class="m-margin-r-10">
+        <m-list-box ref="listBoxRef" v-model="roleId" title="角色列表" icon="role" :action="query" @change="handleRoleChange">
           <template #toolbar>
             <m-button :code="buttons.add.code" icon="plus" @click="add"></m-button>
           </template>
-          <div v-for="role in roles" :key="role.id" :class="['m-admin-role_item', role.id === current.id ? 'active' : '']" @click="handleRoleChange(role)">
-            <m-flex-row>
-              <m-flex-auto>
-                <span>{{ role.name }}</span>
-              </m-flex-auto>
-              <m-flex-fixed v-if="!role.locked">
-                <m-button-edit :code="buttons.edit.code" @click.stop="edit(role)" @success="refresh"></m-button-edit>
-                <m-button-delete :code="buttons.remove.code" :action="remove" :data="role.id" @success="refresh"></m-button-delete>
-              </m-flex-fixed>
-            </m-flex-row>
-          </div>
-        </m-box>
+          <template #action="{ item }">
+            <m-button-edit text="" :code="buttons.edit.code" @click.stop="edit(item)" @success="refresh"></m-button-edit>
+            <m-button-delete text="" :code="buttons.remove.code" :action="remove" :data="item.id" @success="refresh"></m-button-delete>
+          </template>
+        </m-list-box>
       </m-flex-fixed>
       <m-flex-auto>
-        <m-tabs type="border-card">
-          <el-tab-pane>
-            <template #label>
-              <span><m-icon name="preview" /> 基本信息</span>
-            </template>
-            <detail :role="current" />
-          </el-tab-pane>
-          <el-tab-pane>
-            <template #label>
-              <span><m-icon name="menu" /> 菜单绑定</span>
-            </template>
+        <m-flex-col class="m-fill-h">
+          <m-flex-fixed>
+            <m-box title="角色信息" icon="preview" show-collapse>
+              <el-descriptions :column="4" border>
+                <el-descriptions-item label="名称">{{ current.name }}</el-descriptions-item>
+                <el-descriptions-item label="唯一编码">{{ current.code }}</el-descriptions-item>
+                <el-descriptions-item label="绑定菜单组">{{ current.menuGroupName }}</el-descriptions-item>
+                <el-descriptions-item label="是否锁定">
+                  <el-tag v-if="current.locked" type="danger" effect="dark" size="small">锁定</el-tag>
+                  <el-tag v-else type="info" effect="dark" size="small">未锁定</el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item label="创建时间">{{ current.createdTime }}</el-descriptions-item>
+                <el-descriptions-item label="创建人">{{ current.creator }}</el-descriptions-item>
+                <el-descriptions-item label="备注" :span="2">{{ current.remarks }}</el-descriptions-item>
+              </el-descriptions>
+            </m-box>
+          </m-flex-fixed>
+          <m-flex-auto class="m-margin-t-10">
             <bind-menu :role="current" />
-          </el-tab-pane>
-        </m-tabs>
+          </m-flex-auto>
+        </m-flex-col>
       </m-flex-auto>
     </m-flex-row>
     <save :id="selection.id" v-model="saveVisible" :mode="mode" @success="refresh" />
@@ -44,45 +44,43 @@ import { ref } from 'vue'
 import { useList } from 'mkh-ui'
 import page from './page'
 import Save from '../save/index.vue'
-import Detail from '../detail/index.vue'
 import BindMenu from '../bind-menu/index.vue'
 export default {
-  components: { Save, Detail, BindMenu },
+  components: { Save, BindMenu },
   setup() {
     const { buttons } = page
     const { query, remove } = mkh.api.admin.role
     const roles = ref([])
+    const roleId = ref('')
     const current = ref({ id: 0 })
+    const listBoxRef = ref()
     const { selection, mode, saveVisible, add, edit } = useList()
 
-    const refresh = () => {
-      selection.value = ''
-      query().then(data => {
-        roles.value = data
-        if (data.length > 0) {
-          handleRoleChange(data[0])
-        }
-      })
-    }
-
-    const handleRoleChange = role => {
+    const handleRoleChange = (val, role) => {
+      console.log(role)
       current.value = role
     }
 
-    refresh()
+    const refresh = () => {
+      console.log(listBoxRef.value)
+      listBoxRef.value.refresh()
+    }
 
     return {
       buttons,
       roles,
+      roleId,
       current,
+      listBoxRef,
       selection,
       mode,
       saveVisible,
       add,
       edit,
       remove,
-      refresh,
+      query,
       handleRoleChange,
+      refresh,
     }
   },
 }

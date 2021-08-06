@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace Mkh.Utils.Models
+// ReSharper disable once CheckNamespace
+namespace Mkh
 {
     /// <summary>
     /// 树形结构返回模型

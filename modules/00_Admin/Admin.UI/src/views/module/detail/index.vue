@@ -60,7 +60,7 @@
   </m-dialog>
 </template>
 <script>
-import { computed, ref, watchEffect } from '@vue/runtime-core'
+import { computed, ref, watchEffect } from 'vue'
 export default {
   props: {
     mod: {

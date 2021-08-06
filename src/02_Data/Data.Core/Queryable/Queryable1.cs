@@ -9,7 +9,6 @@ using Mkh.Data.Abstractions.Queryable;
 using Mkh.Data.Abstractions.Queryable.Grouping;
 using Mkh.Data.Core.Internal.QueryStructure;
 using Mkh.Data.Core.Queryable.Grouping;
-using Mkh.Utils.Models;
 
 namespace Mkh.Data.Core.Queryable
 {

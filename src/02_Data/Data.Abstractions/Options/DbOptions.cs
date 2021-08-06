@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions.Adapter;
 
 namespace Mkh.Data.Abstractions.Options

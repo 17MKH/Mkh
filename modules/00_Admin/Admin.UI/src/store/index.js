@@ -1,6 +1,15 @@
-const state = {}
+const state = {
+  dict: {
+    groupCode: '',
+    dictCode: '',
+  },
+}
 
-const mutations = {}
+const mutations = {
+  setDict(state, dict) {
+    state.dict = dict
+  },
+}
 
 export default {
   namespaced: true,

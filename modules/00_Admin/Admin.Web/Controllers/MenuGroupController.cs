@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Mod.Admin.Core.Application.MenuGroup;
 using Mkh.Mod.Admin.Core.Application.MenuGroup.Dto;
-using Mkh.Utils.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers
@@ -22,7 +21,6 @@ namespace Mkh.Mod.Admin.Web.Controllers
         /// <summary>
         /// 查询
         /// </summary>
-        /// <remarks>查询角色列表</remarks>
         [HttpGet]
         public Task<IResultModel> Query([FromQuery] MenuGroupQueryDto dto)
         {

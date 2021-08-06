@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Module.Abstractions;
-using Mkh.Utils.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers

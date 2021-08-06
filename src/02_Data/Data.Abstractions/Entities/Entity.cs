@@ -1,5 +1,3 @@
-using System;
-
 namespace Mkh.Data.Abstractions.Entities
 {
     /// <summary>

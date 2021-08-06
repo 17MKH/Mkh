@@ -107,6 +107,7 @@ namespace Mkh.Data.Adapter.SqlServer
                         case "bit":
                         case "decimal":
                         case "float":
+                        case "smallint":
                             schema.DefaultValue = schema.DefaultValue.Substring(2, schema.DefaultValue.Length - 4);
                             break;
                         case "nvarchar":

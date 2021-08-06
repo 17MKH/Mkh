@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Mod.Admin.Core.Application.Role;
 using Mkh.Mod.Admin.Core.Application.Role.Dto;
-using Mkh.Utils.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Mkh.Data.Abstractions.Entities;
 using Mkh.Data.Abstractions.Pagination;
 using Mkh.Data.Abstractions.Queryable.Grouping;
-using Mkh.Utils.Models;
 
 namespace Mkh.Data.Abstractions.Queryable
 {

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Annotations;
-using Mkh.Utils.Models;
 
 namespace Mkh.Data.Core.Internal
 {

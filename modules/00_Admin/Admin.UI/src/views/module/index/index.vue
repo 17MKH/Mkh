@@ -33,7 +33,7 @@
   </m-container>
 </template>
 <script>
-import { ref } from '@vue/reactivity'
+import { ref } from 'vue'
 import Detail from '../detail/index.vue'
 export default {
   components: { Detail },

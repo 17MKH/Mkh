@@ -1,5 +1,4 @@
 using System;
-using Castle.DynamicProxy;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Mkh;
 using Mkh.Data.Abstractions;

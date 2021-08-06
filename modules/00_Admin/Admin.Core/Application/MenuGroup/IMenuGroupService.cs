@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Mkh.Mod.Admin.Core.Application.MenuGroup.Dto;
-using Mkh.Utils.Models;
 
 namespace Mkh.Mod.Admin.Core.Application.MenuGroup
 {

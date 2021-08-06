@@ -9,7 +9,7 @@
       <m-button-add :code="buttons.add.code" :disabled="parent.type !== 0" @click="add"></m-button-add>
     </template>
     <template #expand="{ row }">
-      <el-descriptions>
+      <el-descriptions :column="4">
         <template v-if="row.type === 1">
           <el-descriptions-item label="路由名称：">{{ row.routeName }}</el-descriptions-item>
           <el-descriptions-item label="路由参数(params)：">{{ row.routeParams }}</el-descriptions-item>
@@ -26,7 +26,11 @@
         <template v-else-if="row.type === 3">
           <el-descriptions-item label="自定义脚本：" :span="3">{{ row.customJs }}</el-descriptions-item>
         </template>
-        <el-descriptions-item label="备注：" :span="3">{{ row.remarks }}</el-descriptions-item>
+        <el-descriptions-item label="备注：" :span="4">{{ row.remarks }}</el-descriptions-item>
+        <el-descriptions-item label="创建人：">{{ row.creator }}</el-descriptions-item>
+        <el-descriptions-item label="创建时间：">{{ row.createdTime }}</el-descriptions-item>
+        <el-descriptions-item label="修改人：">{{ row.modifier }}</el-descriptions-item>
+        <el-descriptions-item label="修改时间：">{{ row.modifiedTime }}</el-descriptions-item>
       </el-descriptions>
     </template>
     <template #col-typeName="{ row }">
@@ -49,8 +53,8 @@
   <save :id="selection.id" v-model="saveVisible" :group="group" :parent="parent" :mode="mode" @success="handleChange" />
 </template>
 <script>
-import { useList, entityBaseCols } from 'mkh-ui'
-import { reactive, watchEffect } from 'vue'
+import { useList } from 'mkh-ui'
+import { computed, reactive, watch } from 'vue'
 import Save from '../save/index.vue'
 import page from '../index/page'
 
@@ -70,8 +74,10 @@ export default {
   setup(props, { emit }) {
     const { buttons } = page
     const { query, remove } = mkh.api.admin.menu
+    const groupId = computed(() => props.group.id)
+    const parentId = computed(() => props.parent.id)
 
-    const model = reactive({ groupId: 0, parentId: 0, name: '' })
+    const model = reactive({ groupId, parentId, name: '' })
     const cols = [
       { prop: 'id', label: '编号', width: '55', show: false },
       { prop: 'name', label: '名称' },
@@ -80,15 +86,12 @@ export default {
       { prop: 'level', label: '层级' },
       { prop: 'show', label: '是否显示' },
       { prop: 'sort', label: '排序' },
-      ...entityBaseCols,
     ]
 
     const list = useList()
 
-    watchEffect(() => {
-      model.groupId = props.group.id
-      model.parentId = props.parent.id
-      if (model.groupId) list.refresh()
+    watch([groupId, parentId], () => {
+      list.refresh()
     })
 
     const handleChange = () => {

@@ -1,19 +1,25 @@
 <template>
-  <el-select clearable placeholder="请选择..." @change="handleChange">
-    <el-option v-for="item in modules" :key="item.code" :label="item.label" :value="item.code"> </el-option>
-  </el-select>
+  <m-select :action="query" clearable> </m-select>
 </template>
 <script>
 export default {
-  emits: ['change'],
-  setup(props, { emit }) {
-    const handleChange = code => {
-      const mod = mkh.modules.find(m => m.code === code)
-      emit('change', mod)
+  setup() {
+    const modules = mkh.modules.map(m => {
+      return {
+        label: m.label,
+        value: m.code,
+        data: m,
+      }
+    })
+
+    const query = () => {
+      return new Promise(resolve => {
+        resolve(modules)
+      })
     }
+
     return {
-      modules: mkh.modules,
-      handleChange,
+      query,
     }
   },
 }

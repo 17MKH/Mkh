@@ -31,5 +31,29 @@ namespace Mkh.Mod.Admin.Core.Infrastructure
         /// <param name="platform">平台</param>
         /// <returns></returns>
         public string AccountPermissions(Guid accountId, int platform) => $"ADMIN:ACCOUNT:PERMISSIONS:{accountId}:{platform}";
+
+        /// <summary>
+        /// 字典下拉列表
+        /// </summary>
+        /// <param name="groupCode">字典分组编码</param>
+        /// <param name="dictCode">字典编码</param>
+        /// <returns></returns>
+        public string DictSelect(string groupCode, string dictCode) => $"ADMIN:DICT:SELECT:{groupCode.ToUpper()}:{dictCode.ToUpper()}";
+
+        /// <summary>
+        /// 字典树
+        /// </summary>
+        /// <param name="groupCode"></param>
+        /// <param name="dictCode"></param>
+        /// <returns></returns>
+        public string DictTree(string groupCode, string dictCode) => $"ADMIN:DICT:TREE:{groupCode.ToUpper()}:{dictCode.ToUpper()}";
+
+        /// <summary>
+        /// 字典级联列表
+        /// </summary>
+        /// <param name="groupCode"></param>
+        /// <param name="dictCode"></param>
+        /// <returns></returns>
+        public string DictCascader(string groupCode, string dictCode) => $"ADMIN:DICT:CASCADER:{groupCode.ToUpper()}:{dictCode.ToUpper()}";
     }
 }

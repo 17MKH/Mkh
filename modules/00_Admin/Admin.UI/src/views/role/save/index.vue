@@ -1,7 +1,7 @@
 <template>
   <m-form-dialog v-bind="bind" v-on="on">
     <el-form-item label="菜单组：" prop="menuGroupId">
-      <m-admin-menu-group-select v-model="model.menuGroupId" />
+      <m-select v-model="model.menuGroupId" :action="$mkh.api.admin.menuGroup.select" checked-first></m-select>
     </el-form-item>
     <el-form-item label="名称：" prop="name">
       <el-input ref="nameRef" v-model="model.name" />

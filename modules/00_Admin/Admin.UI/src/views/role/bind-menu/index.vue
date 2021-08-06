@@ -1,29 +1,30 @@
 <template>
-  <m-box page :header="false" style="border-color: transparent; box-shadow: none" :loading="loading">
-    <el-alert title="只有菜单选中时，绑定的按钮数据才会生效~" type="warning" class="m-margin-b-20"> </el-alert>
-    <el-tree ref="treeRef" class="m-admin-bind-menu" :data="treeData" node-key="id" show-checkbox default-expand-all>
-      <template #default="{ node, data }">
-        <m-icon class="m-admin-bind-menu_icon" :name="data.item.icon || 'folder-o'" :style="{ color: data.item.iconColor }" />
-        <span class="m-admin-bind-menu_label">{{ node.label }}</span>
-        <div class="m-admin-bind-menu_buttons">
-          <template v-if="data.id === 0">
-            <el-checkbox v-model="checkedAllButton" label="全部" @change="handleCheckedAllButton"></el-checkbox>
-          </template>
-          <template v-else>
-            <el-checkbox v-for="b in data.buttons" :key="b.code" v-model="b.checked" :label="b.text" :disabled="!node.checked" @change="handleCheckedButton"></el-checkbox>
-          </template>
-        </div>
+  <m-container>
+    <m-box page title="菜单授权" icon="link" :loading="loading" show-fullscreen>
+      <el-alert title="只有菜单选中时，绑定的按钮数据才会生效~" type="warning" class="m-margin-b-20"> </el-alert>
+      <el-tree ref="treeRef" class="m-admin-bind-menu" :data="treeData" node-key="id" show-checkbox default-expand-all>
+        <template #default="{ node, data }">
+          <m-icon class="m-admin-bind-menu_icon" :name="data.item.icon || 'folder-o'" :style="{ color: data.item.iconColor }" />
+          <span class="m-admin-bind-menu_label">{{ node.label }}</span>
+          <div class="m-admin-bind-menu_buttons">
+            <template v-if="data.id === 0">
+              <el-checkbox v-model="checkedAllButton" label="全部" @change="handleCheckedAllButton"></el-checkbox>
+            </template>
+            <template v-else>
+              <el-checkbox v-for="b in data.buttons" :key="b.code" v-model="b.checked" :label="b.text" :disabled="!node.checked" @change="handleCheckedButton"></el-checkbox>
+            </template>
+          </div>
+        </template>
+      </el-tree>
+      <template #footer>
+        <m-button type="success" text="保存" icon="save" @click="submit" />
       </template>
-    </el-tree>
-    <template #footer>
-      <m-button type="success" text="保存" icon="save" @click="submit" />
-    </template>
-  </m-box>
+    </m-box>
+  </m-container>
 </template>
 <script>
 import { nextTick, ref, toRefs, watch } from 'vue'
-import { useStore } from 'vuex'
-import { useMessage } from 'mkh-ui'
+import { useMessage, store } from 'mkh-ui'
 export default {
   props: {
     role: {
@@ -34,7 +35,6 @@ export default {
   setup(props) {
     const message = useMessage()
     const { menu: menuApi, role: roleApi } = mkh.api.admin
-    const store = useStore()
 
     const { role } = toRefs(props)
     const treeRef = ref()

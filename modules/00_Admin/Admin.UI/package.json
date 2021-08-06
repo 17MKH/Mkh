@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
-    "build:lib": "vite build --mode=lib",
+    "lib": "vite build --mode=lib",
     "serve": "vite preview",
     "cm": "rimraf node_modules",
     "cv": "rimraf node_modules/.vite"
@@ -17,7 +17,7 @@
   "dependencies": {
     "fast-glob": "^3.2.7",
     "js-base64": "^3.6.1",
-    "mkh-ui": "^0.1.1",
+    "mkh-ui": "^0.2.4",
     "vue": "^3.1.5",
     "vue-router": "^4.0.10",
     "vuex": "^4.0.0"
@@ -28,12 +28,12 @@
     "@vitejs/plugin-vue": "^1.2.5",
     "@vue/compiler-sfc": "^3.1.5",
     "ejs": "^3.1.6",
-    "eslint": "^7.31.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-vue": "^7.14.0",
+    "eslint-plugin-vue": "^7.15.1",
     "html-minifier-terser": "^5.1.1",
     "rimraf": "^3.0.2",
-    "sass": "^1.36.0",
+    "sass": "^1.37.5",
     "vite": "^2.4.3"
   },
   "files": [

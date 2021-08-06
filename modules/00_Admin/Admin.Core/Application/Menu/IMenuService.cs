@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Mkh.Mod.Admin.Core.Application.Menu.Dto;
 using Mkh.Mod.Admin.Core.Domain.Menu;
-using Mkh.Utils.Models;
 
 namespace Mkh.Mod.Admin.Core.Application.Menu
 {

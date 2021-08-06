@@ -1,7 +1,8 @@
-﻿// ReSharper disable once CheckNamespace
+﻿using System.Collections.Generic;
+
+// ReSharper disable once CheckNamespace
 namespace Mkh
 {
-
     /// <summary>
     /// 可选项返回模型
     /// </summary>
@@ -26,6 +27,11 @@ namespace Mkh
         /// 扩展数据
         /// </summary>
         public T Data { get; set; }
+
+        /// <summary>
+        /// 子级
+        /// </summary>
+        public List<OptionResultModel> Children { get; set; }
     }
 
     /// <summary>

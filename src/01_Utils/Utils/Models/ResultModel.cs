@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Mkh.Utils.Models
+// ReSharper disable once CheckNamespace
+namespace Mkh
 {
     /// <summary>
     /// 返回结果

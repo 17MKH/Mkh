@@ -2,9 +2,12 @@
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions.Annotations;
 using Mkh.Mod.Admin.Core.Application.MenuGroup.Dto;
+using Mkh.Mod.Admin.Core.Domain.Menu;
 using Mkh.Mod.Admin.Core.Domain.MenuGroup;
+using Mkh.Mod.Admin.Core.Domain.Role;
+using Mkh.Mod.Admin.Core.Domain.RoleMenu;
+using Mkh.Mod.Admin.Core.Domain.RolePermission;
 using Mkh.Utils.Map;
-using Mkh.Utils.Models;
 
 namespace Mkh.Mod.Admin.Core.Application.MenuGroup
 {
@@ -12,11 +15,19 @@ namespace Mkh.Mod.Admin.Core.Application.MenuGroup
     {
         private readonly IMapper _mapper;
         private readonly IMenuGroupRepository _repository;
+        private readonly IRoleRepository _roleRepository;
+        private readonly IMenuRepository _menuRepository;
+        private readonly IRoleMenuRepository _roleMenuRepository;
+        private readonly IRolePermissionRepository _rolePermissionRepository;
 
-        public MenuGroupService(IMapper mapper, IMenuGroupRepository repository)
+        public MenuGroupService(IMapper mapper, IMenuGroupRepository repository, IRoleRepository roleRepository, IMenuRepository menuRepository, IRoleMenuRepository roleMenuRepository, IRolePermissionRepository rolePermissionRepository)
         {
             _mapper = mapper;
             _repository = repository;
+            _roleRepository = roleRepository;
+            _menuRepository = menuRepository;
+            _roleMenuRepository = roleMenuRepository;
+            _rolePermissionRepository = rolePermissionRepository;
         }
 
         public Task<IResultModel> Query(MenuGroupQueryDto dto)
@@ -60,17 +71,28 @@ namespace Mkh.Mod.Admin.Core.Application.MenuGroup
         [Transaction]
         public async Task<IResultModel> Delete(int id)
         {
-            //如果菜单分组无数据，则将新增的分组激活状态设置为true
-            if (await _repository.Find().ToCount() < 2)
-            {
-                return ResultModel.Failed("系统需要至少一个菜单分组");
-            }
-
-            var entity = await _repository.Get(id);
-            if (entity == null)
+            if (!await _repository.Exists(id))
                 return ResultModel.NotExists;
 
+            //如果有角色绑定了该菜单分组，则不允许删除
+            if (await _roleRepository.Find(m => m.MenuGroupId == id).ToExists())
+                return ResultModel.Failed("有角色绑定了该菜单分组，不允许删除");
+
             var result = await _repository.Delete(id);
+            if (result)
+            {
+                //删除关联菜单
+                var task1 = _menuRepository.Find(m => m.GroupId == id).ToDelete();
+                //删除角色绑定的该分组的菜单信息
+                var task2 = _roleMenuRepository.Find(m => m.MenuGroupId == id).ToDelete();
+                //删除角色绑定的该分组的权限信息
+                var task3 = _rolePermissionRepository.Find(m => m.MenuGroupId == id).ToDelete();
+
+                await task1;
+                await task2;
+                await task3;
+            }
+
             return ResultModel.Result(result);
         }
 

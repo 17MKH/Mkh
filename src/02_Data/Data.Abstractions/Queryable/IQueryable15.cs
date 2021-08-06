@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions.Entities;
 using Mkh.Data.Abstractions.Pagination;
-using Mkh.Utils.Models;
 
 namespace Mkh.Data.Abstractions.Queryable
 {

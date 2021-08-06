@@ -7,7 +7,7 @@
             <m-flex-fixed class="m-text-center m-padding-b-10">
               <m-flex-row>
                 <m-flex-auto>
-                  <m-select ref="groupSelectRef" v-model="group.id" v-model:label="group.name" :action="groupSelectAction" checked-first></m-select>
+                  <m-select ref="groupSelectRef" v-model="group.id" v-model:label="group.name" :action="$mkh.api.admin.menuGroup.select" checked-first></m-select>
                 </m-flex-auto>
                 <m-flex-fixed>
                   <m-button type="primary" text="分组管理" :code="page.buttons.group.code" class="m-margin-l-5" size="small" @click="showGroup = true" />
@@ -59,7 +59,6 @@ export default {
   components: { List, Group },
   setup() {
     const api = mkh.api.admin.menu
-    const { select: groupSelectAction } = mkh.api.admin.menuGroup
 
     const group = reactive({ id: 0, name: '' })
     const parent = reactive({ id: 0, type: 0, path: [] })
@@ -151,7 +150,6 @@ export default {
 
     return {
       page,
-      groupSelectAction,
       parent,
       group,
       treeData,

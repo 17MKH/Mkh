@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Dapper;
@@ -146,16 +145,16 @@ namespace Mkh.Data.Adapter.SqlServer
                         var key = con.ExecuteScalar<string>($"SELECT name FROM sys.key_constraints WHERE parent_object_id = OBJECT_ID('{descriptor.TableName}')");
                         if (key.NotNull())
                         {
-                            con.Execute($"ALTER TABLE Article DROP CONSTRAINT {key}");
+                            con.Execute($"ALTER TABLE {AppendQuote(descriptor.TableName)} DROP CONSTRAINT {key}");
                         }
                     }
                     //删除默认值约束
                     if (column.DefaultValue.NotNull())
                     {
-                        var key = con.ExecuteScalar<string>($"SELECT name FROM sys.default_constraints WHERE parent_column_id=(SELECT column_id FROM sys.columns WHERE [object_id] = OBJECT_ID('{descriptor.TableName}') AND name = '{column.Name}')");
+                        var key = con.ExecuteScalar<string>($"SELECT name FROM sys.default_constraints WHERE parent_object_id = OBJECT_ID('{descriptor.TableName}') AND parent_column_id=(SELECT column_id FROM sys.columns WHERE [object_id] = OBJECT_ID('{descriptor.TableName}') AND name = '{column.Name}')");
                         if (key.NotNull())
                         {
-                            con.Execute($"ALTER TABLE Article DROP CONSTRAINT {key}");
+                            con.Execute($"ALTER TABLE {AppendQuote(descriptor.TableName)} DROP CONSTRAINT {key}");
                         }
                     }
                     var deleteSql = $"ALTER TABLE {AppendQuote(descriptor.TableName)} DROP COLUMN {AppendQuote(column.Name)};";
@@ -189,6 +188,11 @@ namespace Mkh.Data.Adapter.SqlServer
             //类型修改
             if (!descriptor.TypeName.EqualsIgnoreCase(schema.DataType))
                 return true;
+
+            if (descriptor.TypeName == "SMALLINT")
+            {
+
+            }
 
             switch (descriptor.TypeName)
             {

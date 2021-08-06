@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
-using Mkh.Utils.Models;
 
 namespace Mkh.Mod.Admin.Core.Application.Account
 {

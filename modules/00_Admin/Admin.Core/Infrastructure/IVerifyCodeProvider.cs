@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Mkh.Utils.Models;
 
 namespace Mkh.Mod.Admin.Core.Infrastructure
 {

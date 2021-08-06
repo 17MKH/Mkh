@@ -7,7 +7,6 @@ using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Domain.Role;
 using Mkh.Mod.Admin.Core.Infrastructure;
 using Mkh.Utils.Map;
-using Mkh.Utils.Models;
 
 namespace Mkh.Mod.Admin.Core.Application.Account
 {

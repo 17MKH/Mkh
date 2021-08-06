@@ -1,15 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Mkh.Cache.Abstractions;
 using Mkh.Data.Abstractions.Annotations;
 using Mkh.Mod.Admin.Core.Application.Role.Dto;
+using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Domain.MenuGroup;
 using Mkh.Mod.Admin.Core.Domain.Role;
 using Mkh.Mod.Admin.Core.Domain.RoleButton;
 using Mkh.Mod.Admin.Core.Domain.RoleMenu;
 using Mkh.Mod.Admin.Core.Domain.RolePermission;
+using Mkh.Mod.Admin.Core.Infrastructure;
 using Mkh.Utils.Map;
-using Mkh.Utils.Models;
 
 namespace Mkh.Mod.Admin.Core.Application.Role
 {
@@ -20,14 +23,20 @@ namespace Mkh.Mod.Admin.Core.Application.Role
         private readonly IRoleMenuRepository _roleMenuRepository;
         private readonly IRoleButtonRepository _roleButtonRepository;
         private readonly IRolePermissionRepository _rolePermissionRepository;
+        private readonly IAccountRepository _accountRepository;
+        private readonly ICacheHandler _cacheHandler;
+        private readonly AdminCacheKeys _cacheKeys;
 
-        public RoleService(IRoleRepository repository, IMapper mapper, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository)
+        public RoleService(IRoleRepository repository, IMapper mapper, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository, ICacheHandler cacheHandler, AdminCacheKeys cacheKeys, IAccountRepository accountRepository)
         {
             _repository = repository;
             _mapper = mapper;
             _roleMenuRepository = roleMenuRepository;
             _roleButtonRepository = roleButtonRepository;
             _rolePermissionRepository = rolePermissionRepository;
+            _cacheHandler = cacheHandler;
+            _cacheKeys = cacheKeys;
+            _accountRepository = accountRepository;
         }
 
         public Task<IResultModel> Query()
@@ -195,6 +204,19 @@ namespace Mkh.Mod.Admin.Core.Application.Role
 
                     await Task.WhenAll(tasks);
                 }
+            }
+
+            //清除关联账户的权限缓存
+            var accountIds = await _accountRepository.Find(m => m.RoleId == dto.RoleId).Select(m => m.Id).ToList<Guid>();
+            if (accountIds.Any())
+            {
+                var tasks = new List<Task>();
+                foreach (var accountId in accountIds)
+                {
+                    tasks.Add(_cacheHandler.Remove(_cacheKeys.AccountPermissions(accountId, 0)));
+                }
+
+                await Task.WhenAll(tasks);
             }
 
             return ResultModel.Success();

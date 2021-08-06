@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Mkh.Auth.Abstractions;
-using Mkh.Utils.Models;
 
 namespace Mkh.Auth.Jwt
 {

@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using Mkh.Utils.Annotations;
 using Mkh.Utils.Encrypt;
 using Mkh.Utils.File;
-using Mkh.Utils.Models;
-using Mkh.Utils.Result;
 
 namespace Mkh.Utils.Web.FileUpload
 {
