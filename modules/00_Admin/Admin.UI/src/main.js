@@ -1,7 +1,5 @@
 import { configure } from 'mkh-ui'
 import 'mkh-ui/lib/style.css'
-import 'mkh-skin-layui'
-import 'mkh-skin-layui/lib/style.css'
 import './index'
 
 configure({

@@ -37,7 +37,7 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             //自定义权限验证处理器
-            services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
             //添加数据访问的账户解析器实现
             services.AddSingleton<IAccountResolver, AccountResolver>();

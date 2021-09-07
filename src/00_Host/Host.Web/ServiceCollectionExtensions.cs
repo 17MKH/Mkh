@@ -1,10 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Core;
 using Mkh.Host.Web.Swagger.Conventions;
 using Mkh.Module.Abstractions;
@@ -94,6 +96,19 @@ namespace Mkh.Host.Web
                 var dbBuilder = services.AddMkhDb(dbContextType, opt =>
                 {
                     opt.Provider = dbOptions.Provider;
+
+                    //Sqlite数据库自动创建数据库文件
+                    if (dbOptions.ConnectionString.IsNull() && dbOptions.Provider == DbProvider.Sqlite)
+                    {
+                        string dbFilePath = Path.Combine(AppContext.BaseDirectory, "db");
+                        if (!Directory.Exists(dbFilePath))
+                        {
+                            Directory.CreateDirectory(dbFilePath);
+                        }
+
+                        dbOptions.ConnectionString = $"Data Source={dbFilePath}/{module.Code}.db;Mode=ReadWriteCreate";
+                    }
+
                     opt.ConnectionString = dbOptions.ConnectionString;
                     opt.Log = dbOptions.Log;
                     opt.TableNamePrefix = dbOptions.TableNamePrefix;

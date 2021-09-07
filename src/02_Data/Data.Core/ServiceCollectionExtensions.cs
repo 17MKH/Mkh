@@ -2,6 +2,7 @@ using System;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Mkh;
 using Mkh.Data.Abstractions;
+using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Logger;
 using Mkh.Data.Abstractions.Options;
 using Mkh.Data.Core;
@@ -37,7 +38,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             configure?.Invoke(options);
 
-            Check.NotNull(options.ConnectionString, "连接字符串未配置");
+            if (options.Provider != DbProvider.Sqlite)
+                Check.NotNull(options.ConnectionString, "连接字符串未配置");
 
             //添加仓储实例管理器
             services.AddScoped<IRepositoryManager, RepositoryManager>();

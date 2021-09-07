@@ -12,7 +12,7 @@ namespace Mkh.Data.Abstractions.Adapter
     /// </summary>
     public abstract class DbAdapterAbstract : IDbAdapter
     {
-        protected static SequentialGuidGenerator GuidGenerator = new SequentialGuidGenerator();
+        protected static SequentialGuidGenerator GuidGenerator = new();
 
         public abstract DbProvider Provider { get; }
 

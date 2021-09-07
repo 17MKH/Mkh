@@ -1,8 +1,9 @@
+using System.IO;
 using System.Linq;
 using System.Text;
 using Dapper;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Descriptors;
 using Mkh.Data.Abstractions.Options;
@@ -20,8 +21,10 @@ namespace Mkh.Data.Adapter.Sqlite
 
         public override bool CreateDatabase()
         {
-            //sqlite本身就包含自动创建数据库功能
-            return false;
+            var con = (SqliteConnection)Context.NewConnection();
+
+            //如果不存在数据库文件，后续会自动创建，所以这里需要以此判断是否创建库
+            return !File.Exists(con.DataSource);
         }
 
         #endregion

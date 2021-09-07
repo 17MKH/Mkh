@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "js-base64": "^3.6.1",
-    "mkh-skin-layui": "^0.0.4",
     "mkh-ui": "^0.4.3",
     "vue": "^3.2.6",
     "vue-router": "^4.0.11",

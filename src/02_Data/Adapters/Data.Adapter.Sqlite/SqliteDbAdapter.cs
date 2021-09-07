@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Text;
+using Dapper;
 using Microsoft.Data.Sqlite;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Descriptors;
@@ -10,6 +11,11 @@ namespace Mkh.Data.Adapter.Sqlite
 {
     public class SqliteDbAdapter : DbAdapterAbstract
     {
+        public SqliteDbAdapter()
+        {
+            SqlMapper.AddTypeHandler(new GuidTypeHandler());
+        }
+
         public override DbProvider Provider => DbProvider.MySql;
 
         /// <summary>
@@ -73,7 +79,7 @@ namespace Mkh.Data.Adapter.Sqlite
             {
                 if (!isNullable)
                 {
-                    descriptor.DefaultValue = "DEFAULT 0";
+                    descriptor.DefaultValue = "0";
                 }
 
                 descriptor.TypeName = "integer";
