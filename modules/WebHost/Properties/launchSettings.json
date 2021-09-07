@@ -8,8 +8,7 @@
       "applicationUrl": "http://localhost:6220",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Local"
-      },
-      "hotReloadProfile": "aspnetcore" 
+      }
     }
   }
 }

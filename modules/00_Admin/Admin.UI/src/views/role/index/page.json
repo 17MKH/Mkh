@@ -1,0 +1,29 @@
+{
+  "name": "admin_role",
+  "title": "角色管理",
+  "icon": "role",
+  "path": "/admin/role",
+  "permissions": ["admin_role_query_get"],
+  "buttons": {
+    "add": {
+      "text": "添加",
+      "code": "admin_role_add",
+      "permissions": ["admin_role_add_post"]
+    },
+    "edit": {
+      "text": "编辑",
+      "code": "admin_role_edit",
+      "permissions": ["admin_role_edit_get", "admin_role_update_post"]
+    },
+    "remove": {
+      "text": "删除",
+      "code": "admin_role_delete",
+      "permissions": ["admin_role_delete_delete"]
+    },
+    "bindMenu": {
+      "text": "菜单绑定",
+      "code": "admin_role_bindmenu",
+      "permissions": ["admin_menu_tree_get", "admin_role_QueryBindMenus_get", "admin_role_UpdateBindMenus_post"]
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "admin_account",
+  "title": "账户管理",
+  "icon": "user",
+  "path": "/admin/account",
+  "permissions": ["admin_account_query_get", "admin_account_DefaultPassword_get"],
+  "buttons": {
+    "add": {
+      "text": "添加",
+      "code": "admin_account_add",
+      "permissions": ["admin_account_add_post"]
+    },
+    "edit": {
+      "text": "编辑",
+      "code": "admin_account_edit",
+      "permissions": ["admin_account_edit_get", "admin_account_update_post"]
+    },
+    "remove": {
+      "text": "删除",
+      "code": "admin_account_delete",
+      "permissions": ["admin_account_delete_delete"]
+    }
+  }
+}

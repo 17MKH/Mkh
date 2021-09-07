@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
+using Mkh.Mod.Admin.Core.Domain.AccountSkin;
 using Mkh.Mod.Admin.Core.Domain.Role;
 using Mkh.Mod.Admin.Core.Infrastructure;
 using Mkh.Utils.Map;
@@ -17,14 +18,16 @@ namespace Mkh.Mod.Admin.Core.Application.Account
         private readonly IRoleRepository _roleRepository;
         private readonly IOptionsMonitor<AuthOptions> _authOptions;
         private readonly IPasswordHandler _passwordHandler;
+        private readonly IAccountSkinRepository _skinRepository;
 
-        public AccountService(IMapper mapper, IAccountRepository repository, IOptionsMonitor<AuthOptions> authOptions, IPasswordHandler passwordHandler, IRoleRepository roleRepository)
+        public AccountService(IMapper mapper, IAccountRepository repository, IOptionsMonitor<AuthOptions> authOptions, IPasswordHandler passwordHandler, IRoleRepository roleRepository, IAccountSkinRepository skinRepository)
         {
             _mapper = mapper;
             _repository = repository;
             _authOptions = authOptions;
             _passwordHandler = passwordHandler;
             _roleRepository = roleRepository;
+            _skinRepository = skinRepository;
         }
 
         public Task<IResultModel> Query(AccountQueryDto dto)
@@ -106,6 +109,31 @@ namespace Mkh.Mod.Admin.Core.Application.Account
             var result = await _repository.SoftDelete(id);
 
             return ResultModel.Result(result);
+        }
+
+        public async Task<IResultModel> UpdateSkin(AccountSkinUpdateDto dto)
+        {
+            var config = await _skinRepository.Find(m => m.AccountId == dto.AccountId).ToFirst();
+
+            if (config == null)
+            {
+                config = new AccountSkinEntity
+                {
+                    AccountId = dto.AccountId
+                };
+            }
+
+            config.Code = dto.Code;
+            config.Name = dto.Name;
+            config.Theme = dto.Theme;
+            config.Size = dto.Size;
+
+            if (config.Id < 1)
+            {
+                return ResultModel.Result(await _skinRepository.Add(config));
+            }
+
+            return ResultModel.Result(await _skinRepository.Update(config));
         }
     }
 }

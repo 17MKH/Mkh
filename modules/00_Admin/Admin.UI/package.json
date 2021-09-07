@@ -15,26 +15,26 @@
     "cv": "rimraf node_modules/.vite"
   },
   "dependencies": {
-    "fast-glob": "^3.2.7",
     "js-base64": "^3.6.1",
-    "mkh-ui": "^0.2.4",
-    "vue": "^3.1.5",
-    "vue-router": "^4.0.10",
+    "mkh-skin-layui": "^0.0.4",
+    "mkh-ui": "^0.4.3",
+    "vue": "^3.2.6",
+    "vue-router": "^4.0.11",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
-    "@rollup/plugin-image": "^2.0.6",
+    "@rollup/plugin-image": "^2.1.1",
     "@rollup/pluginutils": "^4.1.1",
-    "@vitejs/plugin-vue": "^1.2.5",
-    "@vue/compiler-sfc": "^3.1.5",
+    "@vitejs/plugin-vue": "^1.6.0",
+    "@vue/compiler-sfc": "^3.2.6",
     "ejs": "^3.1.6",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-vue": "^7.15.1",
+    "eslint-plugin-vue": "^7.17.0",
     "html-minifier-terser": "^5.1.1",
     "rimraf": "^3.0.2",
-    "sass": "^1.37.5",
-    "vite": "^2.4.3"
+    "sass": "^1.38.2",
+    "vite": "^2.5.3"
   },
   "files": [
     "lib"

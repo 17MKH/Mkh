@@ -111,6 +111,8 @@ namespace Mkh.Host.Web
                     {
                         opt.CreateDatabase = dbOptions.CreateDatabase;
                         opt.UpdateColumn = dbOptions.UpdateColumn;
+                        opt.InitData = dbOptions.InitData;
+                        opt.InitDataFilePath = module.DbInitFilePath;
                     });
                 }
 

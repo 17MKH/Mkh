@@ -56,7 +56,7 @@
 import { useList } from 'mkh-ui'
 import { computed, reactive, watch } from 'vue'
 import Save from '../save/index.vue'
-import page from '../index/page'
+import { buttons } from '../index/page.json'
 
 export default {
   components: { Save },
@@ -72,7 +72,6 @@ export default {
   },
   emits: ['change'],
   setup(props, { emit }) {
-    const { buttons } = page
     const { query, remove } = mkh.api.admin.menu
     const groupId = computed(() => props.group.id)
     const parentId = computed(() => props.parent.id)

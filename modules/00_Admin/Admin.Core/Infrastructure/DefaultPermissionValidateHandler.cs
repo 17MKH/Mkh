@@ -21,7 +21,7 @@ namespace Mkh.Mod.Admin.Core.Infrastructure
 
         public async Task<bool> Validate(IDictionary<string, object> routeValues, HttpMethod httpMethod)
         {
-            var permissions = await _accountPermissionResolver.Resolve(_account.AccountId, _account.Platform);
+            var permissions = await _accountPermissionResolver.Resolve(_account.Id, _account.Platform);
 
             var area = routeValues["area"];
             var controller = routeValues["controller"];

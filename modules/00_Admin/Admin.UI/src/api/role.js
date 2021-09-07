@@ -1,27 +1,15 @@
 const urls = {
+  /** 查询角色绑定的菜单信息 */
   QUERY_BIND_MENUS: 'Role/QueryBindMenus',
+  /** 更新角色绑定的菜单信息 */
   UPDATE_BIND_MENUS: 'Role/UpdateBindMenus',
+  /** 下拉列表 */
   SELECT: 'Role/Select',
 }
 export default http => {
-  /** 查询角色绑定的菜单信息 */
-  const queryBindMenus = params => {
-    return http.get(urls.QUERY_BIND_MENUS, params)
-  }
-
-  /** 更新角色绑定的菜单信息 */
-  const updateBindMenus = params => {
-    return http.post(urls.UPDATE_BIND_MENUS, params)
-  }
-
-  /** 下拉列表 */
-  const select = () => {
-    return http.get(urls.SELECT)
-  }
-
   return {
-    queryBindMenus,
-    updateBindMenus,
-    select,
+    queryBindMenus: params => http.get(urls.QUERY_BIND_MENUS, params),
+    updateBindMenus: params => http.post(urls.UPDATE_BIND_MENUS, params),
+    select: () => http.get(urls.SELECT),
   }
 }

@@ -77,7 +77,7 @@ namespace Mkh.Mod.Admin.Web.Controllers
         [AllowWhenAuthenticated]
         public Task<IResultModel> Profile()
         {
-            return _service.GetProfile(_account.AccountId, _account.Platform);
+            return _service.GetProfile(_account.Id, _account.Platform);
         }
     }
 }

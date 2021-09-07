@@ -1,0 +1,788 @@
+{
+  "Account": [
+    {
+      "Id": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "TenantId": null,
+      "RoleId": 1,
+      "Username": "admin",
+      "Password": "4489A6907505F8288B96FFA74F041C10",
+      "Name": "超级管理员",
+      "Phone": "",
+      "Email": "",
+      "Status": 1,
+      "ActivatedTime": "2021-06-22 09:00:00",
+      "Deleted": false,
+      "DeletedBy": null,
+      "Deleter": null,
+      "DeletedTime": null,
+      "CreatedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Creator": "OLDLI",
+      "CreatedTime": "2021-06-22 09:00:00",
+      "ModifiedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Modifier": "OLDLI",
+      "ModifiedTime": "2021-06-22 09:00:00"
+    }
+  ],
+  "MenuGroup": [
+    {
+      "Id": 1,
+      "Name": "通用权限管理平台",
+      "Remarks": "通用权限管理平台",
+      "CreatedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Creator": "OLDLI",
+      "CreatedTime": "2021-06-22 09:00:00",
+      "ModifiedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Modifier": "OLDLI",
+      "ModifiedTime": "2021-06-22 09:00:00"
+    }
+  ],
+  "Menu": [
+    {
+      "Id": 1,
+      "GroupId": 1,
+      "ParentId": 0,
+      "Type": 0,
+      "Name": "权限管理",
+      "Module": "",
+      "RouteName": "",
+      "RouteParams": "",
+      "RouteQuery": "",
+      "Url": "",
+      "Icon": "lock",
+      "IconColor": "",
+      "Level": 1,
+      "OpenTarget": 0,
+      "DialogWidth": "800px",
+      "DialogHeight": "600px",
+      "DialogFullscreen": false,
+      "CustomJs": "",
+      "Remarks": "",
+      "Show": true,
+      "Sort": 0,
+      "TypeName": "节点",
+      "OpenTargetName": "新窗口",
+      "CreatedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Creator": "超级管理员",
+      "CreatedTime": "2021-09-06 16:17:40",
+      "ModifiedBy": null,
+      "Modifier": null,
+      "ModifiedTime": null
+    },
+    {
+      "Id": 2,
+      "GroupId": 1,
+      "ParentId": 0,
+      "Type": 0,
+      "Name": "基础数据",
+      "Module": "",
+      "RouteName": "",
+      "RouteParams": "",
+      "RouteQuery": "",
+      "Url": "",
+      "Icon": "data",
+      "IconColor": "",
+      "Level": 1,
+      "OpenTarget": 0,
+      "DialogWidth": "800px",
+      "DialogHeight": "600px",
+      "DialogFullscreen": false,
+      "CustomJs": "",
+      "Remarks": "",
+      "Show": true,
+      "Sort": 0,
+      "TypeName": "节点",
+      "OpenTargetName": "新窗口",
+      "CreatedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Creator": "超级管理员",
+      "CreatedTime": "2021-09-06 16:17:53",
+      "ModifiedBy": null,
+      "Modifier": null,
+      "ModifiedTime": null
+    },
+    {
+      "Id": 3,
+      "GroupId": 1,
+      "ParentId": 1,
+      "Type": 1,
+      "Name": "菜单管理",
+      "Module": "admin",
+      "RouteName": "admin_menu",
+      "RouteParams": "",
+      "RouteQuery": "",
+      "Url": "",
+      "Icon": "menu",
+      "IconColor": "",
+      "Level": 2,
+      "OpenTarget": 0,
+      "DialogWidth": "800px",
+      "DialogHeight": "600px",
+      "DialogFullscreen": false,
+      "CustomJs": "",
+      "Remarks": "",
+      "Show": true,
+      "Sort": 2,
+      "TypeName": "路由",
+      "OpenTargetName": "新窗口",
+      "CreatedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Creator": "超级管理员",
+      "CreatedTime": "2021-09-06 16:18:05",
+      "ModifiedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Modifier": "超级管理员",
+      "ModifiedTime": "2021-09-06 16:36:08"
+    },
+    {
+      "Id": 4,
+      "GroupId": 1,
+      "ParentId": 1,
+      "Type": 1,
+      "Name": "角色管理",
+      "Module": "admin",
+      "RouteName": "admin_role",
+      "RouteParams": "",
+      "RouteQuery": "",
+      "Url": "",
+      "Icon": "role",
+      "IconColor": "",
+      "Level": 2,
+      "OpenTarget": 0,
+      "DialogWidth": "800px",
+      "DialogHeight": "600px",
+      "DialogFullscreen": false,
+      "CustomJs": "",
+      "Remarks": "",
+      "Show": true,
+      "Sort": 3,
+      "TypeName": "路由",
+      "OpenTargetName": "新窗口",
+      "CreatedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Creator": "超级管理员",
+      "CreatedTime": "2021-09-06 16:18:09",
+      "ModifiedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Modifier": "超级管理员",
+      "ModifiedTime": "2021-09-06 16:36:08"
+    },
+    {
+      "Id": 5,
+      "GroupId": 1,
+      "ParentId": 1,
+      "Type": 1,
+      "Name": "账户管理",
+      "Module": "admin",
+      "RouteName": "admin_account",
+      "RouteParams": "",
+      "RouteQuery": "",
+      "Url": "",
+      "Icon": "user",
+      "IconColor": "",
+      "Level": 2,
+      "OpenTarget": 0,
+      "DialogWidth": "800px",
+      "DialogHeight": "600px",
+      "DialogFullscreen": false,
+      "CustomJs": "",
+      "Remarks": "",
+      "Show": true,
+      "Sort": 4,
+      "TypeName": "路由",
+      "OpenTargetName": "新窗口",
+      "CreatedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Creator": "超级管理员",
+      "CreatedTime": "2021-09-06 16:18:11",
+      "ModifiedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Modifier": "超级管理员",
+      "ModifiedTime": "2021-09-06 16:36:08"
+    },
+    {
+      "Id": 6,
+      "GroupId": 1,
+      "ParentId": 2,
+      "Type": 1,
+      "Name": "字典管理",
+      "Module": "admin",
+      "RouteName": "admin_dict",
+      "RouteParams": "",
+      "RouteQuery": "",
+      "Url": "",
+      "Icon": "dict",
+      "IconColor": "",
+      "Level": 2,
+      "OpenTarget": 0,
+      "DialogWidth": "800px",
+      "DialogHeight": "600px",
+      "DialogFullscreen": false,
+      "CustomJs": "",
+      "Remarks": "",
+      "Show": true,
+      "Sort": 0,
+      "TypeName": "路由",
+      "OpenTargetName": "新窗口",
+      "CreatedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Creator": "超级管理员",
+      "CreatedTime": "2021-09-06 16:18:24",
+      "ModifiedBy": null,
+      "Modifier": null,
+      "ModifiedTime": null
+    },
+    {
+      "Id": 7,
+      "GroupId": 1,
+      "ParentId": 1,
+      "Type": 1,
+      "Name": "模块中心",
+      "Module": "admin",
+      "RouteName": "admin_module",
+      "RouteParams": "",
+      "RouteQuery": "",
+      "Url": "",
+      "Icon": "component",
+      "IconColor": "",
+      "Level": 2,
+      "OpenTarget": 0,
+      "DialogWidth": "800px",
+      "DialogHeight": "600px",
+      "DialogFullscreen": false,
+      "CustomJs": "",
+      "Remarks": "",
+      "Show": true,
+      "Sort": 1,
+      "TypeName": "路由",
+      "OpenTargetName": "新窗口",
+      "CreatedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Creator": "超级管理员",
+      "CreatedTime": "2021-09-06 16:36:04",
+      "ModifiedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Modifier": "超级管理员",
+      "ModifiedTime": "2021-09-06 16:36:08"
+    }
+  ],
+  "Role": [
+    {
+      "Id": 1,
+      "Name": "管理员",
+      "Code": "admin",
+      "Remarks": "管理员",
+      "Locked": false,
+      "MenuGroupId": 1,
+      "Deleted": false,
+      "DeletedBy": null,
+      "Deleter": null,
+      "DeletedTime": null,
+      "CreatedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Creator": "OLDLI",
+      "CreatedTime": "2021-06-22 09:00:00",
+      "ModifiedBy": "6722c640-4128-c0b5-e1cf-c05581152653",
+      "Modifier": "OLDLI",
+      "ModifiedTime": "2021-06-22 09:00:00"
+    }
+  ],
+  "RoleMenu": [
+    {
+      "Id": 7,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 1,
+      "MenuType": 0
+    },
+    {
+      "Id": 8,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 7,
+      "MenuType": 1
+    },
+    {
+      "Id": 9,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "MenuType": 1
+    },
+    {
+      "Id": 10,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 4,
+      "MenuType": 1
+    },
+    {
+      "Id": 11,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 5,
+      "MenuType": 1
+    },
+    {
+      "Id": 12,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 2,
+      "MenuType": 0
+    },
+    {
+      "Id": 13,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "MenuType": 1
+    }
+  ],
+  "RoleButton": [
+    {
+      "Id": 1,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "ButtonCode": "admin_menu_add"
+    },
+    {
+      "Id": 2,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "ButtonCode": "admin_menu_edit"
+    },
+    {
+      "Id": 3,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "ButtonCode": "admin_menu_remove"
+    },
+    {
+      "Id": 4,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "ButtonCode": "admin_menugroup_manage"
+    },
+    {
+      "Id": 5,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "ButtonCode": "admin_menugroup_add"
+    },
+    {
+      "Id": 6,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "ButtonCode": "admin_menugroup_edit"
+    },
+    {
+      "Id": 7,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "ButtonCode": "admin_menugroup_delete"
+    },
+    {
+      "Id": 8,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 4,
+      "ButtonCode": "admin_role_add"
+    },
+    {
+      "Id": 9,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 4,
+      "ButtonCode": "admin_role_edit"
+    },
+    {
+      "Id": 10,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 4,
+      "ButtonCode": "admin_role_delete"
+    },
+    {
+      "Id": 11,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 4,
+      "ButtonCode": "admin_role_bindmenu"
+    },
+    {
+      "Id": 12,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 5,
+      "ButtonCode": "admin_account_add"
+    },
+    {
+      "Id": 13,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 5,
+      "ButtonCode": "admin_account_edit"
+    },
+    {
+      "Id": 14,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 5,
+      "ButtonCode": "admin_account_delete"
+    },
+    {
+      "Id": 15,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "ButtonCode": "admin_dict_add"
+    },
+    {
+      "Id": 16,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "ButtonCode": "admin_dict_edit"
+    },
+    {
+      "Id": 17,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "ButtonCode": "admin_dict_delete"
+    },
+    {
+      "Id": 18,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "ButtonCode": "admin_dictgroup_add"
+    },
+    {
+      "Id": 19,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "ButtonCode": "admin_dictgroup_edit"
+    },
+    {
+      "Id": 20,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "ButtonCode": "admin_dictgroup_delete"
+    },
+    {
+      "Id": 21,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "ButtonCode": "admin_dictitem_add"
+    },
+    {
+      "Id": 22,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "ButtonCode": "admin_dictitem_edit"
+    },
+    {
+      "Id": 23,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "ButtonCode": "admin_dictitem_delete"
+    }
+  ],
+  "RolePermission": [
+    {
+      "Id": 1,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "PermissionCode": "admin_menu_tree_get"
+    },
+    {
+      "Id": 2,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "PermissionCode": "admin_menu_query_get"
+    },
+    {
+      "Id": 3,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "PermissionCode": "admin_menu_updatesort_post"
+    },
+    {
+      "Id": 4,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "PermissionCode": "admin_menugroup_select_get"
+    },
+    {
+      "Id": 5,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "PermissionCode": "admin_menu_add_post"
+    },
+    {
+      "Id": 6,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "PermissionCode": "admin_menu_edit_get"
+    },
+    {
+      "Id": 7,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "PermissionCode": "admin_menu_update_post"
+    },
+    {
+      "Id": 8,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "PermissionCode": "admin_menu_delete_delete"
+    },
+    {
+      "Id": 9,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "PermissionCode": "admin_menugroup_query_get"
+    },
+    {
+      "Id": 10,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "PermissionCode": "admin_menugroup_add_post"
+    },
+    {
+      "Id": 11,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "PermissionCode": "admin_menugroup_edit_get"
+    },
+    {
+      "Id": 12,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "PermissionCode": "admin_menugroup_update_post"
+    },
+    {
+      "Id": 13,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 3,
+      "PermissionCode": "admin_menugroup_delete_delete"
+    },
+    {
+      "Id": 14,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 4,
+      "PermissionCode": "admin_role_query_get"
+    },
+    {
+      "Id": 15,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 4,
+      "PermissionCode": "admin_role_add_post"
+    },
+    {
+      "Id": 16,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 4,
+      "PermissionCode": "admin_role_edit_get"
+    },
+    {
+      "Id": 17,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 4,
+      "PermissionCode": "admin_role_update_post"
+    },
+    {
+      "Id": 18,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 4,
+      "PermissionCode": "admin_role_delete_delete"
+    },
+    {
+      "Id": 19,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 4,
+      "PermissionCode": "admin_menu_tree_get"
+    },
+    {
+      "Id": 20,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 4,
+      "PermissionCode": "admin_role_querybindmenus_get"
+    },
+    {
+      "Id": 21,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 4,
+      "PermissionCode": "admin_role_updatebindmenus_post"
+    },
+    {
+      "Id": 22,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 5,
+      "PermissionCode": "admin_account_query_get"
+    },
+    {
+      "Id": 23,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 5,
+      "PermissionCode": "admin_account_defaultpassword_get"
+    },
+    {
+      "Id": 24,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 5,
+      "PermissionCode": "admin_account_add_post"
+    },
+    {
+      "Id": 25,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 5,
+      "PermissionCode": "admin_account_edit_get"
+    },
+    {
+      "Id": 26,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 5,
+      "PermissionCode": "admin_account_update_post"
+    },
+    {
+      "Id": 27,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 5,
+      "PermissionCode": "admin_account_delete_delete"
+    },
+    {
+      "Id": 28,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dict_query_get"
+    },
+    {
+      "Id": 29,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dictgroup_query_get"
+    },
+    {
+      "Id": 30,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dictitem_query_get"
+    },
+    {
+      "Id": 31,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dict_add_post"
+    },
+    {
+      "Id": 32,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dict_edit_get"
+    },
+    {
+      "Id": 33,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dict_update_post"
+    },
+    {
+      "Id": 34,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dict_delete_delete"
+    },
+    {
+      "Id": 35,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dictgroup_add_post"
+    },
+    {
+      "Id": 36,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dictgroup_edit_get"
+    },
+    {
+      "Id": 37,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dictgroup_update_post"
+    },
+    {
+      "Id": 38,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dictgroup_delete_delete"
+    },
+    {
+      "Id": 39,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dictitem_add_post"
+    },
+    {
+      "Id": 40,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dictitem_edit_get"
+    },
+    {
+      "Id": 41,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dictitem_update_post"
+    },
+    {
+      "Id": 42,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 6,
+      "PermissionCode": "admin_dictitem_delete_delete"
+    }
+  ]
+}

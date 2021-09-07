@@ -88,7 +88,7 @@ namespace Mkh.Data.Core
             _dbContextType.GetProperty("Logger")?.SetValue(DbContext, dbLogger);
             _dbContextType.GetProperty("Adapter")?.SetValue(DbContext, CreateDbAdapter(dbAdapterAssemblyName, dbAdapterAssembly));
             _dbContextType.GetProperty("SchemaProvider")?.SetValue(DbContext, CreateSchemaProvider(dbAdapterAssemblyName, dbAdapterAssembly));
-            _dbContextType.GetProperty("CodeFirstProvider")?.SetValue(DbContext, CreateCodeFirstProvider(dbAdapterAssemblyName, dbAdapterAssembly));
+            _dbContextType.GetProperty("CodeFirstProvider")?.SetValue(DbContext, CreateCodeFirstProvider(dbAdapterAssemblyName, dbAdapterAssembly, Services));
             _dbContextType.GetProperty("AccountResolver")?.SetValue(DbContext, accountResolver);
 
             // ReSharper disable once AssignNullToNotNullAttribute
@@ -125,11 +125,10 @@ namespace Mkh.Data.Core
         /// 创建数据库代码优先提供器实例
         /// </summary>
         /// <returns></returns>
-        private ICodeFirstProvider CreateCodeFirstProvider(string dbAdapterAssemblyName, Assembly dbAdapterAssembly)
+        private ICodeFirstProvider CreateCodeFirstProvider(string dbAdapterAssemblyName, Assembly dbAdapterAssembly, IServiceCollection services)
         {
             var schemaProviderType = dbAdapterAssembly.GetType($"{dbAdapterAssemblyName}.{Options.Provider}CodeFirstProvider");
-
-            return (ICodeFirstProvider)Activator.CreateInstance(schemaProviderType!, CodeFirstOptions, DbContext);
+            return (ICodeFirstProvider)Activator.CreateInstance(schemaProviderType!, CodeFirstOptions, DbContext, services);
         }
 
         /// <summary>
@@ -184,15 +183,15 @@ namespace Mkh.Data.Core
                         var initMethod = implementationType.GetMethod("Init", BindingFlags.Instance | BindingFlags.NonPublic);
                         initMethod!.Invoke(instance, new Object[] { DbContext });
 
-                            //保存仓储实例
-                            var manager = sp.GetService<IRepositoryManager>();
+                        //保存仓储实例
+                        var manager = sp.GetService<IRepositoryManager>();
                         manager?.Add((IRepository)instance);
 
                         return instance;
                     });
 
                     //保存仓储描述符
-                    DbContext.RepositoryDescriptors.Add(new RepositoryDescriptor(interfaceType, implementationType));
+                    DbContext.RepositoryDescriptors.Add(new RepositoryDescriptor(entityType, interfaceType, implementationType));
                 }
             }
         }

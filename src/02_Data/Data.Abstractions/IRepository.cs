@@ -136,20 +136,22 @@ namespace Mkh.Data.Abstractions
         /// <param name="commandType">命令类型</param>
         /// <returns></returns>
         Task<IEnumerable<T>> Query<T>(string sql, object param = null, IUnitOfWork uow = null, CommandType? commandType = null);
-    }
 
-    /// <summary>
-    /// 泛型仓储接口
-    /// </summary>
-    public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new()
-    {
         /// <summary>
         /// 新增
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="uow">工作单元</param>
         /// <returns></returns>
-        Task<bool> Add(TEntity entity, IUnitOfWork uow = null);
+        Task<bool> Add(dynamic entity, IUnitOfWork uow = null);
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="uow">工作单元</param>
+        /// <returns></returns>
+        Task<bool> Update(dynamic entity, IUnitOfWork uow = null);
 
         /// <summary>
         /// 删除
@@ -158,22 +160,6 @@ namespace Mkh.Data.Abstractions
         /// <param name="uow">工作单元</param>
         /// <returns></returns>
         Task<bool> Delete(dynamic id, IUnitOfWork uow = null);
-
-        /// <summary>
-        /// 更新
-        /// </summary>
-        /// <param name="entity">实体</param>
-        /// <param name="uow">工作单元</param>
-        /// <returns></returns>
-        Task<bool> Update(TEntity entity, IUnitOfWork uow = null);
-
-        /// <summary>
-        /// 根据主键查询
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="uow">工作单元</param>
-        /// <returns></returns>
-        Task<TEntity> Get(dynamic id, IUnitOfWork uow = null);
 
         /// <summary>
         /// 软删除
@@ -190,6 +176,20 @@ namespace Mkh.Data.Abstractions
         /// <param name="uow">工作单元</param>
         /// <returns></returns>
         Task<bool> Exists(dynamic id, IUnitOfWork uow = null);
+    }
+
+    /// <summary>
+    /// 泛型仓储接口
+    /// </summary>
+    public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new()
+    {
+        /// <summary>
+        /// 根据主键查询
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="uow">工作单元</param>
+        /// <returns></returns>
+        Task<TEntity> Get(dynamic id, IUnitOfWork uow = null);
 
         /// <summary>
         /// 查询

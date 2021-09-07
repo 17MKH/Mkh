@@ -41,9 +41,9 @@ namespace Mkh.Module.Abstractions
         public string Description { get; set; }
 
         /// <summary>
-        /// 初始化数据库脚本路径
+        /// 数据库初始化数据文件路径
         /// </summary>
-        public string DbInitScript { get; set; }
+        public string DbInitFilePath { get; set; }
 
         /// <summary>
         /// 模块配置项

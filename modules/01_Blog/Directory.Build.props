@@ -1,24 +1,26 @@
 ﻿<Project>
-  <PropertyGroup>
-    <Id>6221</Id>
-    <Code>Blog</Code>
-    <Name>个人博客</Name>
-    <Authors>Oldli</Authors>
-    <Icon>article</Icon>
-    <Version>0.0.1</Version>
-    <Description>17MKH Module Blog($(Name)) - $(MSBuildProjectName)</Description>
-    <NoWarn>$(NoWarn);1591</NoWarn>
-    <LangVersion>Latest</LangVersion>
-    <RootNamespacePrefix>Mkh.Mod</RootNamespacePrefix>
-    <AssemblyName>$(RootNamespacePrefix).$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>$(AssemblyName)</RootNamespace>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
-    <!--设置打包路径-->
-    <PackageOutputPath>$(SolutionDir)\_packages</PackageOutputPath>
-    <Company>Oldli</Company>
-    <Copyright>Oldli</Copyright>
-    <PackageProjectUrl></PackageProjectUrl>
-    <RepositoryUrl></RepositoryUrl>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Id>6221</Id>
+		<Code>Blog</Code>
+		<Name>个人博客</Name>
+		<Authors>Oldli</Authors>
+		<Icon>article</Icon>
+		<Version>0.0.1</Version>
+		<Description>17MKH Module Blog($(Name)) - $(MSBuildProjectName)</Description>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+		<LangVersion>Latest</LangVersion>
+		<!--禁用隐式命名空间导入，防止与自定义文件冲突-->
+		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+		<RootNamespacePrefix>Mkh.Mod</RootNamespacePrefix>
+		<AssemblyName>$(RootNamespacePrefix).$(MSBuildProjectName)</AssemblyName>
+		<RootNamespace>$(AssemblyName)</RootNamespace>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+		<!--设置打包路径-->
+		<PackageOutputPath>$(SolutionDir)\_packages</PackageOutputPath>
+		<Company>Oldli</Company>
+		<Copyright>Oldli</Copyright>
+		<PackageProjectUrl></PackageProjectUrl>
+		<RepositoryUrl></RepositoryUrl>
+	</PropertyGroup>
 </Project>

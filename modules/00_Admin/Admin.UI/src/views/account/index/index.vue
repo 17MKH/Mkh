@@ -31,12 +31,11 @@
 <script>
 import { useList, entityBaseCols } from 'mkh-ui'
 import { reactive } from 'vue'
-import page from '../index/page'
+import { title, icon, buttons } from './page.json'
 import Save from '../save/index.vue'
 export default {
   components: { Save },
   setup() {
-    const { title, icon, buttons } = page
     const { query, remove } = mkh.api.admin.account
     const model = reactive({ username: '', name: '', phone: '' })
     const cols = [

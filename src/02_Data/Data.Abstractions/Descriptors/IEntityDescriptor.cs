@@ -14,6 +14,11 @@ namespace Mkh.Data.Abstractions.Descriptors
         IDbContext DbContext { get; }
 
         /// <summary>
+        /// 实体名称
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// 表名称
         /// </summary>
         string TableName { get; }

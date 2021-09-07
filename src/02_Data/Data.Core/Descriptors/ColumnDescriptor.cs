@@ -45,7 +45,7 @@ namespace Mkh.Data.Core.Descriptors
         /// <summary>
         /// 长度(为0表示使用最大长度)
         /// </summary>
-        public int Length { get; }
+        public int Length { get; set; }
 
         /// <summary>
         /// 可空

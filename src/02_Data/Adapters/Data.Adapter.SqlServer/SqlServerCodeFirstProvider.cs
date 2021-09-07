@@ -3,29 +3,27 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using Dapper;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Descriptors;
 using Mkh.Data.Abstractions.Options;
 using Mkh.Data.Abstractions.Schema;
+using Mkh.Data.Core;
 
 namespace Mkh.Data.Adapter.SqlServer
 {
-    public class SqlServerCodeFirstProvider : ICodeFirstProvider
+    public class SqlServerCodeFirstProvider : CodeFirstProviderAbstract
     {
-        private readonly CodeFirstOptions _options;
-        private readonly IDbContext _context;
-
-        public SqlServerCodeFirstProvider(CodeFirstOptions options, IDbContext context)
+        public SqlServerCodeFirstProvider(CodeFirstOptions options, IDbContext context, IServiceCollection service) : base(options, context, service)
         {
-            _options = options;
-            _context = context;
         }
 
         #region ==创建库==
 
-        public void CreateDatabase()
+        public override bool CreateDatabase()
         {
-            var con = _context.NewConnection();
+            var con = Context.NewConnection();
 
             //数据库名称
             var databaseName = con.Database;
@@ -33,20 +31,20 @@ namespace Mkh.Data.Adapter.SqlServer
             * 创建数据库需要当前连接字符串使用的账户拥有对应的权限，并且需要使用mysql数据库
             */
             var connString = con.ConnectionString.Replace(databaseName, "master");
-            using var con1 = _context.NewConnection(connString);
+            using var con1 = Context.NewConnection(connString);
             con1.Open();
 
             //判断数据库是否存在
             var schemaProvider = new SqlServerSchemaProvider(con1);
-            var databaseExists = schemaProvider.IsExistsDatabase(databaseName);
-            if (databaseExists)
+            var isExistsDatabase = schemaProvider.IsExistsDatabase(databaseName);
+            if (isExistsDatabase)
             {
                 con.Close();
-                return;
+                return false;
             }
 
             //创建前事件
-            _options.BeforeCreateDatabase?.Invoke(_context);
+            Options.BeforeCreateDatabase?.Invoke(Context);
 
             //创建数据库
             schemaProvider.CreateDatabase(databaseName);
@@ -54,40 +52,42 @@ namespace Mkh.Data.Adapter.SqlServer
             con1.Close();
 
             //创建后事件
-            _options.BeforeCreateDatabase?.Invoke(_context);
+            Options.BeforeCreateDatabase?.Invoke(Context);
+
+            return true;
         }
 
         #endregion
 
         #region ==创建表==
 
-        public void CreateTable()
+        public override void CreateTable()
         {
             //创建表
-            foreach (var descriptor in _context.EntityDescriptors.Where(m => m.AutoCreate))
+            foreach (var descriptor in Context.EntityDescriptors.Where(m => m.AutoCreate))
             {
-                using var con = _context.NewConnection();
+                using var con = Context.NewConnection();
                 con.Open();
 
                 //判断表是否存在，只有不存时会执行创建操作并会触发对应的创建前后事件
-                if (_context.SchemaProvider.IsExistsTable(con.Database, descriptor.TableName))
+                if (Context.SchemaProvider.IsExistsTable(con.Database, descriptor.TableName))
                 {
                     //更新列
-                    if (_options.UpdateColumn)
+                    if (Options.UpdateColumn)
                         UpdateColumn(descriptor, con);
 
                     con.Close();
                 }
                 else
                 {
-                    _options.BeforeCreateTable?.Invoke(_context, descriptor);
+                    Options.BeforeCreateTable?.Invoke(Context, descriptor);
 
                     var sql = GenerateCreateTableSql(descriptor);
 
                     con.Execute(sql);
                     con.Close();
 
-                    _options.BeforeCreateTable?.Invoke(_context, descriptor);
+                    Options.BeforeCreateTable?.Invoke(Context, descriptor);
                 }
             }
         }
@@ -128,7 +128,7 @@ namespace Mkh.Data.Adapter.SqlServer
         /// </summary>
         private void UpdateColumn(IEntityDescriptor descriptor, IDbConnection con)
         {
-            var columns = _context.SchemaProvider.GetColumns(con.Database, descriptor.TableName);
+            var columns = Context.SchemaProvider.GetColumns(con.Database, descriptor.TableName);
             //保存删除后的列信息
             var cleanColumns = new List<ColumnSchema>();
 
@@ -279,7 +279,7 @@ namespace Mkh.Data.Adapter.SqlServer
 
         private string AppendQuote(string value)
         {
-            return _context.Adapter.AppendQuote(value);
+            return Context.Adapter.AppendQuote(value);
         }
     }
 }

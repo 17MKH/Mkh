@@ -6,7 +6,7 @@
     <ModuleInfo>{"Id": $(Id),"Name":"$(Name)","Code":"$(Code)","Icon":"$(Icon)","Version":"$(Version)","Description":"$(Description)"}</ModuleInfo>
   </PropertyGroup>
 
-  <!--生产_module.json文件-->
+  <!--生成_module.json文件-->
   <Target Name="ModulesBuild" AfterTargets="Build">
 
     <!--创建modules目录-->

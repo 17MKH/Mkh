@@ -33,7 +33,7 @@
 <script>
 import { computed, reactive, toRef, watch } from 'vue'
 import { useList, store } from 'mkh-ui'
-import page from '../../index/page'
+import { buttons } from '../../index/page.json'
 import Save from '../save/index.vue'
 export default {
   components: { Save },
@@ -74,7 +74,7 @@ export default {
     }
 
     return {
-      buttons: page.buttons,
+      buttons,
       model,
       cols,
       query,

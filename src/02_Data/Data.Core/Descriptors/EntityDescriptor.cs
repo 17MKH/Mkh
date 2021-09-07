@@ -24,6 +24,11 @@ namespace Mkh.Data.Core.Descriptors
         public IDbContext DbContext { get; }
 
         /// <summary>
+        /// 实体名称
+        /// </summary>
+        public string Name { get; private set; }
+
+        /// <summary>
         /// 表名称
         /// </summary>
         public string TableName { get; private set; }
@@ -76,6 +81,7 @@ namespace Mkh.Data.Core.Descriptors
         {
             Columns = new List<IColumnDescriptor>();
             DbContext = dbContext;
+            Name = entityType.Name.Substring(0, entityType.Name.Length - 6);
             EntityType = entityType;
             IsEntityBase = EntityType.IsSubclassOfGeneric(typeof(EntityBase<>));
             IsTenant = typeof(ITenant).IsAssignableFrom(EntityType);
@@ -105,7 +111,7 @@ namespace Mkh.Data.Core.Descriptors
             else
             {
                 //去掉Entity后缀
-                TableName = EntityType.Name.Substring(0, EntityType.Name.Length - 6);
+                TableName = Name;
 
                 //给表名称添加分隔符
                 if (DbContext.Options.TableNameSeparator.NotNull())

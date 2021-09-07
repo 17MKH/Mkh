@@ -1,4 +1,5 @@
-﻿using System.Text.Encodings.Web;
+﻿using System;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using Mkh.Utils.Annotations;
 using Mkh.Utils.Json.Converters;
@@ -50,6 +51,17 @@ namespace Mkh.Utils.Helpers
         public T Deserialize<T>(string json)
         {
             return JsonSerializer.Deserialize<T>(json, _options);
+        }
+
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <param name="json">json文本</param>
+        /// <param name="type">类型</param>
+        /// <returns></returns>
+        public object? Deserialize(string json, Type type)
+        {
+            return JsonSerializer.Deserialize(json, type, _options);
         }
     }
 }

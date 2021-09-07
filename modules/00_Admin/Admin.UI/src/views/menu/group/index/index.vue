@@ -20,13 +20,12 @@
 <script>
 import { useList, entityBaseCols } from 'mkh-ui'
 import { reactive } from 'vue'
-import page from '../../index/page'
+import { buttons } from '../../index/page.json'
 import Save from '../save/index.vue'
 export default {
   components: { Save },
   emits: ['change'],
   setup(props, { emit }) {
-    const { buttons } = page
     const { query, remove } = mkh.api.admin.menuGroup
     const model = reactive({ name: '' })
     const cols = [{ prop: 'id', label: '编号', width: '55', show: false }, { prop: 'name', label: '名称' }, { prop: 'remarks', label: '备注' }, ...entityBaseCols]

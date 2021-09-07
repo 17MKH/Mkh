@@ -1,47 +1,46 @@
 using System.Linq;
 using System.Text;
 using Dapper;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Descriptors;
 using Mkh.Data.Abstractions.Options;
+using Mkh.Data.Core;
 
 namespace Mkh.Data.Adapter.Sqlite
 {
-    public class SqliteCodeFirstProvider : ICodeFirstProvider
+    public class SqliteCodeFirstProvider : CodeFirstProviderAbstract
     {
-        private readonly CodeFirstOptions _options;
-        private readonly IDbContext _context;
-
-        public SqliteCodeFirstProvider(CodeFirstOptions options, IDbContext context)
+        public SqliteCodeFirstProvider(CodeFirstOptions options, IDbContext context, IServiceCollection service) : base(options, context, service)
         {
-            _options = options;
-            _context = context;
         }
 
         #region ==创建库==
 
-        public void CreateDatabase()
+        public override bool CreateDatabase()
         {
             //sqlite本身就包含自动创建数据库功能
+            return false;
         }
 
         #endregion
 
         #region ==创建表==
 
-        public void CreateTable()
+        public override void CreateTable()
         {
             //创建表
-            foreach (var descriptor in _context.EntityDescriptors.Where(m => m.AutoCreate))
+            foreach (var descriptor in Context.EntityDescriptors.Where(m => m.AutoCreate))
             {
-                using var con = _context.NewConnection();
+                using var con = Context.NewConnection();
                 con.Open();
 
                 //判断表是否存在，只有不存时会执行创建操作并会触发对应的创建前后事件
-                if (_context.SchemaProvider.IsExistsTable(con.Database, descriptor.TableName))
+                if (Context.SchemaProvider.IsExistsTable(con.Database, descriptor.TableName))
                 {
                     //更新列
-                    if (_options.UpdateColumn)
+                    if (Options.UpdateColumn)
                     {
                         //Sqlite不支持从一张表中删除列、添加列操作
                     }
@@ -50,14 +49,14 @@ namespace Mkh.Data.Adapter.Sqlite
                 }
                 else
                 {
-                    _options.BeforeCreateTable?.Invoke(_context, descriptor);
+                    Options.BeforeCreateTable?.Invoke(Context, descriptor);
 
                     var sql = GenerateCreateTableSql(descriptor);
 
                     con.Execute(sql);
                     con.Close();
 
-                    _options.BeforeCreateTable?.Invoke(_context, descriptor);
+                    Options.BeforeCreateTable?.Invoke(Context, descriptor);
                 }
             }
         }
@@ -127,7 +126,7 @@ namespace Mkh.Data.Adapter.Sqlite
 
         private string AppendQuote(string value)
         {
-            return _context.Adapter.AppendQuote(value);
+            return Context.Adapter.AppendQuote(value);
         }
     }
 }

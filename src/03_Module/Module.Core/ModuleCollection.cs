@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Hosting;
 using Mkh.Module.Abstractions;
@@ -73,7 +74,8 @@ namespace Mkh.Module.Core
             if (!File.Exists(jsonFilePath))
                 return;
 
-            var jsonStr = new StreamReader(jsonFilePath).ReadToEnd();
+            using var reader = new StreamReader(jsonFilePath, Encoding.UTF8);
+            var jsonStr = reader.ReadToEnd();
             var moduleDescriptor = JsonSerializer.Deserialize<ModuleDescriptor>(jsonStr);
             if (moduleDescriptor == null)
                 return;
@@ -85,6 +87,8 @@ namespace Mkh.Module.Core
             LoadServicesConfigurator(moduleDescriptor);
 
             LoadEnums(moduleDescriptor);
+
+            LoadDbInitFilePath(modulePath, moduleDescriptor);
 
             Add(moduleDescriptor);
         }
@@ -148,6 +152,18 @@ namespace Mkh.Module.Core
 
                 descriptor.EnumDescriptors.Add(enumDescriptor);
             }
+        }
+
+        /// <summary>
+        /// 加载数据库初始化数据文件路径
+        /// </summary>
+        private void LoadDbInitFilePath(string modulePath, ModuleDescriptor descriptor)
+        {
+            var filePath = Path.Combine(modulePath, Constants.DB_INIT_FILE_NAME);
+            if (!File.Exists(filePath))
+                return;
+
+            descriptor.DbInitFilePath = filePath;
         }
     }
 }

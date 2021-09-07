@@ -3,8 +3,6 @@ const urls = {
 }
 export default http => {
   return {
-    select() {
-      return http.get(urls.SELECT)
-    },
+    select: () => http.get(urls.SELECT),
   }
 }

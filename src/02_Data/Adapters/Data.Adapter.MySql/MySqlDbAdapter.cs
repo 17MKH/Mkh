@@ -87,7 +87,7 @@ namespace Mkh.Data.Adapter.MySql
             if (propertyType.IsGuid())
             {
                 columnDescriptor.TypeName = "CHAR";
-
+                columnDescriptor.Length = 36;
                 return;
             }
 

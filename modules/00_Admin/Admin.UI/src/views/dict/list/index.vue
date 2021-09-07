@@ -25,7 +25,7 @@
 <script>
 import { reactive, ref, toRefs, watch } from 'vue'
 import { useList, entityBaseCols, store } from 'mkh-ui'
-import page from '../index/page'
+import { buttons } from '../index/page.json'
 import Save from '../save/index.vue'
 import ItemDialog from '../item/index/index.vue'
 export default {
@@ -57,7 +57,7 @@ export default {
     })
 
     return {
-      buttons: page.buttons,
+      buttons,
       model,
       cols,
       query,

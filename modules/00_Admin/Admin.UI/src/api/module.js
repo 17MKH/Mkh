@@ -3,11 +3,7 @@ const urls = {
   GET_PERMISSIONS: 'Module/Permissions',
 }
 export default http => {
-  const getPermissions = params => {
-    return http.get(urls.GET_PERMISSIONS, params)
-  }
-
   return {
-    getPermissions,
+    getPermissions: params => http.get(urls.GET_PERMISSIONS, params),
   }
 }

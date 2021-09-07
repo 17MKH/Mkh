@@ -8,6 +8,11 @@ namespace Mkh.Data.Abstractions.Descriptors
     public interface IRepositoryDescriptor
     {
         /// <summary>
+        /// 实体类型
+        /// </summary>
+        Type EntityType { get; }
+
+        /// <summary>
         /// 仓储接口类型
         /// </summary>
         Type InterfaceType { get; }

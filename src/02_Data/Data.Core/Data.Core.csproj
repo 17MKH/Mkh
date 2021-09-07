@@ -1,20 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <Description>17mkh数据访问核心实现库</Description>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Description>17mkh数据访问核心实现库</Description>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Data.Abstractions\Data.Abstractions.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Data.Abstractions\Data.Abstractions.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="..\Data.Abstractions\Internal\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Include="..\Data.Abstractions\Internal\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.4.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0-preview.6.21352.12" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Castle.Core" Version="4.4.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0-preview.6.21352.12" />
+	</ItemGroup>
 
 </Project>

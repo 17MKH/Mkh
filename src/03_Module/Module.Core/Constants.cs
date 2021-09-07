@@ -19,5 +19,10 @@
         /// 模块的json文件名称
         /// </summary>
         public const string JSON_FILE_NAME = "_module.json";
+
+        /// <summary>
+        /// 模块数据库初始化数据文件名称
+        /// </summary>
+        public const string DB_INIT_FILE_NAME = "_initData.json";
     }
 }

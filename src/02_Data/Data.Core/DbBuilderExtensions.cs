@@ -1,6 +1,7 @@
 using System;
 using Castle.DynamicProxy;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Mkh;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Options;
@@ -52,19 +53,29 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 if (provider != null)
                 {
+                    //是否创建了数据库，只有创建了数据库才会执行初始化数据的操作
+                    var isCreatedDatabase = false;
+
                     //先有库
                     if (options.CreateDatabase)
                     {
-                        provider.CreateDatabase();
+                        isCreatedDatabase = provider.CreateDatabase();
                     }
 
                     //后有表
                     provider.CreateTable();
+
+                    //初始化数据
+                    if (isCreatedDatabase)
+                    {
+                        provider.InitData(builder.Services.GetService<IRepositoryManager>());
+                    }
                 }
             });
 
             return builder;
         }
+
 
         /// <summary>
         /// 添加事务特性功能

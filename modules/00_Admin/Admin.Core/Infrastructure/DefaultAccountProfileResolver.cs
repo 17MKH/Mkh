@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mkh.Mod.Admin.Core.Application.Authorize.Vo;
 using Mkh.Mod.Admin.Core.Domain.Account;
+using Mkh.Mod.Admin.Core.Domain.AccountSkin;
 using Mkh.Mod.Admin.Core.Domain.Menu;
 using Mkh.Mod.Admin.Core.Domain.RoleButton;
 using Mkh.Mod.Admin.Core.Domain.RoleMenu;
@@ -15,15 +16,17 @@ namespace Mkh.Mod.Admin.Core.Infrastructure
     /// </summary>
     public class DefaultAccountProfileResolver : IAccountProfileResolver
     {
+        private readonly IMapper _mapper;
         private readonly IRoleMenuRepository _roleMenuRepository;
         private readonly IRoleButtonRepository _roleButtonRepository;
-        private readonly IMapper _mapper;
+        private readonly IAccountSkinRepository _accountSkinRepository;
 
-        public DefaultAccountProfileResolver(IRoleMenuRepository roleMenuRepository, IMapper mapper, IRoleButtonRepository roleButtonRepository)
+        public DefaultAccountProfileResolver(IRoleMenuRepository roleMenuRepository, IMapper mapper, IRoleButtonRepository roleButtonRepository, IAccountSkinRepository accountSkinRepository)
         {
             _roleMenuRepository = roleMenuRepository;
             _mapper = mapper;
             _roleButtonRepository = roleButtonRepository;
+            _accountSkinRepository = accountSkinRepository;
         }
 
         public async Task<ProfileVo> Resolve(AccountEntity account, int platform)
@@ -37,13 +40,24 @@ namespace Mkh.Mod.Admin.Core.Infrastructure
                 Name = account.Name,
                 Phone = account.Phone,
                 Email = account.Email,
-                Skin = new ProfileSkinVo
-                {
-                    Code = "brief",
-                    Size = "small",
-                    Theme = "dark"
-                },
             };
+
+            //读取账户皮肤配置信息
+            var accountSkin = await _accountSkinRepository.Find(m => m.AccountId == account.Id).ToFirst();
+            if (accountSkin != null)
+            {
+                vo.Skin = new ProfileSkinVo
+                {
+                    Name = accountSkin.Name,
+                    Code = accountSkin.Code,
+                    Theme = accountSkin.Theme,
+                    Size = accountSkin.Size
+                };
+            }
+            else
+            {
+                vo.Skin = new ProfileSkinVo();
+            }
 
             var menus = _roleMenuRepository.Find().InnerJoin<MenuEntity>(m => m.T1.MenuId == m.T2.Id)
                 .Where(m => m.T1.RoleId == account.RoleId)

@@ -76,6 +76,7 @@ namespace Mkh.Mod.Admin.Web.Controllers
         /// <param name="dictCode">字典编码</param>
         /// <returns></returns>
         [AllowWhenAuthenticated]
+        [HttpGet]
         public Task<IResultModel> Select([BindRequired] string groupCode, [BindRequired] string dictCode)
         {
             return _service.Select(groupCode, dictCode);
@@ -88,6 +89,7 @@ namespace Mkh.Mod.Admin.Web.Controllers
         /// <param name="dictCode">字典编码</param>
         /// <returns></returns>
         [AllowWhenAuthenticated]
+        [HttpGet]
         public Task<IResultModel> Tree([BindRequired] string groupCode, [BindRequired] string dictCode)
         {
             return _service.Tree(groupCode, dictCode);
@@ -100,6 +102,7 @@ namespace Mkh.Mod.Admin.Web.Controllers
         /// <param name="dictCode">字典编码</param>
         /// <returns></returns>
         [AllowWhenAuthenticated]
+        [HttpGet]
         public Task<IResultModel> Cascader([BindRequired] string groupCode, [BindRequired] string dictCode)
         {
             return _service.Cascader(groupCode, dictCode);

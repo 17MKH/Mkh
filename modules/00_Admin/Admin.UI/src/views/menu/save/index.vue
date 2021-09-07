@@ -133,7 +133,7 @@
   </m-form-dialog>
 </template>
 <script>
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive } from 'vue'
 import { useSave, withSaveProps } from 'mkh-ui'
 
 export default {
@@ -245,11 +245,13 @@ export default {
       }
     }
 
-    const handleRouteChange = routeNmae => {
-      let page = state.pages.find(m => m.name === routeNmae)
-      model.name = page.title
-      model.icon = page.icon
-      state.currPage = page
+    const handleRouteChange = routeName => {
+      let page = state.pages.find(m => m.name === routeName)
+      if (page) {
+        model.name = page.title
+        model.icon = page.icon
+        state.currPage = page
+      }
     }
 
     return {

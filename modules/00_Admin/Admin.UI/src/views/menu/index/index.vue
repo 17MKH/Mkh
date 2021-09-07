@@ -10,7 +10,7 @@
                   <m-select ref="groupSelectRef" v-model="group.id" v-model:label="group.name" :action="$mkh.api.admin.menuGroup.select" checked-first></m-select>
                 </m-flex-auto>
                 <m-flex-fixed>
-                  <m-button type="primary" text="分组管理" :code="page.buttons.group.code" class="m-margin-l-5" size="small" @click="showGroup = true" />
+                  <m-button type="primary" text="分组管理" :code="buttons.group.code" class="m-margin-l-5" size="small" @click="showGroup = true" />
                 </m-flex-fixed>
               </m-flex-row>
             </m-flex-fixed>
@@ -54,7 +54,7 @@ import { nextTick, reactive, ref } from 'vue'
 import List from '../list/index.vue'
 import Group from '../group/index/index.vue'
 import { watch } from 'vue'
-import page from './page'
+import { buttons } from './page.json'
 export default {
   components: { List, Group },
   setup() {
@@ -149,7 +149,7 @@ export default {
     })
 
     return {
-      page,
+      buttons,
       parent,
       group,
       treeData,

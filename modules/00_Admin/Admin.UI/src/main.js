@@ -1,11 +1,18 @@
 import { configure } from 'mkh-ui'
-// import 'mkh-ui/lib/style.css'
-import zhCN from '@mkh-locale/zh-cn'
-import en from '@mkh-locale/en'
+import 'mkh-ui/lib/style.css'
+import 'mkh-skin-layui'
+import 'mkh-skin-layui/lib/style.css'
 import './index'
 
-configure({ locale: { messages: [zhCN, en] } })
-
-mkh.config.component.login = 'k'
-mkh.config.site.title = '通用统一认证平台'
-mkh.config.http.global.baseURL = 'http://localhost:6220/api/'
+configure({
+  http: {
+    global: {
+      baseURL: 'http://localhost:6220/api/',
+    },
+  },
+  beforeMount({ config }) {
+    config.component.login = 'k'
+    config.site.title = '通用统一认证平台'
+    config.auth.enableButtonPermissions = false
+  },
+})

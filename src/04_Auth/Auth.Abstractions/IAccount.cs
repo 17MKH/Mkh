@@ -15,7 +15,7 @@ namespace Mkh.Auth.Abstractions
         /// <summary>
         /// 账户编号
         /// </summary>
-        Guid AccountId { get; }
+        Guid Id { get; }
 
         /// <summary>
         /// 账户名称

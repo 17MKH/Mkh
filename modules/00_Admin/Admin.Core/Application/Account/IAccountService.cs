@@ -39,5 +39,12 @@ namespace Mkh.Mod.Admin.Core.Application.Account
         /// <param name="id"></param>
         /// <returns></returns>
         Task<IResultModel> Delete(Guid id);
+
+        /// <summary>
+        /// 更新皮肤配置
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<IResultModel> UpdateSkin(AccountSkinUpdateDto dto);
     }
 }

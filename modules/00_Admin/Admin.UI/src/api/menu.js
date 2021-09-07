@@ -5,14 +5,8 @@ const urls = {
 }
 export default http => {
   return {
-    getGroupSelect() {
-      return http.get(urls.GROUP_SELECT)
-    },
-    getTree(params) {
-      return http.get(urls.TREE, params)
-    },
-    updateSort(sorts) {
-      return http.post(urls.UPDATE_SORT, sorts)
-    },
+    getGroupSelect: () => http.get(urls.GROUP_SELECT),
+    getTree: params => http.get(urls.TREE, params),
+    updateSort: sorts => http.post(urls.UPDATE_SORT, sorts),
   }
 }

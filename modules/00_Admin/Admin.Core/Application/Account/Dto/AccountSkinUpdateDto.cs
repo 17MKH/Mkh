@@ -1,27 +1,36 @@
-﻿namespace Mkh.Mod.Admin.Core.Application.Authorize.Vo
+﻿using System;
+using Mkh.Utils.Annotations;
+
+namespace Mkh.Mod.Admin.Core.Application.Account.Dto
 {
     /// <summary>
-    /// 个人信息皮肤
+    /// 账户皮肤更新
     /// </summary>
-    public class ProfileSkinVo
+    public class AccountSkinUpdateDto
     {
         /// <summary>
-        /// 名称
+        /// 账户编号
+        /// </summary>
+        [Ignore]
+        public Guid AccountId { get; set; }
+
+        /// <summary>
+        /// 皮肤名称
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// 编码
+        /// 皮肤编码
         /// </summary>
         public string Code { get; set; }
 
         /// <summary>
-        /// 主题
+        /// 皮肤主题
         /// </summary>
         public string Theme { get; set; }
 
         /// <summary>
-        /// 尺寸
+        /// 皮肤尺寸
         /// </summary>
         public string Size { get; set; }
     }

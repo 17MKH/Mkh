@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
+using Mkh.Auth.Abstractions;
+using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Mod.Admin.Core.Application.Account;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
@@ -15,11 +18,13 @@ namespace Mkh.Mod.Admin.Web.Controllers
     {
         private readonly IAccountService _service;
         private readonly IOptionsMonitor<AuthOptions> _authOptions;
+        private readonly IAccount _account;
 
-        public AccountController(IAccountService service, IOptionsMonitor<AuthOptions> authOptions)
+        public AccountController(IAccountService service, IOptionsMonitor<AuthOptions> authOptions, IAccount account)
         {
             _service = service;
             _authOptions = authOptions;
+            _account = account;
         }
 
         /// <summary>
@@ -82,6 +87,20 @@ namespace Mkh.Mod.Admin.Web.Controllers
         public IResultModel DefaultPassword()
         {
             return ResultModel.Success(_authOptions.CurrentValue.DefaultPassword);
+        }
+
+        /// <summary>
+        /// 更新账户皮肤配置
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [AllowWhenAuthenticated]
+        [HttpPost]
+        public Task<IResultModel> UpdateSkin(AccountSkinUpdateDto dto)
+        {
+            dto.AccountId = _account.Id;
+
+            return _service.UpdateSkin(dto);
         }
     }
 }

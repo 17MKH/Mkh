@@ -16,7 +16,7 @@
   <Import Project="..\..\module.build.targets" />
 
   <ItemGroup>
-    <Content Include="_modules*\**\_module.json" PackagePath="contentFiles\any\any">
+    <Content Include="_modules*\**\**" PackagePath="contentFiles\any\any">
       <Pack>true</Pack>
       <PackageCopyToOutput>true</PackageCopyToOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.5" />
   </ItemGroup>
 
 </Project>

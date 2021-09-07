@@ -24,6 +24,16 @@ namespace Mkh.Data.Abstractions.Options
         public bool UpdateColumn { get; set; }
 
         /// <summary>
+        /// 是否初始化数据
+        /// </summary>
+        public bool InitData { get; set; }
+
+        /// <summary>
+        /// 初始化数据的文件路径
+        /// </summary>
+        public string InitDataFilePath { get; set; }
+
+        /// <summary>
         /// 创建数据库前事件
         /// </summary>
         public Action<IDbContext> BeforeCreateDatabase { get; set; }

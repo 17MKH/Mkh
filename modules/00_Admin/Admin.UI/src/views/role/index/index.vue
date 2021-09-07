@@ -42,13 +42,12 @@
 <script>
 import { ref } from 'vue'
 import { useList } from 'mkh-ui'
-import page from './page'
+import { buttons } from './page.json'
 import Save from '../save/index.vue'
 import BindMenu from '../bind-menu/index.vue'
 export default {
   components: { Save, BindMenu },
   setup() {
-    const { buttons } = page
     const { query, remove } = mkh.api.admin.role
     const roles = ref([])
     const roleId = ref('')

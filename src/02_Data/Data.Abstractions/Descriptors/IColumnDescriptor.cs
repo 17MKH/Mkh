@@ -40,7 +40,7 @@ namespace Mkh.Data.Abstractions.Descriptors
         /// <summary>
         /// 长度(为0表示使用最大长度)
         /// </summary>
-        int Length { get; }
+        int Length { get; set; }
 
         /// <summary>
         /// 可空

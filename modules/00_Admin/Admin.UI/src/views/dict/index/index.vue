@@ -39,7 +39,7 @@
 <script>
 import { ref } from 'vue'
 import { useList } from 'mkh-ui'
-import page from './page'
+import { buttons } from './page.json'
 import List from '../list/index.vue'
 import GroupSave from '../group-save/index.vue'
 export default {
@@ -57,7 +57,7 @@ export default {
       listBoxRef.value.refresh()
     }
 
-    return { buttons: page.buttons, current, listBoxRef, selection, mode, saveVisible, add, edit, refresh, handleGroupChange }
+    return { buttons, current, listBoxRef, selection, mode, saveVisible, add, edit, refresh, handleGroupChange }
   },
 }
 </script>

@@ -34,7 +34,7 @@ namespace Mkh.Auth.Core
         /// <summary>
         /// 账户编号
         /// </summary>
-        public Guid AccountId
+        public Guid Id
         {
             get
             {

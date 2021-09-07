@@ -10,7 +10,7 @@ namespace Mkh.Data.Core.Repository
     /// </summary>
     public abstract partial class RepositoryAbstract<TEntity>
     {
-        public Task<bool> Add(TEntity entity, IUnitOfWork uow = null)
+        public Task<bool> Add(dynamic entity, IUnitOfWork uow = null)
         {
             return Add(entity, null, uow);
         }
