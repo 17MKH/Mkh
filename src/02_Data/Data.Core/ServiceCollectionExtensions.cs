@@ -38,9 +38,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
             configure?.Invoke(options);
 
-            if (options.Provider != DbProvider.Sqlite)
-                Check.NotNull(options.ConnectionString, "连接字符串未配置");
-
             //添加仓储实例管理器
             services.AddScoped<IRepositoryManager, RepositoryManager>();
 

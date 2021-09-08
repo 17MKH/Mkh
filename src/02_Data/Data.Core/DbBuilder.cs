@@ -54,6 +54,9 @@ namespace Mkh.Data.Core
 
         public void Build()
         {
+            if (Options.Provider != DbProvider.Sqlite)
+                Check.NotNull(Options.ConnectionString, "连接字符串未配置");
+
             //创建数据库上下文
             CreateDbContext();
 

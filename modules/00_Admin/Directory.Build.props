@@ -5,7 +5,7 @@
 		<Name>权限管理</Name>
 		<Authors>Oldli</Authors>
 		<Icon>permission</Icon>
-		<Version>0.0.1</Version>
+		<Version>1.0.0</Version>
 		<Description>17MKH Module Admin($(Name)) - $(MSBuildProjectName)</Description>
 		<NoWarn>$(NoWarn);1591</NoWarn>
 		<LangVersion>Latest</LangVersion>
@@ -14,13 +14,14 @@
 		<RootNamespacePrefix>Mkh.Mod</RootNamespacePrefix>
 		<AssemblyName>$(RootNamespacePrefix).$(MSBuildProjectName)</AssemblyName>
 		<RootNamespace>$(AssemblyName)</RootNamespace>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
 		<!--设置打包路径-->
 		<PackageOutputPath>$(SolutionDir)\_packages</PackageOutputPath>
-		<Company>Oldli</Company>
-		<Copyright>Oldli</Copyright>
-		<PackageProjectUrl></PackageProjectUrl>
-		<RepositoryUrl></RepositoryUrl>
+		<Company></Company>
+		<Copyright>Copyright：2020-2099</Copyright>
+		<PackageProjectUrl>https://www.17mkh.com/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/17mkh/Mkh</RepositoryUrl>
 	</PropertyGroup>
 </Project>

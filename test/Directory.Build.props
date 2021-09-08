@@ -1,0 +1,6 @@
+﻿<Project>
+	<PropertyGroup>
+		<!--禁用隐式命名空间导入，防止与自定义文件冲突-->
+		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+	</PropertyGroup>
+</Project>
