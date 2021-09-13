@@ -40,21 +40,21 @@ namespace Mkh.Module.Abstractions.Options
         /// <summary>
         /// 启用代码优先
         /// </summary>
-        public bool CodeFirst { get; set; }
+        public bool CodeFirst { get; set; } = true;
 
         /// <summary>
         /// 代码优先是否创建库
         /// </summary>
-        public bool CreateDatabase { get; set; }
+        public bool CreateDatabase { get; set; } = true;
 
         /// <summary>
         /// 代码优先是否更新列
         /// </summary>
-        public bool UpdateColumn { get; set; }
+        public bool UpdateColumn { get; set; } = true;
 
         /// <summary>
         /// 是否创建数据库后初始化数据
         /// </summary>
-        public bool InitData { get; set; }
+        public bool InitData { get; set; } = true;
     }
 }

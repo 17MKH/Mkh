@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Mkh.Mod.Admin.Web.Controllers
 {
     [SwaggerTag("菜单分组")]
-    public class MenuGroupController : BaseController
+    public class MenuGroupController : Web.ModuleController
     {
         private readonly IMenuGroupService _service;
 

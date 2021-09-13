@@ -14,7 +14,7 @@ namespace Mkh.Mod.Admin.Web.Controllers
     /// <summary>
     /// 身份认证
     /// </summary>
-    public class AuthorizeController : BaseController
+    public class AuthorizeController : Web.ModuleController
     {
         private readonly IAuthorizeService _service;
         private readonly IPResolver _ipResolver;

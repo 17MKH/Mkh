@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Mkh.Mod.Admin.Web.Controllers
 {
     [SwaggerTag("角色管理")]
-    public class RoleController : BaseController
+    public class RoleController : Web.ModuleController
     {
         private readonly IRoleService _service;
 

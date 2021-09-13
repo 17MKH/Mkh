@@ -9,7 +9,7 @@ namespace Mkh.Mod.Admin.Web.Controllers
 {
     [SwaggerTag("通用功能")]
     [AllowWhenAuthenticated]
-    public class CommonController : BaseController
+    public class CommonController : Web.ModuleController
     {
         private readonly IModuleCollection _moduleCollection;
 

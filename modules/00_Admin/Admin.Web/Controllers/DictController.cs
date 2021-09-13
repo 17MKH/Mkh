@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Mkh.Mod.Admin.Web.Controllers
 {
     [SwaggerTag("数据字典")]
-    public class DictController : BaseController
+    public class DictController : Web.ModuleController
     {
         private readonly IDictService _service;
 

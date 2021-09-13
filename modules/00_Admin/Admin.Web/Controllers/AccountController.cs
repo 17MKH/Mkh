@@ -16,7 +16,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Mkh.Mod.Admin.Web.Controllers
 {
     [SwaggerTag("账户管理")]
-    public class AccountController : BaseController
+    public class AccountController : Web.ModuleController
     {
         private readonly IAccountService _service;
         private readonly IAccount _account;

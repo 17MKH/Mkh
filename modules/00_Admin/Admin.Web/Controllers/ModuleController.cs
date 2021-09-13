@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Mkh.Mod.Admin.Web.Controllers
 {
     [SwaggerTag("模块管理")]
-    public class ModuleController : BaseController
+    public class ModuleController : Web.ModuleController
     {
         private readonly IPermissionResolver _permissionResolver;
 

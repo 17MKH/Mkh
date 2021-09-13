@@ -8,7 +8,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Mkh.Mod.Admin.Web.Controllers
 {
     [SwaggerTag("数据字典项")]
-    public class DictItemController : BaseController
+    public class DictItemController : Web.ModuleController
     {
         private readonly IDictItemService _service;
 

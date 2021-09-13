@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Mkh.Auth.Abstractions;
 using Mkh.Auth.Core;
 using Mkh.Auth.Jwt;
+using Mkh.Utils.Extensions;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection
@@ -23,8 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var services = builder.Services;
 
             //添加Jwt配置项
-            var jwtOptions = new JwtOptions();
-            builder.Configuration.GetSection("Mkh:Auth:Jwt").Bind(jwtOptions);
+            var jwtOptions = builder.Configuration.Get<JwtOptions>("Mkh:Auth:Jwt");
             services.AddSingleton(jwtOptions);
 
             //添加凭证构造器
