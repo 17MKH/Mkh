@@ -9,6 +9,8 @@ using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Mod.Admin.Core.Application.Account;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
+using Mkh.Mod.Admin.Core.Infrastructure;
+using Mkh.Utils.Config;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers
@@ -17,14 +19,14 @@ namespace Mkh.Mod.Admin.Web.Controllers
     public class AccountController : BaseController
     {
         private readonly IAccountService _service;
-        private readonly IOptionsMonitor<AuthOptions> _authOptions;
         private readonly IAccount _account;
+        private readonly IConfigProvider _configProvider;
 
-        public AccountController(IAccountService service, IOptionsMonitor<AuthOptions> authOptions, IAccount account)
+        public AccountController(IAccountService service, IAccount account, IConfigProvider configProvider)
         {
             _service = service;
-            _authOptions = authOptions;
             _account = account;
+            _configProvider = configProvider;
         }
 
         /// <summary>
@@ -86,7 +88,8 @@ namespace Mkh.Mod.Admin.Web.Controllers
         [HttpGet]
         public IResultModel DefaultPassword()
         {
-            return ResultModel.Success(_authOptions.CurrentValue.DefaultPassword);
+            var config = _configProvider.Get<AdminConfig>();
+            return ResultModel.Success(config.DefaultPassword);
         }
 
         /// <summary>

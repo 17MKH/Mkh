@@ -17,14 +17,11 @@ namespace Mkh.Module.Core
         /// <param name="services"></param>
         /// <param name="environment"></param>
         /// <param name="configuration"></param>
-        /// <param name="codes"></param>
         /// <returns></returns>
         public static IModuleCollection AddModulesCore(this IServiceCollection services, IHostEnvironment environment, IConfiguration configuration)
         {
-            var moduleOptionsList = configuration.Get<List<ModuleOptions>>("Mkh:Modules");
-
-            var modules = new ModuleCollection(environment);
-            modules.Load(moduleOptionsList);
+            var modules = new ModuleCollection(configuration);
+            modules.Load();
 
             services.AddSingleton<IModuleCollection>(modules);
 
@@ -36,8 +33,10 @@ namespace Mkh.Module.Core
         /// </summary>
         /// <param name="services"></param>
         /// <param name="modules"></param>
+        /// <param name="environment"></param>
+        /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddModuleServices(this IServiceCollection services, IModuleCollection modules)
+        public static IServiceCollection AddModuleServices(this IServiceCollection services, IModuleCollection modules, IHostEnvironment environment, IConfiguration configuration)
         {
             foreach (var module in modules)
             {
@@ -45,7 +44,18 @@ namespace Mkh.Module.Core
                     continue;
 
                 //加载模块初始化器
-                module.ServicesConfigurator?.Configure(services, modules.HostEnvironment);
+                if (module.ServicesConfigurator != null)
+                {
+                    var context = new ModuleConfigureContext
+                    {
+                        Modules = modules,
+                        Services = services,
+                        Environment = environment,
+                        Configuration = configuration
+                    };
+
+                    module.ServicesConfigurator.Configure(context);
+                }
 
                 services.AddApplicationServices(module);
             }

@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
-namespace Mkh.Module.Abstractions
+﻿namespace Mkh.Module.Abstractions
 {
     /// <summary>
     /// 模块服务配置器接口
@@ -12,8 +9,7 @@ namespace Mkh.Module.Abstractions
         /// <summary>
         /// 注入服务
         /// </summary>
-        /// <param name="services"></param>
-        /// <param name="environment"></param>
-        void Configure(IServiceCollection services, IHostEnvironment environment);
+        /// <param name="context"></param>
+        void Configure(ModuleConfigureContext context);
     }
 }

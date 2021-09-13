@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Extensions.Hosting;
 
 namespace Mkh.Module.Abstractions
 {
@@ -8,11 +7,6 @@ namespace Mkh.Module.Abstractions
     /// </summary>
     public interface IModuleCollection : IList<ModuleDescriptor>
     {
-        /// <summary>
-        /// 环境
-        /// </summary>
-        public IHostEnvironment HostEnvironment { get; }
-
         /// <summary>
         /// 根据模块编号获取模块信息
         /// </summary>

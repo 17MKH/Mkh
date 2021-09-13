@@ -18,10 +18,11 @@ namespace Mkh.Host.Web.Swagger
         /// <param name="services"></param>
         /// <param name="modules">模块集合</param>
         /// <param name="hostOptions"></param>
+        /// <param name="environment"></param>
         /// <returns></returns>
-        public static IServiceCollection AddSwagger(this IServiceCollection services, IModuleCollection modules, HostOptions hostOptions)
+        public static IServiceCollection AddSwagger(this IServiceCollection services, IModuleCollection modules, HostOptions hostOptions, IHostEnvironment environment)
         {
-            if (Check(modules, hostOptions))
+            if (Check(modules, hostOptions, environment))
             {
                 services.AddSwaggerGen(c =>
                 {
@@ -91,14 +92,10 @@ namespace Mkh.Host.Web.Swagger
         /// <summary>
         /// 启用Swagger
         /// </summary>
-        /// <param name="app"></param>
-        /// <param name="modules"></param>
-        /// <param name="hostOptions"></param>
-        /// <returns></returns>
-        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app, IModuleCollection modules, HostOptions hostOptions)
+        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app, IModuleCollection modules, HostOptions hostOptions, IHostEnvironment environment)
         {
             //手动开启或者开发模式下才会启用swagger功能
-            if (Check(modules, hostOptions))
+            if (Check(modules, hostOptions, environment))
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
@@ -121,14 +118,10 @@ namespace Mkh.Host.Web.Swagger
         /// <summary>
         /// 检测是否开启Swagger
         /// </summary>
-        /// <param name="modules"></param>
-        /// <param name="hostOptions"></param>
-        /// <returns></returns>
-        private static bool Check(IModuleCollection modules, HostOptions hostOptions)
+        private static bool Check(IModuleCollection modules, HostOptions hostOptions, IHostEnvironment environment)
         {
             //手动开启或者开发模式以及本地模式下才会启用swagger功能
-            return hostOptions.Swagger || modules.HostEnvironment.IsDevelopment() ||
-                   modules.HostEnvironment.EnvironmentName.Equals("Local");
+            return hostOptions.Swagger || environment.IsDevelopment() || environment.EnvironmentName.Equals("Local");
         }
     }
 }

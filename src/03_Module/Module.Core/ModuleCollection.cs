@@ -4,11 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using Mkh.Module.Abstractions;
 using Mkh.Module.Abstractions.Options;
 using Mkh.Utils.Abstracts;
 using Mkh.Utils.Helpers;
+using Mkh.Utils.Extensions;
 
 namespace Mkh.Module.Core
 {
@@ -18,13 +19,13 @@ namespace Mkh.Module.Core
     public class ModuleCollection : CollectionAbstract<ModuleDescriptor>, IModuleCollection
     {
         private AssemblyHelper _assemblyHelper;
+        private readonly IConfiguration _configuration;
 
-        public ModuleCollection(IHostEnvironment hostEnvironment)
+        public ModuleCollection(IConfiguration configuration)
         {
-            HostEnvironment = hostEnvironment;
+            _configuration = configuration;
         }
 
-        public IHostEnvironment HostEnvironment { get; }
 
         public ModuleDescriptor Get(int id)
         {
@@ -39,24 +40,33 @@ namespace Mkh.Module.Core
         /// <summary>
         /// 加载模块
         /// </summary>
-        public void Load(List<ModuleOptions> optionsList)
+        public void Load()
         {
             var modulesRootPath = Path.Combine(AppContext.BaseDirectory, Constants.ROOT_DIR);
             if (!Directory.Exists(modulesRootPath))
                 return;
 
-            var modulePaths = Directory.GetDirectories(modulesRootPath);
-            if (!modulePaths.Any())
+            var moduleDirs = Directory.GetDirectories(modulesRootPath);
+            if (!moduleDirs.Any())
                 return;
 
             _assemblyHelper = new AssemblyHelper();
-
-            //按照指定的模块编码顺序加载模块
-            foreach (var options in optionsList)
+            var optionsList = new List<ModuleOptions>();
+            foreach (var dir in moduleDirs)
             {
-                var modulePath = modulePaths.FirstOrDefault(m => Path.GetFileName(m)!.Split("_")[1].EqualsIgnoreCase(options.Code));
-                if (modulePath.NotNull())
-                    LoadModule(modulePath, options);
+                var code = Path.GetFileName(dir)!.Split("_")[1];
+                var options = _configuration.Get<ModuleOptions>($"Mkh:Modules:{code}");
+                if (options.Db != null)
+                {
+                    options.Code = code;
+                    options.Dir = dir;
+                    optionsList.Add(options);
+                }
+            }
+
+            foreach (var options in optionsList.OrderBy(m => m.Sort))
+            {
+                LoadModule(options);
             }
 
             //释放资源
@@ -66,11 +76,10 @@ namespace Mkh.Module.Core
         /// <summary>
         /// 加载模块
         /// </summary>
-        /// <param name="modulePath">模块路径</param>
         /// <param name="options"></param>
-        private void LoadModule(string modulePath, ModuleOptions options)
+        private void LoadModule(ModuleOptions options)
         {
-            var jsonFilePath = Path.Combine(modulePath, Constants.JSON_FILE_NAME);
+            var jsonFilePath = Path.Combine(options.Dir, Constants.JSON_FILE_NAME);
             if (!File.Exists(jsonFilePath))
                 return;
 
@@ -88,7 +97,7 @@ namespace Mkh.Module.Core
 
             LoadEnums(moduleDescriptor);
 
-            LoadDbInitFilePath(modulePath, moduleDescriptor);
+            LoadDbInitFilePath(options.Dir, moduleDescriptor);
 
             Add(moduleDescriptor);
         }

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using Mkh.Auth.Abstractions.Options;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Domain.AccountSkin;
 using Mkh.Mod.Admin.Core.Domain.Role;
 using Mkh.Mod.Admin.Core.Infrastructure;
+using Mkh.Utils.Config;
 using Mkh.Utils.Map;
 
 namespace Mkh.Mod.Admin.Core.Application.Account
@@ -16,18 +15,18 @@ namespace Mkh.Mod.Admin.Core.Application.Account
         private readonly IMapper _mapper;
         private readonly IAccountRepository _repository;
         private readonly IRoleRepository _roleRepository;
-        private readonly IOptionsMonitor<AuthOptions> _authOptions;
         private readonly IPasswordHandler _passwordHandler;
         private readonly IAccountSkinRepository _skinRepository;
+        private readonly IConfigProvider _configProvider;
 
-        public AccountService(IMapper mapper, IAccountRepository repository, IOptionsMonitor<AuthOptions> authOptions, IPasswordHandler passwordHandler, IRoleRepository roleRepository, IAccountSkinRepository skinRepository)
+        public AccountService(IMapper mapper, IAccountRepository repository, IPasswordHandler passwordHandler, IRoleRepository roleRepository, IAccountSkinRepository skinRepository, IConfigProvider configProvider)
         {
             _mapper = mapper;
             _repository = repository;
-            _authOptions = authOptions;
             _passwordHandler = passwordHandler;
             _roleRepository = roleRepository;
             _skinRepository = skinRepository;
+            _configProvider = configProvider;
         }
 
         public Task<IResultModel> Query(AccountQueryDto dto)
@@ -56,7 +55,8 @@ namespace Mkh.Mod.Admin.Core.Application.Account
             var account = _mapper.Map<AccountEntity>(dto);
             if (account.Password.IsNull())
             {
-                account.Password = _authOptions.CurrentValue.DefaultPassword;
+                var config = _configProvider.Get<AdminConfig>();
+                account.Password = config.DefaultPassword;
             }
 
             account.Password = _passwordHandler.Encrypt(account.Password);

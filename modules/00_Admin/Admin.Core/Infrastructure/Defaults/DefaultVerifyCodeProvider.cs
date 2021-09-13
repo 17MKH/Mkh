@@ -12,12 +12,12 @@ using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
-namespace Mkh.Mod.Admin.Core.Infrastructure
+namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults
 {
     /// <summary>
     /// 默认验证码提供器
     /// </summary>
-    public class DefaultVerifyCodeProvider : IVerifyCodeProvider
+    internal class DefaultVerifyCodeProvider : IVerifyCodeProvider
     {
 
         //颜色列表，用于验证码、噪线、噪点 

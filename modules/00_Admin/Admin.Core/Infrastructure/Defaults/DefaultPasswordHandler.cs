@@ -1,9 +1,9 @@
 ﻿using System;
 using Mkh.Utils.Encrypt;
 
-namespace Mkh.Mod.Admin.Core.Infrastructure
+namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults
 {
-    public class DefaultPasswordHandler : IPasswordHandler
+    internal class DefaultPasswordHandler : IPasswordHandler
     {
         private readonly Md5Encrypt _encrypt;
         private const string KEY = "mkh_";

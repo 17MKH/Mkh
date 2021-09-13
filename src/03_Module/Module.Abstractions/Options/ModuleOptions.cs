@@ -6,9 +6,19 @@
     public class ModuleOptions
     {
         /// <summary>
-        /// 模块编码
+        /// 编码
         /// </summary>
         public string Code { get; set; }
+
+        /// <summary>
+        /// 加载顺序
+        /// </summary>
+        public int Sort { get; set; }
+
+        /// <summary>
+        /// 目录
+        /// </summary>
+        public string Dir { get; set; }
 
         /// <summary>
         /// 数据库配置项

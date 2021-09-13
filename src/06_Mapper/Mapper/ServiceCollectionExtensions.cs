@@ -1,10 +1,11 @@
 ﻿using System;
 using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
+using Mkh.Mapper;
 using Mkh.Module.Abstractions;
 using Mkh.Utils.Annotations;
 
-namespace Mkh.Mapper
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {

@@ -9,12 +9,12 @@ using Mkh.Mod.Admin.Core.Domain.RoleButton;
 using Mkh.Mod.Admin.Core.Domain.RoleMenu;
 using Mkh.Utils.Map;
 
-namespace Mkh.Mod.Admin.Core.Infrastructure
+namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults
 {
     /// <summary>
     /// 默认账户资料解析器
     /// </summary>
-    public class DefaultAccountProfileResolver : IAccountProfileResolver
+    internal class DefaultAccountProfileResolver : IAccountProfileResolver
     {
         private readonly IMapper _mapper;
         private readonly IRoleMenuRepository _roleMenuRepository;

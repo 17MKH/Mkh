@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Mkh.Mod.Admin.Core.Infrastructure
+namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults
 {
-    public class DefaultCredentialClaimExtender : ICredentialClaimExtender
+    internal class DefaultCredentialClaimExtender : ICredentialClaimExtender
     {
         public Task Extend(List<Claim> claims, Guid accountId)
         {

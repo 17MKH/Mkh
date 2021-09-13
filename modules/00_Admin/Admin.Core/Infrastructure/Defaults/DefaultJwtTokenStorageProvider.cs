@@ -8,9 +8,9 @@ using Mkh.Auth.Jwt;
 using Mkh.Cache.Abstractions;
 using Mkh.Mod.Admin.Core.Domain.JwtAuthInfo;
 
-namespace Mkh.Mod.Admin.Core.Infrastructure
+namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults
 {
-    public class DefaultJwtTokenStorageProvider : IJwtTokenStorageProvider
+    internal class DefaultJwtTokenStorageProvider : IJwtTokenStorageProvider
     {
         private readonly IJwtAuthInfoRepository _repository;
         private readonly JwtOptions _jwtOptions;

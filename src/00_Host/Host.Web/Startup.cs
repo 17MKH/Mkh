@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -9,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Mkh.Host.Web.Middleware;
 using Mkh.Host.Web.Swagger;
-using Mkh.Mapper;
 using Mkh.Module.Abstractions;
 using Mkh.Module.Core;
 using Mkh.Module.Web;
@@ -40,7 +37,7 @@ namespace Mkh.Host.Web
             var modules = services.AddModulesCore(_env, _cfg);
 
             //添加Swagger
-            services.AddSwagger(modules, hostOptions);
+            services.AddSwagger(modules, hostOptions, _env);
 
             //添加缓存
             services.AddCache(_cfg);
@@ -65,7 +62,7 @@ namespace Mkh.Host.Web
             services.AddHttpClient();
 
             //添加模块的自定义特有的服务
-            services.AddModuleServices(modules);
+            services.AddModuleServices(modules, _env, _cfg);
 
             //添加身份认证和授权
             services.AddMkhAuth(_cfg).UseJwt();
@@ -125,7 +122,7 @@ namespace Mkh.Host.Web
             });
 
             //启用Swagger
-            app.UseSwagger(modules, hostOptions);
+            app.UseSwagger(modules, hostOptions, _env);
 
             //使用模块化
             app.UseModules(modules);

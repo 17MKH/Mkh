@@ -6,11 +6,6 @@
     public class AuthOptions
     {
         /// <summary>
-        /// 账户默认密码(新增账户或者重置密码时使用)
-        /// </summary>
-        public string DefaultPassword { get; set; }
-
-        /// <summary>
         /// 启用权限验证
         /// </summary>
         public bool EnablePermissionVerify { get; set; }

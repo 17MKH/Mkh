@@ -1,8 +1,6 @@
 using System;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Mkh;
 using Mkh.Data.Abstractions;
-using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Logger;
 using Mkh.Data.Abstractions.Options;
 using Mkh.Data.Core;

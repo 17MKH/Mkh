@@ -5,12 +5,12 @@ using Mkh.Cache.Abstractions;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Domain.RolePermission;
 
-namespace Mkh.Mod.Admin.Core.Infrastructure
+namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults
 {
     /// <summary>
     /// 默认账户权限解析器
     /// </summary>
-    public class DefaultAccountPermissionResolver : IAccountPermissionResolver
+    internal class DefaultAccountPermissionResolver : IAccountPermissionResolver
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IRolePermissionRepository _rolePermissionRepository;
