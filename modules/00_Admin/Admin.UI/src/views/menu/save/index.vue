@@ -237,7 +237,7 @@ export default {
 
     const handleModuleSelectChange = (code, mod) => {
       if (mod) {
-        state.pages = mod.data.pages
+        state.pages = mod.data.pages.filter(m => !m.noMenu)
         handleRouteChange(model.routeName)
       } else {
         state.pages = []

@@ -366,3 +366,4 @@ FodyWeavers.xsd
 /modules/00_Admin/Admin.UI/public
 /modules/01_Blog/Blog.UI/public
 MSBuild_Logs
+/modules/00_Admin/Admin.UI/package-lock.json
