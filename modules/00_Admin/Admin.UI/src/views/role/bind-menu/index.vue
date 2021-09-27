@@ -24,7 +24,7 @@
 </template>
 <script>
 import { nextTick, ref, toRefs, watch } from 'vue'
-import { useMessage, store } from 'mkh-ui'
+import { useMessage } from 'mkh-ui'
 export default {
   props: {
     role: {
@@ -33,6 +33,8 @@ export default {
     },
   },
   setup(props) {
+    const { store } = mkh
+
     const message = useMessage()
     const { menu: menuApi, role: roleApi } = mkh.api.admin
 

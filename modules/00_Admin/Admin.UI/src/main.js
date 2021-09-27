@@ -1,11 +1,10 @@
 import { configure } from 'mkh-ui'
-import 'mkh-ui/lib/style.css'
 import './index'
 
 configure({
   http: {
     global: {
-      baseURL: 'http://localhost:6221/api/',
+      baseURL: 'http://localhost:6220/api/',
     },
   },
   beforeMount({ config }) {

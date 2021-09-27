@@ -2,7 +2,7 @@
   "id": 0,
   "name": "mkh-mod-admin",
   "label": "权限管理",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "icon": "lock",
   "description": "17MKH权限管理模块",
   "main": "lib/index.es.js",
@@ -11,29 +11,26 @@
     "build": "vite build",
     "lib": "vite build --mode=lib",
     "serve": "vite preview",
-    "cm": "rimraf node_modules",
+    "cm": "rimraf node_modules && rimraf lib",
     "cv": "rimraf node_modules/.vite"
   },
   "dependencies": {
-    "js-base64": "^3.7.1",
-    "mkh-ui": "^0.4.8",
-    "vue": "^3.2.12",
-    "vue-router": "^4.0.11",
-    "vuex": "^4.0.0"
+    "js-base64": "^3.7.2",
+    "mkh-ui": "^0.5.7"
   },
   "devDependencies": {
     "@rollup/plugin-image": "^2.1.1",
     "@rollup/pluginutils": "^4.1.1",
-    "@vitejs/plugin-vue": "^1.6.2",
-    "@vue/compiler-sfc": "^3.2.12",
+    "@vitejs/plugin-vue": "^1.9.2",
+    "@vue/compiler-sfc": "^3.2.19",
     "ejs": "^3.1.6",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-vue": "^7.18.0",
     "html-minifier-terser": "^5.1.1",
     "rimraf": "^3.0.2",
-    "sass": "^1.41.1",
-    "vite": "^2.5.8"
+    "sass": "^1.42.1",
+    "vite": "^2.5.10"
   },
   "files": [
     "lib"

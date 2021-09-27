@@ -32,7 +32,7 @@
 </template>
 <script>
 import { computed, reactive, toRef, watch } from 'vue'
-import { useList, store } from 'mkh-ui'
+import { useList } from 'mkh-ui'
 import { buttons } from '../../index/page.json'
 import Save from '../save/index.vue'
 export default {
@@ -45,6 +45,8 @@ export default {
   },
   emits: ['change'],
   setup(props, { emit }) {
+    const { store } = mkh
+
     const { query, remove } = mkh.api.admin.dictItem
     const parentId = toRef(props, 'parentId')
 

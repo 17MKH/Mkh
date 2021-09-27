@@ -24,7 +24,7 @@
 </template>
 <script>
 import { reactive, ref, toRefs, watch } from 'vue'
-import { useList, entityBaseCols, store } from 'mkh-ui'
+import { useList, entityBaseCols } from 'mkh-ui'
 import { buttons } from '../index/page.json'
 import Save from '../save/index.vue'
 import ItemDialog from '../item/index/index.vue'
@@ -37,6 +37,8 @@ export default {
     },
   },
   setup(props) {
+    const { store } = mkh
+
     const { query, remove } = mkh.api.admin.dict
     const { groupCode } = toRefs(props)
 

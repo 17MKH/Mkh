@@ -36,7 +36,7 @@
 </template>
 <script>
 import { computed, reactive, ref } from 'vue'
-import { regex, useSave, withSaveProps, store } from 'mkh-ui'
+import { regex, useSave, withSaveProps } from 'mkh-ui'
 
 export default {
   props: {
@@ -44,6 +44,7 @@ export default {
   },
   emits: ['success'],
   setup(props, { emit }) {
+    const { store } = mkh
     const api = mkh.api.admin.account
     const model = reactive({ username: '', password: '', name: '', phone: '', email: '', remarks: '' })
     const rules = {

@@ -12,10 +12,11 @@
 </template>
 <script>
 import { computed, nextTick, reactive, ref, watch } from 'vue'
-import { store } from 'mkh-ui'
 export default {
   emits: ['change'],
   setup(props, { emit }) {
+    const { store } = mkh
+
     const currentKey = ref(0)
     const treeData = ref([])
     const treeRef = ref()

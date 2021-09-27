@@ -28,7 +28,7 @@
 </template>
 <script>
 import { reactive, ref } from 'vue'
-import { useSave, withSaveProps, store } from 'mkh-ui'
+import { useSave, withSaveProps } from 'mkh-ui'
 
 export default {
   props: {
@@ -40,6 +40,8 @@ export default {
   },
   emits: ['success'],
   setup(props, { emit }) {
+    const { store } = mkh
+
     const api = mkh.api.admin.dictItem
     const model = reactive({ groupCode: '', dictCode: '', parentId: '', name: '', value: '', icon: '', extend: '', sort: 0 })
     const rules = {

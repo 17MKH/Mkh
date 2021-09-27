@@ -783,6 +783,13 @@
       "MenuGroupId": 1,
       "MenuId": 6,
       "PermissionCode": "admin_dictitem_delete_delete"
+    },
+    {
+      "Id": 43,
+      "RoleId": 1,
+      "MenuGroupId": 1,
+      "MenuId": 7,
+      "PermissionCode": "admin_module_permissions_get"
     }
   ]
 }
