@@ -60,7 +60,7 @@ namespace Mkh.Mod.Admin.Core.Application.DictItem
                 await ClearCache(dto.GroupCode, dto.DictCode);
             }
 
-            return ResultModel.Success(result);
+            return ResultModel.Result(result);
         }
 
         public async Task<IResultModel> Edit(int id)

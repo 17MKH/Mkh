@@ -1,5 +1,5 @@
 <template>
-  <m-form-dialog v-bind="bind" v-on="on" @success="handleSuccess">
+  <m-form-dialog :model="model" :rules="rules" v-bind="bind" v-on="on" @success="handleSuccess">
     <el-alert v-if="isEdit" class="m-margin-b-20" title="不允许修改用户名和密码" type="warning"> </el-alert>
     <el-row>
       <el-col :span="12">
@@ -57,7 +57,7 @@ export default {
     const isEdit = computed(() => props.mode === 'edit')
 
     const nameRef = ref(null)
-    const { bind, on } = useSave({ title: '账户', props, api, model, rules, emit })
+    const { bind, on } = useSave({ title: '账户', props, api, model, emit })
     bind.autoFocusRef = nameRef
     bind.width = '700px'
 
@@ -79,6 +79,7 @@ export default {
 
     return {
       model,
+      rules,
       isEdit,
       bind,
       on,

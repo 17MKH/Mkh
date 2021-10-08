@@ -1,4 +1,4 @@
-import mod from '@mkh-mod-admin'
+import mod from '$mkh-mod-admin'
 
 mod.callback = ({ config }) => {
   const { login, refreshToken, getVerifyCode, getProfile } = mkh.api.admin.authorize

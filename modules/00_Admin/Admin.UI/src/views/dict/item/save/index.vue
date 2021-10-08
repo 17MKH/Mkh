@@ -1,5 +1,5 @@
 <template>
-  <m-form-dialog v-bind="bind" v-on="on">
+  <m-form-dialog :model="model" :rules="rules" v-bind="bind" v-on="on">
     <el-form-item label="名称：" prop="name">
       <el-input ref="nameRef" v-model="model.name" clearable />
     </el-form-item>
@@ -51,7 +51,7 @@ export default {
     }
 
     const nameRef = ref(null)
-    const { bind, on } = useSave({ title: '字典项', props, api, model, rules, emit })
+    const { bind, on } = useSave({ title: '字典项', props, api, model, emit })
     bind.autoFocusRef = nameRef
     bind.width = '700px'
     bind.beforeSubmit = () => {
@@ -65,6 +65,7 @@ export default {
 
     return {
       model,
+      rules,
       bind,
       on,
       nameRef,

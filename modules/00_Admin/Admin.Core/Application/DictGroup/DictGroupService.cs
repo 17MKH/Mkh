@@ -34,9 +34,9 @@ namespace Mkh.Mod.Admin.Core.Application.DictGroup
 
             var entity = _mapper.Map<DictGroupEntity>(dto);
 
-            var result = _repository.Add(entity);
+            var result = await _repository.Add(entity);
 
-            return ResultModel.Success(result);
+            return ResultModel.Result(result);
         }
 
         public async Task<IResultModel> Edit(int id)

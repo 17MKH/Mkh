@@ -1,5 +1,5 @@
 <template>
-  <m-form-dialog v-bind="bind" v-on="on">
+  <m-form-dialog :model="model" :rules="rules" v-bind="bind" v-on="on">
     <el-row>
       <el-col :span="24">
         <el-form-item label="父级菜单：">
@@ -208,7 +208,7 @@ export default {
 
     const state = reactive({ pages: [], currPage: null })
 
-    const { bind, on } = useSave({ title: '菜单', props, api, model, rules, emit })
+    const { bind, on } = useSave({ title: '菜单', props, api, model, emit })
     bind.width = '900px'
     bind.labelWidth = '130px'
     bind.closeOnSuccess = false
@@ -256,6 +256,7 @@ export default {
 
     return {
       model,
+      rules,
       bind,
       on,
       state,

@@ -1,5 +1,5 @@
 <template>
-  <m-form-dialog v-bind="bind" v-on="on">
+  <m-form-dialog :model="model" :rules="rules" v-bind="bind" v-on="on">
     <el-form-item label="菜单组：" prop="menuGroupId">
       <m-select v-model="model.menuGroupId" :action="$mkh.api.admin.menuGroup.select" checked-first></m-select>
     </el-form-item>
@@ -30,12 +30,13 @@ export default {
       code: [{ required: true, message: '请输入唯一编码' }],
     }
     const nameRef = ref(null)
-    const { bind, on } = useSave({ title: '角色', props, api, model, rules, emit })
+    const { bind, on } = useSave({ title: '角色', props, api, model, emit })
     bind.autoFocusRef = nameRef
     bind.width = '500px'
 
     return {
       model,
+      rules,
       bind,
       on,
       nameRef,
