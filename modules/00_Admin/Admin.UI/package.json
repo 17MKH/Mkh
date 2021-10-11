@@ -2,7 +2,7 @@
   "id": 0,
   "name": "mkh-mod-admin",
   "label": "权限管理",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "icon": "lock",
   "description": "17MKH权限管理模块",
   "main": "lib/index.es.js",
@@ -16,21 +16,21 @@
   },
   "dependencies": {
     "js-base64": "^3.7.2",
-    "mkh-ui": "^0.6.0"
+    "mkh-ui": "^0.6.6"
   },
   "devDependencies": {
     "@rollup/plugin-image": "^2.1.1",
     "@rollup/pluginutils": "^4.1.1",
-    "@vitejs/plugin-vue": "^1.9.2",
-    "@vue/compiler-sfc": "^3.2.19",
+    "@vitejs/plugin-vue": "^1.9.3",
+    "@vue/compiler-sfc": "^3.2.20",
     "ejs": "^3.1.6",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-vue": "^7.18.0",
+    "eslint-plugin-vue": "^7.19.1",
     "html-minifier-terser": "^5.1.1",
     "rimraf": "^3.0.2",
     "sass": "^1.42.1",
-    "vite": "^2.5.10"
+    "vite": "^2.6.7"
   },
   "files": [
     "lib"

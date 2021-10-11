@@ -20,6 +20,7 @@ export default {
     const query = () => {
       return queryEnumOptions({ moduleCode: props.module, enumName: props.name })
     }
+
     return {
       query,
     }

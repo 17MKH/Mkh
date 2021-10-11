@@ -1,5 +1,5 @@
 <template>
-  <m-checkbox :action="query"></m-checkbox>
+  <m-radio :action="query"></m-radio>
 </template>
 <script>
 export default {
