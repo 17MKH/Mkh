@@ -2,7 +2,7 @@
   "id": 0,
   "name": "mkh-mod-admin",
   "label": "权限管理",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "icon": "lock",
   "description": "17MKH权限管理模块",
   "main": "lib/index.es.js",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "js-base64": "^3.7.2",
-    "mkh-ui": "^0.6.6"
+    "mkh-ui": "^0.7.2"
   },
   "devDependencies": {
     "@rollup/plugin-image": "^2.1.1",
@@ -29,8 +29,8 @@
     "eslint-plugin-vue": "^7.19.1",
     "html-minifier-terser": "^5.1.1",
     "rimraf": "^3.0.2",
-    "sass": "^1.42.1",
-    "vite": "^2.6.7"
+    "sass": "^1.43.2",
+    "vite": "^2.6.10"
   },
   "files": [
     "lib"
