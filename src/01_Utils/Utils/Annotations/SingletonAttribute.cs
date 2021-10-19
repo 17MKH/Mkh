@@ -1,33 +1,32 @@
 ﻿using System;
 
-namespace Mkh.Utils.Annotations
+namespace Mkh.Utils.Annotations;
+
+/// <summary>
+/// 单例注入(使用该特性的服务系统会自动注入)
+/// </summary>
+[AttributeUsage(AttributeTargets.Class)]
+public class SingletonAttribute : Attribute
 {
     /// <summary>
-    /// 单例注入(使用该特性的服务系统会自动注入)
+    /// 是否使用自身的类型进行注入
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class)]
-    public class SingletonAttribute : Attribute
+    public bool Itself { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public SingletonAttribute()
     {
-        /// <summary>
-        /// 是否使用自身的类型进行注入
-        /// </summary>
-        public bool Itself { get; set; }
+        Itself = false;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public SingletonAttribute()
-        {
-            Itself = false;
-        }
-
-        /// <summary>
-        /// 是否使用自身的类型进行注入
-        /// </summary>
-        /// <param name="itself"></param>
-        public SingletonAttribute(bool itself)
-        {
-            Itself = itself;
-        }
+    /// <summary>
+    /// 是否使用自身的类型进行注入
+    /// </summary>
+    /// <param name="itself"></param>
+    public SingletonAttribute(bool itself)
+    {
+        Itself = itself;
     }
 }

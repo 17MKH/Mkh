@@ -2,48 +2,47 @@
 using System.Text.Json;
 using StackExchange.Redis;
 
-namespace Mkh.Cache.Redis
+namespace Mkh.Cache.Redis;
+
+public class DefaultRedisSerializer : IRedisSerializer
 {
-    public class DefaultRedisSerializer : IRedisSerializer
+    public string Serialize<T>(T value)
     {
-        public string Serialize<T>(T value)
+        if (IsNotBaseType<T>())
         {
-            if (IsNotBaseType<T>())
-            {
-                return JsonSerializer.Serialize(value);
-            }
-
-            return value.ToString();
+            return JsonSerializer.Serialize(value);
         }
 
-        public T Deserialize<T>(RedisValue value)
-        {
-            if (IsNotBaseType<T>())
-            {
-                return JsonSerializer.Deserialize<T>(value);
-            }
+        return value.ToString();
+    }
 
-            return value.To<T>();
+    public T Deserialize<T>(RedisValue value)
+    {
+        if (IsNotBaseType<T>())
+        {
+            return JsonSerializer.Deserialize<T>(value);
         }
 
-        public object Deserialize(RedisValue value, Type type)
-        {
-            if (Type.GetTypeCode(type) == TypeCode.Object)
-            {
-                return JsonSerializer.Deserialize(value,type);
-            }
+        return value.To<T>();
+    }
 
-            return value;
+    public object Deserialize(RedisValue value, Type type)
+    {
+        if (Type.GetTypeCode(type) == TypeCode.Object)
+        {
+            return JsonSerializer.Deserialize(value,type);
         }
 
-        /// <summary>
-        /// 是否是基础类型
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        private bool IsNotBaseType<T>()
-        {
-            return Type.GetTypeCode(typeof(T)) == TypeCode.Object;
-        }
+        return value;
+    }
+
+    /// <summary>
+    /// 是否是基础类型
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    private bool IsNotBaseType<T>()
+    {
+        return Type.GetTypeCode(typeof(T)) == TypeCode.Object;
     }
 }

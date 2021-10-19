@@ -1,6 +1,5 @@
-﻿namespace Mkh.Mod.Admin.Core.Domain.Dict
+﻿namespace Mkh.Mod.Admin.Core.Domain.Dict;
+
+public partial class DictEntity
 {
-    public partial class DictEntity
-    {
-    }
 }

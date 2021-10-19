@@ -5,130 +5,129 @@ using Microsoft.Extensions.DependencyInjection;
 using Mkh.Utils.Annotations;
 using Mkh.Utils.Helpers;
 
-namespace Mkh.Utils
+namespace Mkh.Utils;
+
+public static class ServiceCollectionExtensions
 {
-    public static class ServiceCollectionExtensions
+    /// <summary>
+    /// 从指定程序集中注入服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="assembly"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddServicesFromAssembly(this IServiceCollection services, Assembly assembly)
     {
-        /// <summary>
-        /// 从指定程序集中注入服务
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="assembly"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddServicesFromAssembly(this IServiceCollection services, Assembly assembly)
+        foreach (var type in assembly.GetTypes())
         {
-            foreach (var type in assembly.GetTypes())
+            #region ==单例注入==
+
+            var singletonAttr = (SingletonAttribute)Attribute.GetCustomAttribute(type, typeof(SingletonAttribute));
+            if (singletonAttr != null)
             {
-                #region ==单例注入==
-
-                var singletonAttr = (SingletonAttribute)Attribute.GetCustomAttribute(type, typeof(SingletonAttribute));
-                if (singletonAttr != null)
+                //注入自身类型
+                if (singletonAttr.Itself)
                 {
-                    //注入自身类型
-                    if (singletonAttr.Itself)
-                    {
-                        services.AddSingleton(type);
-                        continue;
-                    }
-
-                    var interfaces = type.GetInterfaces().Where(m => m != typeof(IDisposable)).ToList();
-                    if (interfaces.Any())
-                    {
-                        foreach (var i in interfaces)
-                        {
-                            services.AddSingleton(i, type);
-                        }
-                    }
-                    else
-                    {
-                        services.AddSingleton(type);
-                    }
-
+                    services.AddSingleton(type);
                     continue;
                 }
 
-                #endregion
-
-                #region ==瞬时注入==
-
-                var transientAttr = (TransientAttribute)Attribute.GetCustomAttribute(type, typeof(TransientAttribute));
-                if (transientAttr != null)
+                var interfaces = type.GetInterfaces().Where(m => m != typeof(IDisposable)).ToList();
+                if (interfaces.Any())
                 {
-                    //注入自身类型
-                    if (transientAttr.Itself)
+                    foreach (var i in interfaces)
                     {
-                        services.AddSingleton(type);
-                        continue;
+                        services.AddSingleton(i, type);
                     }
+                }
+                else
+                {
+                    services.AddSingleton(type);
+                }
 
-                    var interfaces = type.GetInterfaces().Where(m => m != typeof(IDisposable)).ToList();
-                    if (interfaces.Any())
-                    {
-                        foreach (var i in interfaces)
-                        {
-                            services.AddTransient(i, type);
-                        }
-                    }
-                    else
-                    {
-                        services.AddTransient(type);
-                    }
+                continue;
+            }
+
+            #endregion
+
+            #region ==瞬时注入==
+
+            var transientAttr = (TransientAttribute)Attribute.GetCustomAttribute(type, typeof(TransientAttribute));
+            if (transientAttr != null)
+            {
+                //注入自身类型
+                if (transientAttr.Itself)
+                {
+                    services.AddSingleton(type);
                     continue;
                 }
 
-                #endregion
-
-                #region ==Scoped注入==
-                var scopedAttr = (ScopedAttribute)Attribute.GetCustomAttribute(type, typeof(ScopedAttribute));
-                if (scopedAttr != null)
+                var interfaces = type.GetInterfaces().Where(m => m != typeof(IDisposable)).ToList();
+                if (interfaces.Any())
                 {
-                    //注入自身类型
-                    if (scopedAttr.Itself)
+                    foreach (var i in interfaces)
                     {
-                        services.AddSingleton(type);
-                        continue;
-                    }
-
-                    var interfaces = type.GetInterfaces().Where(m => m != typeof(IDisposable)).ToList();
-                    if (interfaces.Any())
-                    {
-                        foreach (var i in interfaces)
-                        {
-                            services.AddScoped(i, type);
-                        }
-                    }
-                    else
-                    {
-                        services.AddScoped(type);
+                        services.AddTransient(i, type);
                     }
                 }
-
-                #endregion
+                else
+                {
+                    services.AddTransient(type);
+                }
+                continue;
             }
 
-            return services;
-        }
+            #endregion
 
-        /// <summary>
-        /// 扫描并注入所有使用特性注入的服务
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddServicesFromAttribute(this IServiceCollection services)
-        {
-            var assemblies = new AssemblyHelper().Load();
-            foreach (var assembly in assemblies)
+            #region ==Scoped注入==
+            var scopedAttr = (ScopedAttribute)Attribute.GetCustomAttribute(type, typeof(ScopedAttribute));
+            if (scopedAttr != null)
             {
-                try
+                //注入自身类型
+                if (scopedAttr.Itself)
                 {
-                    services.AddServicesFromAssembly(assembly);
+                    services.AddSingleton(type);
+                    continue;
                 }
-                catch
+
+                var interfaces = type.GetInterfaces().Where(m => m != typeof(IDisposable)).ToList();
+                if (interfaces.Any())
                 {
-                    //此处防止第三方库抛出一场导致系统无法启动，所以需要捕获异常来处理一下
+                    foreach (var i in interfaces)
+                    {
+                        services.AddScoped(i, type);
+                    }
+                }
+                else
+                {
+                    services.AddScoped(type);
                 }
             }
-            return services;
+
+            #endregion
         }
+
+        return services;
+    }
+
+    /// <summary>
+    /// 扫描并注入所有使用特性注入的服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddServicesFromAttribute(this IServiceCollection services)
+    {
+        var assemblies = new AssemblyHelper().Load();
+        foreach (var assembly in assemblies)
+        {
+            try
+            {
+                services.AddServicesFromAssembly(assembly);
+            }
+            catch
+            {
+                //此处防止第三方库抛出一场导致系统无法启动，所以需要捕获异常来处理一下
+            }
+        }
+        return services;
     }
 }

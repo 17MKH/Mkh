@@ -6,46 +6,45 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Mkh.Utils.Helpers;
 
-namespace Mkh.Host.Web.Middleware
+namespace Mkh.Host.Web.Middleware;
+
+public class ExceptionHandleMiddleware
 {
-    public class ExceptionHandleMiddleware
+    private readonly RequestDelegate _next;
+    private readonly IHostEnvironment _env;
+    private readonly ILogger _logger;
+    private readonly JsonHelper _jsonHelper;
+
+    public ExceptionHandleMiddleware(RequestDelegate next, IHostEnvironment env, ILogger<ExceptionHandleMiddleware> logger, JsonHelper jsonHelper)
     {
-        private readonly RequestDelegate _next;
-        private readonly IHostEnvironment _env;
-        private readonly ILogger _logger;
-        private readonly JsonHelper _jsonHelper;
+        _next = next;
+        _env = env;
+        _logger = logger;
+        _jsonHelper = jsonHelper;
+    }
 
-        public ExceptionHandleMiddleware(RequestDelegate next, IHostEnvironment env, ILogger<ExceptionHandleMiddleware> logger, JsonHelper jsonHelper)
+    public async Task InvokeAsync(HttpContext httpContext)
+    {
+        try
         {
-            _next = next;
-            _env = env;
-            _logger = logger;
-            _jsonHelper = jsonHelper;
+            await _next(httpContext);
         }
-
-        public async Task InvokeAsync(HttpContext httpContext)
+        catch (Exception ex)
         {
-            try
-            {
-                await _next(httpContext);
-            }
-            catch (Exception ex)
-            {
-                await HandleExceptionAsync(httpContext, ex);
-            }
+            await HandleExceptionAsync(httpContext, ex);
         }
+    }
 
-        private Task HandleExceptionAsync(HttpContext context, Exception exception)
-        {
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+    private Task HandleExceptionAsync(HttpContext context, Exception exception)
+    {
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            //开发环境返回详细异常信息
-            var error = _env.IsDevelopment() ? exception.ToString() : exception.Message;
+        //开发环境返回详细异常信息
+        var error = _env.IsDevelopment() ? exception.ToString() : exception.Message;
 
-            _logger.LogError(error);
+        _logger.LogError(error);
 
-            return context.Response.WriteAsync(_jsonHelper.Serialize(ResultModel.Failed(error)));
-        }
+        return context.Response.WriteAsync(_jsonHelper.Serialize(ResultModel.Failed(error)));
     }
 }

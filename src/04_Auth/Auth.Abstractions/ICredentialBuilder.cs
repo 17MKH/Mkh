@@ -2,18 +2,17 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Mkh.Auth.Abstractions
+namespace Mkh.Auth.Abstractions;
+
+/// <summary>
+/// 认证凭证构造器
+/// </summary>
+public interface ICredentialBuilder
 {
     /// <summary>
-    /// 认证凭证构造器
+    /// 生成凭证
     /// </summary>
-    public interface ICredentialBuilder
-    {
-        /// <summary>
-        /// 生成凭证
-        /// </summary>
-        /// <param name="claims">账户声明</param>
-        /// <returns></returns>
-        Task<IResultModel> Build(List<Claim> claims);
-    }
+    /// <param name="claims">账户声明</param>
+    /// <returns></returns>
+    Task<IResultModel> Build(List<Claim> claims);
 }

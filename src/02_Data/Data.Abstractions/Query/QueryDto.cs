@@ -1,42 +1,41 @@
 ﻿using System.Linq;
 using Mkh.Data.Abstractions.Pagination;
 
-namespace Mkh.Data.Abstractions.Query
+namespace Mkh.Data.Abstractions.Query;
+
+/// <summary>
+/// 查询对象
+/// </summary>
+public abstract class QueryDto
 {
     /// <summary>
-    /// 查询对象
+    /// 分页信息
     /// </summary>
-    public abstract class QueryDto
+    public QueryPagingDto Page { get; set; } = new();
+
+    private Paging _paging;
+
+    /// <summary>
+    /// 转换成Paging分页类
+    /// </summary>
+    public Paging Paging
     {
-        /// <summary>
-        /// 分页信息
-        /// </summary>
-        public QueryPagingDto Page { get; set; } = new();
-
-        private Paging _paging;
-
-        /// <summary>
-        /// 转换成Paging分页类
-        /// </summary>
-        public Paging Paging
+        get
         {
-            get
+            if (_paging == null)
             {
-                if (_paging == null)
-                {
-                    _paging = new Paging(Page.Index, Page.Size);
+                _paging = new Paging(Page.Index, Page.Size);
 
-                    if (Page.Sort != null && Page.Sort.Any())
+                if (Page.Sort != null && Page.Sort.Any())
+                {
+                    foreach (var sort in Page.Sort)
                     {
-                        foreach (var sort in Page.Sort)
-                        {
-                            _paging.OrderBy.Add(new Sort(sort.Field, sort.Type));
-                        }
+                        _paging.OrderBy.Add(new Sort(sort.Field, sort.Type));
                     }
                 }
-
-                return _paging;
             }
+
+            return _paging;
         }
     }
 }

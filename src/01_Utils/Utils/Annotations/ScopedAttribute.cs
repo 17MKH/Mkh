@@ -1,32 +1,31 @@
 ﻿using System;
 
-namespace Mkh.Utils.Annotations
+namespace Mkh.Utils.Annotations;
+
+/// <summary>
+/// 单例注入(使用该特性的服务系统会自动注入)
+/// </summary>
+[AttributeUsage(AttributeTargets.Class)]
+public class ScopedAttribute : Attribute
 {
     /// <summary>
-    /// 单例注入(使用该特性的服务系统会自动注入)
+    /// 是否使用自身的类型进行注入
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class)]
-    public class ScopedAttribute : Attribute
+    public bool Itself { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public ScopedAttribute()
     {
-        /// <summary>
-        /// 是否使用自身的类型进行注入
-        /// </summary>
-        public bool Itself { get; set; }
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public ScopedAttribute()
-        {
-        }
-
-        /// <summary>
-        /// 是否使用自身的类型进行注入
-        /// </summary>
-        /// <param name="itself"></param>
-        public ScopedAttribute(bool itself = false)
-        {
-            Itself = itself;
-        }
+    /// <summary>
+    /// 是否使用自身的类型进行注入
+    /// </summary>
+    /// <param name="itself"></param>
+    public ScopedAttribute(bool itself = false)
+    {
+        Itself = itself;
     }
 }

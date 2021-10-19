@@ -1,9 +1,8 @@
-namespace Mkh.Data.Abstractions.Entities
+namespace Mkh.Data.Abstractions.Entities;
+
+/// <summary>
+/// 实体接口
+/// </summary>
+public interface IEntity
 {
-    /// <summary>
-    /// 实体接口
-    /// </summary>
-    public interface IEntity
-    {
-    }
 }

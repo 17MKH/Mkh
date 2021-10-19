@@ -1,13 +1,12 @@
 
 using Mkh.Host.Web;
 
-namespace WebHost
+namespace WebHost;
+
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            new HostBootstrap(args).Run();
-        }
+        new HostBootstrap(args).Run();
     }
 }

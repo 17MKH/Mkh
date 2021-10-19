@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace Mkh.Auth.Core
+namespace Mkh.Auth.Core;
+
+public class PermissionRequirement : IAuthorizationRequirement
 {
-    public class PermissionRequirement : IAuthorizationRequirement
+    public PermissionRequirement()
     {
-        public PermissionRequirement()
-        {
-        }
     }
 }

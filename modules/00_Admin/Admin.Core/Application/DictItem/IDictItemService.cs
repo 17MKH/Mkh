@@ -1,45 +1,44 @@
 ﻿using System.Threading.Tasks;
 using Mkh.Mod.Admin.Core.Application.DictItem.Dto;
 
-namespace Mkh.Mod.Admin.Core.Application.DictItem
+namespace Mkh.Mod.Admin.Core.Application.DictItem;
+
+/// <summary>
+/// 数据字典项服务
+/// </summary>
+public interface IDictItemService
 {
     /// <summary>
-    /// 数据字典项服务
+    /// 查询
     /// </summary>
-    public interface IDictItemService
-    {
-        /// <summary>
-        /// 查询
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        Task<IResultModel> Query(DictItemQueryDto dto);
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    Task<IResultModel> Query(DictItemQueryDto dto);
 
-        /// <summary>
-        /// 添加
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        Task<IResultModel> Add(DictItemAddDto dto);
-        /// <summary>
-        /// 编辑
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<IResultModel> Edit(int id);
+    /// <summary>
+    /// 添加
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    Task<IResultModel> Add(DictItemAddDto dto);
+    /// <summary>
+    /// 编辑
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task<IResultModel> Edit(int id);
 
-        /// <summary>
-        /// 更新
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        Task<IResultModel> Update(DictItemUpdateDto dto);
+    /// <summary>
+    /// 更新
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    Task<IResultModel> Update(DictItemUpdateDto dto);
 
-        /// <summary>
-        /// 删除
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<IResultModel> Delete(int id);
-    }
+    /// <summary>
+    /// 删除
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task<IResultModel> Delete(int id);
 }

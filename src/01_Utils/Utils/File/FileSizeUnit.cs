@@ -1,31 +1,30 @@
 ﻿using System.ComponentModel;
 
-namespace Mkh.Utils.File
+namespace Mkh.Utils.File;
+
+/// <summary>
+/// 文件大小单位
+/// </summary>
+public enum FileSizeUnit
 {
     /// <summary>
-    /// 文件大小单位
+    /// 字节
     /// </summary>
-    public enum FileSizeUnit
-    {
-        /// <summary>
-        /// 字节
-        /// </summary>
-        [Description("B")]
-        Byte,
-        /// <summary>
-        /// K字节
-        /// </summary>
-        [Description("KB")]
-        K,
-        /// <summary>
-        /// M字节
-        /// </summary>
-        [Description("MB")]
-        M,
-        /// <summary>
-        /// G字节
-        /// </summary>
-        [Description("GB")]
-        G
-    }
+    [Description("B")]
+    Byte,
+    /// <summary>
+    /// K字节
+    /// </summary>
+    [Description("KB")]
+    K,
+    /// <summary>
+    /// M字节
+    /// </summary>
+    [Description("MB")]
+    M,
+    /// <summary>
+    /// G字节
+    /// </summary>
+    [Description("GB")]
+    G
 }

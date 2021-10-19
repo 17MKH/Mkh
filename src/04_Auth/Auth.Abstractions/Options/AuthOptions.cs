@@ -1,28 +1,27 @@
-﻿namespace Mkh.Auth.Abstractions.Options
+﻿namespace Mkh.Auth.Abstractions.Options;
+
+/// <summary>
+/// 认证与授权配置
+/// </summary>
+public class AuthOptions
 {
     /// <summary>
-    /// 认证与授权配置
+    /// 启用权限验证
     /// </summary>
-    public class AuthOptions
-    {
-        /// <summary>
-        /// 启用权限验证
-        /// </summary>
-        public bool EnablePermissionVerify { get; set; } = true;
+    public bool EnablePermissionVerify { get; set; } = true;
 
-        /// <summary>
-        /// 启用验证码功能
-        /// </summary>
-        public bool EnableVerifyCode { get; set; } = false;
+    /// <summary>
+    /// 启用验证码功能
+    /// </summary>
+    public bool EnableVerifyCode { get; set; } = false;
 
-        /// <summary>
-        /// 启用审计日志
-        /// </summary>
-        public bool EnableAuditingLog { get; set; } = true;
+    /// <summary>
+    /// 启用审计日志
+    /// </summary>
+    public bool EnableAuditingLog { get; set; } = true;
 
-        /// <summary>
-        /// 启用检测用户IP地址
-        /// </summary>
-        public bool EnableCheckIP { get; set; } = true;
-    }
+    /// <summary>
+    /// 启用检测用户IP地址
+    /// </summary>
+    public bool EnableCheckIP { get; set; } = true;
 }

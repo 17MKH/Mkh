@@ -1,26 +1,25 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Mkh.Utils.Extensions
+namespace Mkh.Utils.Extensions;
+
+public static class ConfigurationExtensions
 {
-    public static class ConfigurationExtensions
+    /// <summary>
+    /// 获取指定类型的实例
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="cfg"></param>
+    /// <param name="key"></param>
+    /// <returns></returns>
+    public static T Get<T>(this IConfiguration cfg, string key) where T : class, new()
     {
-        /// <summary>
-        /// 获取指定类型的实例
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="cfg"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public static T Get<T>(this IConfiguration cfg, string key) where T : class, new()
-        {
-            if (cfg == null || key.IsNull())
-                return new T();
+        if (cfg == null || key.IsNull())
+            return new T();
 
-            var t = cfg.GetSection(key).Get<T>();
-            if (t == null)
-                return new T();
+        var t = cfg.GetSection(key).Get<T>();
+        if (t == null)
+            return new T();
 
-            return t;
-        }
+        return t;
     }
 }
