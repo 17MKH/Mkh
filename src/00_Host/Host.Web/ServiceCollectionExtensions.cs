@@ -29,7 +29,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddMvc(c =>
             {
-                if (hostOptions!.Swagger || env.IsDevelopment())
+                if (hostOptions!.Swagger || !env.IsProduction())
                 {
                     //API分组约定
                     c.Conventions.Add(new ApiExplorerGroupConvention());

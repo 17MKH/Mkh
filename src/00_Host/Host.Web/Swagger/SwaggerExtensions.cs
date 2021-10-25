@@ -121,6 +121,6 @@ public static class SwaggerExtensions
     private static bool Check(IModuleCollection modules, HostOptions hostOptions, IHostEnvironment environment)
     {
         //手动开启或者开发模式以及本地模式下才会启用swagger功能
-        return hostOptions.Swagger || environment.IsDevelopment() || environment.EnvironmentName.Equals("Local");
+        return hostOptions.Swagger || !environment.IsProduction() || environment.EnvironmentName.Equals("Local");
     }
 }

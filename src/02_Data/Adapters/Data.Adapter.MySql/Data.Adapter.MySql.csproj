@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02" PrivateAssets="All" />
-    <PackageReference Include="MySql.Data" Version="8.0.26" />
+    <PackageReference Include="MySql.Data" Version="8.0.27" />
   </ItemGroup>
 
   <ItemGroup>
