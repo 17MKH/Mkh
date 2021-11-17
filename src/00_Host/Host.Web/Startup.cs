@@ -1,9 +1,14 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Mkh.Host.Web.Middleware;
 using Mkh.Host.Web.Swagger;
@@ -11,11 +16,12 @@ using Mkh.Module.Abstractions;
 using Mkh.Module.Core;
 using Mkh.Module.Web;
 using Mkh.Utils;
+using Mkh.Utils.App;
 using HostOptions = Mkh.Host.Web.Options.HostOptions;
 
 namespace Mkh.Host.Web;
 
-public class Startup
+internal class Startup
 {
     private readonly IHostEnvironment _env;
     private readonly IConfiguration _cfg;
@@ -80,19 +86,10 @@ public class Startup
         app.UseMiddleware<ExceptionHandleMiddleware>();
 
         //基地址
-        var pathBase = hostOptions!.Base;
-        if (pathBase.NotNull())
-        {
-            //1、配置请求基础地址：
-            app.Use((context, next) =>
-            {
-                context.Request.PathBase = pathBase;
-                return next();
-            });
+        app.UsePathBase(hostOptions);
 
-            // 2、配置静态文件基地址：
-            app.UsePathBase(pathBase);
-        }
+        //配置默认页
+        app.UseDefaultPage();
 
         //反向代理
         if (hostOptions!.Proxy)
@@ -127,47 +124,10 @@ public class Startup
         //使用模块化
         app.UseModules(modules);
 
-        appLifetime.ApplicationStarted.Register(() =>
-        {
-            //显示启动Banner
-            var options = app.ApplicationServices.GetService<HostOptions>();
-            ConsoleBanner(options);
-        });
-    }
+        //启用Banner图
+        app.UseBanner(appLifetime);
 
-    /// <summary>
-    /// 启动后打印Banner图案
-    /// </summary>
-    /// <param name="options"></param>
-    private void ConsoleBanner(HostOptions options)
-    {
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine();
-        Console.WriteLine(@" ***************************************************************************************************************");
-        Console.WriteLine(@" *                                                                                                             *");
-        Console.WriteLine(@" *                               $$\   $$$$$$$$\ $$\      $$\ $$\   $$\ $$\   $$\                              *");
-        Console.WriteLine(@" *                             $$$$ |  \____$$  |$$$\    $$$ |$$ | $$  |$$ |  $$ |                             *");
-        Console.WriteLine(@" *                             \_$$ |      $$  / $$$$\  $$$$ |$$ |$$  / $$ |  $$ |                             *");
-        Console.WriteLine(@" *                               $$ |     $$  /  $$\$$\$$ $$ |$$$$$  /  $$$$$$$$ |                             *");
-        Console.WriteLine(@" *                               $$ |    $$  /   $$ \$$$  $$ |$$  $$<   $$  __$$ |                             *");
-        Console.WriteLine(@" *                               $$ |   $$  /    $$ |\$  /$$ |$$ |\$$\  $$ |  $$ |                             *");
-        Console.WriteLine(@" *                             $$$$$$\ $$  /     $$ | \_/ $$ |$$ | \$$\ $$ |  $$ |                             *");
-        Console.WriteLine(@" *                             \______|\__/      \__|     \__|\__|  \__|\__|  \__|                             *");
-        Console.WriteLine(@" *                                                                                                             *");
-        Console.WriteLine(@" *                                                                                                             *");
-        Console.Write(@" *                                      ");
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.Write(@"启动成功，欢迎使用 17MKH ~");
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine(@"                                             *");
-        Console.WriteLine(@" *                                                                                                             *");
-        Console.Write(@" *                                      ");
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.Write(@"接口地址：" + options.Urls);
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine(@"                                                *");
-        Console.WriteLine(@" *                                                                                                             *");
-        Console.WriteLine(@" ***************************************************************************************************************");
-        Console.WriteLine();
+        //启用应用关闭处理
+        app.UseShutdownHandler();
     }
 }

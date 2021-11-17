@@ -368,3 +368,4 @@ FodyWeavers.xsd
 MSBuild_Logs
 /modules/00_Admin/Admin.UI/package-lock.json
 /nuget_publish_local.ps1
+/modules/WebHost/wwwroot

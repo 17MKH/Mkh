@@ -5,6 +5,7 @@ import mkh from 'mkh-ui/lib/plugins'
 
 export default defineConfig(({ mode, command }) => {
   let config = {
+    base: './',
     server: {
       port: 5220,
     },
@@ -50,6 +51,10 @@ export default defineConfig(({ mode, command }) => {
         /** 排除无需打包进去的依赖库 */
         external: ['vue', 'vue-router', 'vuex', 'mkh-ui'],
       },
+    }
+  } else if (mode == 'production') {
+    config.build = {
+      outDir: '../../WebHost/wwwroot/app',
     }
   }
   return config

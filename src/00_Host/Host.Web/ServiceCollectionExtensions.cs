@@ -15,7 +15,7 @@ using Mkh.Utils.Json.Converters;
 
 namespace Mkh.Host.Web;
 
-public static class ServiceCollectionExtensions
+internal static class ServiceCollectionExtensions
 {
     /// <summary>
     /// 添加MVC功能
