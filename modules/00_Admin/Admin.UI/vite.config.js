@@ -28,6 +28,13 @@ export default defineConfig(({ mode, command }) => {
       }),
       vue(),
     ],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          charset: false,
+        },
+      },
+    },
     resolve: {
       alias: {
         '@': resolve(__dirname),
