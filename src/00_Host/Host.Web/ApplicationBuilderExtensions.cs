@@ -39,36 +39,49 @@ internal static class ApplicationBuilderExtensions
     }
 
     /// <summary>
-    /// 启用默认页
+    /// 设置默认页为index.html
     /// </summary>
     /// <param name="app"></param>
+    /// <param name="options"></param>
     /// <returns></returns>
-    public static IApplicationBuilder UseDefaultPage(this IApplicationBuilder app)
+    public static IApplicationBuilder UseDefaultPage(this IApplicationBuilder app, Options.HostOptions options)
     {
-        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/app");
-        if (!Directory.Exists(path))
-        {
-            Directory.CreateDirectory(path);
-        }
-
         //设置默认文档
         var defaultFilesOptions = new DefaultFilesOptions();
         defaultFilesOptions.DefaultFileNames.Clear();
         defaultFilesOptions.DefaultFileNames.Add("index.html");
         app.UseDefaultFiles(defaultFilesOptions);
 
+        if (options.DefaultDir.NotNull())
+        {
+            var rewriteOptions = new RewriteOptions().AddRedirect("^$", options.DefaultDir);
+            app.UseRewriter(rewriteOptions);
+        }
+
+        return app;
+    }
+
+    /// <summary>
+    /// 开放wwwroot下指定目录
+    /// </summary>
+    /// <param name="app"></param>
+    /// <param name="dirName"></param>
+    /// <returns></returns>
+    public static IApplicationBuilder OpenDir(this IApplicationBuilder app, string dirName)
+    {
+        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", dirName);
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+
         var options = new StaticFileOptions
         {
             FileProvider = new PhysicalFileProvider(path),
-            RequestPath = new PathString("/app")
+            RequestPath = new PathString("/" + dirName)
         };
 
         app.UseStaticFiles(options);
-
-        var appPath = "app";
-        var rewriteOptions = new RewriteOptions().AddRedirect("^$", appPath);
-
-        app.UseRewriter(rewriteOptions);
 
         return app;
     }

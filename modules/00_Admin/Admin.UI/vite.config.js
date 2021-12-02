@@ -61,7 +61,7 @@ export default defineConfig(({ mode, command }) => {
     }
   } else if (mode == 'production') {
     config.build = {
-      outDir: '../../WebHost/wwwroot/app',
+      outDir: '../../WebHost/wwwroot/web',
     }
   }
   return config

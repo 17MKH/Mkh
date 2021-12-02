@@ -1,4 +1,6 @@
-﻿namespace Mkh.Host.Web.Options;
+﻿using System.Collections.Generic;
+
+namespace Mkh.Host.Web.Options;
 
 /// <summary>
 /// 宿主配置项
@@ -29,4 +31,14 @@ public class HostOptions
     /// 是否启用代理
     /// </summary>
     public bool Proxy { get; set; }
+
+    /// <summary>
+    /// 开放的wwwroot下的目录列表
+    /// </summary>
+    public List<string> OpenDirs { get; set; }
+
+    /// <summary>
+    /// 默认目录
+    /// </summary>
+    public string DefaultDir { get; set; }
 }

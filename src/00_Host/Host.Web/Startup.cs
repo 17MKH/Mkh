@@ -79,7 +79,7 @@ internal class Startup
 
     public virtual void Configure(IApplicationBuilder app, IHostApplicationLifetime appLifetime)
     {
-        var hostOptions = app.ApplicationServices.GetService<HostOptions>();
+        var hostOptions = app.ApplicationServices.GetService<HostOptions>()!;
         var modules = app.ApplicationServices.GetRequiredService<IModuleCollection>();
 
         //使用全局异常处理中间件
@@ -89,7 +89,16 @@ internal class Startup
         app.UsePathBase(hostOptions);
 
         //配置默认页
-        app.UseDefaultPage();
+        app.UseDefaultPage(hostOptions);
+
+        //开放目录
+        if (hostOptions.OpenDirs != null && hostOptions.OpenDirs.Any())
+        {
+            hostOptions.OpenDirs.ForEach(m =>
+            {
+                app.OpenDir(m);
+            });
+        }
 
         //反向代理
         if (hostOptions!.Proxy)
