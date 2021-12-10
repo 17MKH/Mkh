@@ -10,7 +10,7 @@
                   <m-select ref="groupSelectRef" v-model="group.id" v-model:label="group.name" :action="$mkh.api.admin.menuGroup.select" checked-first></m-select>
                 </m-flex-auto>
                 <m-flex-fixed>
-                  <m-button type="primary" text="分组管理" :code="buttons.group.code" class="m-margin-l-5" size="small" @click="showGroup = true" />
+                  <m-button type="primary" text="分组管理" :code="buttons.group.code" class="m-margin-l-5" @click="showGroup = true" />
                 </m-flex-fixed>
               </m-flex-row>
             </m-flex-fixed>
