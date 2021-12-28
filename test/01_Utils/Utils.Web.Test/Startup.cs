@@ -17,6 +17,8 @@ namespace Utils.Web.Test
 
             services.AddMvc();
 
+            services.AddHttpContextAccessor();
+
             services.AddServicesFromAttribute();
 
         }

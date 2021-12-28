@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.IO;
+using System.Text.Json.Serialization;
 
 namespace Mkh.Utils.File;
 
@@ -22,12 +23,6 @@ public class FileDescriptor
         Size = new FileSize(size);
         Extension = System.IO.Path.GetExtension(Name)?.TrimStart('.');
     }
-
-    /// <summary>
-    /// 文件目录名称
-    /// </summary>
-    [JsonIgnore]
-    public string DirectoryName { get; set; }
 
     /// <summary>
     /// 原始文件名
@@ -60,8 +55,32 @@ public class FileDescriptor
     public string Url { get; set; }
 
     /// <summary>
+    /// 根目录
+    /// </summary>
+    [JsonIgnore]
+    public string RootDirectory { get; set; }
+
+    /// <summary>
+    /// 完整目录
+    /// </summary>
+    [JsonIgnore]
+    public string FullDirectory => Path.Combine(RootDirectory, RelativeDirectory);
+
+    /// <summary>
+    /// 相对目录
+    /// </summary>
+    [JsonIgnore]
+    public string RelativeDirectory { get; set; }
+
+    /// <summary>
     /// 文件的完整路径名称
     /// </summary>
     [JsonIgnore]
-    public string FullName => System.IO.Path.Combine(DirectoryName, StorageName);
+    public string FullName => Path.Combine(RootDirectory, RelativeDirectory, StorageName);
+
+    /// <summary>
+    /// 文件的相对完整路径名称
+    /// </summary>
+    [JsonIgnore]
+    public string RelativeFullName => Path.Combine(RelativeDirectory, StorageName);
 }

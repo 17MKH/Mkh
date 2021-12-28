@@ -32,7 +32,7 @@ public class FileUploadProvider
     {
         Check.NotNull(model, nameof(model), "file upload model is null");
 
-        Check.NotNull(model.StorageRootDirectory, nameof(model.StorageRootDirectory), "the file storage root directory is null");
+        Check.NotNull(model.RootDirectory, nameof(model.RootDirectory), "the file storage root directory is null");
 
         var result = new ResultModel<FileDescriptor>();
 
@@ -53,14 +53,16 @@ public class FileUploadProvider
         if (model.LimitExtensions != null && !model.LimitExtensions.Any(m => m.EqualsIgnoreCase(descriptor.Extension)))
             return result.Failed($"文件格式无效，请上传{model.LimitExtensions.Aggregate((x, y) => x + "," + y)}格式的文件");
 
+        descriptor.RootDirectory = model.RootDirectory;
+
         //按照日期来保存文件
         var date = DateTime.Now;
-        descriptor.DirectoryName = Path.Combine(model.StorageRootDirectory, date.ToString("yyyy"), date.ToString("MM"), date.ToString("dd"));
+        descriptor.RelativeDirectory = Path.Combine(date.ToString("yyyy"), date.ToString("MM"), date.ToString("dd"));
 
         //创建目录
-        if (!Directory.Exists(descriptor.DirectoryName))
+        if (!Directory.Exists(descriptor.FullDirectory))
         {
-            Directory.CreateDirectory(descriptor.DirectoryName);
+            Directory.CreateDirectory(descriptor.FullDirectory);
         }
 
         //生成文件存储名称

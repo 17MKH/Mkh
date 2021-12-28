@@ -26,7 +26,7 @@ namespace Utils.Web.Test.Controllers
             {
                 FormFile = file,
                 FileName = name,
-                StorageRootDirectory = Path.Combine(AppContext.BaseDirectory, "Upload")
+                RootDirectory = Path.Combine(AppContext.BaseDirectory, "Upload")
             };
 
             //文件大小不能超过10K

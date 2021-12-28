@@ -21,7 +21,7 @@ public class FileUploadModel
     /// <summary>
     /// 存储根目录
     /// </summary>
-    public string StorageRootDirectory { get; set; }
+    public string RootDirectory { get; set; }
 
     /// <summary>
     /// 最大允许大小(单位：字节，为0表示不限制)
