@@ -1,4 +1,6 @@
-﻿namespace Mkh.Utils.File;
+﻿using System.Text.Json.Serialization;
+
+namespace Mkh.Utils.File;
 
 /// <summary>
 /// 文件描述符
@@ -24,6 +26,7 @@ public class FileDescriptor
     /// <summary>
     /// 文件目录名称
     /// </summary>
+    [JsonIgnore]
     public string DirectoryName { get; set; }
 
     /// <summary>
@@ -59,5 +62,6 @@ public class FileDescriptor
     /// <summary>
     /// 文件的完整路径名称
     /// </summary>
+    [JsonIgnore]
     public string FullName => System.IO.Path.Combine(DirectoryName, StorageName);
 }
