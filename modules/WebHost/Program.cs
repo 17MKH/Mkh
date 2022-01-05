@@ -7,6 +7,6 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        new HostBootstrap(args).Run();
+        new HostBootstrap().Run(args);
     }
 }

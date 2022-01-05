@@ -69,7 +69,7 @@ internal static class ApplicationBuilderExtensions
     /// <returns></returns>
     public static IApplicationBuilder OpenDir(this IApplicationBuilder app, string dirName)
     {
-        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", dirName);
+        var path = Path.Combine(AppContext.BaseDirectory, "wwwroot", dirName);
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);

@@ -92,7 +92,6 @@ export default {
     }
 
     const handleTreeChange = data => {
-      console.log(data)
       parent.id = data.id
       parent.path = data.path
       parent.type = data.item.type

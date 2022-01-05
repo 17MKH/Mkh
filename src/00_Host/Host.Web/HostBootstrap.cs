@@ -1,8 +1,18 @@
 ﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Mkh.Host.Web.Middleware;
+using Mkh.Host.Web.Swagger;
+using Mkh.Module.Abstractions;
+using Mkh.Module.Core;
+using Mkh.Module.Web;
+using Mkh.Utils;
 using Serilog;
 using HostOptions = Mkh.Host.Web.Options.HostOptions;
 
@@ -13,49 +23,161 @@ namespace Mkh.Host.Web;
 /// </summary>
 public class HostBootstrap
 {
-    private readonly string[] _args;
-
-    public HostBootstrap(string[] args)
+    /// <summary>
+    /// 启动应用
+    /// </summary>
+    /// <returns></returns>
+    public void Run(string[] args)
     {
-        _args = args;
+        var options = LoadOptions();
+
+        var builder = WebApplication.CreateBuilder(args);
+
+        //使用Serilog日志
+        builder.WebHost.UseSerilog((hostingContext, loggerConfiguration) =>
+        {
+            loggerConfiguration
+                .ReadFrom
+                .Configuration(hostingContext.Configuration)
+                .Enrich
+                .FromLogContext();
+        });
+
+        //绑定URL
+        builder.WebHost.UseUrls(options.Urls);
+
+        var services = builder.Services;
+
+        var env = builder.Environment;
+        var cfg = builder.Configuration;
+
+        var modules = ConfigureServices(services, env, cfg, options);
+        
+        var app = builder.Build();
+
+        Configure(app, modules, options);
+
+        app.Run();
     }
 
     /// <summary>
-    /// 创建IHost
+    /// 配置服务
     /// </summary>
-    /// <returns></returns>
-    public void Run()
+    /// <param name="services"></param>
+    /// <param name="env"></param>
+    /// <param name="cfg"></param>
+    /// <param name="options"></param>
+    private IModuleCollection ConfigureServices(IServiceCollection services, IWebHostEnvironment env, IConfiguration cfg, HostOptions options)
     {
-        Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(_args)
-            .ConfigureWebHostDefaults(webBuilder =>
+        services.AddSingleton(options);
+
+        //注入服务
+        services.AddServicesFromAttribute();
+
+        //添加模块
+        var modules = services.AddModulesCore(env, cfg);
+
+        //添加Swagger
+        services.AddSwagger(modules, options, env);
+
+        //添加缓存
+        services.AddCache(cfg);
+
+        //添加对象映射
+        services.AddMappers(modules);
+
+        //添加MVC配置
+        services.AddMvc(modules, options, env);
+
+        //添加CORS
+        services.AddCors(options);
+
+        //解决Multipart body length limit 134217728 exceeded
+        services.Configure<FormOptions>(x =>
+        {
+            x.ValueLengthLimit = int.MaxValue;
+            x.MultipartBodyLengthLimit = int.MaxValue;
+        });
+
+        //添加HttpClient相关
+        services.AddHttpClient();
+
+        //添加模块的自定义特有的服务
+        services.AddModuleServices(modules, env, cfg);
+
+        //添加身份认证和授权
+        services.AddMkhAuth(cfg).UseJwt();
+
+        //添加数据库
+        services.AddData(modules);
+
+        return modules;
+    }
+
+    /// <summary>
+    /// 配置中间件
+    /// </summary>
+    /// <param name="app"></param>
+    /// <param name="modules"></param>
+    /// <param name="options"></param>
+    private void Configure(WebApplication app, IModuleCollection modules, HostOptions options)
+    {
+        //使用全局异常处理中间件
+        app.UseMiddleware<ExceptionHandleMiddleware>();
+
+        //基地址
+        app.UsePathBase(options);
+
+        //配置默认页
+        app.UseDefaultPage(options);
+
+        //开放目录
+        if (options.OpenDirs != null && options.OpenDirs.Any())
+        {
+            options.OpenDirs.ForEach(m =>
             {
-                var options = LoadOptions();
+                app.OpenDir(m);
+            });
+        }
 
-                //使用Serilog日志
-                webBuilder.UseSerilog((hostingContext, loggerConfiguration) =>
-                {
-                    loggerConfiguration
-                        .ReadFrom
-                        .Configuration(hostingContext.Configuration)
-                        .Enrich
-                        .FromLogContext();
-                });
+        //反向代理
+        if (options!.Proxy)
+        {
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+        }
 
-                //将宿主配置项注入容器
-                webBuilder.ConfigureServices(services =>
-                {
-                    services.AddSingleton(options);
-                });
+        //路由
+        app.UseRouting();
 
-                //绑定启动类
-                webBuilder.UseStartup<Startup>();
+        //CORS
+        app.UseCors("Default");
 
-                //绑定URL
-                webBuilder.UseUrls(options.Urls);
+        //认证
+        app.UseAuthentication();
 
-            })
-            .Build()
-            .Run();
+        //授权
+        app.UseAuthorization();
+
+        //配置端点
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+
+        //启用Swagger
+        app.UseSwagger(modules, options, app.Environment);
+
+        //使用模块化
+        app.UseModules(modules);
+
+        //启用Banner图
+        app.UseBanner(app.Lifetime);
+
+        //启用应用关闭处理
+        app.UseShutdownHandler();
     }
 
     /// <summary>
