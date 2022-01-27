@@ -42,6 +42,9 @@ public static class ServiceCollectionExtensions
         //添加数据访问的账户解析器实现
         services.AddSingleton<IAccountResolver, AccountResolver>();
 
+        //添加默认权限验证处理器
+        services.AddSingleton<IPermissionValidateHandler, DefaultPermissionValidateHandler>();
+
         var builder = new MkhAuthBuilder(services, configuration);
 
         return builder;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Mkh.Mod.Admin.Core.Application.Authorize.Dto;
@@ -9,12 +8,6 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize.Dto;
 /// </summary>
 public class RefreshTokenDto
 {
-    /// <summary>
-    /// 账户编号
-    /// </summary>
-    [Required]
-    public Guid AccountId { get; set; }
-
     /// <summary>
     /// 平台
     /// </summary>

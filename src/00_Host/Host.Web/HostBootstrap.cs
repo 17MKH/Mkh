@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Mkh.Config.Core;
 using Mkh.Host.Web.Middleware;
 using Mkh.Host.Web.Swagger;
 using Mkh.Module.Abstractions;
@@ -33,6 +33,8 @@ public class HostBootstrap
 
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.WebHost.UseDefaultServiceProvider(opt => { opt.ValidateOnBuild = false; });
+
         //使用Serilog日志
         builder.WebHost.UseSerilog((hostingContext, loggerConfiguration) =>
         {
@@ -52,7 +54,7 @@ public class HostBootstrap
         var cfg = builder.Configuration;
 
         var modules = ConfigureServices(services, env, cfg, options);
-        
+
         var app = builder.Build();
 
         Configure(app, modules, options);
@@ -71,8 +73,8 @@ public class HostBootstrap
     {
         services.AddSingleton(options);
 
-        //注入服务
-        services.AddServicesFromAttribute();
+        //注入Utils
+        services.AddUtils(cfg);
 
         //添加模块
         var modules = services.AddModulesCore(env, cfg);
@@ -104,6 +106,9 @@ public class HostBootstrap
 
         //添加模块的自定义特有的服务
         services.AddModuleServices(modules, env, cfg);
+
+        //添加配置功能
+        services.AddConfig(cfg, modules);
 
         //添加身份认证和授权
         services.AddMkhAuth(cfg).UseJwt();

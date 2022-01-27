@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\05_Cache\Cache.Abstractions\Cache.Abstractions.csproj" />
     <ProjectReference Include="..\..\05_Cache\Cache.Redis\Cache.Redis.csproj" />
     <ProjectReference Include="..\..\06_Mapper\Mapper\Mapper.csproj" />
+    <ProjectReference Include="..\..\07_Config\Config.Core\Config.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

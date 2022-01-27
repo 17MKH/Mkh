@@ -1,11 +1,20 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Mkh;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Adapter;
+using Mkh.Data.Abstractions.Descriptors;
 using Mkh.Data.Abstractions.Options;
 using Mkh.Data.Core.Internal;
+using Mkh.Utils.Helpers;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
@@ -40,42 +49,34 @@ public static class DbBuilderExtensions
         var options = new CodeFirstOptions();
         configure?.Invoke(options);
 
+        //加载初始化数据对象
+        var initData = LoadInitData(options);
+
+        options.AfterCreateTable = (dbContext, entityDescriptor) =>
+        {
+            //初始化表数据
+            InitTableData(initData, dbContext, entityDescriptor, builder.Services);
+        };
+
         builder.CodeFirstOptions = options;
 
         builder.AddAction(() =>
         {
             //优先使用自定义的代码优先提供器，毕竟默认的建库见表语句并不能满足所有人的需求
-            ICodeFirstProvider provider = options.CustomCodeFirstProvider;
-            if (provider == null)
-            {
-                provider = builder.DbContext.CodeFirstProvider;
-            }
+            var provider = options.CustomCodeFirstProvider ?? builder.DbContext.CodeFirstProvider;
 
             if (provider != null)
             {
-                //是否创建了数据库，只有创建了数据库才会执行初始化数据的操作
-                var isCreatedDatabase = false;
-
                 //先有库
-                if (options.CreateDatabase)
-                {
-                    isCreatedDatabase = provider.CreateDatabase();
-                }
+                provider.CreateDatabase();
 
                 //后有表
                 provider.CreateTable();
-
-                //初始化数据
-                if (isCreatedDatabase)
-                {
-                    provider.InitData(builder.Services.GetService<IRepositoryManager>());
-                }
             }
         });
 
         return builder;
     }
-
 
     /// <summary>
     /// 添加事务特性功能
@@ -103,5 +104,58 @@ public static class DbBuilderExtensions
         });
 
         return builder;
+    }
+
+    /// <summary>
+    /// 加载初始化数据
+    /// </summary>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    private static List<JsonProperty> LoadInitData(CodeFirstOptions options)
+    {
+        //初始化数据
+        if (options.InitData && options.InitDataFilePath.NotNull() && File.Exists(options.InitDataFilePath))
+        {
+            using var jsonReader = new StreamReader(options.InitDataFilePath, Encoding.UTF8);
+            var str = jsonReader.ReadToEnd();
+
+            var doc = JsonDocument.Parse(str);
+            return doc.RootElement.EnumerateObject().ToList();
+        }
+
+        return new List<JsonProperty>();
+    }
+
+    private static void InitTableData(List<JsonProperty> initData, IDbContext dbContext, IEntityDescriptor entityDescriptor, IServiceCollection services)
+    {
+        //初始化数据
+        if (initData.Any())
+        {
+            var jsonHelper = new JsonHelper();
+
+            var property = initData.First(m => m.Name == entityDescriptor.Name);
+
+            var list = (IList)jsonHelper.Deserialize(property.Value.ToString(), typeof(List<>).MakeGenericType(entityDescriptor.EntityType));
+
+            if (list == null || list.Count == 0)
+                return;
+
+            var repositoryDescriptor = dbContext.RepositoryDescriptors.FirstOrDefault(m => m.EntityType == entityDescriptor.EntityType);
+
+            var repository = (IRepository)services.BuildServiceProvider().GetService(repositoryDescriptor!.InterfaceType);
+
+            using var uow = dbContext.NewUnitOfWork();
+            repository.BindingUow(uow);
+
+            var tasks = new List<Task>();
+            foreach (var item in list)
+            {
+                tasks.Add(repository.Add(item));
+            }
+
+            Task.WaitAll(tasks.ToArray());
+
+            uow.SaveChanges();
+        }
     }
 }

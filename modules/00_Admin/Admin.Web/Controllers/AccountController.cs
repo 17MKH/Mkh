@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Annotations;
+using Mkh.Config.Abstractions;
 using Mkh.Mod.Admin.Core.Application.Account;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
 using Mkh.Mod.Admin.Core.Infrastructure;
-using Mkh.Utils.Config;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers;

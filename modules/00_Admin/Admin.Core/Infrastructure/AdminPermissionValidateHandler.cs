@@ -3,17 +3,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mkh.Auth.Abstractions;
 
-namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults;
+namespace Mkh.Mod.Admin.Core.Infrastructure;
 
 /// <summary>
 /// 默认权限验证处理器
 /// </summary>
-internal class DefaultPermissionValidateHandler : IPermissionValidateHandler
+internal class AdminPermissionValidateHandler : IPermissionValidateHandler
 {
     private readonly IAccountPermissionResolver _accountPermissionResolver;
     private readonly IAccount _account;
 
-    public DefaultPermissionValidateHandler(IAccountPermissionResolver accountPermissionResolver, IAccount account)
+    public AdminPermissionValidateHandler(IAccountPermissionResolver accountPermissionResolver, IAccount account)
     {
         _accountPermissionResolver = accountPermissionResolver;
         _account = account;

@@ -20,7 +20,7 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
 
     #region ==创建库==
 
-    public override bool CreateDatabase()
+    public override void CreateDatabase()
     {
         var con = Context.NewConnection();
 
@@ -36,7 +36,7 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
         if (isExistsDatabase)
         {
             con.Close();
-            return false;
+            return;
         }
 
         //创建前事件
@@ -49,8 +49,6 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
 
         //创建后事件
         Options.BeforeCreateDatabase?.Invoke(Context);
-
-        return true;
     }
 
     #endregion
@@ -81,9 +79,10 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
                 var sql = GenerateCreateTableSql(descriptor);
 
                 con.Execute(sql);
+
                 con.Close();
 
-                Options.BeforeCreateTable?.Invoke(Context, descriptor);
+                Options.AfterCreateTable?.Invoke(Context, descriptor);
             }
         }
     }

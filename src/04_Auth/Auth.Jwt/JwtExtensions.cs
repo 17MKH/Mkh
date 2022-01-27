@@ -26,6 +26,9 @@ public static class JwtExtensions
         var jwtOptions = builder.Configuration.Get<JwtOptions>("Mkh:Auth:Jwt");
         services.AddSingleton(jwtOptions);
 
+        //添加令牌存储器
+        services.AddSingleton<IJwtTokenStorage, DefaultJwtTokenStorage>();
+
         //添加凭证构造器
         services.AddScoped<ICredentialBuilder, JwtCredentialBuilder>();
 

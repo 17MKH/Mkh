@@ -1,4 +1,4 @@
-﻿using Mkh.Utils.Config;
+﻿using Mkh.Config.Abstractions;
 
 namespace Mkh.Mod.Admin.Core.Infrastructure;
 

@@ -1,8 +1,6 @@
-using System.IO;
 using System.Linq;
 using System.Text;
 using Dapper;
-using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Descriptors;
@@ -19,12 +17,8 @@ public class SqliteCodeFirstProvider : CodeFirstProviderAbstract
 
     #region ==创建库==
 
-    public override bool CreateDatabase()
+    public override void CreateDatabase()
     {
-        var con = (SqliteConnection)Context.NewConnection();
-
-        //如果不存在数据库文件，后续会自动创建，所以这里需要以此判断是否创建库
-        return !File.Exists(con.DataSource);
     }
 
     #endregion
@@ -59,7 +53,7 @@ public class SqliteCodeFirstProvider : CodeFirstProviderAbstract
                 con.Execute(sql);
                 con.Close();
 
-                Options.BeforeCreateTable?.Invoke(Context, descriptor);
+                Options.AfterCreateTable?.Invoke(Context, descriptor);
             }
         }
     }

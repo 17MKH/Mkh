@@ -19,10 +19,10 @@ public class AdminCacheKeys
     /// <summary>
     /// 刷新令牌
     /// </summary>
-    /// <param name="accountId">账户编号</param>
+    /// <param name="refreshToken">刷新令牌</param>
     /// <param name="platform">平台</param>
     /// <returns></returns>
-    public string RefreshToken(Guid accountId, int platform) => $"ADMIN:REFRESH_TOKEN:{accountId}:{platform}";
+    public string RefreshToken(string refreshToken, int platform) => $"ADMIN:REFRESH_TOKEN:{platform}";
 
     /// <summary>
     /// 账户权限列表

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Mkh.Utils.Annotations;
 using Mkh.Utils.Helpers;
@@ -128,6 +129,19 @@ public static class ServiceCollectionExtensions
                 //此处防止第三方库抛出一场导致系统无法启动，所以需要捕获异常来处理一下
             }
         }
+        return services;
+    }
+
+    /// <summary>
+    /// 添加Utils中的服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddUtils(this IServiceCollection services, IConfiguration cfg)
+    {
+        services.AddServicesFromAttribute();
+
         return services;
     }
 }

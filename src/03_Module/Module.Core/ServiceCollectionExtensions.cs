@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Mkh.Module.Abstractions;
-using Mkh.Module.Abstractions.Options;
-using Mkh.Utils.Extensions;
 
 namespace Mkh.Module.Core;
 
@@ -68,7 +65,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <param name="module"></param>
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services, ModuleDescriptor module)
+    private static void AddApplicationServices(this IServiceCollection services, ModuleDescriptor module)
     {
         var assembly = module.LayerAssemblies.Core;
         //按照约定，应用服务必须采用Service结尾
@@ -83,7 +80,5 @@ public static class ServiceCollectionExtensions
 
             module.ApplicationServices.Add(serviceType, implType);
         }
-
-        return services;
     }
 }

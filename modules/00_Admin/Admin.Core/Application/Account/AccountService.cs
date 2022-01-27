@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Mkh.Config.Abstractions;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Domain.AccountSkin;
 using Mkh.Mod.Admin.Core.Domain.Role;
 using Mkh.Mod.Admin.Core.Infrastructure;
-using Mkh.Utils.Config;
 using Mkh.Utils.Map;
 
 namespace Mkh.Mod.Admin.Core.Application.Account;

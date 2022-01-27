@@ -1,4 +1,4 @@
-﻿namespace Mkh.Utils.Config;
+﻿namespace Mkh.Config.Abstractions;
 
 /// <summary>
 /// 通用配置

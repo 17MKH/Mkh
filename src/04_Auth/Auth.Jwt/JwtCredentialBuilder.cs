@@ -18,16 +18,16 @@ public class JwtCredentialBuilder : ICredentialBuilder
 {
     private readonly JwtOptions _options;
     private readonly ILogger<JwtCredentialBuilder> _logger;
-    private readonly IJwtTokenStorageProvider _tokenStorageProvider;
+    private readonly IJwtTokenStorage _jwtTokenStorage;
 
-    public JwtCredentialBuilder(JwtOptions options, ILogger<JwtCredentialBuilder> logger, IJwtTokenStorageProvider tokenStorageProvider)
+    public JwtCredentialBuilder(JwtOptions options, ILogger<JwtCredentialBuilder> logger, IJwtTokenStorage tokenStorage)
     {
         _options = options;
         _logger = logger;
-        _tokenStorageProvider = tokenStorageProvider;
+        _jwtTokenStorage = tokenStorage;
     }
 
-    public async Task<IResultModel> Build(List<Claim> claims)
+    public async Task<ICredential> Build(List<Claim> claims)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Key));
         var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -35,20 +35,22 @@ public class JwtCredentialBuilder : ICredentialBuilder
         var jwtSecurityToken = new JwtSecurityToken(_options.Issuer, _options.Audience, claims, DateTime.Now, DateTime.Now.AddMinutes(_options.Expires), signingCredentials);
         var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
-        _logger.LogDebug("生成AccessToken：{token}", token);
+        _logger.LogDebug("build access_token：{token}", token);
 
-        var result = new JwtResultModel
+        var jwtCredential = new JwtCredential
         {
             AccountId = Guid.Parse(claims.First(m => m.Type == MkhClaimTypes.ACCOUNT_ID).Value),
             Platform = claims.First(m => m.Type == MkhClaimTypes.PLATFORM).Value.ToInt(),
+            LoginIP = claims.First(m => m.Type == MkhClaimTypes.LOGIN_IP).Value,
+            LoginTime = claims.First(m => m.Type == MkhClaimTypes.LOGIN_TIME).Value.ToLong(),
             AccessToken = token,
             ExpiresIn = (_options.Expires < 0 ? 120 : _options.Expires) * 60,
             RefreshToken = Guid.NewGuid().ToString().Replace("-", "")
         };
 
         //存储令牌信息
-        await _tokenStorageProvider.Save(result, claims);
+        await _jwtTokenStorage.Save(jwtCredential);
 
-        return ResultModel.Success(result);
+        return jwtCredential;
     }
 }

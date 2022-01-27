@@ -1,4 +1,4 @@
-﻿namespace Mkh.Utils.Config;
+﻿namespace Mkh.Config.Abstractions;
 
 /// <summary>
 /// 配置提供器

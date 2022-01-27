@@ -31,7 +31,7 @@ public static class MkhClaimTypes
     public const string LOGIN_TIME = "lt";
 
     /// <summary>
-    /// 客户IP
+    /// 登录IP
     /// </summary>
-    public const string IP = "ip";
+    public const string LOGIN_IP = "ip";
 }

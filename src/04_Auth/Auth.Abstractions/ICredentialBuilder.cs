@@ -14,5 +14,5 @@ public interface ICredentialBuilder
     /// </summary>
     /// <param name="claims">账户声明</param>
     /// <returns></returns>
-    Task<IResultModel> Build(List<Claim> claims);
+    Task<ICredential> Build(List<Claim> claims);
 }

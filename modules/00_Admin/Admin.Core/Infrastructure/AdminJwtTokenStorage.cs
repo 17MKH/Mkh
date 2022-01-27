@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Mkh.Auth.Abstractions;
 using Mkh.Auth.Jwt;
 using Mkh.Cache.Abstractions;
 using Mkh.Mod.Admin.Core.Domain.JwtAuthInfo;
 
-namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults;
+namespace Mkh.Mod.Admin.Core.Infrastructure;
 
-internal class DefaultJwtTokenStorageProvider : IJwtTokenStorageProvider
+internal class AdminJwtTokenStorage : IJwtTokenStorage
 {
     private readonly IJwtAuthInfoRepository _repository;
     private readonly JwtOptions _jwtOptions;
     private readonly ICacheHandler _cacheHandler;
     private readonly AdminCacheKeys _cacheKeys;
 
-    public DefaultJwtTokenStorageProvider(IJwtAuthInfoRepository repository, JwtOptions jwtOptions, ICacheHandler cacheHandler, AdminCacheKeys cacheKeys)
+    public AdminJwtTokenStorage(IJwtAuthInfoRepository repository, JwtOptions jwtOptions, ICacheHandler cacheHandler, AdminCacheKeys cacheKeys)
     {
         _repository = repository;
         _jwtOptions = jwtOptions;
@@ -25,7 +21,7 @@ internal class DefaultJwtTokenStorageProvider : IJwtTokenStorageProvider
         _cacheKeys = cacheKeys;
     }
 
-    public async Task Save(JwtResultModel model, List<Claim> claims)
+    public async Task Save(JwtCredential model)
     {
         var entity = await _repository.Find(m => m.AccountId == model.AccountId && m.Platform == model.Platform)
             .ToFirst();
@@ -41,8 +37,8 @@ internal class DefaultJwtTokenStorageProvider : IJwtTokenStorageProvider
             };
         }
 
-        entity.LoginIP = claims.First(m => m.Type == MkhClaimTypes.IP).Value;
-        entity.LoginTime = claims.First(m => m.Type == MkhClaimTypes.LOGIN_TIME).Value.ToLong();
+        entity.LoginIP = model.LoginIP;
+        entity.LoginTime = model.LoginTime;
         entity.RefreshToken = model.RefreshToken;
 
         //默认刷新令牌有效期7天
@@ -58,12 +54,11 @@ internal class DefaultJwtTokenStorageProvider : IJwtTokenStorageProvider
         }
 
         //刷新令牌加入缓存
-        await _cacheHandler.Set(_cacheKeys.RefreshToken(model.AccountId, model.Platform), model.RefreshToken, entity.RefreshTokenExpiredTime);
+        await _cacheHandler.Set(_cacheKeys.RefreshToken(model.RefreshToken, model.Platform), model.AccountId, entity.RefreshTokenExpiredTime);
     }
 
-    public async Task<bool> Check(string refreshToken, Guid accountId, int platform)
+    public async Task<Guid> CheckRefreshToken(string refreshToken, int platform)
     {
-        var cacheToken = await _cacheHandler.Get(_cacheKeys.RefreshToken(accountId, platform));
-        return cacheToken.NotNull() && cacheToken == refreshToken;
+        return await _cacheHandler.Get<Guid>(_cacheKeys.RefreshToken(refreshToken, platform));
     }
 }

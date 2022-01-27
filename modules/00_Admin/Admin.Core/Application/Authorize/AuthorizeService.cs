@@ -21,9 +21,9 @@ public class AuthorizeService : IAuthorizeService
     private readonly IAccountProfileResolver _accountProfileResolver;
     private readonly ICredentialClaimExtender _credentialClaimExtender;
     private readonly ICredentialBuilder _credentialBuilder;
-    private readonly IJwtTokenStorageProvider _jwtTokenStorageProvider;
+    private readonly IJwtTokenStorage _jwtTokenStorageProvider;
 
-    public AuthorizeService(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler, IAccountProfileResolver accountProfileResolver, ICredentialClaimExtender credentialClaimExtender, ICredentialBuilder credentialBuilder, IJwtTokenStorageProvider jwtTokenStorageProvider)
+    public AuthorizeService(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler, IAccountProfileResolver accountProfileResolver, ICredentialClaimExtender credentialClaimExtender, ICredentialBuilder credentialBuilder, IJwtTokenStorage jwtTokenStorageProvider)
     {
         _authOptions = authOptions;
         _verifyCodeProvider = verifyCodeProvider;
@@ -83,7 +83,7 @@ public class AuthorizeService : IAuthorizeService
         //验证IP
         if (_authOptions.CurrentValue.EnableCheckIP)
         {
-            claims.Add(new(MkhClaimTypes.IP, dto.IP));
+            claims.Add(new(MkhClaimTypes.LOGIN_IP, dto.IP));
         }
 
         if (_credentialClaimExtender != null)
@@ -91,14 +91,15 @@ public class AuthorizeService : IAuthorizeService
             await _credentialClaimExtender.Extend(claims, account.Id);
         }
 
-        return await _credentialBuilder.Build(claims);
+        return ResultModel.Success(await _credentialBuilder.Build(claims));
     }
 
     public async Task<IResultModel> RefreshToken(RefreshTokenDto dto)
     {
-        if (await _jwtTokenStorageProvider.Check(dto.RefreshToken, dto.AccountId, dto.Platform))
+        var accountId = await _jwtTokenStorageProvider.CheckRefreshToken(dto.RefreshToken, dto.Platform);
+        if (accountId != Guid.Empty)
         {
-            var account = await _accountRepository.Get(dto.AccountId);
+            var account = await _accountRepository.Get(accountId);
             var claims = new List<Claim>
             {
                 new(MkhClaimTypes.TENANT_ID, account.TenantId != null ? account.TenantId.ToString() : ""),
@@ -106,7 +107,7 @@ public class AuthorizeService : IAuthorizeService
                 new(MkhClaimTypes.ACCOUNT_NAME, account.Name),
                 new(MkhClaimTypes.PLATFORM, dto.Platform.ToInt().ToString()),
                 new(MkhClaimTypes.LOGIN_TIME, DateTime.Now.ToTimestamp().ToString()),
-                new(MkhClaimTypes.IP, dto.IP)
+                new(MkhClaimTypes.LOGIN_IP, dto.IP)
             };
 
             if (_credentialClaimExtender != null)
@@ -114,7 +115,10 @@ public class AuthorizeService : IAuthorizeService
                 await _credentialClaimExtender.Extend(claims, account.Id);
             }
 
-            return await _credentialBuilder.Build(claims);
+            var jwtCredential = (JwtCredential)await _credentialBuilder.Build(claims);
+            jwtCredential.RefreshToken = dto.RefreshToken;
+
+            return ResultModel.Success(jwtCredential);
         }
 
         return ResultModel.Failed("令牌无效");
