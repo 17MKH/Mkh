@@ -133,7 +133,10 @@ public static class DbBuilderExtensions
         {
             var jsonHelper = new JsonHelper();
 
-            var property = initData.First(m => m.Name == entityDescriptor.Name);
+            if (initData.All(m => m.Name != entityDescriptor.Name))
+                return;
+
+            var property = initData.FirstOrDefault(m => m.Name == entityDescriptor.Name);
 
             var list = (IList)jsonHelper.Deserialize(property.Value.ToString(), typeof(List<>).MakeGenericType(entityDescriptor.EntityType));
 
