@@ -40,8 +40,6 @@ public class JwtCredentialBuilder : ICredentialBuilder
         var jwtCredential = new JwtCredential
         {
             AccountId = Guid.Parse(claims.First(m => m.Type == MkhClaimTypes.ACCOUNT_ID).Value),
-            Platform = claims.First(m => m.Type == MkhClaimTypes.PLATFORM).Value.ToInt(),
-            LoginIP = claims.First(m => m.Type == MkhClaimTypes.LOGIN_IP).Value,
             LoginTime = claims.First(m => m.Type == MkhClaimTypes.LOGIN_TIME).Value.ToLong(),
             AccessToken = token,
             ExpiresIn = (_options.Expires < 0 ? 120 : _options.Expires) * 60,
@@ -49,7 +47,7 @@ public class JwtCredentialBuilder : ICredentialBuilder
         };
 
         //存储令牌信息
-        await _jwtTokenStorage.Save(jwtCredential);
+        await _jwtTokenStorage.Save(jwtCredential, claims);
 
         return jwtCredential;
     }

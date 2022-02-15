@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Mkh;
 using Mkh.Utils.Helpers;
+using Mkh.Utils.Json;
 using Xunit;
 
 namespace Utils.Tests.Helpers

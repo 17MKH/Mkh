@@ -6,27 +6,13 @@ namespace Mkh.Auth.Jwt;
 /// <summary>
 /// JWT返回模型
 /// </summary>
+[Serializable]
 public class JwtCredential : ICredential
 {
     /// <summary>
     /// 账户编号
     /// </summary>
     public Guid AccountId { get; set; }
-
-    /// <summary>
-    /// 平台
-    /// </summary>
-    public int Platform { get; set; }
-
-    /// <summary>
-    /// 登录IP
-    /// </summary>
-    public string LoginIP { get; set; }
-
-    /// <summary>
-    /// 登录时间戳
-    /// </summary>
-    public long LoginTime { get; set; }
 
     /// <summary>
     /// 访问令牌
@@ -42,4 +28,9 @@ public class JwtCredential : ICredential
     /// 访问令牌有效期
     /// </summary>
     public int ExpiresIn { get; set; }
+
+    /// <summary>
+    /// 登录时间戳
+    /// </summary>
+    public long LoginTime { get; set; }
 }

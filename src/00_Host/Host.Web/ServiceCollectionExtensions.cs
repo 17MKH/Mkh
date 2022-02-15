@@ -11,6 +11,7 @@ using Mkh.Data.Core;
 using Mkh.Host.Web.Swagger.Conventions;
 using Mkh.Module.Abstractions;
 using Mkh.Module.Web;
+using Mkh.Utils.Json;
 using Mkh.Utils.Json.Converters;
 
 namespace Mkh.Host.Web;
@@ -45,6 +46,9 @@ internal static class ServiceCollectionExtensions
                 options.JsonSerializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
                 //添加日期转换器
                 options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+                //添加多态嵌套序列化
+                options.JsonSerializerOptions.AddPolymorphism();
+
             })
             //添加模块
             .AddModules(modules);

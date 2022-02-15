@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Mkh.Auth.Abstractions;
 using Mkh.Auth.Jwt;
 using Mkh.Cache.Abstractions;
 using Mkh.Mod.Admin.Core.Domain.JwtAuthInfo;
@@ -21,9 +25,10 @@ internal class AdminJwtTokenStorage : IJwtTokenStorage
         _cacheKeys = cacheKeys;
     }
 
-    public async Task Save(JwtCredential model)
+    public async Task Save(JwtCredential model, List<Claim> claims)
     {
-        var entity = await _repository.Find(m => m.AccountId == model.AccountId && m.Platform == model.Platform)
+        var platform = claims.First(m => m.Type == MkhClaimTypes.PLATFORM).Value.ToInt();
+        var entity = await _repository.Find(m => m.AccountId == model.AccountId && m.Platform == platform)
             .ToFirst();
 
         var exists = true;
@@ -33,11 +38,11 @@ internal class AdminJwtTokenStorage : IJwtTokenStorage
             entity = new JwtAuthInfoEntity
             {
                 AccountId = model.AccountId,
-                Platform = model.Platform
+                Platform = platform
             };
         }
 
-        entity.LoginIP = model.LoginIP;
+        entity.LoginIP = claims.First(m => m.Type == MkhClaimTypes.LOGIN_IP).Value;
         entity.LoginTime = model.LoginTime;
         entity.RefreshToken = model.RefreshToken;
 
@@ -54,7 +59,7 @@ internal class AdminJwtTokenStorage : IJwtTokenStorage
         }
 
         //刷新令牌加入缓存
-        await _cacheHandler.Set(_cacheKeys.RefreshToken(model.RefreshToken, model.Platform), model.AccountId, entity.RefreshTokenExpiredTime);
+        await _cacheHandler.Set(_cacheKeys.RefreshToken(model.RefreshToken, platform), model.AccountId, entity.RefreshTokenExpiredTime);
     }
 
     public async Task<Guid> CheckRefreshToken(string refreshToken, int platform)

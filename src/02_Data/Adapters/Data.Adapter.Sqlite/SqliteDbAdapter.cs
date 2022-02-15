@@ -16,7 +16,7 @@ public class SqliteDbAdapter : DbAdapterAbstract
         SqlMapper.AddTypeHandler(new GuidTypeHandler());
     }
 
-    public override DbProvider Provider => DbProvider.MySql;
+    public override DbProvider Provider => DbProvider.Sqlite;
 
     /// <summary>
     /// 左引号

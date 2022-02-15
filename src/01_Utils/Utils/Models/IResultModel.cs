@@ -1,9 +1,13 @@
 ﻿// ReSharper disable once CheckNamespace
+
+using Mkh.Utils.Json.Converters;
+
 namespace Mkh;
 
 /// <summary>
 /// 返回结果模型接口
 /// </summary>
+[JsonPolymorphism]
 public interface IResultModel
 {
     /// <summary>

@@ -9,17 +9,17 @@ namespace Mkh;
 
 public static class EnumExtensions
 {
-    private static readonly ConcurrentDictionary<string, string> DescriptionCache = new ConcurrentDictionary<string, string>();
+    private static readonly ConcurrentDictionary<string, string> DescriptionCache = new();
 
     /// <summary>
     /// 包含UnKnown选项
     /// </summary>
-    private static readonly ConcurrentDictionary<RuntimeTypeHandle, OptionCollectionResultModel> ListCache = new ConcurrentDictionary<RuntimeTypeHandle, OptionCollectionResultModel>();
+    private static readonly ConcurrentDictionary<RuntimeTypeHandle, OptionCollectionResultModel> ListCache = new();
 
     /// <summary>
     /// 不包含UnKnown选项
     /// </summary>
-    private static readonly ConcurrentDictionary<RuntimeTypeHandle, OptionCollectionResultModel> ListCacheNoIgnore = new ConcurrentDictionary<RuntimeTypeHandle, OptionCollectionResultModel>();
+    private static readonly ConcurrentDictionary<RuntimeTypeHandle, OptionCollectionResultModel> ListCacheNoIgnore = new();
 
     /// <summary>
     /// 获取枚举类型的Description说明

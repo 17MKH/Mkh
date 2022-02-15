@@ -4,7 +4,7 @@ using System.Text.Json;
 using Mkh.Utils.Annotations;
 using Mkh.Utils.Json.Converters;
 
-namespace Mkh.Utils.Helpers;
+namespace Mkh.Utils.Json;
 
 /// <summary>
 /// JSON序列化帮助类
@@ -29,6 +29,8 @@ public class JsonHelper
         _options.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
         //添加日期转换器
         _options.Converters.Add(new DateTimeConverter());
+        //添加多态嵌套序列化
+        _options.AddPolymorphism();
     }
 
     /// <summary>
@@ -39,7 +41,7 @@ public class JsonHelper
     /// <returns></returns>
     public string Serialize<T>(T obj)
     {
-        return JsonSerializer.Serialize(obj, _options);
+        return JsonSerializer.Serialize(obj, typeof(T), _options);
     }
 
     /// <summary>
@@ -59,7 +61,7 @@ public class JsonHelper
     /// <param name="json">json文本</param>
     /// <param name="type">类型</param>
     /// <returns></returns>
-    public object? Deserialize(string json, Type type)
+    public object Deserialize(string json, Type type)
     {
         return JsonSerializer.Deserialize(json, type, _options);
     }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Mkh.Auth.Jwt;
@@ -12,8 +14,9 @@ public interface IJwtTokenStorage
     /// 存储
     /// </summary>
     /// <param name="model"></param>
+    /// <param name="claims"></param>
     /// <returns></returns>
-    Task Save(JwtCredential model);
+    Task Save(JwtCredential model, List<Claim> claims);
 
     /// <summary>
     /// 检测刷新令牌并返回账户编号
@@ -26,7 +29,7 @@ public interface IJwtTokenStorage
 
 internal class DefaultJwtTokenStorage : IJwtTokenStorage
 {
-    public Task Save(JwtCredential model)
+    public Task Save(JwtCredential model, List<Claim> claims)
     {
         return Task.CompletedTask;
     }

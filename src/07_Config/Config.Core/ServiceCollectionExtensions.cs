@@ -19,52 +19,12 @@ public static class ServiceCollectionExtensions
             return;
         }
 
-        var configProvider = new ConfigProvider();
+        var configProvider = new DefaultConfigProvider(cfg);
 
-        services.AddCommonConfig(cfg, configProvider);
+        configProvider.AddCommonConfig();
 
-        services.AddModuleConfig(cfg, modules, configProvider);
+        configProvider.AddModuleConfig(modules);
 
         services.TryAddSingleton<IConfigProvider>(configProvider);
-    }
-
-    /// <summary>
-    /// 添加通用配置
-    /// </summary>
-    /// <param name="services"></param>
-    /// <param name="cfg"></param>
-    /// <param name="configProvider"></param>
-    private static void AddCommonConfig(this IServiceCollection services, IConfiguration cfg, ConfigProvider configProvider)
-    {
-        //添加通用配置
-        var commonConfig = new CommonConfig();
-        cfg.GetSection("Mkh:Common").Bind(commonConfig);
-        if (commonConfig.TempDir.IsNull())
-        {
-            commonConfig.TempDir = Path.Combine(AppContext.BaseDirectory, "Temp");
-        }
-
-        configProvider.Add(commonConfig);
-    }
-
-    /// <summary>
-    /// 添加模块配置
-    /// </summary>
-    /// <param name="services"></param>
-    /// <param name="cfg"></param>
-    /// <param name="modules"></param>
-    /// <param name="configProvider"></param>
-    private static void AddModuleConfig(this IServiceCollection services, IConfiguration cfg, IModuleCollection modules, ConfigProvider configProvider)
-    {
-        foreach (var module in modules)
-        {
-            var configType = module.LayerAssemblies.Core.GetTypes().FirstOrDefault(m => typeof(IConfig).IsImplementType(m));
-            if (configType != null)
-            {
-                var instance = (IConfig)Activator.CreateInstance(configType)!;
-                cfg.GetSection($"Mkh:Modules:{module.Code}:Config").Bind(instance);
-                configProvider.Add(instance);
-            }
-        }
     }
 }

@@ -15,6 +15,7 @@ using Mkh.Data.Abstractions.Descriptors;
 using Mkh.Data.Abstractions.Options;
 using Mkh.Data.Core.Internal;
 using Mkh.Utils.Helpers;
+using Mkh.Utils.Json;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;

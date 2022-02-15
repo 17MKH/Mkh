@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Mkh.Auth.Abstractions;
@@ -91,7 +92,12 @@ public class AuthorizeService : IAuthorizeService
             await _credentialClaimExtender.Extend(claims, account.Id);
         }
 
-        return ResultModel.Success(await _credentialBuilder.Build(claims));
+        var res = ResultModel.Success(await _credentialBuilder.Build(claims));
+
+
+        var json = JsonSerializer.Serialize(res, res.GetType());
+
+        return res;
     }
 
     public async Task<IResultModel> RefreshToken(RefreshTokenDto dto)
