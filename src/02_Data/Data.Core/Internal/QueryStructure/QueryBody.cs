@@ -173,7 +173,7 @@ public class QueryBody
 
     public void SetWhere(LambdaExpression expression, string queryOperator, Abstractions.Queryable.IQueryable subQueryable)
     {
-        if (subQueryable != null)
+        if (subQueryable == null)
             return;
 
         Wheres ??= new List<QueryWhere>();
