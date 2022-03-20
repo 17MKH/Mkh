@@ -1,10 +1,10 @@
 <template>
   <m-list ref="listRef" class="m-border-none" :header="false" :cols="cols" :query-model="model" :query-method="query">
     <template #querybar>
-      <el-form-item label="名称：" prop="name">
+      <el-form-item :label="$t('mkh.name')" prop="name">
         <el-input v-model="model.name" clearable />
       </el-form-item>
-      <el-form-item label="编码：" prop="code">
+      <el-form-item :label="$t('mkh.code')" prop="code">
         <el-input v-model="model.code" clearable />
       </el-form-item>
     </template>
@@ -13,11 +13,11 @@
     </template>
     <template #expand="{ row }">
       <el-descriptions :column="4" size="small">
-        <el-descriptions-item label="扩展数据：" :span="4">{{ row.extend }}</el-descriptions-item>
-        <el-descriptions-item label="创建人：">{{ row.creator }}</el-descriptions-item>
-        <el-descriptions-item label="创建时间：">{{ row.createdTime }}</el-descriptions-item>
-        <el-descriptions-item label="修改人：">{{ row.modifier }}</el-descriptions-item>
-        <el-descriptions-item label="修改时间：">{{ row.modifiedTime }}</el-descriptions-item>
+        <el-descriptions-item :label="$t('mod.admin.extend_data')" :span="4">{{ row.extend }}</el-descriptions-item>
+        <el-descriptions-item :label="$t('mkh.creator')">{{ row.creator }}</el-descriptions-item>
+        <el-descriptions-item :label="$t('mkh.created_time')">{{ row.createdTime }}</el-descriptions-item>
+        <el-descriptions-item :label="$t('mkh.modifier')">{{ row.modifier }}</el-descriptions-item>
+        <el-descriptions-item :label="$t('mkh.modified_time')">{{ row.modifiedTime }}</el-descriptions-item>
       </el-descriptions>
     </template>
     <template #col-icon="{ row }">
@@ -56,12 +56,12 @@ export default {
 
     const model = reactive({ groupCode, dictCode, parentId, name: '', value: '' })
     const cols = [
-      { prop: 'id', label: '编号', width: '55', show: false },
-      { prop: 'name', label: '名称' },
-      { prop: 'value', label: '值' },
-      { prop: 'icon', label: '图标' },
-      { prop: 'level', label: '级别' },
-      { prop: 'sort', label: '排序' },
+      { prop: 'id', label: 'mkh.id', width: '55', show: false },
+      { prop: 'name', label: 'mkh.name' },
+      { prop: 'value', label: 'mkh.value' },
+      { prop: 'icon', label: 'mkh.icon' },
+      { prop: 'level', label: 'mkh.level' },
+      { prop: 'sort', label: 'mkh.sort' },
     ]
 
     const list = useList()

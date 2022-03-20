@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
+using Mkh.Data.Abstractions.Adapter;
 using Mkh.Module.Abstractions;
 using Mkh.Module.Abstractions.Options;
 using Mkh.Utils.Abstracts;
 using Mkh.Utils.Helpers;
-using Mkh.Utils.Extensions;
 
 namespace Mkh.Module.Core;
 
@@ -40,7 +40,7 @@ public class ModuleCollection : CollectionAbstract<ModuleDescriptor>, IModuleCol
     /// <summary>
     /// 加载模块
     /// </summary>
-    public void Load()
+    public void Load(CommonOptions commonOptions)
     {
         var modulesRootPath = Path.Combine(AppContext.BaseDirectory, Constants.ROOT_DIR);
         if (!Directory.Exists(modulesRootPath))
@@ -55,13 +55,24 @@ public class ModuleCollection : CollectionAbstract<ModuleDescriptor>, IModuleCol
         foreach (var dir in moduleDirs)
         {
             var code = Path.GetFileName(dir)!.Split("_")[1];
-            var options = _configuration.Get<ModuleOptions>($"Mkh:Modules:{code}");
-            if (options.Db != null)
+
+            var options = new ModuleOptions
             {
-                options.Code = code;
-                options.Dir = dir;
-                optionsList.Add(options);
+                Dir = dir,
+                Code = code,
+                Db = new ModuleDbOptions()
+            };
+
+            if (commonOptions.Db != null)
+            {
+                options.Db = JsonSerializer.Deserialize<ModuleDbOptions>(JsonSerializer.Serialize(commonOptions.Db));
             }
+
+            _configuration.GetSection($"Mkh:Modules:{code}").Bind(options);
+
+            CheckOptions(options);
+
+            optionsList.Add(options);
         }
 
         foreach (var options in optionsList.OrderBy(m => m.Sort))
@@ -71,6 +82,20 @@ public class ModuleCollection : CollectionAbstract<ModuleDescriptor>, IModuleCol
 
         //释放资源
         _assemblyHelper = null;
+    }
+
+    /// <summary>
+    /// 检测配置项是否正确
+    /// </summary>
+    /// <param name="options"></param>
+    private void CheckOptions(ModuleOptions options)
+    {
+        Check.NotNull(options, nameof(options), "module options is null");
+
+        Check.NotNull(options.Db, nameof(options.Db), "module database options is null");
+
+        if (options.Db.Provider != DbProvider.Sqlite)
+            Check.NotNull(options.Db.ConnectionString, nameof(options.Db.ConnectionString), "module database connectionString is null");
     }
 
     /// <summary>

@@ -3,7 +3,7 @@ using System.Data;
 using System.Linq;
 using Dapper;
 using Mkh.Data.Abstractions.Schema;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 
 namespace Mkh.Data.Adapter.MySql;
 

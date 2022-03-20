@@ -22,22 +22,6 @@ internal class DefaultConfigProvider : IConfigProvider
     }
 
     /// <summary>
-    /// 添加通用配置
-    /// </summary>
-    public void AddCommonConfig()
-    {
-        //添加通用配置
-        var commonConfig = new CommonConfig();
-        _cfg.GetSection("Mkh:Common").Bind(commonConfig);
-        if (commonConfig.TempDir.IsNull())
-        {
-            commonConfig.TempDir = Path.Combine(AppContext.BaseDirectory, "Temp");
-        }
-
-        _configs.Add(typeof(CommonConfig).TypeHandle, commonConfig);
-    }
-
-    /// <summary>
     /// 添加模块配置
     /// </summary>
     /// <param name="modules"></param>

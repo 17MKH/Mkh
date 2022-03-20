@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Mkh.Mod.Admin.Core.Application.Authorize.Vo;
+using Mkh.Mod.Admin.Core.Application.Menu.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Domain.AccountSkin;
 using Mkh.Mod.Admin.Core.Domain.Menu;
 using Mkh.Mod.Admin.Core.Domain.RoleButton;
 using Mkh.Mod.Admin.Core.Domain.RoleMenu;
+using Mkh.Utils.Json;
 using Mkh.Utils.Map;
 
 namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults;
@@ -20,13 +23,15 @@ internal class DefaultAccountProfileResolver : IAccountProfileResolver
     private readonly IRoleMenuRepository _roleMenuRepository;
     private readonly IRoleButtonRepository _roleButtonRepository;
     private readonly IAccountSkinRepository _accountSkinRepository;
+    private readonly JsonHelper _jsonHelper;
 
-    public DefaultAccountProfileResolver(IRoleMenuRepository roleMenuRepository, IMapper mapper, IRoleButtonRepository roleButtonRepository, IAccountSkinRepository accountSkinRepository)
+    public DefaultAccountProfileResolver(IRoleMenuRepository roleMenuRepository, IMapper mapper, IRoleButtonRepository roleButtonRepository, IAccountSkinRepository accountSkinRepository, JsonHelper jsonHelper)
     {
         _roleMenuRepository = roleMenuRepository;
         _mapper = mapper;
         _roleButtonRepository = roleButtonRepository;
         _accountSkinRepository = accountSkinRepository;
+        _jsonHelper = jsonHelper;
     }
 
     public async Task<ProfileVo> Resolve(AccountEntity account, int platform)
@@ -80,6 +85,12 @@ internal class DefaultAccountProfileResolver : IAccountProfileResolver
         foreach (var child in children)
         {
             var menuVo = _mapper.Map<ProfileMenuVo>(child);
+
+            if (child.LocalesConfig.NotNull())
+            {
+                menuVo.Locales = _jsonHelper.Deserialize<MenuLocales>(child.LocalesConfig);
+            }
+
             menuVo.Buttons = buttons.Where(m => m.MenuId == child.Id).Select(m => m.ButtonCode.ToLower()).ToList();
 
             parent.Children.Add(menuVo);

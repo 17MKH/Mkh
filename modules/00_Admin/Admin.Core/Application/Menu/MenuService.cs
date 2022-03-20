@@ -7,6 +7,7 @@ using Mkh.Mod.Admin.Core.Domain.Menu;
 using Mkh.Mod.Admin.Core.Domain.RoleButton;
 using Mkh.Mod.Admin.Core.Domain.RoleMenu;
 using Mkh.Mod.Admin.Core.Domain.RolePermission;
+using Mkh.Utils.Json;
 using Mkh.Utils.Map;
 
 namespace Mkh.Mod.Admin.Core.Application.Menu;
@@ -18,20 +19,21 @@ public class MenuService : IMenuService
     private readonly IRoleMenuRepository _roleMenuRepository;
     private readonly IRoleButtonRepository _roleButtonRepository;
     private readonly IRolePermissionRepository _rolePermissionRepository;
+    private readonly JsonHelper _jsonHelper;
 
-    public MenuService(IMapper mapper, IMenuRepository repository, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository)
+    public MenuService(IMapper mapper, IMenuRepository repository, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository, JsonHelper jsonHelper)
     {
         _mapper = mapper;
         _repository = repository;
         _roleMenuRepository = roleMenuRepository;
         _roleButtonRepository = roleButtonRepository;
         _rolePermissionRepository = rolePermissionRepository;
+        _jsonHelper = jsonHelper;
     }
 
     public Task<IResultModel> Query(MenuQueryDto dto)
     {
         var query = _repository.Find(m => m.GroupId == dto.GroupId && m.ParentId == dto.ParentId);
-        query.WhereNotNull(dto.Name, m => m.Name.Equals(dto.Name));
         query.OrderBy(m => m.Sort);
 
         return query.ToPaginationResult(dto.Paging);
@@ -42,6 +44,11 @@ public class MenuService : IMenuService
     {
         var menu = _mapper.Map<MenuEntity>(dto);
         menu.Level = 1;
+
+        if (dto.Locales != null)
+        {
+            menu.LocalesConfig = _jsonHelper.Serialize(dto.Locales);
+        }
 
         if (dto.ParentId > 0)
         {
@@ -66,6 +73,11 @@ public class MenuService : IMenuService
 
         var model = _mapper.Map<MenuUpdateDto>(menu);
 
+        if (menu.LocalesConfig.NotNull())
+        {
+            model.Locales = menu.Locales;
+        }
+
         return ResultModel.Success(model);
     }
 
@@ -76,6 +88,11 @@ public class MenuService : IMenuService
             return ResultModel.NotExists;
 
         _mapper.Map(dto, menu);
+
+        if (dto.Locales != null)
+        {
+            menu.LocalesConfig = _jsonHelper.Serialize(dto.Locales);
+        }
 
         var result = await _repository.Update(menu);
 
@@ -120,12 +137,11 @@ public class MenuService : IMenuService
             var child = new TreeResultModel<MenuEntity>
             {
                 Id = menu.Id,
-                Label = menu.Name,
                 Item = menu
             };
 
-            child.Path.AddRange(parent.Path);
-            child.Path.Add(child.Label);
+            //child.Path.AddRange(parent.Path);
+            //child.Path.Add(child.Label);
 
             //只有节点菜单才有子级
             if (menu.Type == MenuType.Node)

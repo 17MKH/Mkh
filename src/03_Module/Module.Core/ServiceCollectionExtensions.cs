@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Mkh.Module.Abstractions;
+using Mkh.Module.Abstractions.Options;
+using Mkh.Utils.Extensions;
 
 namespace Mkh.Module.Core;
 
@@ -17,8 +19,12 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IModuleCollection AddModulesCore(this IServiceCollection services, IHostEnvironment environment, IConfiguration configuration)
     {
+        //加载通用配置
+        var commonOptions = configuration.Get<CommonOptions>("Mkh:Common");
+        services.AddSingleton<CommonOptions>(commonOptions);
+
         var modules = new ModuleCollection(configuration);
-        modules.Load();
+        modules.Load(commonOptions);
 
         services.AddSingleton<IModuleCollection>(modules);
 

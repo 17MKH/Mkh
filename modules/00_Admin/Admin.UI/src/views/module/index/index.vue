@@ -2,10 +2,10 @@
   <m-container class="m-admin-module">
     <m-box page icon="component" show-fullscreen>
       <template #title>
-        <span>模块中心</span>
+        <span>{{ $t(`mkh.routes.${page.name}`) }}</span>
         <span class="m-margin-l-10 m-font-12"
-          >当前共<span class="m-margin-lr-5 m-text-primary m-font-14">{{ modules.length }}</span
-          >个模块</span
+          >{{ $t('mod.admin.module_total_prefix') }}<span class="m-margin-lr-5 m-text-primary m-font-14">{{ modules.length }}</span
+          >{{ $t('mod.admin.module_total_suffix') }}</span
         >
       </template>
       <div v-for="mod in modules" :key="mod.code" class="item" @click="openDetail(mod)">
@@ -22,9 +22,9 @@
             <div class="item_title">
               <span>{{ mod.id }}_{{ mod.label }}</span>
             </div>
-            <div>编码：{{ mod.code }}</div>
-            <div>版本：{{ mod.version }}</div>
-            <div>说明：{{ mod.description }}</div>
+            <div>{{ $t('mkh.code') }}：{{ mod.code }}</div>
+            <div>{{ $t('mod.admin.version') }}：{{ mod.version }}</div>
+            <div>{{ $t('mod.admin.description') }}：{{ mod.description }}</div>
           </div>
         </div>
       </div>
@@ -35,6 +35,7 @@
 <script>
 import { ref } from 'vue'
 import Detail from '../detail/index.vue'
+import page from './page.json'
 export default {
   components: { Detail },
   setup() {
@@ -52,6 +53,7 @@ export default {
     }
 
     return {
+      page,
       modules,
       curr,
       showDetail,

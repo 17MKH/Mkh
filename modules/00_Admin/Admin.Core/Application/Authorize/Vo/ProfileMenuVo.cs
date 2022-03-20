@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mkh.Mod.Admin.Core.Application.Menu.Dto;
 using Mkh.Mod.Admin.Core.Domain.Menu;
 using Mkh.Utils.Annotations;
 
@@ -24,11 +25,6 @@ public class ProfileMenuVo
     /// 类型
     /// </summary>
     public MenuType Type { get; set; }
-
-    /// <summary>
-    /// 名称
-    /// </summary>
-    public string Name { get; set; }
 
     /// <summary>
     /// 编码
@@ -101,7 +97,13 @@ public class ProfileMenuVo
     public List<string> Buttons { get; set; }
 
     /// <summary>
+    /// 多语言配置
+    /// </summary>
+    public MenuLocales Locales { get; set; }
+
+    /// <summary>
     /// 子菜单
     /// </summary>
     public List<ProfileMenuVo> Children { get; set; }
 }
+

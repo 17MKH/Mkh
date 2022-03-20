@@ -21,8 +21,6 @@ public static class ServiceCollectionExtensions
 
         var configProvider = new DefaultConfigProvider(cfg);
 
-        configProvider.AddCommonConfig();
-
         configProvider.AddModuleConfig(modules);
 
         services.TryAddSingleton<IConfigProvider>(configProvider);

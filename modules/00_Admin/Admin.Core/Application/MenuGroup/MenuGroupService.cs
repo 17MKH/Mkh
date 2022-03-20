@@ -62,7 +62,7 @@ public class MenuGroupService : IMenuGroupService
         if (entity == null)
             return ResultModel.NotExists;
 
-        _mapper.Map(entity, dto);
+        _mapper.Map(dto, entity);
 
         var result = await _repository.Update(entity);
         return ResultModel.Result(result);

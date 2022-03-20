@@ -1,5 +1,5 @@
 <template>
-  <m-dialog title="字典项管理" icon="dict" width="80%" height="80%" no-scrollbar no-padding :close-on-click-modal="false">
+  <m-dialog :title="$t('mod.admin.dict_item_manage')" icon="dict" width="80%" height="80%" no-scrollbar no-padding :close-on-click-modal="false">
     <m-split v-model="split">
       <template #fixed>
         <tree ref="treeRef" @change="handleTreeChange" />

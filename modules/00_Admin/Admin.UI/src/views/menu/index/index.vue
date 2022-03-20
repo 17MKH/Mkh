@@ -2,7 +2,7 @@
   <m-container class="m-admin-menu">
     <m-flex-row>
       <m-flex-fixed width="300px" class="m-margin-r-10">
-        <m-box page title="菜单预览" icon="menu" no-scrollbar>
+        <m-box page :title="$t('mod.admin.menu_preview')" icon="menu" no-scrollbar>
           <m-flex-col class="page">
             <m-flex-fixed class="m-text-center m-padding-b-10">
               <m-flex-row>
@@ -10,7 +10,7 @@
                   <m-select ref="groupSelectRef" v-model="group.id" v-model:label="group.name" :action="$mkh.api.admin.menuGroup.select" checked-first></m-select>
                 </m-flex-auto>
                 <m-flex-fixed>
-                  <m-button type="primary" text="分组管理" :code="buttons.group.code" class="m-margin-l-5" @click="showGroup = true" />
+                  <m-button type="primary" :text="$t('mod.admin.manage_group')" :code="buttons.group.code" class="m-margin-l-5" @click="showGroup = true" />
                 </m-flex-fixed>
               </m-flex-row>
             </m-flex-fixed>
@@ -33,7 +33,7 @@
                   <template #default="{ node, data }">
                     <span>
                       <m-icon :name="data.item.icon || 'folder-o'" :style="{ color: data.item.iconColor }" class="m-margin-r-5" />
-                      <span>{{ node.label }}</span>
+                      <span>{{ data.item.locales[$i18n.locale] || node.label }}</span>
                     </span>
                   </template>
                 </el-tree>
@@ -50,7 +50,7 @@
   </m-container>
 </template>
 <script>
-import { nextTick, reactive, ref } from 'vue'
+import { getCurrentInstance, nextTick, reactive, ref } from 'vue'
 import List from '../list/index.vue'
 import Group from '../group/index/index.vue'
 import { watch } from 'vue'
@@ -59,9 +59,14 @@ export default {
   components: { List, Group },
   setup() {
     const api = mkh.api.admin.menu
+    const cit = getCurrentInstance().proxy
 
     const group = reactive({ id: 0, name: '' })
-    const parent = reactive({ id: 0, type: 0, path: [] })
+    const parent = reactive({
+      id: 0,
+      type: 0,
+      locales: null,
+    })
 
     const treeData = ref([])
     const treeRef = ref()
@@ -82,18 +87,24 @@ export default {
               id: 0,
               icon: 'menu',
               type: 0,
+              locales: {
+                'zh-cn': group.name,
+                en: group.name,
+              },
             },
           },
         ]
         nextTick(() => {
           treeRef.value.setCurrentKey(parent.id)
+          handleTreeChange(treeData.value[0])
         })
       })
     }
 
     const handleTreeChange = data => {
+      console.log(1)
       parent.id = data.id
-      parent.path = data.path
+      parent.locales = data.item.locales
       parent.type = data.item.type
     }
 

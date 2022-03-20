@@ -1,42 +1,41 @@
 {
   "name": "admin_menu",
-  "title": "菜单管理",
   "icon": "menu",
   "path": "/admin/menu",
   "permissions": ["admin_menu_tree_get", "admin_menu_query_get", "admin_menu_UpdateSort_post", "admin_menugroup_select_get"],
   "buttons": {
     "add": {
-      "text": "添加",
+      "text": "mkh.add",
       "code": "admin_menu_add",
       "permissions": ["admin_menu_add_post"]
     },
     "edit": {
-      "text": "编辑",
+      "text": "mkh.edit",
       "code": "admin_menu_edit",
       "permissions": ["admin_menu_edit_get", "admin_menu_update_post"]
     },
     "remove": {
-      "text": "删除",
+      "text": "mkh.delete",
       "code": "admin_menu_remove",
       "permissions": ["admin_menu_delete_delete"]
     },
     "group": {
-      "text": "分组管理",
+      "text": "mod.admin.manage_group",
       "code": "admin_menugroup_manage",
       "permissions": ["admin_menugroup_query_get"]
     },
     "groupAdd": {
-      "text": "分组添加",
+      "text": "mod.admin.add_group",
       "code": "admin_menugroup_add",
       "permissions": ["admin_menugroup_add_post"]
     },
     "groupEdit": {
-      "text": "分组编辑",
+      "text": "mod.admin.edit_group",
       "code": "admin_menugroup_edit",
       "permissions": ["admin_menugroup_edit_get", "admin_menugroup_update_post"]
     },
     "groupRemove": {
-      "text": "分组删除",
+      "text": "mod.admin.delete_group",
       "code": "admin_menugroup_delete",
       "permissions": ["admin_menugroup_delete_delete"]
     }

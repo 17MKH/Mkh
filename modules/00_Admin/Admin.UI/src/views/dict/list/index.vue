@@ -1,11 +1,11 @@
 <template>
   <m-container>
-    <m-list ref="listRef" title="字典管理" con="dict" :cols="cols" :query-model="model" :query-method="query" :query-on-created="false">
+    <m-list ref="listRef" :title="$t('mod.admin.dict_list')" icon="list" :cols="cols" :query-model="model" :query-method="query" :query-on-created="false">
       <template #querybar>
-        <el-form-item label="名称：" prop="name">
+        <el-form-item :label="$t('mkh.name')" prop="name">
           <el-input v-model="model.name" clearable />
         </el-form-item>
-        <el-form-item label="编码：" prop="code">
+        <el-form-item :label="$t('mkh.code')" prop="code">
           <el-input v-model="model.code" clearable />
         </el-form-item>
       </template>
@@ -13,7 +13,7 @@
         <m-button-add :code="buttons.add.code" @click="add" />
       </template>
       <template #operation="{ row }">
-        <m-button type="text" text="字典项" icon="cog" @click="openItemDialog(row)"></m-button>
+        <m-button type="text" :text="$t('mod.admin.dict_item')" icon="cog" @click="openItemDialog(row)"></m-button>
         <m-button-edit :code="buttons.edit.code" @click="edit(row)" @success="refresh"></m-button-edit>
         <m-button-delete :code="buttons.remove.code" :action="remove" :data="row.id" @success="refresh"></m-button-delete>
       </template>
@@ -43,7 +43,7 @@ export default {
     const { groupCode } = toRefs(props)
 
     const model = reactive({ groupCode, name: '', code: '' })
-    const cols = [{ prop: 'id', label: '编号', width: '55', show: false }, { prop: 'name', label: '名称' }, { prop: 'code', label: '编码' }, ...entityBaseCols]
+    const cols = [{ prop: 'id', label: 'mkh.id', width: '55', show: false }, { prop: 'name', label: 'mkh.name' }, { prop: 'code', label: 'mkh.code' }, ...entityBaseCols()]
 
     const list = useList()
     const showItemDialog = ref(false)

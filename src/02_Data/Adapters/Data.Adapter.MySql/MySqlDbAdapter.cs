@@ -4,7 +4,7 @@ using System.Text;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Descriptors;
 using Mkh.Utils.Helpers;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 
 namespace Mkh.Data.Adapter.MySql;
 

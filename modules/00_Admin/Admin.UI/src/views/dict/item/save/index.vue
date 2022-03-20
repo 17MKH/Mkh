@@ -1,15 +1,15 @@
 <template>
   <m-form-dialog :model="model" :rules="rules" v-bind="bind" v-on="on">
-    <el-form-item label="名称：" prop="name">
+    <el-form-item :label="$t('mkh.name')" prop="name">
       <el-input ref="nameRef" v-model="model.name" clearable />
     </el-form-item>
-    <el-form-item label="值(唯一)：" prop="value">
+    <el-form-item :label="$t('mkh.value')" prop="value">
       <el-input v-model="model.value" clearable />
     </el-form-item>
-    <el-form-item label="图标：" prop="icon">
+    <el-form-item :label="$t('mkh.icon')" prop="icon">
       <m-icon-picker v-model="model.icon" />
     </el-form-item>
-    <el-form-item label="扩展数据：" prop="extend">
+    <el-form-item :label="$t('mod.admin.extend_data')" prop="extend">
       <div class="m-admin-dict-extend">
         <div class="m-admin-dict-extend_toolbar">
           <template v-for="toolbar in toolbars" :key="toolbar">
@@ -21,13 +21,13 @@
         </div>
       </div>
     </el-form-item>
-    <el-form-item label="排序：" prop="sort">
+    <el-form-item :label="$t('mkh.sort')" prop="sort">
       <el-input-number v-model="model.sort" />
     </el-form-item>
   </m-form-dialog>
 </template>
 <script>
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useSave, withSaveProps } from 'mkh-ui'
 
 export default {
@@ -40,18 +40,20 @@ export default {
   },
   emits: ['success'],
   setup(props, { emit }) {
-    const { store } = mkh
+    const { store, $t } = mkh
 
     const api = mkh.api.admin.dictItem
     const model = reactive({ groupCode: '', dictCode: '', parentId: '', name: '', value: '', icon: '', extend: '', sort: 0 })
-    const rules = {
-      name: [{ required: true, message: '请输入字典项名称' }],
-      value: [{ required: true, message: '请输入字典项的值' }],
-      sort: [{ required: true, message: '请输入排序序号' }],
-    }
+    const rules = computed(() => {
+      return {
+        name: [{ required: true, message: $t('mod.admin.input_dict_item_name') }],
+        value: [{ required: true, message: $t('mod.admin.input_dict_item_value') }],
+        sort: [{ required: true, message: $t('mod.admin.input_dict_item_sort') }],
+      }
+    })
 
     const nameRef = ref(null)
-    const { bind, on } = useSave({ title: '字典项', props, api, model, emit })
+    const { bind, on } = useSave({ props, api, model, emit })
     bind.autoFocusRef = nameRef
     bind.width = '700px'
     bind.beforeSubmit = () => {

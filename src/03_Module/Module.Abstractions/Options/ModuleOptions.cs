@@ -16,7 +16,7 @@ public class ModuleOptions
     public int Sort { get; set; }
 
     /// <summary>
-    /// 目录
+    /// 模块配置文件所在目录
     /// </summary>
     public string Dir { get; set; }
 

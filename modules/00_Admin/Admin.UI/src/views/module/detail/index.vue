@@ -1,19 +1,19 @@
 <template>
-  <m-dialog title="模块详情" custom-class="m-admin-module-detail" icon="component" width="80%" height="70%" no-padding no-scrollbar>
+  <m-dialog :title="$t('mod.admin.module_details')" custom-class="m-admin-module-detail" icon="component" width="80%" height="70%" no-padding no-scrollbar>
     <el-tabs tab-position="left" class="m-fill-h" type="border-card">
       <el-tab-pane>
         <template #label>
           <m-icon name="form" />
-          <span class="m-margin-l-5">页面信息</span>
+          <span class="m-margin-l-5">{{ $t('mod.admin.page_info') }}</span>
         </template>
         <el-table :data="pages" border style="width: 100%" height="100%">
           <el-table-column type="expand">
             <template #default="props">
-              <h2 class="m-margin-b-15">关联按钮</h2>
+              <h2 class="m-margin-b-15">{{ $t('mod.admin.relation_button') }}</h2>
               <el-table :data="Object.values(props.row.buttons)" border size="mini">
-                <el-table-column label="名称" prop="text" width="150" align="center"> </el-table-column>
-                <el-table-column label="编码" prop="code" width="300" align="center"> </el-table-column>
-                <el-table-column label="绑定权限" prop="permissions">
+                <el-table-column :label="$t('mkh.name')" prop="text" width="150" align="center"> </el-table-column>
+                <el-table-column :label="$t('mkh.code')" prop="code" width="300" align="center"> </el-table-column>
+                <el-table-column :label="$t('mod.admin.bind_permission')" prop="permissions">
                   <template #default="{ row }">
                     <p v-for="p in row.permissions" :key="p">{{ p }}</p>
                   </template>
@@ -21,16 +21,16 @@
               </el-table>
             </template>
           </el-table-column>
-          <el-table-column label="标题" prop="title"> </el-table-column>
-          <el-table-column label="图标" prop="name">
+          <el-table-column :label="$t('mkh.title')" prop="title"> </el-table-column>
+          <el-table-column :label="$t('mkh.icon')" prop="icon">
             <template #default="{ row }">
               <m-icon v-if="row.icon" :name="row.icon" />
               <span class="m-margin-l-10">{{ row.icon }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="路由名称" prop="name"> </el-table-column>
-          <el-table-column label="路由地址" prop="path"> </el-table-column>
-          <el-table-column label="绑定权限" prop="permissions">
+          <el-table-column :label="$t('mod.admin.route_name')" prop="name"> </el-table-column>
+          <el-table-column :label="$t('mod.admin.route_path')" prop="path"> </el-table-column>
+          <el-table-column :label="$t('mod.admin.bind_permission')" prop="permissions">
             <template #default="{ row }">
               <p v-for="p in row.permissions" :key="p">{{ p }}</p>
             </template>
@@ -40,18 +40,18 @@
       <el-tab-pane>
         <template #label>
           <m-icon name="lock" />
-          <span class="m-margin-l-5">权限信息</span>
+          <span class="m-margin-l-5">{{ $t('mod.admin.permission_info') }}</span>
         </template>
         <el-table :data="permissions" border style="width: 100%" height="100%">
-          <el-table-column label="控制器" prop="controller"> </el-table-column>
-          <el-table-column label="操作" prop="action"> </el-table-column>
-          <el-table-column label="请求方式" prop="httpMethodName"> </el-table-column>
-          <el-table-column label="权限编码" prop="code"> </el-table-column>
-          <el-table-column label="访问模式" prop="mode">
+          <el-table-column :label="$t('mod.admin.controller')" prop="controller"> </el-table-column>
+          <el-table-column :label="$t('mkh.operate')" prop="action"> </el-table-column>
+          <el-table-column :label="$t('mod.admin.http_method')" prop="httpMethodName"> </el-table-column>
+          <el-table-column :label="$t('mod.admin.permission_code')" prop="code"> </el-table-column>
+          <el-table-column :label="$t('mod.admin.permission_mode')" prop="mode">
             <template #default="{ row }">
-              <el-tag v-if="row.mode === 0" type="warning">匿名可访问</el-tag>
-              <el-tag v-else-if="row.mode === 1" type="primary">登录可访问</el-tag>
-              <el-tag v-if="row.mode === 2" type="success">授权可访问</el-tag>
+              <el-tag v-if="row.mode === 0" type="warning">{{ $t('mod.admin.permission_mode_0') }}</el-tag>
+              <el-tag v-else-if="row.mode === 1">{{ $t('mod.admin.permission_mode_1') }}</el-tag>
+              <el-tag v-if="row.mode === 2" type="success">{{ $t('mod.admin.permission_mode_2') }}</el-tag>
             </template>
           </el-table-column>
         </el-table>

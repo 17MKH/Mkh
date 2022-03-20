@@ -27,12 +27,6 @@ public class MenuAddDto
     public MenuType Type { get; set; }
 
     /// <summary>
-    /// 名称
-    /// </summary>
-    [Required(ErrorMessage = "请填写菜单名称")]
-    public string Name { get; set; }
-
-    /// <summary>
     /// 图标
     /// </summary>
     public string Icon { get; set; }
@@ -101,4 +95,9 @@ public class MenuAddDto
     /// 备注
     /// </summary>
     public string Remarks { get; set; }
+
+    /// <summary>
+    /// 多语言配置
+    /// </summary>
+    public MenuLocales Locales { get; set; }
 }

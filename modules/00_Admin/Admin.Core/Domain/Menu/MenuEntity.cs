@@ -24,11 +24,6 @@ public partial class MenuEntity : EntityBase
     public MenuType Type { get; set; }
 
     /// <summary>
-    /// 名称
-    /// </summary>
-    public string Name { get; set; }
-
-    /// <summary>
     /// 路由所属模块编码
     /// </summary>
     public string Module { get; set; }
@@ -115,4 +110,10 @@ public partial class MenuEntity : EntityBase
     /// </summary>
     public int Sort { get; set; }
 
+    /// <summary>
+    /// 多语言配置(JSON字符串)
+    /// </summary>
+    [Nullable]
+    [Length(500)]
+    public string LocalesConfig { get; set; }
 }

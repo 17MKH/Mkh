@@ -2,36 +2,36 @@
   <m-form-dialog :model="model" :rules="rules" v-bind="bind" v-on="on">
     <el-row>
       <el-col :span="24">
-        <el-form-item label="父级菜单：">
-          <el-input :model-value="parent.path.join('/')" disabled />
+        <el-form-item :label="$t('mod.admin.parent_menu')">
+          <el-input :model-value="parent.locales[$i18n.locale]" disabled />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
-        <el-form-item label="菜单分组：">
+        <el-form-item :label="$t('mod.admin.menu_group')">
           <el-input :model-value="group.name" disabled />
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="菜单类型：" prop="type">
+        <el-form-item :label="$t('mod.admin.menu_type')" prop="type">
           <el-select v-model="model.type" :disabled="mode === 'edit'">
-            <el-option label="节点" :value="0"></el-option>
-            <el-option label="路由" :value="1"></el-option>
-            <el-option label="链接" :value="2"></el-option>
-            <el-option label="脚本" :value="3"></el-option>
+            <el-option :label="$t('mod.admin.node')" :value="0"></el-option>
+            <el-option :label="$t('mod.admin.route')" :value="1"></el-option>
+            <el-option :label="$t('mod.admin.link')" :value="2"></el-option>
+            <el-option :label="$t('mod.admin.script')" :value="3"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row v-if="model.type === 1">
       <el-col :span="12">
-        <el-form-item label="所属模块：" prop="module">
+        <el-form-item :label="$t('mod.admin.menu_module')" prop="module">
           <m-admin-module-select v-model="model.module" @change="handleModuleSelectChange" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="页面路由：" prop="routeName">
+        <el-form-item :label="$t('mod.admin.page_route')" prop="routeName">
           <el-select v-model="model.routeName" @change="handleRouteChange">
             <el-option v-for="page in state.pages" :key="page.name" :value="page.name" :label="`${page.title}(${page.name})`"></el-option>
           </el-select>
@@ -39,38 +39,40 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="12">
-        <el-form-item label="菜单名称：" prop="name">
-          <el-input v-model="model.name" clearable />
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item label="是否显示：" prop="show">
-          <el-switch v-model="model.show"></el-switch>
+      <el-col :span="24">
+        <el-form-item :label="$t('mod.admin.menu_name')" prop="name">
+          <el-table :data="localesTable" border style="width: 100%" size="small">
+            <el-table-column :label="$t('mod.admin.language')" prop="lang" align="center" width="180"> </el-table-column>
+            <el-table-column :label="$t('mkh.name')" align="center">
+              <template #default="{ row }">
+                <el-input v-model="model.locales[row.lang]"> </el-input>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-form-item>
       </el-col>
     </el-row>
     <template v-if="model.type === 2">
       <el-row>
         <el-col :span="12">
-          <el-form-item label="链接地址：" prop="url">
+          <el-form-item :label="$t('mod.admin.link_url')" prop="url">
             <el-input v-model="model.url" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="打开方式：" prop="openTarget">
+          <el-form-item :label="$t('mod.admin.open_target')" prop="openTarget">
             <m-admin-enum-select v-model="model.openTarget" module="admin" name="MenuOpenTarget" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row v-if="model.openTarget === 2">
         <el-col :span="12">
-          <el-form-item label="对话框宽度：" prop="dialogWidth">
+          <el-form-item :label="$t('mod.admin.dialog_width')" prop="dialogWidth">
             <el-input v-model="model.dialogWidth"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="对话框高度：" prop="dialogHeight">
+          <el-form-item :label="$t('mod.admin.dialog_height')" prop="dialogHeight">
             <el-input v-model="model.dialogHeight"></el-input>
           </el-form-item>
         </el-col>
@@ -79,7 +81,7 @@
     <template v-if="model.type === 3">
       <el-row>
         <el-col :span="24">
-          <el-form-item label="自定义脚本：" prop="customJs">
+          <el-form-item :label="$t('mod.admin.custom_script')" prop="customJs">
             <el-input v-model="model.customJs" type="textarea" :rows="5" />
           </el-form-item>
         </el-col>
@@ -87,12 +89,24 @@
     </template>
     <el-row>
       <el-col :span="12">
-        <el-form-item label="左侧图标：" prop="icon">
+        <el-form-item :label="$t('mkh.is_show')" prop="show">
+          <el-switch v-model="model.show"></el-switch>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item :label="$t('mkh.serial_number')" prop="sort">
+          <el-input-number v-model="model.sort" controls-position="right"></el-input-number>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="12">
+        <el-form-item :label="$t('mod.admin.left_icon')" prop="icon">
           <m-icon-picker v-model="model.icon" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="图标颜色：" prop="iconColor">
+        <el-form-item :label="$t('mod.admin.icon_color')" prop="iconColor">
           <m-flex-row>
             <m-flex-auto>
               <el-input v-model="model.iconColor"> </el-input>
@@ -106,34 +120,27 @@
     </el-row>
     <el-row v-if="model.type === 1">
       <el-col :span="12">
-        <el-form-item label="路由参数：" prop="routeQuery">
+        <el-form-item :label="$t('mod.admin.route_params')" prop="routeQuery">
           <el-input v-model="model.routeQuery" :rows="5" type="textarea" placeholder="Vue路由的query形式，需使用标准JSON格式" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="路由参数：" prop="routeParams">
+        <el-form-item :label="$t('mod.admin.route_query')" prop="routeParams">
           <el-input v-model="model.routeParams" :rows="5" type="textarea" placeholder="Vue路由的params形式，需使用标准JSON格式" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
-        <el-form-item label="备注：" prop="remarks">
+        <el-form-item :label="$t('mkh.remarks')" prop="remarks">
           <el-input v-model="model.remarks" type="textarea" :rows="5" />
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="12">
-        <el-form-item label="序号：" prop="sort">
-          <el-input-number v-model="model.sort" controls-position="right"></el-input-number>
         </el-form-item>
       </el-col>
     </el-row>
   </m-form-dialog>
 </template>
 <script>
-import { computed, reactive } from 'vue'
+import { computed, reactive, watch } from 'vue'
 import { useSave, withSaveProps } from 'mkh-ui'
 
 export default {
@@ -149,13 +156,14 @@ export default {
     },
   },
   setup(props, { emit }) {
+    const { $t } = mkh
     const api = mkh.api.admin.menu
+    const localesTable = [{ lang: 'zh-cn' }, { lang: 'en' }]
 
     const model = reactive({
       groupId: 0,
       parentId: 0,
       type: 1,
-      name: '',
       icon: '',
       iconColor: '',
       module: '',
@@ -172,8 +180,12 @@ export default {
       remarks: '',
       permissions: [],
       buttons: [],
+      locales: { 'zh-cn': '', en: '' },
     })
-    const baseRules = { name: [{ required: true, message: '请输入菜单名称' }] }
+
+    const baseRules = computed(() => {
+      return { name: [{ required: true, message: $t('mod.admin.input_menu_name') }] }
+    })
 
     const IsJsonString = (rule, value, callback) => {
       if (!value) {
@@ -183,7 +195,7 @@ export default {
           JSON.parse(value)
           callback()
         } catch {
-          callback(new Error('请输入标准格式的JSON'))
+          callback(new Error($t('mod.admin.input_standard_json')))
         }
       }
     }
@@ -195,24 +207,24 @@ export default {
         case 1:
           return {
             ...baseRules,
-            module: [{ required: true, message: '请选择模块' }],
-            routeName: [{ required: true, message: '请选择页面路由' }],
+            module: [{ required: true, message: $t('mod.admin.select_module') }],
+            routeName: [{ required: true, message: $t('mod.admin.select_page_route') }],
             routeQuery: [{ validator: IsJsonString, trigger: 'blur' }],
           }
         case 3:
-          return { ...baseRules, customJs: [{ required: true, message: '请输入自定义脚本' }] }
+          return { ...baseRules, customJs: [{ required: true, message: $t('mod.admin.input_custom_script') }] }
         default:
-          return { ...baseRules, url: [{ required: true, message: '请输入链接地址' }], openTarget: [{ required: true, message: '请选择链接打开方式' }] }
+          return { ...baseRules, url: [{ required: true, message: $t('mod.admin.input_link_url') }], openTarget: [{ required: true, message: $t('mod.admin.select_open_target') }] }
       }
     })
 
     const state = reactive({ pages: [], currPage: null })
-
-    const { bind, on } = useSave({ title: '菜单', props, api, model, emit })
+    const { bind, on } = useSave({ props, api, model, emit })
     bind.width = '900px'
     bind.labelWidth = '130px'
     bind.closeOnSuccess = false
     bind.beforeSubmit = () => {
+      console.log(props.parent)
       //提交前设置分组和父级id
       model.groupId = props.group.id
       model.parentId = props.parent.id
@@ -255,6 +267,7 @@ export default {
     }
 
     return {
+      localesTable,
       model,
       rules,
       bind,

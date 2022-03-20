@@ -1,8 +1,8 @@
 <template>
-  <m-drawer title="分组管理" icon="list" width="900px" no-scrollbar>
+  <m-drawer :title="$t('mod.admin.manage_group')" icon="list" width="900px" no-scrollbar>
     <m-list ref="listRef" :header="false" :cols="cols" :query-model="model" :query-method="query">
       <template #querybar>
-        <el-form-item label="名称：" prop="name">
+        <el-form-item :label="$t('mkh.name')" prop="name">
           <el-input v-model="model.name" clearable />
         </el-form-item>
       </template>
@@ -28,7 +28,7 @@ export default {
   setup(props, { emit }) {
     const { query, remove } = mkh.api.admin.menuGroup
     const model = reactive({ name: '' })
-    const cols = [{ prop: 'id', label: '编号', width: '55', show: false }, { prop: 'name', label: '名称' }, { prop: 'remarks', label: '备注' }, ...entityBaseCols]
+    const cols = [{ prop: 'id', label: 'mkh.id', width: '55', show: false }, { prop: 'name', label: 'mkh.name' }, { prop: 'remarks', label: 'mkh.remarks' }, ...entityBaseCols()]
 
     const list = useList()
 

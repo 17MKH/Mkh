@@ -2,7 +2,7 @@
   <m-container class="m-admin-role">
     <m-flex-row>
       <m-flex-fixed width="300px" class="m-margin-r-10">
-        <m-list-box ref="listBoxRef" v-model="roleId" title="角色列表" icon="role" :action="query" @change="handleRoleChange">
+        <m-list-box ref="listBoxRef" v-model="roleId" :title="$t('mod.admin.role_list')" icon="role" :action="query" @change="handleRoleChange">
           <template #toolbar>
             <m-button :code="buttons.add.code" icon="plus" @click="add"></m-button>
           </template>
@@ -15,18 +15,18 @@
       <m-flex-auto>
         <m-flex-col class="m-fill-h">
           <m-flex-fixed>
-            <m-box title="角色信息" icon="preview" show-collapse>
+            <m-box :title="$t('mod.admin.role_info')" icon="preview" show-collapse>
               <el-descriptions :column="4" border>
-                <el-descriptions-item label="名称">{{ current.name }}</el-descriptions-item>
-                <el-descriptions-item label="唯一编码">{{ current.code }}</el-descriptions-item>
-                <el-descriptions-item label="绑定菜单组">{{ current.menuGroupName }}</el-descriptions-item>
-                <el-descriptions-item label="是否锁定">
-                  <el-tag v-if="current.locked" type="danger" effect="dark" size="small">锁定</el-tag>
-                  <el-tag v-else type="info" effect="dark" size="small">未锁定</el-tag>
+                <el-descriptions-item :label="$t('mkh.name')">{{ current.name }}</el-descriptions-item>
+                <el-descriptions-item :label="$t('mkh.code')">{{ current.code }}</el-descriptions-item>
+                <el-descriptions-item :label="$t('mod.admin.bind_menu_group')">{{ current.menuGroupName }}</el-descriptions-item>
+                <el-descriptions-item :label="$t('mod.admin.is_lock')">
+                  <el-tag v-if="current.locked" type="danger" effect="dark" size="small">{{ $t('mod.admin.lock') }}</el-tag>
+                  <el-tag v-else type="info" effect="dark" size="small">{{ $t('mod.admin.not_lock') }}</el-tag>
                 </el-descriptions-item>
-                <el-descriptions-item label="创建时间">{{ current.createdTime }}</el-descriptions-item>
-                <el-descriptions-item label="创建人">{{ current.creator }}</el-descriptions-item>
-                <el-descriptions-item label="备注" :span="2">{{ current.remarks }}</el-descriptions-item>
+                <el-descriptions-item :label="$t('mkh.creator')">{{ current.creator }}</el-descriptions-item>
+                <el-descriptions-item :label="$t('mkh.created_time')">{{ current.createdTime }}</el-descriptions-item>
+                <el-descriptions-item :label="$t('mkh.remarks')" :span="2">{{ current.remarks }}</el-descriptions-item>
               </el-descriptions>
             </m-box>
           </m-flex-fixed>
@@ -56,7 +56,6 @@ export default {
     const { selection, mode, saveVisible, add, edit } = useList()
 
     const handleRoleChange = (val, role) => {
-      console.log(role)
       current.value = role
     }
 
