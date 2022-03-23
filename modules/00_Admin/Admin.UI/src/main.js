@@ -13,6 +13,6 @@ configure({
       'zh-cn': '通用统一认证平台',
       en: 'Common Authentication Platform',
     }
-    config.auth.enableButtonPermissions = false
+    config.auth.enableButtonPermissions = true
   },
 })
