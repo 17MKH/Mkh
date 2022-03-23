@@ -2,7 +2,7 @@
   "id": 0,
   "name": "mkh-mod-admin",
   "label": "权限管理",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "icon": "lock",
   "description": "17MKH权限管理模块",
   "main": "lib/index.es.js",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "js-base64": "^3.7.2",
-    "mkh-ui": "^0.7.18"
+    "mkh-ui": "^0.8.1"
   },
   "devDependencies": {
     "@rollup/plugin-image": "^2.1.1",
