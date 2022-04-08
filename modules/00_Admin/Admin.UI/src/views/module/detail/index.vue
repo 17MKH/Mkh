@@ -21,7 +21,11 @@
               </el-table>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('mkh.title')" prop="title"> </el-table-column>
+          <el-table-column :label="$t('mkh.title')" prop="title">
+            <template #default="{ row }">
+              {{ $t('mkh.routes.' + row.name) }}
+            </template>
+          </el-table-column>
           <el-table-column :label="$t('mkh.icon')" prop="icon">
             <template #default="{ row }">
               <m-icon v-if="row.icon" :name="row.icon" />
@@ -71,6 +75,7 @@ export default {
   setup(props) {
     const { getPermissions } = mkh.api.admin.module
     const pages = computed(() => {
+      console.log(props.mod.pages)
       return props.mod.pages
     })
     const permissions = ref([])
