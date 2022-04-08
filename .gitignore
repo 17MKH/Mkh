@@ -370,3 +370,4 @@ MSBuild_Logs
 /nuget_publish_local.ps1
 /modules/WebHost/wwwroot
 /modules/00_Admin/Admin.UI/.npmrc
+/modules/01_Blog/Blog.UI/package-lock.json

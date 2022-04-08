@@ -5,9 +5,42 @@ MKH
 </h1>
 
 <p align="center">
-  <a href="https://github.com/17MKH/Mkh/blob/main/LICENSE"><img src="https://img.shields.io/github/license/iamoldli/NetModular"></a>
+  <a href="https://github.com/17MKH/Mkh/blob/main/LICENSE"><img src="https://img.shields.io/github/license/17MKH/Mkh"></a>
+  <a href="https://www.nuget.org/packages/Mkh.Host.Web/"><img src="https://img.shields.io/nuget/v/Mkh.Host.Web"></a>
+  <a href="https://www.npmjs.com/package/mkh-ui"><img src="https://img.shields.io/npm/v/mkh-ui"></a>
 </p>
+<p align="center">业务模块化快速开发框架</p>
+<p align="center">开箱即用、专注业务、高效开发、模块复用</p>
+<p align="center">一天一模块、三天一系统、拒绝加班、放飞自我</p>
+<p align="center">用代码改变世界</p>
 
-## MKH 是什么
+## 技术栈
 
-MKH 是一款为中小型团队而生的基于.Net6 + Vue3 开发的业务模块化快速开发解决方案，目的是能够让中小团队快速搭建公司内部开发平台。它的前身是 [NetModular](https://github.com/iamoldli/NetModular)
+> IDE
+
+[Visual Studio 2022](https://visualstudio.microsoft.com/zh-hans/downloads/)、[Visual Studio Code](https://code.visualstudio.com/)
+
+> 后端
+
+ [.Net 6](https://dotnet.microsoft.com/download)、[Dapper](https://github.com/StackExchange/Dapper)、[Serilog](https://serilog.net/)、[AutoMapper](https://automapper.org/)、[Swagger](https://element-plus.gitee.io/)
+
+> 前端
+
+ [Node.js 12+](https://nodejs.org/en/)、[Vue.js 3](https://cn.vuejs.org/)、[Vite](https://cli.vuejs.org/zh/guide/)、[Vuex](https://vuex.vuejs.org/zh/)、[VueRouter](https://router.vuejs.org/zh/)、[Element-Plus](https://element.eleme.cn/#/zh-CN/component/installation)
+
+
+## 快速开始
+
+安装脚手架MKH CLI：
+
+````bash
+> dotnet tool install --global Mkh.Tools.CLI
+````
+
+创建一个模块：
+
+````bash
+> mkh new
+````
+
+![](./img/cli_demo.gif)
