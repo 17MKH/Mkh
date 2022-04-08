@@ -3,7 +3,7 @@
     <el-alert v-if="isEdit" class="m-margin-b-20" :title="$t('mod.admin.not_allow_edit_username')" type="warning"> </el-alert>
     <el-row>
       <el-col :span="12">
-        <el-form-item :label="$t('mkh.username')" prop="username">
+        <el-form-item :label="$t('mkh.login.username')" prop="username">
           <el-input ref="nameRef" v-model="model.username" :disabled="isEdit" />
         </el-form-item>
         <el-form-item :label="$t('mod.admin.name')" prop="name">
@@ -14,7 +14,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item :label="$t('mkh.passwrod')" prop="password">
+        <el-form-item :label="$t('mkh.login.password')" prop="password">
           <el-input v-model="model.password" :placeholder="`${$t('mod.admin.default_password')}：${defaultPassword}`" :disabled="isEdit" />
         </el-form-item>
         <el-form-item :label="$t('mkh.role')" prop="roleId">
