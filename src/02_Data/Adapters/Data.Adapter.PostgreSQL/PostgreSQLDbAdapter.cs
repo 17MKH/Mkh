@@ -101,13 +101,13 @@ internal sealed class PostgreSQLDbAdapter : DbAdapterAbstract
                 columnDescriptor.DefaultValue = "0";
             }
 
-            columnDescriptor.TypeName = "SMALLINT";
+            columnDescriptor.TypeName = "int2";
             return;
         }
 
         if (propertyType.IsGuid())
         {
-            columnDescriptor.TypeName = "UUID";
+            columnDescriptor.TypeName = "uui";
             columnDescriptor.Length = 36;
             return;
         }
@@ -134,21 +134,21 @@ internal sealed class PostgreSQLDbAdapter : DbAdapterAbstract
                 {
                     columnDescriptor.DefaultValue = "0";
                 }
-                columnDescriptor.TypeName = "SMALLINT";
+                columnDescriptor.TypeName = "bytea";
                 break;
             case TypeCode.Int16:
                 if (!isNullable)
                 {
                     columnDescriptor.DefaultValue = "0";
                 }
-                columnDescriptor.TypeName = "INT2";
+                columnDescriptor.TypeName = "int2";
                 break;
             case TypeCode.Int32:
                 if (!isNullable)
                 {
                     columnDescriptor.DefaultValue = "0";
                 }
-                columnDescriptor.TypeName = "INT4";
+                columnDescriptor.TypeName = "int4";
                 break;
             case TypeCode.Int64:
                 if (!isNullable)
@@ -156,14 +156,14 @@ internal sealed class PostgreSQLDbAdapter : DbAdapterAbstract
                     columnDescriptor.DefaultValue = "0";
                 }
 
-                columnDescriptor.TypeName = "INT8";
+                columnDescriptor.TypeName = "int8";
                 break;
             case TypeCode.DateTime:
                 if (!isNullable)
                 {
                     columnDescriptor.DefaultValue = "CURRENT_TIMESTAMP";
                 }
-                columnDescriptor.TypeName = "TIMESTAMP";
+                columnDescriptor.TypeName = "timestamp";
                 break;
             case TypeCode.Decimal:
             case TypeCode.Double:
@@ -173,7 +173,7 @@ internal sealed class PostgreSQLDbAdapter : DbAdapterAbstract
                     columnDescriptor.DefaultValue = "0";
                 }
 
-                columnDescriptor.TypeName = "MONEY";
+                columnDescriptor.TypeName = "money";
                 break;
         }
 
