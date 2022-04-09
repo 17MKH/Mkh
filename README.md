@@ -14,6 +14,10 @@ MKH
 <p align="center">一天一模块、三天一系统、拒绝加班、放飞自我</p>
 <p align="center">用代码改变世界</p>
 
+## 功能
+
+* 
+
 ## 技术栈
 
 > IDE
@@ -26,7 +30,7 @@ MKH
 
 > 前端
 
- [Node.js 12+](https://nodejs.org/en/)、[Vue.js 3](https://cn.vuejs.org/)、[Vite](https://cli.vuejs.org/zh/guide/)、[Vuex](https://vuex.vuejs.org/zh/)、[VueRouter](https://router.vuejs.org/zh/)、[Element-Plus](https://element.eleme.cn/#/zh-CN/component/installation)
+ [Node.js 16+](https://nodejs.org/en/)、[Vue.js 3](https://cn.vuejs.org/)、[Vite](https://cli.vuejs.org/zh/guide/)、[Vuex](https://vuex.vuejs.org/zh/)、[VueRouter](https://router.vuejs.org/zh/)、[Element-Plus](https://element.eleme.cn/#/zh-CN/component/installation)
 
 
 ## 快速开始
@@ -35,6 +39,12 @@ MKH
 
 ````bash
 > dotnet tool install --global Mkh.Tools.CLI
+````
+
+更新脚手架MKH CLI：
+
+````bash
+> dotnet tool update --global Mkh.Tools.CLI
 ````
 
 创建一个模块：
