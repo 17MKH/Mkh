@@ -33,7 +33,7 @@
       <el-col :span="12">
         <el-form-item :label="$t('mod.admin.page_route')" prop="routeName">
           <el-select v-model="model.routeName" @change="handleRouteChange">
-            <el-option v-for="page in state.pages" :key="page.name" :value="page.name" :label="`${page.title}(${page.name})`"></el-option>
+            <el-option v-for="page in state.pages" :key="page.name" :value="page.name" :label="`${$t(`mkh.routes.${page.name}`)}(${page.name})`"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
