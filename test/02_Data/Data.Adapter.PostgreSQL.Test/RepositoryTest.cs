@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Adapter.PostgreSQL.Test.Domain.Json;
+using Data.Adapter.PostgreSQL.Test.Domain.MoreDataType;
 using Data.Common.Test.Domain.Article;
 using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions.Extensions;
 using Mkh.Data.Abstractions.Pagination;
+using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -296,4 +300,69 @@ public class RepositoryTest : BaseTest
     //    var list1 = await query1.ToList();
     //    Assert.Equal(5, list1.Count);
     //}
+
+    [Fact]
+    public async Task JsonbTest()
+    {
+        var repo = _serviceProvider.GetService<IJsonRepository>();
+        Assert.NotNull(repo);
+        await repo.Execute("truncate json_test;");
+
+        var entity = new JsonEntity
+        {
+            Body = JToken.FromObject(new { name = "test" }).ToString(),
+        };
+
+        await repo.Add(entity)
+            .ConfigureAwait(false);
+
+        var loadEntity = await repo.Get(entity.Id)
+            .ConfigureAwait(false);
+
+        Assert.NotNull(loadEntity);
+        Assert.Equal(loadEntity.Body, "{\"name\": \"test\"}");
+    }
+
+    [Fact]
+    public async Task MoreDataTypeTest()
+    {
+        var repo = _serviceProvider.GetService<IMoreDataTypeRepository>();
+        Assert.NotNull(repo);
+        await repo.Execute("truncate more_data_type;");
+
+        var now = System.DateTime.Now;
+        var entity = new MoreDataTypeEntity
+        {
+            Name = "test",
+            Money1 = 1,
+            Money2 = 2,
+            Money3 = 3,
+            EnumField = MoreDataTypeEntity.TestEnum.Two,
+            Dt = now,
+            Dt2 = now,
+            Field1 = 4,
+            Field2 = 5,
+            Field3 = 6,
+            Field4 = true,
+        };
+
+        await repo.Add(entity)
+            .ConfigureAwait(false);
+
+        var loadEntity = await repo.Get(entity.Id)
+            .ConfigureAwait(false);
+
+        Assert.NotNull(loadEntity);
+        Assert.Equal(loadEntity.Name, "test");
+        Assert.Equal(loadEntity.Money1, 1);
+        Assert.Equal(loadEntity.Money2, 2);
+        Assert.Equal(loadEntity.Money3, 3);
+        Assert.Equal(loadEntity.EnumField, MoreDataTypeEntity.TestEnum.Two);
+        Assert.Equal(loadEntity.Dt, now, TimeSpan.FromHours(8));
+        Assert.Equal(loadEntity.Dt2, now, TimeSpan.FromHours(8));
+        Assert.Equal(loadEntity.Field1, 4);
+        Assert.Equal(loadEntity.Field2, 5);
+        Assert.Equal(loadEntity.Field3, 6);
+        Assert.Equal(loadEntity.Field4, true);
+    }
 }

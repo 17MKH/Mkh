@@ -81,7 +81,7 @@ where ns.nspname = '{database}' and c.relname = '{table}' ";
                     case "float8":
                     case "numeric":
                     case "smallint":
-                        schema.DefaultValue = schema.DefaultValue.Substring(2, schema.DefaultValue.Length - 4);
+                        //schema.DefaultValue = schema.DefaultValue.Substring(2, schema.DefaultValue.Length - 4);
                         break;
                     case "bool":
                         if (bool.TryParse(schema.DefaultValue, out var val))

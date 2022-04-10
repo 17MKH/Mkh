@@ -166,14 +166,28 @@ internal sealed class PostgreSQLDbAdapter : DbAdapterAbstract
                 columnDescriptor.TypeName = "timestamp";
                 break;
             case TypeCode.Decimal:
+                if (!isNullable)
+                {
+                    columnDescriptor.DefaultValue = "0";
+                }
+
+                columnDescriptor.TypeName = "numeric";
+                break;
             case TypeCode.Double:
+                if (!isNullable)
+                {
+                    columnDescriptor.DefaultValue = "0";
+                }
+
+                columnDescriptor.TypeName = "float8";
+                break;
             case TypeCode.Single:
                 if (!isNullable)
                 {
                     columnDescriptor.DefaultValue = "0";
                 }
 
-                columnDescriptor.TypeName = "money";
+                columnDescriptor.TypeName = "float4";
                 break;
         }
 
