@@ -29,7 +29,9 @@ internal class PostgreSQLSchemaProvider : ISchemaProvider
 
     public void CreateDatabase(string database)
     {
-        _con.ExecuteScalar($"CREATE SCHEMA {database};");
+        var con = CreatePostgresConnection();
+        con.ExecuteScalar($"CREATE DATABASE {database};");
+        con.Close();
     }
 
     public List<ColumnSchema> GetColumns(string database, string table)
@@ -65,7 +67,8 @@ left join ( -- 取主键
 on pk.conrelid = c.oid and pk.colName = a.attname
 -- 取默认值
 LEFT JOIN pg_catalog.pg_attrdef d ON (a.attrelid, a.attnum) = (d.adrelid,  d.adnum)
-where ns.nspname = '{database}' and c.relname = '{table}' ";
+-- where ns.nspname = '{database}' and c.relname = '{table}'
+where c.relname = '{table}'";
 
         var list = _con.Query<ColumnSchema>(sql).ToList();
 
@@ -134,7 +137,8 @@ where ns.nspname = '{database}' and c.relname = '{table}' ";
 
     public List<TableSchema> GetTables(string database)
     {
-        var sql = $"select tablename as Name from pg_tables where schemaname = '{database}'";
+        //var sql = $"select tablename as Name from pg_tables where schemaname = '{database}'";
+        var sql = $"select tablename as Name from pg_tables";
         var tables = _con.Query<TableSchema>(sql).ToList();
         foreach (var table in tables)
         {
@@ -146,13 +150,31 @@ where ns.nspname = '{database}' and c.relname = '{table}' ";
 
     public bool IsExistsDatabase(string database)
     {
-        //return _con.ExecuteScalar($"SELECT 1::int FROM pg_catalog.pg_database u where u.datname='{database}';").ToInt() > 0;
-        // 
-        return _con.ExecuteScalar($"SELECT 1 FROM pg_namespace WHERE nspname = '{database}';").ToInt() > 0;
+        var con = CreatePostgresConnection();
+        //var exists = con.ExecuteScalar($"SELECT 1 FROM pg_namespace WHERE nspname = '{database}';").ToInt() > 0;
+        var exists = con.ExecuteScalar($"SELECT 1::int FROM pg_catalog.pg_database u where u.datname='{database}';").ToInt() > 0;
+        con.Close();
+        return exists;
     }
 
     public bool IsExistsTable(string database, string table)
     {
-        return _con.ExecuteScalar($"select 1 from pg_tables a inner join pg_namespace b on b.nspname = a.schemaname where b.nspname || '.' || a.tablename = '{database}.{table}';").ToInt() > 0;
+        //var con = CreatePostgresConnection();
+        //var exists = con.ExecuteScalar($"select 1 from pg_tables a inner join pg_namespace b on b.nspname = a.schemaname where b.nspname || '.' || a.tablename = '{database}.{table}';").ToInt() > 0;
+        //con.Close();
+        var exists = _con.ExecuteScalar($"select 1 from pg_tables a inner join pg_namespace b on b.nspname = a.schemaname where a.tablename = '{table}';").ToInt() > 0;
+        return exists;
+    }
+
+    private NpgsqlConnection CreatePostgresConnection()
+    {
+        var builder = new NpgsqlConnectionStringBuilder(_con.ConnectionString)
+        {
+            Database = "postgres"
+        };
+
+        var con = new NpgsqlConnection(builder.ToString());
+        con.Open();
+        return con;
     }
 }
