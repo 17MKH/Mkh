@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Adapter.PostgreSQL.Test;
+namespace Data.Adapter.PostgreSQL.Test.Domain.Json;
 
 [Table("json_test")]
-internal class JsonEntity : EntityBaseSoftDelete
+public class JsonEntity : EntityBaseSoftDelete<Guid>
 {
     [Column("body", Type = "jsonb")]
     public string Body { get; set; }

@@ -43,6 +43,7 @@ public class BaseTest
             })
             .UsePostgreSQL(connString)
             .AddRepositoriesFromAssembly(typeof(BlogDbContext).Assembly)
+            .AddRepositoriesFromAssembly(this.GetType().Assembly)
             //开启代码优先
             .AddCodeFirst(options =>
             {

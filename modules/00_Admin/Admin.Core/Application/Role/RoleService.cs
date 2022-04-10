@@ -188,21 +188,35 @@ public class RoleService : IRoleService
                 }
 
                 //添加绑定权限数据
+                //if (dtoMenu.Permissions.NotNullAndEmpty())
+                //{
+                //    foreach (var dtoPermission in dtoMenu.Permissions)
+                //    {
+                //        tasks.Add(_rolePermissionRepository.Add(new RolePermissionEntity
+                //        {
+                //            MenuGroupId = role.MenuGroupId,
+                //            RoleId = role.Id,
+                //            MenuId = dtoMenu.MenuId,
+                //            PermissionCode = dtoPermission.ToLower()
+                //        }));
+                //    }
+                //}
+
+                //await Task.WhenAll(tasks);
+                // jy 
                 if (dtoMenu.Permissions.NotNullAndEmpty())
                 {
                     foreach (var dtoPermission in dtoMenu.Permissions)
                     {
-                        tasks.Add(_rolePermissionRepository.Add(new RolePermissionEntity
+                        await _rolePermissionRepository.Add(new RolePermissionEntity
                         {
                             MenuGroupId = role.MenuGroupId,
                             RoleId = role.Id,
                             MenuId = dtoMenu.MenuId,
                             PermissionCode = dtoPermission.ToLower()
-                        }));
+                        }).ConfigureAwait(false);
                     }
                 }
-
-                await Task.WhenAll(tasks);
             }
         }
 

@@ -151,13 +151,18 @@ public static class DbBuilderExtensions
             using var uow = dbContext.NewUnitOfWork();
             repository.BindingUow(uow);
 
-            var tasks = new List<Task>();
+            // jy
+            //var tasks = new List<Task>();
+            //foreach (var item in list)
+            //{
+            //    tasks.Add(repository.Add(item));
+            //}
+
+            //Task.WaitAll(tasks.ToArray());
             foreach (var item in list)
             {
-                tasks.Add(repository.Add(item));
+                repository.Add(item).Wait();
             }
-
-            Task.WaitAll(tasks.ToArray());
 
             uow.SaveChanges();
         }
