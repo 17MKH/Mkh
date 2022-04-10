@@ -76,16 +76,25 @@ where ns.nspname = '{database}' and c.relname = '{table}' ";
                 switch (schema.DataType)
                 {
                     case "int":
-                    case "bit":
                     case "decimal":
-                    case "float":
+                    case "float4":
+                    case "float8":
+                    case "numeric":
                     case "smallint":
                         schema.DefaultValue = schema.DefaultValue.Substring(2, schema.DefaultValue.Length - 4);
                         break;
-                    case "nvarchar":
+                    case "bool":
+                        if (bool.TryParse(schema.DefaultValue, out var val))
+                        {
+                            schema.DefaultValue = val.ToString();
+                        }
+                        break;
+                    case "varchar":
                         schema.DefaultValue = schema.DefaultValue.Substring(3, schema.DefaultValue.Length - 5);
                         break;
-                    case "datetime":
+                    case "date":
+                    case "timestamp":
+                    case "timestampz":
                         schema.DefaultValue = schema.DefaultValue.Replace("(", "").Replace(")", "");
                         if (schema.DefaultValue == "getdate")
                             schema.DefaultValue = "now()";

@@ -162,21 +162,23 @@ namespace Mkh.Data.Adapter.PostgreSQL
             if (!descriptor.TypeName.EqualsIgnoreCase(schema.DataType))
                 return true;
 
-            switch (descriptor.TypeName)
+            switch (descriptor.TypeName?.ToUpper())
             {
                 case "CHAR":
                 case "VARCHAR":
                     if (descriptor.Length != schema.Length)
                         return true;
                     break;
-                case "DECIMAL":
-                case "DOUBLE":
-                case "FLOAT":
-                    var precision = descriptor.Precision < 1 ? 18 : descriptor.Precision;
-                    var scale = descriptor.Scale < 1 ? 4 : descriptor.Scale;
-                    if (precision != schema.Precision || scale != schema.Scale)
-                        return true;
-                    break;
+                //case "NUMERIC":
+                //case "DOUBLE":
+                //case "FLOAT":
+                //case "FLOAT4":
+                //case "FLOAT8":
+                //    var precision = descriptor.Precision < 1 ? 18 : descriptor.Precision;
+                //    var scale = descriptor.Scale < 1 ? 4 : descriptor.Scale;
+                //    if (precision != schema.Precision || scale != schema.Scale)
+                //        return true;
+                    //break;
             }
 
             //可空修改
@@ -199,7 +201,7 @@ namespace Mkh.Data.Adapter.PostgreSQL
             var sql = new StringBuilder();
             sql.AppendFormat("{0} ", AppendQuote(column.Name));
 
-            switch (column.TypeName)
+            switch (column.TypeName?.ToUpper())
             {
                 case "CHAR":
                     sql.AppendFormat("CHAR({0}) ", column.Length);

@@ -107,7 +107,7 @@ internal sealed class PostgreSQLDbAdapter : DbAdapterAbstract
 
         if (propertyType.IsGuid())
         {
-            columnDescriptor.TypeName = "uui";
+            columnDescriptor.TypeName = "uuid";
             columnDescriptor.Length = 36;
             return;
         }
