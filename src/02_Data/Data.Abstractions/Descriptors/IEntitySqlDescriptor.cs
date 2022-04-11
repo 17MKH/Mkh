@@ -13,11 +13,11 @@ public interface IEntitySqlDescriptor
     string GetAdd(string tableName);
 
     /// <summary>
-    /// 获取批量插入语句
+    /// 获取批量新增语句
     /// </summary>
     /// <param name="tableName"></param>
     /// <returns></returns>
-    string GetBatchAdd(string tableName);
+    string GetBulkAdd(string tableName);
 
     /// <summary>
     /// 获取单条删除语句

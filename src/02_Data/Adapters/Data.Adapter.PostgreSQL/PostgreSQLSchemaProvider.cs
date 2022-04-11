@@ -1,12 +1,9 @@
 ﻿using Dapper;
 using Mkh.Data.Abstractions.Schema;
 using Npgsql;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mkh.Data.Adapter.PostgreSQL;
 
@@ -151,7 +148,6 @@ where c.relname = '{table}'";
     public bool IsExistsDatabase(string database)
     {
         var con = CreatePostgresConnection();
-        //var exists = con.ExecuteScalar($"SELECT 1 FROM pg_namespace WHERE nspname = '{database}';").ToInt() > 0;
         var exists = con.ExecuteScalar($"SELECT 1::int FROM pg_catalog.pg_database u where u.datname='{database}';").ToInt() > 0;
         con.Close();
         return exists;
@@ -159,11 +155,7 @@ where c.relname = '{table}'";
 
     public bool IsExistsTable(string database, string table)
     {
-        //var con = CreatePostgresConnection();
-        //var exists = con.ExecuteScalar($"select 1 from pg_tables a inner join pg_namespace b on b.nspname = a.schemaname where b.nspname || '.' || a.tablename = '{database}.{table}';").ToInt() > 0;
-        //con.Close();
-        var exists = _con.ExecuteScalar($"select 1 from pg_tables a inner join pg_namespace b on b.nspname = a.schemaname where a.tablename = '{table}';").ToInt() > 0;
-        return exists;
+        return _con.ExecuteScalar($"select 1 from pg_tables a inner join pg_namespace b on b.nspname = a.schemaname where a.tablename = '{table}';").ToInt() > 0;
     }
 
     private NpgsqlConnection CreatePostgresConnection()
@@ -175,6 +167,7 @@ where c.relname = '{table}'";
 
         var con = new NpgsqlConnection(builder.ToString());
         con.Open();
+
         return con;
     }
 }

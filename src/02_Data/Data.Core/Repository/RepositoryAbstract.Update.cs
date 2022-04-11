@@ -10,7 +10,7 @@ namespace Mkh.Data.Core.Repository;
 /// <typeparam name="TEntity"></typeparam>
 public abstract partial class RepositoryAbstract<TEntity>
 {
-    public Task<bool> Update(dynamic entity, IUnitOfWork uow = null)
+    public Task<bool> Update(TEntity entity, IUnitOfWork uow = null)
     {
         return UpdateAsync(entity, null, uow);
     }

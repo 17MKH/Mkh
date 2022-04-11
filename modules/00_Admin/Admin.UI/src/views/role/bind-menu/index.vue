@@ -187,7 +187,7 @@ export default {
         //如果编辑的是当前登录人关联的角色，则刷新
         if (role.value.id === store.state.app.profile.roleId) {
           store.dispatch('app/profile/init', null, { root: true }).then(() => {
-            message.success(mkh.$t('save_success_msg'))
+            message.success(mkh.$t('mkh.save_success_msg'))
             loading.value = false
           })
         } else {

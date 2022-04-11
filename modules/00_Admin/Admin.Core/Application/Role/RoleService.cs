@@ -160,9 +160,13 @@ public class RoleService : IRoleService
         //添加绑定菜单数据
         if (dto.Menus.NotNullAndEmpty())
         {
+            var roleMenus = new List<RoleMenuEntity>();
+            var roleButtons = new List<RoleButtonEntity>();
+            var rolePermissions = new List<RolePermissionEntity>();
+
             foreach (var dtoMenu in dto.Menus)
             {
-                await _roleMenuRepository.Add(new RoleMenuEntity
+                roleMenus.Add(new RoleMenuEntity
                 {
                     MenuGroupId = role.MenuGroupId,
                     RoleId = role.Id,
@@ -170,67 +174,50 @@ public class RoleService : IRoleService
                     MenuType = dtoMenu.MenuType
                 });
 
-                var tasks = new List<Task>();
 
                 //添加绑定按钮数据
                 if (dtoMenu.Buttons.NotNullAndEmpty())
                 {
                     foreach (var dtoButton in dtoMenu.Buttons)
                     {
-                        tasks.Add(_roleButtonRepository.Add(new RoleButtonEntity
+                        roleButtons.Add(new RoleButtonEntity
                         {
                             MenuGroupId = role.MenuGroupId,
                             MenuId = dtoMenu.MenuId,
                             RoleId = role.Id,
                             ButtonCode = dtoButton.ToLower()
-                        }));
+                        });
                     }
                 }
 
-                //添加绑定权限数据
-                //if (dtoMenu.Permissions.NotNullAndEmpty())
-                //{
-                //    foreach (var dtoPermission in dtoMenu.Permissions)
-                //    {
-                //        tasks.Add(_rolePermissionRepository.Add(new RolePermissionEntity
-                //        {
-                //            MenuGroupId = role.MenuGroupId,
-                //            RoleId = role.Id,
-                //            MenuId = dtoMenu.MenuId,
-                //            PermissionCode = dtoPermission.ToLower()
-                //        }));
-                //    }
-                //}
-
-                //await Task.WhenAll(tasks);
-                // jy 
                 if (dtoMenu.Permissions.NotNullAndEmpty())
                 {
                     foreach (var dtoPermission in dtoMenu.Permissions)
                     {
-                        await _rolePermissionRepository.Add(new RolePermissionEntity
+                        rolePermissions.Add(new RolePermissionEntity
                         {
                             MenuGroupId = role.MenuGroupId,
                             RoleId = role.Id,
                             MenuId = dtoMenu.MenuId,
                             PermissionCode = dtoPermission.ToLower()
-                        }).ConfigureAwait(false);
+                        });
                     }
                 }
             }
+
+            await _roleMenuRepository.BulkAdd(roleMenus);
+            await _roleButtonRepository.BulkAdd(roleButtons);
+            await _rolePermissionRepository.BulkAdd(rolePermissions);
         }
 
         //清除关联账户的权限缓存
         var accountIds = await _accountRepository.Find(m => m.RoleId == dto.RoleId).Select(m => m.Id).ToList<Guid>();
         if (accountIds.Any())
         {
-            var tasks = new List<Task>();
             foreach (var accountId in accountIds)
             {
-                tasks.Add(_cacheHandler.Remove(_cacheKeys.AccountPermissions(accountId, 0)));
+                await _cacheHandler.Remove(_cacheKeys.AccountPermissions(accountId, 0));
             }
-
-            await Task.WhenAll(tasks);
         }
 
         return ResultModel.Success();

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Mkh.Data.Abstractions;
@@ -297,6 +298,107 @@ public abstract partial class RepositoryAbstract<TEntity> : IRepository<TEntity>
         if (primaryKey.IsGuid && id == Guid.Empty)
         {
             throw new ArgumentException("Guid类型主键不能为空~");
+        }
+    }
+
+    /// <summary>
+    /// 附加值
+    /// </summary>
+    /// <param name="sqlBuilder"></param>
+    /// <param name="type"></param>
+    /// <param name="value"></param>
+    private void AppendValue(StringBuilder sqlBuilder, Type type, object value)
+    {
+        if (type.IsNullable())
+        {
+            type = Nullable.GetUnderlyingType(type);
+        }
+
+        if (value == null)
+        {
+            sqlBuilder.AppendFormat("NULL");
+        }
+        else if (type.IsEnum)
+        {
+            sqlBuilder.AppendFormat("{0}", value.ToInt());
+        }
+        else if (type.IsBool())
+        {
+            sqlBuilder.AppendFormat("{0}", _adapter.Provider == DbProvider.PostgreSQL ? value : value.ToInt());
+        }
+        else if (type.IsDateTime())
+        {
+            sqlBuilder.AppendFormat("'{0:yyyy-MM-dd HH:mm:ss}'", value);
+        }
+        else
+        {
+            sqlBuilder.AppendFormat("'{0}'", value);
+        }
+    }
+
+    /// <summary>
+    /// 设置创建信息
+    /// </summary>
+    private void SetCreateInfo(IEntity entity)
+    {
+        //设置实体的添加人编号、添加人姓名、添加时间
+        var descriptor = EntityDescriptor;
+        if (descriptor.IsEntityBase)
+        {
+            foreach (var column in descriptor.Columns)
+            {
+                var colName = column.PropertyInfo.Name;
+                if (colName.Equals(nameof(EntityBase.CreatedBy)))
+                {
+                    var createdBy = column.PropertyInfo.GetValue(entity);
+                    if (createdBy == null || (Guid)createdBy == Guid.Empty)
+                    {
+                        column.PropertyInfo.SetValue(entity, DbContext.AccountResolver.AccountId);
+                    }
+                    continue;
+                }
+                if (colName.Equals(nameof(EntityBase.Creator)))
+                {
+                    var creator = column.PropertyInfo.GetValue(entity);
+                    if (creator == null)
+                    {
+                        column.PropertyInfo.SetValue(entity, DbContext.AccountResolver.AccountName);
+                    }
+                    continue;
+                }
+                if (colName.Equals(nameof(EntityBase.CreatedTime)))
+                {
+                    var createdTime = column.PropertyInfo.GetValue(entity);
+                    if (createdTime == null)
+                    {
+                        column.PropertyInfo.SetValue(entity, DateTime.Now);
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 设置租户信息
+    /// </summary>
+    /// <param name="entity"></param>
+    private void SetTenantInfo(TEntity entity)
+    {
+        if (EntityDescriptor.IsTenant)
+        {
+            foreach (var column in EntityDescriptor.Columns)
+            {
+                var name = column.PropertyInfo.Name;
+                if (name.Equals(nameof(ITenant.TenantId)))
+                {
+                    var tenantId = (Guid?)column.PropertyInfo.GetValue(entity);
+                    if (tenantId == null)
+                    {
+                        column.PropertyInfo.SetValue(entity, DbContext.AccountResolver.TenantId);
+                    }
+                    break;
+                }
+            }
         }
     }
 

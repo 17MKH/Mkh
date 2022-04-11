@@ -10,7 +10,7 @@ namespace Mkh.Data.Core.Repository;
 /// </summary>
 public abstract partial class RepositoryAbstract<TEntity>
 {
-    public Task<bool> Add(dynamic entity, IUnitOfWork uow = null)
+    public Task<bool> Add(TEntity entity, IUnitOfWork uow = null)
     {
         return Add(entity, null, uow);
     }
@@ -30,6 +30,8 @@ public abstract partial class RepositoryAbstract<TEntity>
         var sql = _sql.GetAdd(tableName);
 
         SetCreateInfo(entity);
+
+        SetTenantInfo(entity);
 
         _logger.Write("Add", sql);
 
@@ -83,47 +85,5 @@ public abstract partial class RepositoryAbstract<TEntity>
         }
 
         return await Execute(sql, entity) > 0;
-    }
-
-    /// <summary>
-    /// 设置创建信息
-    /// </summary>
-    private void SetCreateInfo(IEntity entity)
-    {
-        //设置实体的添加人编号、添加人姓名、添加时间
-        var descriptor = EntityDescriptor;
-        if (descriptor.IsEntityBase)
-        {
-            foreach (var column in descriptor.Columns)
-            {
-                var colName = column.PropertyInfo.Name;
-                if (colName.Equals("CreatedBy"))
-                {
-                    var createdBy = column.PropertyInfo.GetValue(entity);
-                    if (createdBy == null || (Guid)createdBy == Guid.Empty)
-                    {
-                        column.PropertyInfo.SetValue(entity, DbContext.AccountResolver.AccountId);
-                    }
-                    continue;
-                }
-                if (colName.Equals("Creator"))
-                {
-                    var creator = column.PropertyInfo.GetValue(entity);
-                    if (creator == null)
-                    {
-                        column.PropertyInfo.SetValue(entity, DbContext.AccountResolver.AccountName);
-                    }
-                    continue;
-                }
-                if (colName.Equals("CreatedTime"))
-                {
-                    var createdTime = column.PropertyInfo.GetValue(entity);
-                    if (createdTime == null)
-                    {
-                        column.PropertyInfo.SetValue(entity, DateTime.Now);
-                    }
-                }
-            }
-        }
     }
 }

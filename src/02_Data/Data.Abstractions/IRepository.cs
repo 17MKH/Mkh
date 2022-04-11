@@ -138,22 +138,6 @@ public interface IRepository
     Task<IEnumerable<T>> Query<T>(string sql, object param = null, IUnitOfWork uow = null, CommandType? commandType = null);
 
     /// <summary>
-    /// 新增
-    /// </summary>
-    /// <param name="entity">实体</param>
-    /// <param name="uow">工作单元</param>
-    /// <returns></returns>
-    Task<bool> Add(dynamic entity, IUnitOfWork uow = null);
-
-    /// <summary>
-    /// 更新
-    /// </summary>
-    /// <param name="entity">实体</param>
-    /// <param name="uow">工作单元</param>
-    /// <returns></returns>
-    Task<bool> Update(dynamic entity, IUnitOfWork uow = null);
-
-    /// <summary>
     /// 删除
     /// </summary>
     /// <param name="id"></param>
@@ -183,6 +167,31 @@ public interface IRepository
 /// </summary>
 public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new()
 {
+    /// <summary>
+    /// 新增
+    /// </summary>
+    /// <param name="entity">实体</param>
+    /// <param name="uow">工作单元</param>
+    /// <returns></returns>
+    Task<bool> Add(TEntity entity, IUnitOfWork uow = null);
+
+    /// <summary>
+    /// 批量添加
+    /// </summary>
+    /// <param name="entities">实体集合</param>
+    /// <param name="flushSize">单次刷新数量</param>
+    /// <param name="uow">工作单元</param>
+    /// <returns></returns>
+    Task<bool> BulkAdd(IList<TEntity> entities, int flushSize = 0, IUnitOfWork uow = null);
+
+    /// <summary>
+    /// 更新
+    /// </summary>
+    /// <param name="entity">实体</param>
+    /// <param name="uow">工作单元</param>
+    /// <returns></returns>
+    Task<bool> Update(TEntity entity, IUnitOfWork uow = null);
+
     /// <summary>
     /// 根据主键查询
     /// </summary>

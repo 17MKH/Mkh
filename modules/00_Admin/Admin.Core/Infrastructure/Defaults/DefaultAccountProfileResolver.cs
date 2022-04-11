@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Castle.Core.Logging;
+using Microsoft.Extensions.Logging;
 using Mkh.Mod.Admin.Core.Application.Authorize.Vo;
 using Mkh.Mod.Admin.Core.Application.Menu.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
@@ -25,13 +28,16 @@ internal class DefaultAccountProfileResolver : IAccountProfileResolver
     private readonly IAccountSkinRepository _accountSkinRepository;
     private readonly JsonHelper _jsonHelper;
 
-    public DefaultAccountProfileResolver(IRoleMenuRepository roleMenuRepository, IMapper mapper, IRoleButtonRepository roleButtonRepository, IAccountSkinRepository accountSkinRepository, JsonHelper jsonHelper)
+    private readonly ILogger<DefaultAccountProfileResolver> _logger;
+
+    public DefaultAccountProfileResolver(IRoleMenuRepository roleMenuRepository, IMapper mapper, IRoleButtonRepository roleButtonRepository, IAccountSkinRepository accountSkinRepository, JsonHelper jsonHelper, ILogger<DefaultAccountProfileResolver> logger)
     {
         _roleMenuRepository = roleMenuRepository;
         _mapper = mapper;
         _roleButtonRepository = roleButtonRepository;
         _accountSkinRepository = accountSkinRepository;
         _jsonHelper = jsonHelper;
+        _logger = logger;
     }
 
     public async Task<ProfileVo> Resolve(AccountEntity account, int platform)
@@ -64,15 +70,19 @@ internal class DefaultAccountProfileResolver : IAccountProfileResolver
             vo.Skin = new ProfileSkinVo();
         }
 
-        var menus = _roleMenuRepository.Find().InnerJoin<MenuEntity>(m => m.T1.MenuId == m.T2.Id)
+        var menusQuery = _roleMenuRepository.Find().InnerJoin<MenuEntity>(m => m.T1.MenuId == m.T2.Id)
             .Where(m => m.T1.RoleId == account.RoleId)
-            .Select(m => new { m.T2 })
-            .ToList<MenuEntity>();
+            .Select(m => new { m.T2 });
 
-        var buttons = _roleButtonRepository.Find(m => m.RoleId == account.RoleId).ToList();
+        var sql = menusQuery.ToListSql();
+
+        var menus = await menusQuery.ToList<MenuEntity>();
+
+        var buttons = await _roleButtonRepository.Find(m => m.RoleId == account.RoleId).ToList();
 
         var rootMenu = new ProfileMenuVo { Id = 0 };
-        ResolveMenu(await menus, await buttons, rootMenu);
+
+        ResolveMenu(menus, buttons, rootMenu);
 
         vo.Menus = rootMenu.Children;
         return vo;
@@ -84,7 +94,12 @@ internal class DefaultAccountProfileResolver : IAccountProfileResolver
         var children = menus.Where(m => m.ParentId == parent.Id).ToList();
         foreach (var child in children)
         {
+            var sw = new Stopwatch();
+            sw.Start();
             var menuVo = _mapper.Map<ProfileMenuVo>(child);
+            sw.Stop();
+
+            _logger.LogInformation("耗时：" + sw.ElapsedMilliseconds);
 
             if (child.LocalesConfig.NotNull())
             {

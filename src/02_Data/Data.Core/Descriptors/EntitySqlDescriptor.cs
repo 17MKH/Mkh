@@ -67,19 +67,19 @@ internal class EntitySqlDescriptor : IEntitySqlDescriptor
     #region ==批量添加==
 
     /// <summary>
-    /// 批量插入语句
+    /// 批量新增语句
     /// </summary>
-    private string _batchAdd;
-    private string _defaultBatchAdd;
+    private string _bulkAdd;
+    private string _defaultBulkAdd;
 
     /// <summary>
-    /// 设置批量插入语句
+    /// 设置批量新增语句
     /// </summary>
     /// <param name="sql"></param>
-    public void SetBatchAdd(string sql)
+    public void SetBulkAdd(string sql)
     {
-        _batchAdd = sql;
-        _defaultBatchAdd = FormatSql(sql);
+        _bulkAdd = sql;
+        _defaultBulkAdd = FormatSql(sql);
     }
 
     /// <summary>
@@ -87,9 +87,9 @@ internal class EntitySqlDescriptor : IEntitySqlDescriptor
     /// </summary>
     /// <param name="tableName"></param>
     /// <returns></returns>
-    public string GetBatchAdd(string tableName)
+    public string GetBulkAdd(string tableName)
     {
-        return tableName.IsNull() ? _defaultBatchAdd : FormatSql(_batchAdd, tableName);
+        return tableName.IsNull() ? _defaultBulkAdd : FormatSql(_bulkAdd, tableName);
     }
 
     #endregion

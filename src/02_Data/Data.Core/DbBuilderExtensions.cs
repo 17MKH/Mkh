@@ -14,7 +14,6 @@ using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Descriptors;
 using Mkh.Data.Abstractions.Options;
 using Mkh.Data.Core.Internal;
-using Mkh.Utils.Helpers;
 using Mkh.Utils.Json;
 
 // ReSharper disable once CheckNamespace
@@ -141,28 +140,22 @@ public static class DbBuilderExtensions
 
             var list = (IList)jsonHelper.Deserialize(property.Value.ToString(), typeof(List<>).MakeGenericType(entityDescriptor.EntityType));
 
-            if (list == null || list.Count == 0)
+            if (list.Count == 0)
                 return;
 
             var repositoryDescriptor = dbContext.RepositoryDescriptors.FirstOrDefault(m => m.EntityType == entityDescriptor.EntityType);
 
-            var repository = (IRepository)services.BuildServiceProvider().GetService(repositoryDescriptor!.InterfaceType);
+            var repository = services.BuildServiceProvider().GetService(repositoryDescriptor!.InterfaceType);
+            var repositoryType = repository.GetType();
 
             using var uow = dbContext.NewUnitOfWork();
-            repository.BindingUow(uow);
 
-            // jy
-            //var tasks = new List<Task>();
-            //foreach (var item in list)
-            //{
-            //    tasks.Add(repository.Add(item));
-            //}
+            var bindingUowMethod = repositoryType.GetMethod("BindingUow");
+            bindingUowMethod!.Invoke(repository, new object[] { uow });
 
-            //Task.WaitAll(tasks.ToArray());
-            foreach (var item in list)
-            {
-                repository.Add(item).Wait();
-            }
+            var bulkAddMethod = repositoryType.GetMethod("BulkAdd");
+            var bulkAddTask = (Task)bulkAddMethod!.Invoke(repository, new object[] { list, 0, uow });
+            bulkAddTask!.Wait();
 
             uow.SaveChanges();
         }

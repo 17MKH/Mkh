@@ -79,8 +79,8 @@ internal class CrudSqlBuilder
 
         sb.Append(") VALUES");
 
-        //设置批量删除
-        _sql.SetBatchAdd(sb.ToString());
+        //设置批量添加
+        _sql.SetBulkAdd(sb.ToString());
 
         sb.Append("(");
 

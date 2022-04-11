@@ -4,7 +4,7 @@ import './index'
 configure({
   http: {
     global: {
-      baseURL: 'http://localhost:6230/api/',
+      baseURL: 'http://localhost:6220/api/',
     },
   },
   beforeMount({ config }) {
