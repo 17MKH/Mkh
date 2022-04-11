@@ -140,9 +140,6 @@ public class MenuService : IMenuService
                 Item = menu
             };
 
-            //child.Path.AddRange(parent.Path);
-            //child.Path.Add(child.Label);
-
             //只有节点菜单才有子级
             if (menu.Type == MenuType.Node)
             {

@@ -2,7 +2,7 @@
   <m-container>
     <m-list ref="listRef" :title="$t(`mkh.routes.${page.name}`)" :icon="page.icon" :cols="cols" :query-model="model" :query-method="query">
       <template #querybar>
-        <el-form-item :label="$t('mkh.username')" prop="username">
+        <el-form-item :label="$t('mkh.login.username')" prop="username">
           <el-input v-model="model.username" clearable />
         </el-form-item>
         <el-form-item :label="$t('mod.admin.name')" prop="name">
@@ -40,7 +40,7 @@ export default {
     const model = reactive({ username: '', name: '', phone: '' })
     const cols = [
       { prop: 'id', label: 'mkh.id', width: '55', show: false },
-      { prop: 'username', label: 'mkh.username' },
+      { prop: 'username', label: 'mkh.login.username' },
       { prop: 'name', label: 'mod.admin.name' },
       { prop: 'roleName', label: 'mkh.role' },
       { prop: 'phone', label: 'mkh.phone' },

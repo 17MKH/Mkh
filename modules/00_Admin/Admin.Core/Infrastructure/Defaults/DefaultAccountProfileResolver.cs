@@ -1,12 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Castle.Core.Logging;
-using Microsoft.Extensions.Logging;
 using Mkh.Mod.Admin.Core.Application.Authorize.Vo;
-using Mkh.Mod.Admin.Core.Application.Menu.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Domain.AccountSkin;
 using Mkh.Mod.Admin.Core.Domain.Menu;
@@ -28,16 +23,13 @@ internal class DefaultAccountProfileResolver : IAccountProfileResolver
     private readonly IAccountSkinRepository _accountSkinRepository;
     private readonly JsonHelper _jsonHelper;
 
-    private readonly ILogger<DefaultAccountProfileResolver> _logger;
-
-    public DefaultAccountProfileResolver(IRoleMenuRepository roleMenuRepository, IMapper mapper, IRoleButtonRepository roleButtonRepository, IAccountSkinRepository accountSkinRepository, JsonHelper jsonHelper, ILogger<DefaultAccountProfileResolver> logger)
+    public DefaultAccountProfileResolver(IRoleMenuRepository roleMenuRepository, IMapper mapper, IRoleButtonRepository roleButtonRepository, IAccountSkinRepository accountSkinRepository, JsonHelper jsonHelper)
     {
         _roleMenuRepository = roleMenuRepository;
         _mapper = mapper;
         _roleButtonRepository = roleButtonRepository;
         _accountSkinRepository = accountSkinRepository;
         _jsonHelper = jsonHelper;
-        _logger = logger;
     }
 
     public async Task<ProfileVo> Resolve(AccountEntity account, int platform)
@@ -94,12 +86,7 @@ internal class DefaultAccountProfileResolver : IAccountProfileResolver
         var children = menus.Where(m => m.ParentId == parent.Id).ToList();
         foreach (var child in children)
         {
-            var sw = new Stopwatch();
-            sw.Start();
             var menuVo = _mapper.Map<ProfileMenuVo>(child);
-            sw.Stop();
-
-            _logger.LogInformation("耗时：" + sw.ElapsedMilliseconds);
 
             if (child.LocalesConfig.NotNull())
             {

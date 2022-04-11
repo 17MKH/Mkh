@@ -34,6 +34,8 @@ namespace Mkh.Data.Core.Repository
 
             //判断有没有事务
             var hasTran = true;
+            uow ??= Uow;
+
             if (uow == null)
             {
                 uow = DbContext.NewUnitOfWork();

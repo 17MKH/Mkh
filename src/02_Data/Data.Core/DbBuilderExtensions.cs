@@ -131,14 +131,12 @@ public static class DbBuilderExtensions
         //初始化数据
         if (initData.Any())
         {
-            var jsonHelper = new JsonHelper();
-
             if (initData.All(m => m.Name != entityDescriptor.Name))
                 return;
 
             var property = initData.FirstOrDefault(m => m.Name == entityDescriptor.Name);
 
-            var list = (IList)jsonHelper.Deserialize(property.Value.ToString(), typeof(List<>).MakeGenericType(entityDescriptor.EntityType));
+            var list = (IList)JsonHelper.Instance.Deserialize(property.Value.ToString(), typeof(List<>).MakeGenericType(entityDescriptor.EntityType));
 
             if (list.Count == 0)
                 return;

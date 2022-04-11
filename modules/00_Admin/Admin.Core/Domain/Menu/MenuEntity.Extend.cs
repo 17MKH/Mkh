@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Diagnostics;
+using System.Text.Json.Serialization;
+using Mkh.Mod.Admin.Core.Application.Authorize.Vo;
 using Mkh.Utils.Annotations;
 using Mkh.Utils.Json;
 
@@ -27,7 +29,7 @@ public partial class MenuEntity
         {
             if (LocalesConfig.NotNull())
             {
-                return new JsonHelper().Deserialize<MenuLocales>(LocalesConfig);
+                return JsonHelper.Instance.Deserialize<MenuLocales>(LocalesConfig);
             }
 
             return new MenuLocales();

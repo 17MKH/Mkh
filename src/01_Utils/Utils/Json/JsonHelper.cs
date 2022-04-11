@@ -19,6 +19,11 @@ public class JsonHelper
 {
     private readonly JsonSerializerOptions _options = new();
 
+    /// <summary>
+    /// 静态实例
+    /// </summary>
+    public static readonly JsonHelper Instance = new();
+
     public JsonHelper()
     {
         //不区分大小写的反序列化
