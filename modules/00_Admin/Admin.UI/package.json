@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "js-base64": "^3.7.2",
-    "mkh-ui": "^0.8.1"
+    "mkh-skin-sky": "^1.0.7",
+    "mkh-ui": "^0.8.6"
   },
   "devDependencies": {
     "@rollup/plugin-image": "^2.1.1",
