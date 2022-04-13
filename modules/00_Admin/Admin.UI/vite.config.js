@@ -15,10 +15,10 @@ export default defineConfig(({ mode, command }) => {
         command,
         /** 依赖模块 */
         dependencyModules: [],
-        /** 语言包 */
-        locales: ['zh-cn', 'en'],
         /** 皮肤 */
         skins: [],
+        /** 语言包 */
+        locales: ['zh-cn', 'en'],
         /** index.html文件转换 */
         htmlTransform: {
           /** 模板渲染数据，如果使用自己的模板，则自己定义渲染数据 */
