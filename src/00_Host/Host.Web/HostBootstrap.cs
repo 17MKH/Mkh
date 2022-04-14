@@ -132,13 +132,16 @@ public class HostBootstrap
 
         //基地址
         app.UsePathBase(options);
-
-        //配置默认页
-        app.UseDefaultPage(options);
-
+        
         //开放目录
         if (options.OpenDirs != null && options.OpenDirs.Any())
         {
+            //启用静态文件
+            app.UseStaticFiles();
+
+            //配置默认页
+            app.UseDefaultPage(options);
+
             options.OpenDirs.ForEach(m =>
             {
                 app.OpenDir(m);
