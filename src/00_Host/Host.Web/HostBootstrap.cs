@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Mkh.Config.Core;
 using Mkh.Host.Web.Middleware;
 using Mkh.Host.Web.Swagger;
@@ -33,10 +35,10 @@ public class HostBootstrap
 
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.WebHost.UseDefaultServiceProvider(opt => { opt.ValidateOnBuild = false; });
+        builder.Host.UseDefaultServiceProvider(opt => { opt.ValidateOnBuild = false; });
 
         //使用Serilog日志
-        builder.WebHost.UseSerilog((hostingContext, loggerConfiguration) =>
+        builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
         {
             loggerConfiguration
                 .ReadFrom
@@ -57,7 +59,7 @@ public class HostBootstrap
 
         var app = builder.Build();
 
-        Configure(app, modules, options);
+        Configure(app, modules, options, env);
 
         app.Run();
     }
@@ -65,10 +67,6 @@ public class HostBootstrap
     /// <summary>
     /// 配置服务
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="env"></param>
-    /// <param name="cfg"></param>
-    /// <param name="options"></param>
     private IModuleCollection ConfigureServices(IServiceCollection services, IWebHostEnvironment env, IConfiguration cfg, HostOptions options)
     {
         services.AddSingleton(options);
@@ -122,29 +120,23 @@ public class HostBootstrap
     /// <summary>
     /// 配置中间件
     /// </summary>
-    /// <param name="app"></param>
-    /// <param name="modules"></param>
-    /// <param name="options"></param>
-    private void Configure(WebApplication app, IModuleCollection modules, HostOptions options)
+    private void Configure(WebApplication app, IModuleCollection modules, HostOptions options, IWebHostEnvironment env)
     {
         //使用全局异常处理中间件
         app.UseMiddleware<ExceptionHandleMiddleware>();
 
         //基地址
         app.UsePathBase(options);
-        
+
         //开放目录
         if (options.OpenDirs != null && options.OpenDirs.Any())
         {
-            //启用静态文件
-            app.UseStaticFiles();
-
-            //配置默认页
+            //设置默认页
             app.UseDefaultPage(options);
 
             options.OpenDirs.ForEach(m =>
             {
-                app.OpenDir(m);
+                app.OpenDir(m, env);
             });
         }
 

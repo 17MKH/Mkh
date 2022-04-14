@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
@@ -66,10 +67,11 @@ internal static class ApplicationBuilderExtensions
     /// </summary>
     /// <param name="app"></param>
     /// <param name="dirName"></param>
+    /// <param name="env"></param>
     /// <returns></returns>
-    public static IApplicationBuilder OpenDir(this IApplicationBuilder app, string dirName)
+    public static IApplicationBuilder OpenDir(this IApplicationBuilder app, string dirName, IWebHostEnvironment env)
     {
-        var path = Path.Combine(AppContext.BaseDirectory, "wwwroot", dirName);
+        var path = Path.Combine(env.WebRootPath, dirName);
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);

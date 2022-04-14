@@ -35,10 +35,10 @@ public class HostOptions
     /// <summary>
     /// 开放的wwwroot下的目录列表
     /// </summary>
-    public List<string> OpenDirs { get; set; }
+    public List<string> OpenDirs { get; set; } = new() { "web" };
 
     /// <summary>
     /// 默认目录
     /// </summary>
-    public string DefaultDir { get; set; }
+    public string DefaultDir { get; set; } = "web";
 }
