@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Mkh.Utils.App;
+using HostOptions = Mkh.Host.Web.Options.HostOptions;
 
 namespace Mkh.Host.Web;
 
@@ -112,8 +113,9 @@ internal static class ApplicationBuilderExtensions
     /// </summary>
     /// <param name="app"></param>
     /// <param name="appLifetime"></param>
+    /// <param name="options"></param>
     /// <returns></returns>
-    public static IApplicationBuilder UseBanner(this IApplicationBuilder app, IHostApplicationLifetime appLifetime)
+    public static IApplicationBuilder UseBanner(this IApplicationBuilder app, IHostApplicationLifetime appLifetime, HostOptions options)
     {
         appLifetime.ApplicationStarted.Register(() =>
         {
@@ -136,7 +138,7 @@ internal static class ApplicationBuilderExtensions
             }
             else
             {
-                ConsoleBanner();
+                ConsoleBanner(options);
             }
         });
 
@@ -146,7 +148,7 @@ internal static class ApplicationBuilderExtensions
     /// <summary>
     /// 启动后打印Banner图案
     /// </summary>
-    private static void ConsoleBanner()
+    private static void ConsoleBanner(HostOptions options)
     {
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine();
@@ -167,6 +169,12 @@ internal static class ApplicationBuilderExtensions
         Console.Write(@"启动成功，欢迎使用 17MKH ~");
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine(@"                                             *");
+        Console.WriteLine(@" *                                                                                                             *");
+        Console.Write(@" *                                          ");
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write(@"URL：" + options.Urls);
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine(@"                                                 *");
         Console.WriteLine(@" *                                                                                                             *");
         Console.WriteLine(@" *                                                                                                             *");
         Console.WriteLine(@" ***************************************************************************************************************");

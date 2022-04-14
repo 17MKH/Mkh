@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -174,7 +173,7 @@ public class HostBootstrap
         app.UseModules(modules);
 
         //启用Banner图
-        app.UseBanner(app.Lifetime);
+        app.UseBanner(app.Lifetime, options);
 
         //启用应用关闭处理
         app.UseShutdownHandler();
