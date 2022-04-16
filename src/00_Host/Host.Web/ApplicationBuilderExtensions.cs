@@ -72,6 +72,9 @@ internal static class ApplicationBuilderExtensions
     /// <returns></returns>
     public static IApplicationBuilder OpenDir(this IApplicationBuilder app, string dirName, IWebHostEnvironment env)
     {
+        if (env.WebRootPath.IsNull())
+            return app;
+
         var path = Path.Combine(env.WebRootPath, dirName);
         if (!Directory.Exists(path))
         {
