@@ -14,6 +14,13 @@ MKH
 <p align="center">一天一模块、三天一系统、拒绝加班、放飞自我</p>
 <p align="center">用代码改变世界</p>
 
+# 示例
+
+[https://demo.17mkh.com](https://demo.17mkh.com)
+
+账户：admin
+
+密码：123456
 # 文档
 
 - 概述
