@@ -49,11 +49,11 @@ internal class Account : IAccount
         }
     }
 
-    public string AccountName
+    public string Username
     {
         get
         {
-            var accountName = _contextAccessor?.HttpContext?.User?.FindFirst(MkhClaimTypes.ACCOUNT_NAME);
+            var accountName = _contextAccessor?.HttpContext?.User?.FindFirst(MkhClaimTypes.USERNAME);
 
             if (accountName == null || accountName.Value.IsNull())
             {

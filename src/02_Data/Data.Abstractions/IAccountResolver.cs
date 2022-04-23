@@ -20,5 +20,5 @@ public interface IAccountResolver
     /// <summary>
     /// 账户名称
     /// </summary>
-    public string AccountName { get; }
+    public string Username { get; }
 }

@@ -46,4 +46,11 @@ public interface IAccountService
     /// <param name="dto"></param>
     /// <returns></returns>
     Task<IResultModel> UpdateSkin(AccountSkinUpdateDto dto);
+
+    /// <summary>
+    /// 激活账户
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task<bool> Activate(Guid id);
 }

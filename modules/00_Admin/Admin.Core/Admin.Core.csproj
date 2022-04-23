@@ -11,6 +11,7 @@
     <ProjectReference Include="..\..\..\src\04_Auth\Auth.Jwt\Auth.Jwt.csproj" />
     <ProjectReference Include="..\..\..\src\05_Cache\Cache.Abstractions\Cache.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\src\07_Config\Config.Abstractions\Config.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\08_Logging\Logging.Abstractions\Logging.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

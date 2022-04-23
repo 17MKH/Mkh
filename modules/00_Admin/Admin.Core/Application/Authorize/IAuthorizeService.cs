@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Mkh.Auth.Abstractions.LoginHandlers;
 using Mkh.Mod.Admin.Core.Application.Authorize.Dto;
 
 namespace Mkh.Mod.Admin.Core.Application.Authorize;
@@ -10,11 +11,11 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize;
 public interface IAuthorizeService
 {
     /// <summary>
-    /// 登录
+    /// 用户名登录
     /// </summary>
-    /// <param name="dto"></param>
+    /// <param name="model"></param>
     /// <returns></returns>
-    Task<IResultModel> Login(LoginDto dto);
+    Task<IResultModel> UsernameLogin(UsernameLoginModel model);
 
     /// <summary>
     /// 刷新令牌

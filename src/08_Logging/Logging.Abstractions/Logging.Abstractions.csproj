@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <Description>17MKH 配置抽象库</Description>
+	  <Description>17MKH 日志抽象库</Description>
   </PropertyGroup>
 
 </Project>

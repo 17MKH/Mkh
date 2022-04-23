@@ -41,6 +41,7 @@ MKH
   - [帮助类 - *封装常用帮助类，让您事半功倍。*](https://wiki.17mkh.com/zh/fundamentals/helper)
   - [扩展方法 - *封装常用扩展方法，高效开发。*](https://wiki.17mkh.com/zh/fundamentals/extend)
   - [对象映射 - *基于AutoMapper封装，简单易用的对象映射。*](https://wiki.17mkh.com/zh/fundamentals/objectMap)
+  - [多语言 - *冲出国门，冲出亚洲，冲向国际。*](https://wiki.17mkh.com/zh/fundamentals/lang)
 - 数据操作
   - [高效ORM - *基于Dapper扩展的高性能ORM。*](https://wiki.17mkh.com/zh/data/orm)
   - [增删改查 - *泛型CRUD。*](https://wiki.17mkh.com/zh/data/crud)

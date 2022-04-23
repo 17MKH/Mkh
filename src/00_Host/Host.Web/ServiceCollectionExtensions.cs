@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +29,9 @@ internal static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddMvc(this IServiceCollection services, IModuleCollection modules, Options.HostOptions hostOptions, IHostEnvironment env)
     {
+        //添加多语言支持
+        services.AddLocalization(opt => opt.ResourcesPath = "Resources");
+
         services.AddMvc(c =>
             {
                 if (hostOptions!.Swagger || !env.IsProduction())
@@ -50,6 +54,9 @@ internal static class ServiceCollectionExtensions
                 options.JsonSerializerOptions.AddPolymorphism();
 
             })
+            //多语言
+            .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+            .AddDataAnnotationsLocalization()
             //添加模块
             .AddModules(modules);
 

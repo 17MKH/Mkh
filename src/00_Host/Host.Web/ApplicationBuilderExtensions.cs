@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -144,6 +146,29 @@ internal static class ApplicationBuilderExtensions
                 ConsoleBanner(options);
             }
         });
+
+        return app;
+    }
+
+    /// <summary>
+    /// 启用多语言中间件
+    /// </summary>
+    /// <param name="app"></param>
+    /// <returns></returns>
+    public static IApplicationBuilder UseLocalization(this IApplicationBuilder app)
+    {
+        //多语言
+        var supportedCultures = new[] { "zh", "en" };
+        var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
+            .AddSupportedCultures(supportedCultures)
+            .AddSupportedUICultures(supportedCultures);
+
+        //移除默认的语言解析器，只保留从Accept-Language请求头解析
+        var acceptLanguageHeaderRequestCultureProvider = localizationOptions.RequestCultureProviders[2];
+        localizationOptions.RequestCultureProviders.RemoveAt(0);
+        localizationOptions.RequestCultureProviders = new List<IRequestCultureProvider> { acceptLanguageHeaderRequestCultureProvider };
+
+        app.UseRequestLocalization(localizationOptions);
 
         return app;
     }

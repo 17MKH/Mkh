@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Annotations;
+using Mkh.Auth.Abstractions.LoginHandlers;
 using Mkh.Mod.Admin.Core.Application.Authorize;
 using Mkh.Mod.Admin.Core.Application.Authorize.Dto;
 using Mkh.Mod.Admin.Core.Infrastructure;
@@ -46,15 +47,15 @@ public class AuthorizeController : Web.ModuleController
     /// <returns></returns>
     [HttpPost]
     [AllowAnonymous]
-    public Task<IResultModel> Login(LoginDto dto)
+    public Task<IResultModel> Login(UsernameLoginModel model)
     {
-        dto.IP = _ipResolver.IP;
-        dto.IPv4 = _ipResolver.IPv4;
-        dto.IPv6 = _ipResolver.IPv6;
-        dto.UserAgent = _ipResolver.UserAgent;
-        dto.LoginTime = DateTime.Now.ToTimestamp();
+        model.IP = _ipResolver.IP;
+        model.IPv4 = _ipResolver.IPv4;
+        model.IPv6 = _ipResolver.IPv6;
+        model.UserAgent = _ipResolver.UserAgent;
+        model.LoginTime = DateTime.Now.ToTimestamp();
 
-        return _service.Login(dto);
+        return _service.UsernameLogin(model);
     }
 
     /// <summary>

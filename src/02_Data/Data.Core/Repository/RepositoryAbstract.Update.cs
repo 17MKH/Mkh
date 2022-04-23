@@ -53,7 +53,7 @@ public abstract partial class RepositoryAbstract<TEntity>
                     var modifier = column.PropertyInfo.GetValue(entity);
                     if (modifier == null)
                     {
-                        column.PropertyInfo.SetValue(entity, DbContext.AccountResolver.AccountName);
+                        column.PropertyInfo.SetValue(entity, DbContext.AccountResolver.Username);
                     }
                     continue;
                 }

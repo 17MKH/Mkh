@@ -23,7 +23,7 @@ public abstract partial class RepositoryAbstract<TEntity>
         dynParams.Add(_adapter.AppendParameter("Id"), id);
         dynParams.Add(_adapter.AppendParameter("DeletedTime"), DateTime.Now);
         dynParams.Add(_adapter.AppendParameter("DeletedBy"), DbContext.AccountResolver.AccountId);
-        dynParams.Add(_adapter.AppendParameter("Deleter"), DbContext.AccountResolver.AccountName);
+        dynParams.Add(_adapter.AppendParameter("Deleter"), DbContext.AccountResolver.Username);
 
         var sql = _sql.GetSoftDeleteSingle(tableName);
 

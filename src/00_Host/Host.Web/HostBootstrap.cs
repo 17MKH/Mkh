@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Mkh.Config.Core;
 using Mkh.Host.Web.Middleware;
 using Mkh.Host.Web.Swagger;
+using Mkh.Logging.Core;
 using Mkh.Module.Abstractions;
 using Mkh.Module.Core;
 using Mkh.Module.Web;
@@ -101,6 +102,9 @@ public class HostBootstrap
         //添加HttpClient相关
         services.AddHttpClient();
 
+        //添加日志功能
+        services.AddMkhLogging();
+
         //添加模块的自定义特有的服务
         services.AddModuleServices(modules, env, cfg);
 
@@ -153,6 +157,9 @@ public class HostBootstrap
 
         //CORS
         app.UseCors("Default");
+
+        //多语言
+        app.UseLocalization();
 
         //认证
         app.UseAuthentication();

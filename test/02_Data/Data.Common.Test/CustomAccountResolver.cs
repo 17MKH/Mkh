@@ -10,6 +10,6 @@ namespace Data.Common.Test
     {
         public Guid? TenantId => Guid.Parse("39f08cfd-8e0d-771b-a2f3-2639a62ca2fa");
         public Guid? AccountId => Guid.Parse("49f08cfd-8e0d-771b-a2f3-2639a62ca2fa");
-        public string AccountName => "OLDLI";
+        public string Username => "OLDLI";
     }
 }

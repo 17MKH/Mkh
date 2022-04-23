@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Mkh.Auth.Abstractions;
+using Mkh.Auth.Abstractions.LoginHandlers;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Auth.Jwt;
 using Mkh.Mod.Admin.Core.Application.Authorize.Dto;
@@ -15,89 +15,54 @@ namespace Mkh.Mod.Admin.Core.Application.Authorize;
 
 public class AuthorizeService : IAuthorizeService
 {
-    private readonly IOptionsMonitor<AuthOptions> _authOptions;
-    private readonly IVerifyCodeProvider _verifyCodeProvider;
     private readonly IAccountRepository _accountRepository;
-    private readonly IPasswordHandler _passwordHandler;
     private readonly IAccountProfileResolver _accountProfileResolver;
     private readonly ICredentialClaimExtender _credentialClaimExtender;
     private readonly ICredentialBuilder _credentialBuilder;
     private readonly IJwtTokenStorage _jwtTokenStorageProvider;
+    private readonly IUsernameLoginHandler _usernameLoginHandler;
+    private readonly IOptionsMonitor<AuthOptions> _authOptions;
 
-    public AuthorizeService(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler, IAccountProfileResolver accountProfileResolver, ICredentialClaimExtender credentialClaimExtender, ICredentialBuilder credentialBuilder, IJwtTokenStorage jwtTokenStorageProvider)
+    public AuthorizeService(IAccountRepository accountRepository, IAccountProfileResolver accountProfileResolver, ICredentialClaimExtender credentialClaimExtender, ICredentialBuilder credentialBuilder, IJwtTokenStorage jwtTokenStorageProvider, IUsernameLoginHandler usernameLoginHandler, IOptionsMonitor<AuthOptions> authOptions)
     {
-        _authOptions = authOptions;
-        _verifyCodeProvider = verifyCodeProvider;
         _accountRepository = accountRepository;
-        _passwordHandler = passwordHandler;
         _accountProfileResolver = accountProfileResolver;
         _credentialClaimExtender = credentialClaimExtender;
         _credentialBuilder = credentialBuilder;
         _jwtTokenStorageProvider = jwtTokenStorageProvider;
+        _usernameLoginHandler = usernameLoginHandler;
+        _authOptions = authOptions;
     }
 
-    public async Task<IResultModel> Login(LoginDto dto)
+    public async Task<IResultModel> UsernameLogin(UsernameLoginModel model)
     {
-        var result = new ResultModel<AccountEntity>();
+        var result = await _usernameLoginHandler.Handle(model);
+        if (!result.Successful)
+            return ResultModel.Failed(result.Msg);
 
-        //检测验证码
-        if (_authOptions.CurrentValue.EnableVerifyCode)
-        {
-            var verifyCodeCheckResult = await _verifyCodeProvider.Verify(dto.VerifyCodeId, dto.VerifyCode);
-            if (!verifyCodeCheckResult.Successful)
-                return result.Failed(verifyCodeCheckResult.Msg);
-        }
-
-        //查询账户
-        var account = await _accountRepository.GetByUserName(dto.Username.FromBase64());
-        if (account == null)
-            return result.Failed("用户名或密码错误");
-
-        //检测密码
-        var password = _passwordHandler.Encrypt(dto.Password.FromBase64());
-        if (!account.Password.Equals(password))
-            return result.Failed("用户名或密码错误");
-
-        if (account.Status == AccountStatus.Disabled)
-            return result.Failed("账户已禁用，请联系管理员");
-
-        //如果是未激活状态，则表示首次登录，需要将状态修改为激活
-        if (account.Status == AccountStatus.Register)
-        {
-            await _accountRepository
-                .Find(m => m.Id == account.Id)
-                .ToUpdate(m => new AccountEntity
-                {
-                    Status = AccountStatus.Active
-                });
-        }
+        var loginResult = result.Data;
 
         var claims = new List<Claim>
         {
-            new(MkhClaimTypes.TENANT_ID, account.TenantId != null ? account.TenantId.ToString() : ""),
-            new(MkhClaimTypes.ACCOUNT_ID, account.Id.ToString()),
-            new(MkhClaimTypes.ACCOUNT_NAME, account.Name),
-            new(MkhClaimTypes.PLATFORM, dto.Platform.ToInt().ToString()),
-            new(MkhClaimTypes.LOGIN_TIME, dto.LoginTime.ToString())
+            new(MkhClaimTypes.TENANT_ID, loginResult.TenantId != null ? loginResult.TenantId.ToString() : ""),
+            new(MkhClaimTypes.ACCOUNT_ID, loginResult.AccountId.ToString()),
+            new(MkhClaimTypes.USERNAME, loginResult.Username),
+            new(MkhClaimTypes.PLATFORM, model.Platform.ToInt().ToString()),
+            new(MkhClaimTypes.LOGIN_TIME, model.LoginTime.ToString())
         };
 
         //验证IP
         if (_authOptions.CurrentValue.EnableCheckIP)
         {
-            claims.Add(new(MkhClaimTypes.LOGIN_IP, dto.IP));
+            claims.Add(new(MkhClaimTypes.LOGIN_IP, model.IP));
         }
 
         if (_credentialClaimExtender != null)
         {
-            await _credentialClaimExtender.Extend(claims, account.Id);
+            await _credentialClaimExtender.Extend(claims, loginResult.AccountId);
         }
 
-        var res = ResultModel.Success(await _credentialBuilder.Build(claims));
-
-
-        var json = JsonSerializer.Serialize(res, res.GetType());
-
-        return res;
+        return ResultModel.Success(await _credentialBuilder.Build(claims));
     }
 
     public async Task<IResultModel> RefreshToken(RefreshTokenDto dto)
@@ -110,7 +75,7 @@ public class AuthorizeService : IAuthorizeService
             {
                 new(MkhClaimTypes.TENANT_ID, account.TenantId != null ? account.TenantId.ToString() : ""),
                 new(MkhClaimTypes.ACCOUNT_ID, account.Id.ToString()),
-                new(MkhClaimTypes.ACCOUNT_NAME, account.Name),
+                new(MkhClaimTypes.USERNAME, account.Username),
                 new(MkhClaimTypes.PLATFORM, dto.Platform.ToInt().ToString()),
                 new(MkhClaimTypes.LOGIN_TIME, DateTime.Now.ToTimestamp().ToString()),
                 new(MkhClaimTypes.LOGIN_IP, dto.IP)

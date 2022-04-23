@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>17mkh缓存抽象库</Description>
+    <Description>17MKH 缓存抽象库</Description>
   </PropertyGroup>
 
   <ItemGroup>

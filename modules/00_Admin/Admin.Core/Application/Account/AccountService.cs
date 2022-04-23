@@ -135,4 +135,14 @@ public class AccountService : IAccountService
 
         return ResultModel.Result(await _skinRepository.Update(config));
     }
+
+    public Task<bool> Activate(Guid id)
+    {
+        return _repository
+            .Find(m => m.Id == id)
+            .ToUpdate(m => new AccountEntity
+            {
+                Status = AccountStatus.Active
+            });
+    }
 }

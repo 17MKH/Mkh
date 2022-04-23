@@ -12,5 +12,5 @@ internal class DefaultAccountResolver : IAccountResolver
 
     public Guid? AccountId => null;
 
-    public string AccountName => string.Empty;
+    public string Username => string.Empty;
 }

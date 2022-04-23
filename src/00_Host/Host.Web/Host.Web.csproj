@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>17mkh主机库Web</Description>
+    <Description>17MKH Web主机库</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\05_Cache\Cache.Redis\Cache.Redis.csproj" />
     <ProjectReference Include="..\..\06_Mapper\Mapper\Mapper.csproj" />
     <ProjectReference Include="..\..\07_Config\Config.Core\Config.Core.csproj" />
+    <ProjectReference Include="..\..\08_Logging\Logging.Core\Logging.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
