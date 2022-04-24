@@ -29,7 +29,10 @@ public static class ServiceCollectionExtensions
         services.TryAddSingleton<IAccount, Account>();
 
         //添加权限解析器
-        services.AddSingleton<IPermissionResolver, PermissionResolver>();
+        services.TryAddSingleton<IPermissionResolver, PermissionResolver>();
+
+        //尝试添加租户解析器
+        services.TryAddSingleton<ITenantResolver, DefaultTenantResolver>();
 
         services.AddAuthorization(options =>
         {
@@ -37,13 +40,13 @@ public static class ServiceCollectionExtensions
         });
 
         //自定义权限验证处理器
-        services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.TryAddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
         //添加数据访问的账户解析器实现
-        services.AddSingleton<IAccountResolver, AccountResolver>();
+        services.TryAddSingleton<IAccountResolver, AccountResolver>();
 
         //添加默认权限验证处理器
-        services.AddSingleton<IPermissionValidateHandler, DefaultPermissionValidateHandler>();
+        services.TryAddSingleton<IPermissionValidateHandler, DefaultPermissionValidateHandler>();
 
         var builder = new MkhAuthBuilder(services, configuration);
 

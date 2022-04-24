@@ -22,8 +22,8 @@ public class AccountRepository : RepositoryAbstract<AccountEntity>, IAccountRepo
         return Find(m => m.Email == email).WhereNotNull(id, m => m.Id != id).ToExists();
     }
 
-    public Task<AccountEntity> GetByUserName(string username)
+    public Task<AccountEntity> GetByUserName(string username, Guid? tenantId = null)
     {
-        return Find(m => m.Username == username).ToFirst();
+        return Find(m => m.Username == username).WhereNotNull(tenantId, m => m.TenantId == tenantId.Value).ToFirst();
     }
 }

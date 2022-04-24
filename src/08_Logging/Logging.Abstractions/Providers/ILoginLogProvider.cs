@@ -22,6 +22,11 @@ public interface ILoginLogProvider
 public class LoginLogModel
 {
     /// <summary>
+    /// 租户编号
+    /// </summary>
+    public Guid? TenantId { get; set; }
+
+    /// <summary>
     /// 账户编号
     /// </summary>
     public Guid? AccountId { get; set; }

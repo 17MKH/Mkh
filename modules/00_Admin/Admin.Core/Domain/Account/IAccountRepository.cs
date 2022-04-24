@@ -28,7 +28,7 @@ public interface IAccountRepository : IRepository<AccountEntity>
     /// <summary>
     /// 判断邮箱是否存在
     /// </summary>
-    /// <param name="email"></param>
+    /// <param name="email">邮箱</param>
     /// <param name="id"></param>
     /// <returns></returns>
     Task<bool> ExistsEmail(string email, Guid? id = null);
@@ -36,7 +36,8 @@ public interface IAccountRepository : IRepository<AccountEntity>
     /// <summary>
     /// 根据用户名查询账户信息
     /// </summary>
-    /// <param name="username"></param>
+    /// <param name="username">用户名</param>
+    /// <param name="tenantId">租户编号</param>
     /// <returns></returns>
-    Task<AccountEntity> GetByUserName(string username);
+    Task<AccountEntity> GetByUserName(string username, Guid? tenantId = null);
 }

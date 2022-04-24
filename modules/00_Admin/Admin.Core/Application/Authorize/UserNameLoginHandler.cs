@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.LoginHandlers;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Logging.Abstractions.Providers;
@@ -25,8 +26,9 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
     private readonly ILoginLogProvider _loginLogProvider;
     private readonly IAccountService _accountService;
     private readonly IStringLocalizer<UserNameLoginHandler> _localizer;
+    private readonly ITenantResolver _tenantResolver;
 
-    public UserNameLoginHandler(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler, ILoginLogProvider loginLogProvider, IAccountService accountService, IStringLocalizer<UserNameLoginHandler> localizer)
+    public UserNameLoginHandler(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler, ILoginLogProvider loginLogProvider, IAccountService accountService, IStringLocalizer<UserNameLoginHandler> localizer, ITenantResolver tenantResolver)
     {
         _authOptions = authOptions;
         _verifyCodeProvider = verifyCodeProvider;
@@ -35,6 +37,7 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
         _loginLogProvider = loginLogProvider;
         _accountService = accountService;
         _localizer = localizer;
+        _tenantResolver = tenantResolver;
     }
 
     public async Task<IResultModel<UsernameLoginResult>> Handle(UsernameLoginModel model)
@@ -74,13 +77,18 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
             if (username.IsNull() || password.IsNull())
                 return result.Failed(msg);
 
-            var account = await _accountRepository.GetByUserName(username);
+            //解析租户
+            var tenantId = await _tenantResolver.Resolve();
+
+            var account = await _accountRepository.GetByUserName(username, tenantId);
             if (account == null)
                 return result.Failed(msg);
 
             password = _passwordHandler.Encrypt(model.Password.FromBase64());
             if (!account.Password.Equals(password))
                 return result.Failed(msg);
+
+            loginLog.AccountId = account.Id;
 
             //账户禁用
             if (account.Status == AccountStatus.Disabled)
