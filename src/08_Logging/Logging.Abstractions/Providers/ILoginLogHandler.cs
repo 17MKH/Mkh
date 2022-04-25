@@ -28,14 +28,14 @@ public class LoginLogModel : BaseLogModel
     public LoginMode LoginMode { get; set; }
 
     /// <summary>
-    /// 密码
-    /// </summary>
-    public string Password { get; set; }
-
-    /// <summary>
     /// 是否成功
     /// </summary>
     public bool Success { get; set; }
+
+    /// <summary>
+    /// 错误信息
+    /// </summary>
+    public string Error { get; set; }
 
     /// <summary>
     /// 登录IP

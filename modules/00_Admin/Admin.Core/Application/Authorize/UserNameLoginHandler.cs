@@ -47,7 +47,6 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
         {
             LoginMode = LoginMode.Username,
             Username = model.Username,
-            Password = model.Password,
             Platform = model.Platform,
             LoginTime = DateTime.Now,
             UserAgent = model.UserAgent
@@ -60,7 +59,10 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
             {
                 var verifyCodeCheckResult = await _verifyCodeProvider.Verify(model.VerifyCodeId, model.VerifyCode);
                 if (!verifyCodeCheckResult.Successful)
+                {
+                    loginLog.Error = verifyCodeCheckResult.Msg;
                     return result.Failed(verifyCodeCheckResult.Msg);
+                }
             }
 
             //查询账户
@@ -74,11 +76,15 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
             }
             catch
             {
+                loginLog.Error = msg;
                 return result.Failed(msg);
             }
 
             if (username.IsNull() || password.IsNull())
+            {
+                loginLog.Error = msg;
                 return result.Failed(msg);
+            }
 
             //解析租户
             var tenantId = await _tenantResolver.Resolve();
@@ -87,17 +93,27 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
 
             var account = await _accountRepository.GetByUserName(username, tenantId);
             if (account == null)
+            {
+                loginLog.Error = msg;
                 return result.Failed(msg);
+            }
 
             password = _passwordHandler.Encrypt(model.Password.FromBase64());
             if (!account.Password.Equals(password))
+            {
+                loginLog.Error = msg;
                 return result.Failed(msg);
+            }
 
             loginLog.AccountId = account.Id;
 
             //账户禁用
             if (account.Status == AccountStatus.Disabled)
-                return result.Failed(_localizer["The account has been disabled. Please contact the administrator"]);
+            {
+                msg = _localizer["The account has been disabled. Please contact the administrator"];
+                loginLog.Error = msg;
+                return result.Failed(msg);
+            }
 
             //如果是未激活状态，则表示首次登录，需要将状态修改为激活
             if (account.Status == AccountStatus.Register)
