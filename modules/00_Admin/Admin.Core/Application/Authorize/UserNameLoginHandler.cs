@@ -45,6 +45,7 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
         var result = new ResultModel<UsernameLoginResult>();
         var loginLog = new LoginLogModel
         {
+            LoginMode = LoginMode.Username,
             Username = model.Username,
             Password = model.Password,
             Platform = model.Platform,

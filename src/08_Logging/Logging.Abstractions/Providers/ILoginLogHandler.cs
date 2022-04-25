@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Mkh.Auth.Abstractions;
 
 namespace Mkh.Logging.Abstractions.Providers;
 
@@ -21,6 +22,11 @@ public interface ILoginLogHandler
 /// </summary>
 public class LoginLogModel : BaseLogModel
 {
+    /// <summary>
+    /// 登录方式
+    /// </summary>
+    public LoginMode LoginMode { get; set; }
+
     /// <summary>
     /// 密码
     /// </summary>

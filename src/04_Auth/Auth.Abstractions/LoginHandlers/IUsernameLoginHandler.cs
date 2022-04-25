@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Mkh.Auth.Abstractions.LoginHandlers;
@@ -25,7 +24,7 @@ public class UsernameLoginModel : LoginBaseModel
     /// <summary>
     /// 登录方式
     /// </summary>
-    public override LoginMode Mode => LoginMode.UserName;
+    public override LoginMode Mode => LoginMode.Username;
 
     /// <summary>
     /// 用户名

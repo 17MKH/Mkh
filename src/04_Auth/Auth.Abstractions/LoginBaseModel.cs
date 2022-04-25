@@ -59,7 +59,7 @@ namespace Mkh.Auth.Abstractions
         /// 用户名
         /// </summary>
         [Description("用户名")]
-        UserName,
+        Username,
         /// <summary>
         /// 邮箱
         /// </summary>
