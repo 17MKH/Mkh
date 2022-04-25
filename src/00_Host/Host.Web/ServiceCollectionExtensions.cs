@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Core;
+using Mkh.Host.Web.Filters;
 using Mkh.Host.Web.Swagger.Conventions;
 using Mkh.Module.Abstractions;
 using Mkh.Module.Web;
@@ -27,18 +28,21 @@ internal static class ServiceCollectionExtensions
     /// <param name="hostOptions"></param>
     /// <param name="env"></param>
     /// <returns></returns>
-    public static IServiceCollection AddMvc(this IServiceCollection services, IModuleCollection modules, Options.HostOptions hostOptions, IHostEnvironment env)
+    public static IMvcBuilder AddMvc(this IServiceCollection services, IModuleCollection modules, Options.HostOptions hostOptions, IHostEnvironment env)
     {
         //添加多语言支持
         services.AddLocalization(opt => opt.ResourcesPath = "Resources");
 
-        services.AddMvc(c =>
+        var mvcBuilder = services.AddMvc(c =>
             {
                 if (hostOptions!.Swagger || !env.IsProduction())
                 {
                     //API分组约定
                     c.Conventions.Add(new ApiExplorerGroupConvention());
                 }
+
+                //审计日志全局过滤器
+                c.Filters.Add(typeof(AuditFilterAttribute));
             })
             .AddJsonOptions(options =>
             {
@@ -56,11 +60,12 @@ internal static class ServiceCollectionExtensions
             })
             //多语言
             .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-            .AddDataAnnotationsLocalization()
-            //添加模块
-            .AddModules(modules);
+            .AddDataAnnotationsLocalization();
 
-        return services;
+        //添加模块
+        mvcBuilder.AddModules(modules);
+
+        return mvcBuilder;
     }
 
     /// <summary>

@@ -7,11 +7,11 @@ namespace Mkh.Logging.Core.DefaultProviders;
 /// <summary>
 /// 默认登录日志处理器
 /// </summary>
-public class LoginLogProvider : ILoginLogProvider
+internal class LoginLogHandler : ILoginLogHandler
 {
-    private readonly ILogger<LoginLogProvider> _logger;
+    private readonly ILogger<LoginLogHandler> _logger;
 
-    public LoginLogProvider(ILogger<LoginLogProvider> logger)
+    public LoginLogHandler(ILogger<LoginLogHandler> logger)
     {
         _logger = logger;
     }

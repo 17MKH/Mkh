@@ -47,6 +47,7 @@ public class AuthorizeController : Web.ModuleController
     /// <returns></returns>
     [HttpPost]
     [AllowAnonymous]
+    [DisableAudit]
     public Task<IResultModel> Login(UsernameLoginModel model)
     {
         model.IP = _ipResolver.IP;

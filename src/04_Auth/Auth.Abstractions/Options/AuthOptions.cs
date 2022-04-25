@@ -16,9 +16,14 @@ public class AuthOptions
     public bool EnableVerifyCode { get; set; } = false;
 
     /// <summary>
+    /// 启用登录
+    /// </summary>
+    public bool EnableLoginLog { get; set; } = true;
+
+    /// <summary>
     /// 启用审计日志
     /// </summary>
-    public bool EnableAuditingLog { get; set; } = true;
+    public bool EnableAuditLog { get; set; } = true;
 
     /// <summary>
     /// 启用检测用户IP地址

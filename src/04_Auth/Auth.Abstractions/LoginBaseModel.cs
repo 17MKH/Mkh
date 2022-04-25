@@ -50,7 +50,6 @@ namespace Mkh.Auth.Abstractions
         public long LoginTime { get; set; }
     }
 
-
     /// <summary>
     /// 登录模式
     /// </summary>

@@ -23,12 +23,12 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
     private readonly IVerifyCodeProvider _verifyCodeProvider;
     private readonly IAccountRepository _accountRepository;
     private readonly IPasswordHandler _passwordHandler;
-    private readonly ILoginLogProvider _loginLogProvider;
+    private readonly ILoginLogHandler _loginLogProvider;
     private readonly IAccountService _accountService;
     private readonly IStringLocalizer<UserNameLoginHandler> _localizer;
     private readonly ITenantResolver _tenantResolver;
 
-    public UserNameLoginHandler(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler, ILoginLogProvider loginLogProvider, IAccountService accountService, IStringLocalizer<UserNameLoginHandler> localizer, ITenantResolver tenantResolver)
+    public UserNameLoginHandler(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler, ILoginLogHandler loginLogProvider, IAccountService accountService, IStringLocalizer<UserNameLoginHandler> localizer, ITenantResolver tenantResolver)
     {
         _authOptions = authOptions;
         _verifyCodeProvider = verifyCodeProvider;
@@ -47,7 +47,9 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
         {
             Username = model.Username,
             Password = model.Password,
-            Platform = model.Platform
+            Platform = model.Platform,
+            LoginTime = DateTime.Now,
+            UserAgent = model.UserAgent
         };
 
         try
@@ -80,6 +82,8 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
             //解析租户
             var tenantId = await _tenantResolver.Resolve();
 
+            loginLog.TenantId = tenantId;
+
             var account = await _accountRepository.GetByUserName(username, tenantId);
             if (account == null)
                 return result.Failed(msg);
@@ -100,6 +104,8 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
                 await _accountService.Activate(account.Id);
             }
 
+            loginLog.Success = true;
+
             return result.Success(new UsernameLoginResult
             {
                 Platform = model.Platform,
@@ -115,8 +121,11 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
         }
         finally
         {
-            //记录日志
-            await _loginLogProvider.Write(loginLog);
+            //记录登录日志
+            if (_authOptions.CurrentValue.EnableLoginLog)
+            {
+                await _loginLogProvider.Write(loginLog);
+            }
         }
     }
 }

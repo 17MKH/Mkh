@@ -13,6 +13,8 @@ public static class ServiceCollectionExtensions
     public static void AddMkhLogging(this IServiceCollection services)
     {
         //登录日志处理器
-        services.AddScoped<ILoginLogProvider, LoginLogProvider>();
+        services.AddScoped<ILoginLogHandler, LoginLogHandler>();
+        //审计日志处理器
+        services.AddScoped<IAuditLogHandler, AuditLogHandler>();
     }
 }
