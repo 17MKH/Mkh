@@ -7,6 +7,7 @@ using Mkh.Mod.Admin.Core.Domain.MenuGroup;
 using Mkh.Mod.Admin.Core.Domain.Role;
 using Mkh.Mod.Admin.Core.Domain.RoleMenu;
 using Mkh.Mod.Admin.Core.Domain.RolePermission;
+using Mkh.Mod.Admin.Core.Infrastructure;
 using Mkh.Utils.Map;
 
 namespace Mkh.Mod.Admin.Core.Application.MenuGroup;
@@ -19,8 +20,9 @@ public class MenuGroupService : IMenuGroupService
     private readonly IMenuRepository _menuRepository;
     private readonly IRoleMenuRepository _roleMenuRepository;
     private readonly IRolePermissionRepository _rolePermissionRepository;
+    private readonly AdminLocalizer _localizer;
 
-    public MenuGroupService(IMapper mapper, IMenuGroupRepository repository, IRoleRepository roleRepository, IMenuRepository menuRepository, IRoleMenuRepository roleMenuRepository, IRolePermissionRepository rolePermissionRepository)
+    public MenuGroupService(IMapper mapper, IMenuGroupRepository repository, IRoleRepository roleRepository, IMenuRepository menuRepository, IRoleMenuRepository roleMenuRepository, IRolePermissionRepository rolePermissionRepository, AdminLocalizer localizer)
     {
         _mapper = mapper;
         _repository = repository;
@@ -28,6 +30,7 @@ public class MenuGroupService : IMenuGroupService
         _menuRepository = menuRepository;
         _roleMenuRepository = roleMenuRepository;
         _rolePermissionRepository = rolePermissionRepository;
+        _localizer = localizer;
     }
 
     public Task<IResultModel> Query(MenuGroupQueryDto dto)
@@ -76,7 +79,7 @@ public class MenuGroupService : IMenuGroupService
 
         //如果有角色绑定了该菜单分组，则不允许删除
         if (await _roleRepository.Find(m => m.MenuGroupId == id).ToExists())
-            return ResultModel.Failed("有角色绑定了该菜单分组，不允许删除");
+            return ResultModel.Failed(_localizer["有角色绑定了该菜单分组，不允许删除"]);
 
         var result = await _repository.Delete(id);
         if (result)

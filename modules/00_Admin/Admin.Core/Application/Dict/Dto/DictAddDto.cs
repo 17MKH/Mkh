@@ -16,12 +16,12 @@ public class DictAddDto
     /// <summary>
     /// 名称
     /// </summary>
-    [Required(ErrorMessage = "请输入名称")]
+    [Required(ErrorMessage = "请输入分组名称")]
     public string Name { get; set; }
 
     /// <summary>
     /// 编码
     /// </summary>
-    [Required(ErrorMessage = "请输入编码")]
+    [Required(ErrorMessage = "请输入分组编码")]
     public string Code { get; set; }
 }

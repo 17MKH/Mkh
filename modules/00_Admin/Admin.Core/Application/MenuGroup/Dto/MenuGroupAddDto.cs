@@ -7,7 +7,7 @@ namespace Mkh.Mod.Admin.Core.Application.MenuGroup.Dto;
 [ObjectMap(typeof(MenuGroupEntity))]
 public class MenuGroupAddDto
 {
-    [Required(ErrorMessage = "请填写分组名称")]
+    [Required(ErrorMessage = "请输入分组名称")]
     public string Name { get; set; }
 
     public string Remarks { get; set; }

@@ -26,8 +26,9 @@ public class RoleService : IRoleService
     private readonly IAccountRepository _accountRepository;
     private readonly ICacheHandler _cacheHandler;
     private readonly AdminCacheKeys _cacheKeys;
+    private readonly AdminLocalizer _localizer;
 
-    public RoleService(IRoleRepository repository, IMapper mapper, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository, ICacheHandler cacheHandler, AdminCacheKeys cacheKeys, IAccountRepository accountRepository)
+    public RoleService(IRoleRepository repository, IMapper mapper, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository, ICacheHandler cacheHandler, AdminCacheKeys cacheKeys, IAccountRepository accountRepository, AdminLocalizer localizer)
     {
         _repository = repository;
         _mapper = mapper;
@@ -37,6 +38,7 @@ public class RoleService : IRoleService
         _cacheHandler = cacheHandler;
         _cacheKeys = cacheKeys;
         _accountRepository = accountRepository;
+        _localizer = localizer;
     }
 
     public Task<IResultModel> Query()
@@ -53,12 +55,12 @@ public class RoleService : IRoleService
     {
         if (await _repository.Find(m => m.Name == dto.Name).ToExists())
         {
-            return ResultModel.Failed($"角色名称({dto.Name})已存在~");
+            return ResultModel.Failed(_localizer["角色名称({0})已存在", dto.Name]);
         }
 
         if (await _repository.Find(m => m.Code == dto.Code).ToExists())
         {
-            return ResultModel.Failed($"角色编码({dto.Code})已存在~");
+            return ResultModel.Failed(_localizer["角色编码({0})已存在", dto.Code]);
         }
 
         var role = _mapper.Map<RoleEntity>(dto);
@@ -83,12 +85,12 @@ public class RoleService : IRoleService
 
         if (await _repository.Find(m => m.Name == dto.Name && m.Id != dto.Id).ToExists())
         {
-            return ResultModel.Failed($"角色名称({dto.Name})已存在~");
+            return ResultModel.Failed(_localizer["角色名称({0})已存在", dto.Name]);
         }
 
         if (await _repository.Find(m => m.Code == dto.Code && m.Id != dto.Id).ToExists())
         {
-            return ResultModel.Failed($"角色编码({dto.Code})已存在~");
+            return ResultModel.Failed(_localizer["角色编码({0})已存在", dto.Code]);
         }
 
         _mapper.Map(dto, role);

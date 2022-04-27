@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Localization;
 using Mkh.Data.Abstractions.Annotations;
 using Mkh.Mod.Admin.Core.Application.Menu.Dto;
 using Mkh.Mod.Admin.Core.Domain.Menu;
 using Mkh.Mod.Admin.Core.Domain.RoleButton;
 using Mkh.Mod.Admin.Core.Domain.RoleMenu;
 using Mkh.Mod.Admin.Core.Domain.RolePermission;
+using Mkh.Mod.Admin.Core.Infrastructure;
 using Mkh.Utils.Json;
 using Mkh.Utils.Map;
 
@@ -21,9 +21,9 @@ public class MenuService : IMenuService
     private readonly IRoleButtonRepository _roleButtonRepository;
     private readonly IRolePermissionRepository _rolePermissionRepository;
     private readonly JsonHelper _jsonHelper;
-    private readonly IStringLocalizer<MenuService> _localizer;
+    private readonly AdminLocalizer _localizer;
 
-    public MenuService(IMapper mapper, IMenuRepository repository, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository, JsonHelper jsonHelper, IStringLocalizer<MenuService> localizer)
+    public MenuService(IMapper mapper, IMenuRepository repository, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository, JsonHelper jsonHelper, AdminLocalizer localizer)
     {
         _mapper = mapper;
         _repository = repository;
@@ -50,21 +50,21 @@ public class MenuService : IMenuService
 
         if (dto.Type == MenuType.Route)
         {
-            if(dto.Module.IsNull())
-                return ResultModel.Failed(_localizer["The module code cannot be empty"]);
+            if (dto.Module.IsNull())
+                return ResultModel.Failed(_localizer["模块编码不能为空"]);
 
             if (dto.RouteName.IsNull())
-                return ResultModel.Failed(_localizer["The route name cannot be empty"]);
+                return ResultModel.Failed(_localizer["路由名称不能为空"]);
         }
         else if (dto.Type == MenuType.Link)
         {
             if (dto.Url.IsNull())
-                return ResultModel.Failed(_localizer["The url cannot be empty"]);
+                return ResultModel.Failed(_localizer["Url不能为空"]);
         }
         else if (dto.Type == MenuType.CustomJs)
         {
             if (dto.CustomJs.IsNull())
-                return ResultModel.Failed(_localizer["The custom javascript cannot be empty"]);
+                return ResultModel.Failed(_localizer["自定义Javascript不能为空"]);
         }
 
         if (dto.Locales != null)
@@ -77,7 +77,7 @@ public class MenuService : IMenuService
             var parent = await _repository.Get(dto.ParentId);
             if (parent == null)
             {
-                return ResultModel.Failed(_localizer["The parent node menu does not exist"]);
+                return ResultModel.Failed(_localizer["父节点菜单不存在"]);
             }
 
             menu.Level = parent.Level + 1;

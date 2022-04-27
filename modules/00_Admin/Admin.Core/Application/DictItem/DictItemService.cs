@@ -18,8 +18,9 @@ public class DictItemService : IDictItemService
     private readonly IDictGroupRepository _dictGroupRepository;
     private readonly ICacheHandler _cacheHandler;
     private readonly AdminCacheKeys _cacheKeys;
+    private readonly AdminLocalizer _localizer;
 
-    public DictItemService(IMapper mapper, IDictItemRepository repository, IDictRepository dictRepository, IDictGroupRepository dictGroupRepository, ICacheHandler cacheHandler, AdminCacheKeys cacheKeys)
+    public DictItemService(IMapper mapper, IDictItemRepository repository, IDictRepository dictRepository, IDictGroupRepository dictGroupRepository, ICacheHandler cacheHandler, AdminCacheKeys cacheKeys, AdminLocalizer localizer)
     {
         _mapper = mapper;
         _repository = repository;
@@ -27,6 +28,7 @@ public class DictItemService : IDictItemService
         _dictGroupRepository = dictGroupRepository;
         _cacheHandler = cacheHandler;
         _cacheKeys = cacheKeys;
+        _localizer = localizer;
     }
 
     public Task<IResultModel> Query(DictItemQueryDto dto)
@@ -44,13 +46,13 @@ public class DictItemService : IDictItemService
     public async Task<IResultModel> Add(DictItemAddDto dto)
     {
         if (!await _dictGroupRepository.Find(m => m.Code == dto.GroupCode).ToExists())
-            return ResultModel.Failed("当前字典分组不存在");
+            return ResultModel.Failed(_localizer["当前分组不存在"]);
 
         if (!await _dictRepository.Find(m => m.Code == dto.DictCode).ToExists())
-            return ResultModel.Failed("当前字典不存在");
+            return ResultModel.Failed(_localizer["字典不存在"]);
 
         if (await _repository.Find(m => m.GroupCode == dto.GroupCode && m.DictCode == dto.DictCode && m.Value == dto.Value).ToExists())
-            return ResultModel.Failed("当前项的值已存在");
+            return ResultModel.Failed(_localizer["当前项的值已存在"]);
 
         var entity = _mapper.Map<DictItemEntity>(dto);
 
@@ -81,13 +83,13 @@ public class DictItemService : IDictItemService
             return ResultModel.NotExists;
 
         if (!await _dictGroupRepository.Find(m => m.Code == dto.GroupCode).ToExists())
-            return ResultModel.Failed("当前字典分组不存在");
+            return ResultModel.Failed(_localizer["当前分组不存在"]);
 
         if (!await _dictRepository.Find(m => m.Code == dto.DictCode).ToExists())
-            return ResultModel.Failed("当前字典不存在");
+            return ResultModel.Failed(_localizer["字典不存在"]);
 
         if (await _repository.Find(m => m.GroupCode == dto.GroupCode && m.DictCode == dto.DictCode && m.Value == dto.Value && m.Id != dto.Id).ToExists())
-            return ResultModel.Failed("当前项的值已存在");
+            return ResultModel.Failed(_localizer["当前项的值已存在"]);
 
         _mapper.Map(dto, entity);
 

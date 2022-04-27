@@ -22,8 +22,9 @@ public class DictService : IDictService
     private readonly IDictItemRepository _itemRepository;
     private readonly ICacheHandler _cacheHandler;
     private readonly AdminCacheKeys _cacheKeys;
+    private readonly AdminLocalizer _localizer;
 
-    public DictService(IMapper mapper, IDictRepository repository, IDictGroupRepository groupRepository, IDictItemRepository itemRepository, ICacheHandler cacheHandler, AdminCacheKeys cacheKeys)
+    public DictService(IMapper mapper, IDictRepository repository, IDictGroupRepository groupRepository, IDictItemRepository itemRepository, ICacheHandler cacheHandler, AdminCacheKeys cacheKeys, AdminLocalizer localizer)
     {
         _mapper = mapper;
         _repository = repository;
@@ -31,6 +32,7 @@ public class DictService : IDictService
         _itemRepository = itemRepository;
         _cacheHandler = cacheHandler;
         _cacheKeys = cacheKeys;
+        _localizer = localizer;
     }
 
     public Task<IResultModel> Query(DictQueryDto dto)
@@ -46,10 +48,10 @@ public class DictService : IDictService
     public async Task<IResultModel> Add(DictAddDto dto)
     {
         if (await _repository.Find(m => m.GroupCode == dto.GroupCode && m.Code == dto.Code).ToExists())
-            return ResultModel.Failed("当前分组下字典编码已存在");
+            return ResultModel.Failed(_localizer["当前分组下字典编码已存在"]);
 
         if (!await _groupRepository.Find(m => m.Code == dto.GroupCode).ToExists())
-            return ResultModel.Failed("当前分组不存在");
+            return ResultModel.Failed(_localizer["当前分组不存在"]);
 
         var entity = _mapper.Map<DictEntity>(dto);
 
@@ -95,7 +97,7 @@ public class DictService : IDictService
 
         if (await _itemRepository.Find(m => m.GroupCode == entity.GroupCode && m.DictCode == entity.Code)
             .ToExists())
-            return ResultModel.Failed("该字典包含数据项，请先删除数据项");
+            return ResultModel.Failed(_localizer["该字典包含数据项，请先删除数据项"]);
 
         var result = await _repository.SoftDelete(id);
         return ResultModel.Result(result);
@@ -148,7 +150,7 @@ public class DictService : IDictService
 
         var dict = await _repository.Find(m => m.GroupCode == groupCode && m.Code == dictCode).ToFirst();
         if (dict == null)
-            return ResultModel.Failed("字典不存在");
+            return ResultModel.Failed(_localizer["字典不存在"]);
 
         tree = new List<TreeResultModel<int, DictItemTreeVo>>();
         var root = new TreeResultModel<int, DictItemTreeVo>

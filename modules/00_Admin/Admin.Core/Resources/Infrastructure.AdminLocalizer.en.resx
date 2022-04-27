@@ -117,11 +117,65 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Url不能为空" xml:space="preserve">
+    <value>The url cannot be empty</value>
+  </data>
+  <data name="分组编码已存在" xml:space="preserve">
+    <value>The group code already exists</value>
+  </data>
+  <data name="字典不存在" xml:space="preserve">
+    <value>Dictionary does not exist</value>
+  </data>
+  <data name="当前分组下字典编码已存在" xml:space="preserve">
+    <value>The dictionary code under the current group already exists</value>
+  </data>
+  <data name="当前分组不存在" xml:space="preserve">
+    <value>The current group does not exist</value>
+  </data>
+  <data name="当前项的值已存在" xml:space="preserve">
+    <value>The value of the current entry already exists</value>
+  </data>
+  <data name="有角色绑定了该菜单分组，不允许删除" xml:space="preserve">
+    <value>Some roles are bound to this menu group and cannot be deleted</value>
+  </data>
+  <data name="模块编码不能为空" xml:space="preserve">
+    <value>The module code cannot be empty</value>
+  </data>
+  <data name="父节点菜单不存在" xml:space="preserve">
+    <value>The parent node menu does not exist</value>
+  </data>
   <data name="用户名或密码错误" xml:space="preserve">
     <value>The user name or password is incorrect</value>
   </data>
+  <data name="自定义Javascript不能为空" xml:space="preserve">
+    <value>The custom javascript cannot be empty</value>
+  </data>
+  <data name="角色名称({0})已存在" xml:space="preserve">
+    <value>The role name ({0}) already exists</value>
+  </data>
+  <data name="角色编码({0})已存在" xml:space="preserve">
+    <value>The role code ({0}) already exists</value>
+  </data>
+  <data name="该分组下面包含字典数据，请先删除字典数据后在删除分组" xml:space="preserve">
+    <value>This group contains dictionary data. Please delete the dictionary data before deleting the group</value>
+  </data>
+  <data name="该字典包含数据项，请先删除数据项" xml:space="preserve">
+    <value>This dictionary contains data items, please delete data items first</value>
+  </data>
+  <data name="请输入分组名称" xml:space="preserve">
+    <value>Please enter a group name</value>
+  </data>
+  <data name="请输入分组编码" xml:space="preserve">
+    <value>Please enter a group code</value>
+  </data>
   <data name="请输入姓名或名称" xml:space="preserve">
     <value>Please enter your name</value>
+  </data>
+  <data name="请输入字典分组名称" xml:space="preserve">
+    <value>Please enter a dictionary group name</value>
+  </data>
+  <data name="请输入字典分组唯一编码" xml:space="preserve">
+    <value>Please enter dictionary group unique code</value>
   </data>
   <data name="请输入密码" xml:space="preserve">
     <value>Please enter a password</value>
@@ -129,10 +183,28 @@
   <data name="请输入用户名" xml:space="preserve">
     <value>Please enter a user name</value>
   </data>
+  <data name="请选择分组" xml:space="preserve">
+    <value>Please select a group</value>
+  </data>
+  <data name="请选择菜单分组" xml:space="preserve">
+    <value>Please select menu group</value>
+  </data>
+  <data name="请选择要修改的分组" xml:space="preserve">
+    <value>Please select the group you want to modify</value>
+  </data>
+  <data name="请选择要修改的字典项" xml:space="preserve">
+    <value>Select the dictionary entry you want to modify</value>
+  </data>
+  <data name="请选择要修改的菜单" xml:space="preserve">
+    <value>Please select the menu you want to modify</value>
+  </data>
   <data name="请选择角色" xml:space="preserve">
     <value>Please select a role</value>
   </data>
   <data name="账户已禁用，请联系管理员" xml:space="preserve">
     <value>The account has been disabled. Please contact the administrator</value>
+  </data>
+  <data name="路由名称不能为空" xml:space="preserve">
+    <value>The route name cannot be empty</value>
   </data>
 </root>

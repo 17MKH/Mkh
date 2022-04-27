@@ -7,7 +7,7 @@ namespace Mkh.Mod.Admin.Core.Application.Menu.Dto;
 [ObjectMap(typeof(MenuEntity), true)]
 public class MenuUpdateDto : MenuAddDto
 {
-    [Required(ErrorMessage = "Please select the menu you want to modify")]
-    [Range(1, int.MaxValue, ErrorMessage = "Please select the menu you want to modify")]
+    [Required(ErrorMessage = "请选择要修改的菜单")]
+    [Range(1, int.MaxValue, ErrorMessage = "请选择要修改的菜单")]
     public int Id { get; set; }
 }
