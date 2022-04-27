@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Entities;
+using Mkh.Data.Abstractions.EntityChangeEvents;
 
 namespace Mkh.Data.Core.Repository;
 
@@ -84,6 +85,27 @@ public abstract partial class RepositoryAbstract<TEntity>
             return false;
         }
 
-        return await Execute(sql, entity) > 0;
+        if (await Execute(sql, entity, uow) > 0)
+        {
+            try
+            {
+                foreach (var changeEvents in DbContext.EntityChangeEvents)
+                {
+                    await changeEvents.OnAdd(new EntityAddEventContext
+                    {
+                        EntityDescriptor = EntityDescriptor,
+                        Entity = entity
+                    });
+                }
+            }
+            catch
+            {
+                _logger.Write("EntityChangeAddEvent", "error");
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

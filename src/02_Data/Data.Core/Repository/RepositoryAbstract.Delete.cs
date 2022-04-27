@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions;
+using Mkh.Data.Abstractions.EntityChangeEvents;
 
 namespace Mkh.Data.Core.Repository;
 
@@ -25,6 +26,26 @@ public abstract partial class RepositoryAbstract<TEntity>
         var dynParams = GetIdParameter(id);
         var sql = _sql.GetDeleteSingle(tableName);
         var result = await Execute(sql, dynParams, uow) > 0;
+
+        if (result)
+        {
+            try
+            {
+                foreach (var changeEvents in DbContext.EntityChangeEvents)
+                {
+                    await changeEvents.OnDelete(new EntityDeleteEventContext
+                    {
+                        EntityDescriptor = EntityDescriptor,
+                        Id = id
+                    });
+                }
+            }
+            catch
+            {
+                _logger.Write("EntityChangeAddEvent", "error");
+            }
+        }
+
         return result;
     }
 }

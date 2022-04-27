@@ -5,7 +5,7 @@
 		<Name>权限管理</Name>
 		<Authors>Oldli</Authors>
 		<Icon>permission</Icon>
-		<Version>1.2.1</Version>
+		<Version>1.2.2</Version>
 		<Description>17MKH Module Admin($(Name)) - $(MSBuildProjectName)</Description>
 		<NoWarn>$(NoWarn);1591</NoWarn>
 		<LangVersion>Latest</LangVersion>

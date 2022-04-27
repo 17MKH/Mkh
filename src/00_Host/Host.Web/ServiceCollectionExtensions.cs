@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Core;
 using Mkh.Host.Web.Filters;

@@ -6,6 +6,7 @@ using System.Runtime.Loader;
 using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Adapter;
+using Mkh.Data.Abstractions.EntityChangeEvents;
 using Mkh.Data.Abstractions.Logger;
 using Mkh.Data.Abstractions.Options;
 using Mkh.Data.Abstractions.Schema;
@@ -62,6 +63,9 @@ internal class DbBuilder : IDbBuilder
 
         //加载仓储
         LoadRepositories();
+
+        //加载实体变更事件
+        LoadEntityChangeEvents();
 
         //执行自定义委托
         foreach (var action in _actions)
@@ -196,6 +200,19 @@ internal class DbBuilder : IDbBuilder
                 //保存仓储描述符
                 DbContext.RepositoryDescriptors.Add(new RepositoryDescriptor(entityType, interfaceType, implementationType));
             }
+        }
+    }
+
+    /// <summary>
+    /// 加载实体变更事件
+    /// </summary>
+    private void LoadEntityChangeEvents()
+    {
+        var sp = Services.BuildServiceProvider();
+        var events = sp.GetServices<IEntityChangeEvents>();
+        foreach (var @event in events)
+        {
+            DbContext.EntityChangeEvents.Add(@event);
         }
     }
 

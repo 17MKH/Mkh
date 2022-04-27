@@ -6,6 +6,7 @@ using Data.Common.Test.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Mkh.Data.Abstractions;
+using Mkh.Data.Abstractions.EntityChangeEvents;
 using Xunit;
 
 namespace Data.Core.Test
@@ -28,11 +29,13 @@ namespace Data.Core.Test
             });
 
             services.AddSingleton<IAccountResolver, CustomAccountResolver>();
+            services.AddScoped<IEntityChangeEvents, CustomEntityChangeEvents>();
 
             services
                 .AddMkhDb<BlogDbContext>()
                 .UseMySql(connString)
-                .AddRepositoriesFromAssembly(typeof(BlogDbContext).Assembly);
+                .AddRepositoriesFromAssembly(typeof(BlogDbContext).Assembly)
+                .Build();
 
             _serviceProvider = services.BuildServiceProvider();
             _context = _serviceProvider.GetService<BlogDbContext>();

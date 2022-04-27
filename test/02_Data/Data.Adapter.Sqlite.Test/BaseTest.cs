@@ -8,6 +8,7 @@ using Divergic.Logging.Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Mkh.Data.Abstractions;
+using Mkh.Data.Abstractions.EntityChangeEvents;
 using Xunit.Abstractions;
 
 namespace Data.Adapter.Sqlite.Test
@@ -34,6 +35,7 @@ namespace Data.Adapter.Sqlite.Test
 
             //自定义账户信息解析器
             services.AddSingleton<IAccountResolver, CustomAccountResolver>();
+            services.AddScoped<IEntityChangeEvents, CustomEntityChangeEvents>();
 
             services
                 .AddMkhDb<BlogDbContext>(options =>
