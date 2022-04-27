@@ -38,7 +38,7 @@ public class ExceptionHandleMiddleware
     private Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        context.Response.StatusCode = (int)HttpStatusCode.OK;
 
         //开发环境返回详细异常信息
         var error = _env.IsDevelopment() ? exception.ToString() : exception.Message;

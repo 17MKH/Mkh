@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
 using Mkh.Data.Abstractions.Annotations;
 using Mkh.Mod.Admin.Core.Application.Menu.Dto;
 using Mkh.Mod.Admin.Core.Domain.Menu;
@@ -20,8 +21,9 @@ public class MenuService : IMenuService
     private readonly IRoleButtonRepository _roleButtonRepository;
     private readonly IRolePermissionRepository _rolePermissionRepository;
     private readonly JsonHelper _jsonHelper;
+    private readonly IStringLocalizer<MenuService> _localizer;
 
-    public MenuService(IMapper mapper, IMenuRepository repository, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository, JsonHelper jsonHelper)
+    public MenuService(IMapper mapper, IMenuRepository repository, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository, JsonHelper jsonHelper, IStringLocalizer<MenuService> localizer)
     {
         _mapper = mapper;
         _repository = repository;
@@ -29,6 +31,7 @@ public class MenuService : IMenuService
         _roleButtonRepository = roleButtonRepository;
         _rolePermissionRepository = rolePermissionRepository;
         _jsonHelper = jsonHelper;
+        _localizer = localizer;
     }
 
     public Task<IResultModel> Query(MenuQueryDto dto)
@@ -45,6 +48,25 @@ public class MenuService : IMenuService
         var menu = _mapper.Map<MenuEntity>(dto);
         menu.Level = 1;
 
+        if (dto.Type == MenuType.Route)
+        {
+            if(dto.Module.IsNull())
+                return ResultModel.Failed(_localizer["The module code cannot be empty"]);
+
+            if (dto.RouteName.IsNull())
+                return ResultModel.Failed(_localizer["The route name cannot be empty"]);
+        }
+        else if (dto.Type == MenuType.Link)
+        {
+            if (dto.Url.IsNull())
+                return ResultModel.Failed(_localizer["The url cannot be empty"]);
+        }
+        else if (dto.Type == MenuType.CustomJs)
+        {
+            if (dto.CustomJs.IsNull())
+                return ResultModel.Failed(_localizer["The custom javascript cannot be empty"]);
+        }
+
         if (dto.Locales != null)
         {
             menu.LocalesConfig = _jsonHelper.Serialize(dto.Locales);
@@ -55,7 +77,7 @@ public class MenuService : IMenuService
             var parent = await _repository.Get(dto.ParentId);
             if (parent == null)
             {
-                return ResultModel.Failed("父节点菜单不存在~");
+                return ResultModel.Failed(_localizer["The parent node menu does not exist"]);
             }
 
             menu.Level = parent.Level + 1;
@@ -106,15 +128,11 @@ public class MenuService : IMenuService
         if (result)
         {
             //删除角色菜单绑定数据
-            var deleteRoleMenuTask = _roleMenuRepository.Find(m => m.MenuId == id).ToDelete();
+            await _roleMenuRepository.Find(m => m.MenuId == id).ToDelete();
             //删除角色按钮绑定数据
-            var deleteRoleButtonTask = _roleButtonRepository.Find(m => m.MenuId == id).ToDelete();
+            await _roleButtonRepository.Find(m => m.MenuId == id).ToDelete();
             //删除角色权限绑定数据
-            var deleteRolePermissionTask = _rolePermissionRepository.Find(m => m.MenuId == id).ToDelete();
-
-            await deleteRoleMenuTask;
-            await deleteRoleButtonTask;
-            await deleteRolePermissionTask;
+            await _rolePermissionRepository.Find(m => m.MenuId == id).ToDelete();
         }
 
         return ResultModel.Result(result);
@@ -156,18 +174,14 @@ public class MenuService : IMenuService
         if (!menus.Any())
             return ResultModel.Success();
 
-        var tasks = new List<Task>();
         foreach (var menu in menus)
         {
-            var task = _repository.Find(m => m.Id == menu.Id).ToUpdate(m => new MenuEntity
+            await _repository.Find(m => m.Id == menu.Id).ToUpdate(m => new MenuEntity
             {
                 ParentId = menu.ParentId,
                 Sort = menu.Sort
             });
-            tasks.Add(task);
         }
-
-        await Task.WhenAll(tasks);
 
         return ResultModel.Success();
     }

@@ -124,6 +124,8 @@ public class ModuleCollection : CollectionAbstract<ModuleDescriptor>, IModuleCol
 
         LoadDbInitFilePath(options.Dir, moduleDescriptor);
 
+        LoadLocalizer(moduleDescriptor);
+
         Add(moduleDescriptor);
     }
 
@@ -198,5 +200,19 @@ public class ModuleCollection : CollectionAbstract<ModuleDescriptor>, IModuleCol
             return;
 
         descriptor.DbInitFilePath = filePath;
+    }
+
+    /// <summary>
+    /// 加载多语言文件类型
+    /// </summary>
+    /// <param name="descriptor"></param>
+    private void LoadLocalizer(ModuleDescriptor descriptor)
+    {
+        var layer = descriptor.LayerAssemblies;
+
+        if (layer.Core == null)
+            return;
+
+        descriptor.LocalizerType = layer.Core.GetTypes().FirstOrDefault(m => typeof(IModuleLocalizer).IsAssignableFrom(m));
     }
 }

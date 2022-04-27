@@ -60,7 +60,19 @@ internal static class ServiceCollectionExtensions
             })
             //多语言
             .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-            .AddDataAnnotationsLocalization();
+            .AddDataAnnotationsLocalization(options =>
+            {
+                options.DataAnnotationLocalizerProvider = (type, factory) =>
+                {
+                    var module = modules.FirstOrDefault(m => m.LayerAssemblies.Core == type.Assembly);
+                    if (module != null && module.LocalizerType != null)
+                    {
+                        return factory.Create(module.LocalizerType);
+                    }
+
+                    return factory.Create(type);
+                };
+            });
 
         //添加模块
         mvcBuilder.AddModules(modules);

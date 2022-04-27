@@ -4,12 +4,14 @@ using System.Threading.Tasks;
 using Mkh.Cache.Abstractions;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Domain.RolePermission;
+using Mkh.Utils.Annotations;
 
 namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults;
 
 /// <summary>
 /// 默认账户权限解析器
 /// </summary>
+[Scoped]
 internal class DefaultAccountPermissionResolver : IAccountPermissionResolver
 {
     private readonly IAccountRepository _accountRepository;

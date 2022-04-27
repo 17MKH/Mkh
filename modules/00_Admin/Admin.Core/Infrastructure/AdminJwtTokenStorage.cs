@@ -7,9 +7,11 @@ using Mkh.Auth.Abstractions;
 using Mkh.Auth.Jwt;
 using Mkh.Cache.Abstractions;
 using Mkh.Mod.Admin.Core.Domain.JwtAuthInfo;
+using Mkh.Utils.Annotations;
 
 namespace Mkh.Mod.Admin.Core.Infrastructure;
 
+[Scoped]
 internal class AdminJwtTokenStorage : IJwtTokenStorage
 {
     private readonly IJwtAuthInfoRepository _repository;

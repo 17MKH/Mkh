@@ -1,3 +1,5 @@
+using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Adapter;
@@ -9,6 +11,11 @@ public abstract partial class RepositoryAbstract<TEntity>
     public Task<TEntity> Get(dynamic id, IUnitOfWork uow = null)
     {
         return Get(id, null, uow);
+    }
+
+    public Task<TEntity> Get(Expression<Func<TEntity, bool>> expression)
+    {
+        return Find(expression).ToFirst();
     }
 
     /// <summary>

@@ -13,7 +13,7 @@ public class MenuAddDto
     /// <summary>
     /// 分组编号
     /// </summary>
-    [Range(1, int.MaxValue, ErrorMessage = "请选择菜单分组")]
+    [Range(1, int.MaxValue, ErrorMessage = "Please select menu group")]
     public int GroupId { get; set; }
 
     /// <summary>

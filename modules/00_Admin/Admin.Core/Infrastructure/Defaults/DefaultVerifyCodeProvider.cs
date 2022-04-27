@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Cache.Abstractions;
+using Mkh.Utils.Annotations;
 using Mkh.Utils.Helpers;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
@@ -17,6 +18,7 @@ namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults;
 /// <summary>
 /// 默认验证码提供器
 /// </summary>
+[Singleton]
 internal class DefaultVerifyCodeProvider : IVerifyCodeProvider
 {
 

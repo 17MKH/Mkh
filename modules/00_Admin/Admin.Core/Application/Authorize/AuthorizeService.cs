@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.LoginHandlers;
@@ -22,7 +23,6 @@ public class AuthorizeService : IAuthorizeService
     private readonly IJwtTokenStorage _jwtTokenStorageProvider;
     private readonly IUsernameLoginHandler _usernameLoginHandler;
     private readonly IOptionsMonitor<AuthOptions> _authOptions;
-
     public AuthorizeService(IAccountRepository accountRepository, IAccountProfileResolver accountProfileResolver, ICredentialClaimExtender credentialClaimExtender, ICredentialBuilder credentialBuilder, IJwtTokenStorage jwtTokenStorageProvider, IUsernameLoginHandler usernameLoginHandler, IOptionsMonitor<AuthOptions> authOptions)
     {
         _accountRepository = accountRepository;
@@ -47,7 +47,7 @@ public class AuthorizeService : IAuthorizeService
             new(MkhClaimTypes.TENANT_ID, loginResult.TenantId != null ? loginResult.TenantId.ToString() : ""),
             new(MkhClaimTypes.ACCOUNT_ID, loginResult.AccountId.ToString()),
             new(MkhClaimTypes.USERNAME, loginResult.Username),
-            new(MkhClaimTypes.PLATFORM, model.Platform.ToInt().ToString()),
+            new(MkhClaimTypes.PLATFORM, model.Platform.ToString()),
             new(MkhClaimTypes.LOGIN_TIME, model.LoginTime.ToString())
         };
 

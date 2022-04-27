@@ -2,12 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Mkh.Auth.Abstractions;
+using Mkh.Utils.Annotations;
 
 namespace Mkh.Mod.Admin.Core.Infrastructure;
 
 /// <summary>
 /// 默认权限验证处理器
 /// </summary>
+[Scoped]
 internal class AdminPermissionValidateHandler : IPermissionValidateHandler
 {
     private readonly IAccountPermissionResolver _accountPermissionResolver;

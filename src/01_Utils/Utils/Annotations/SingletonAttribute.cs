@@ -9,7 +9,7 @@ namespace Mkh.Utils.Annotations;
 public class SingletonAttribute : Attribute
 {
     /// <summary>
-    /// 是否使用自身的类型进行注入
+    /// 是否使用自身的类型进行注入，而不是继承的接口
     /// </summary>
     public bool Itself { get; set; }
 
@@ -22,7 +22,7 @@ public class SingletonAttribute : Attribute
     }
 
     /// <summary>
-    /// 是否使用自身的类型进行注入
+    /// 是否使用自身的类型进行注入，而不是继承的接口
     /// </summary>
     /// <param name="itself"></param>
     public SingletonAttribute(bool itself)

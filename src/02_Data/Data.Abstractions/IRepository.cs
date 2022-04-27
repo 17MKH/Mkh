@@ -193,12 +193,19 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     Task<bool> Update(TEntity entity, IUnitOfWork uow = null);
 
     /// <summary>
-    /// 根据主键查询
+    /// 根据主键获取单个实体
     /// </summary>
     /// <param name="id"></param>
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
     Task<TEntity> Get(dynamic id, IUnitOfWork uow = null);
+
+    /// <summary>
+    /// 根据条件获取单个实体
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <returns></returns>
+    Task<TEntity> Get(Expression<Func<TEntity, bool>> expression);
 
     /// <summary>
     /// 查询

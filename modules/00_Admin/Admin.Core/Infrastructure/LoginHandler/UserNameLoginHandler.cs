@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.LoginHandlers;
@@ -8,10 +7,9 @@ using Mkh.Auth.Abstractions.Options;
 using Mkh.Logging.Abstractions.Providers;
 using Mkh.Mod.Admin.Core.Application.Account;
 using Mkh.Mod.Admin.Core.Domain.Account;
-using Mkh.Mod.Admin.Core.Infrastructure;
 using Mkh.Utils.Annotations;
 
-namespace Mkh.Mod.Admin.Core.Application.Authorize;
+namespace Mkh.Mod.Admin.Core.Infrastructure.LoginHandler;
 
 /// <summary>
 /// 用户名登录处理器
@@ -25,10 +23,10 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
     private readonly IPasswordHandler _passwordHandler;
     private readonly ILoginLogHandler _loginLogProvider;
     private readonly IAccountService _accountService;
-    private readonly IStringLocalizer<UserNameLoginHandler> _localizer;
     private readonly ITenantResolver _tenantResolver;
+    private readonly AdminLocalizer _localizer;
 
-    public UserNameLoginHandler(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler, ILoginLogHandler loginLogProvider, IAccountService accountService, IStringLocalizer<UserNameLoginHandler> localizer, ITenantResolver tenantResolver)
+    public UserNameLoginHandler(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler, ILoginLogHandler loginLogProvider, IAccountService accountService, ITenantResolver tenantResolver, AdminLocalizer localizer)
     {
         _authOptions = authOptions;
         _verifyCodeProvider = verifyCodeProvider;
@@ -36,8 +34,8 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
         _passwordHandler = passwordHandler;
         _loginLogProvider = loginLogProvider;
         _accountService = accountService;
-        _localizer = localizer;
         _tenantResolver = tenantResolver;
+        _localizer = localizer;
     }
 
     public async Task<IResultModel<UsernameLoginResult>> Handle(UsernameLoginModel model)
@@ -46,7 +44,6 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
         var loginLog = new LoginLogModel
         {
             LoginMode = LoginMode.Username,
-            Username = model.Username,
             Platform = model.Platform,
             LoginTime = DateTime.Now,
             UserAgent = model.UserAgent
@@ -66,7 +63,7 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
             }
 
             //查询账户
-            var msg = _localizer["The user name or password is incorrect"];
+            var msg = _localizer["用户名或密码错误"];
             string username;
             string password;
             try
@@ -85,6 +82,8 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
                 loginLog.Error = msg;
                 return result.Failed(msg);
             }
+
+            model.Username = username;
 
             //解析租户
             var tenantId = await _tenantResolver.Resolve();
@@ -110,7 +109,7 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
             //账户禁用
             if (account.Status == AccountStatus.Disabled)
             {
-                msg = _localizer["The account has been disabled. Please contact the administrator"];
+                msg = _localizer["账户已禁用，请联系管理员"];
                 loginLog.Error = msg;
                 return result.Failed(msg);
             }

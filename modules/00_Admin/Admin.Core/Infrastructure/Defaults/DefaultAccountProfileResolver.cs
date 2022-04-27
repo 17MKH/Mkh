@@ -7,6 +7,7 @@ using Mkh.Mod.Admin.Core.Domain.AccountSkin;
 using Mkh.Mod.Admin.Core.Domain.Menu;
 using Mkh.Mod.Admin.Core.Domain.RoleButton;
 using Mkh.Mod.Admin.Core.Domain.RoleMenu;
+using Mkh.Utils.Annotations;
 using Mkh.Utils.Json;
 using Mkh.Utils.Map;
 
@@ -15,6 +16,7 @@ namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults;
 /// <summary>
 /// 默认账户资料解析器
 /// </summary>
+[Scoped]
 internal class DefaultAccountProfileResolver : IAccountProfileResolver
 {
     private readonly IMapper _mapper;
@@ -65,8 +67,6 @@ internal class DefaultAccountProfileResolver : IAccountProfileResolver
         var menusQuery = _roleMenuRepository.Find().InnerJoin<MenuEntity>(m => m.T1.MenuId == m.T2.Id)
             .Where(m => m.T1.RoleId == account.RoleId)
             .Select(m => new { m.T2 });
-
-        var sql = menusQuery.ToListSql();
 
         var menus = await menusQuery.ToList<MenuEntity>();
 

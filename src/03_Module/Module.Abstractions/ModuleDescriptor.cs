@@ -56,6 +56,11 @@ public class ModuleDescriptor
     public IModuleServicesConfigurator ServicesConfigurator { get; set; }
 
     /// <summary>
+    /// 多语言读取器类型
+    /// </summary>
+    public Type LocalizerType { get; set; }
+
+    /// <summary>
     /// 应用服务集合
     /// </summary>
     public Dictionary<Type, Type> ApplicationServices { get; set; } = new();

@@ -41,6 +41,7 @@ public static class ServiceCollectionExtensions
 
         //尝试添加默认账户信息解析器
         services.TryAddSingleton<IAccountResolver, DefaultAccountResolver>();
+
         //尝试添加默认的数据库操作日志记录器
         services.TryAddSingleton<IDbLoggerProvider, DbLoggerProvider>();
 

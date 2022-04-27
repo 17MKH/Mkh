@@ -117,7 +117,8 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddServicesFromAttribute(this IServiceCollection services)
     {
-        var assemblies = new AssemblyHelper().Load();
+        //就是要硬编码Mkh.，任性~
+        var assemblies = new AssemblyHelper().Load(m => m.Name.StartsWith("Mkh."));
         foreach (var assembly in assemblies)
         {
             try
