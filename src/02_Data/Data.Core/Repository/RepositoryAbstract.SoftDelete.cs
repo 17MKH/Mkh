@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Dapper;
 using Mkh.Data.Abstractions;
+using Mkh.Data.Abstractions.EntityChangeEvents;
 
 namespace Mkh.Data.Core.Repository;
 
@@ -29,6 +30,27 @@ public abstract partial class RepositoryAbstract<TEntity>
 
         _logger.Write("SoftDelete", sql);
 
-        return await Execute(sql, dynParams, uow) > 0;
+        if (await Execute(sql, dynParams, uow) > 0)
+        {
+            try
+            {
+                foreach (var changeEvents in DbContext.EntityChangeEvents)
+                {
+                    await changeEvents.OnSoftDelete(new EntitySoftDeleteEventContext
+                    {
+                        EntityDescriptor = EntityDescriptor,
+                        Id = id
+                    });
+                }
+            }
+            catch
+            {
+                _logger.Write("EntityChangeAddEvent", "error");
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

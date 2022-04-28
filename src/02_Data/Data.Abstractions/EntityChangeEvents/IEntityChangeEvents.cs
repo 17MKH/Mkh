@@ -27,4 +27,11 @@ public interface IEntityChangeEvents
     /// <param name="context"></param>
     /// <returns></returns>
     Task OnDelete(EntityDeleteEventContext context);
+
+    /// <summary>
+    /// 软删除事件
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    Task OnSoftDelete(EntitySoftDeleteEventContext context);
 }
