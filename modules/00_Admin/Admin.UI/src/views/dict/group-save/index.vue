@@ -22,6 +22,7 @@ export default {
   props: {
     ...withSaveProps,
   },
+  emits: ['success'],
   setup(props, { emit }) {
     const { $t } = mkh
     const api = mkh.api.admin.dictGroup

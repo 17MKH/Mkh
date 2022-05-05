@@ -6,7 +6,6 @@ using Data.Common.Test.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Mkh.Data.Abstractions;
-using Mkh.Data.Abstractions.EntityChangeEvents;
 using Xunit;
 
 namespace Data.Core.Test
@@ -29,7 +28,6 @@ namespace Data.Core.Test
             });
 
             services.AddSingleton<IAccountResolver, CustomAccountResolver>();
-            services.AddScoped<IEntityChangeEvents, CustomEntityChangeEvents>();
 
             services
                 .AddMkhDb<BlogDbContext>()

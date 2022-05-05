@@ -3,7 +3,7 @@
     <m-flex-row>
       <m-flex-fixed width="300px" class="m-margin-r-10">
         <m-box page :title="$t('mod.admin.menu_preview')" icon="menu" no-scrollbar>
-          <m-flex-col class="page">
+          <m-flex-col>
             <m-flex-fixed class="m-text-center m-padding-b-10">
               <m-flex-row>
                 <m-flex-auto>
@@ -15,29 +15,31 @@
               </m-flex-row>
             </m-flex-fixed>
             <m-flex-auto>
-              <m-scrollbar>
-                <el-tree
-                  ref="treeRef"
-                  :data="treeData"
-                  :current-node-key="0"
-                  node-key="id"
-                  draggable
-                  highlight-current
-                  default-expand-all
-                  :expand-on-click-node="false"
-                  :allow-drop="handleTreeAllowDrop"
-                  :allow-drag="handleTreeAllowDrag"
-                  @current-change="handleTreeChange"
-                  @node-drop="handleTreeNodeDrop"
-                >
-                  <template #default="{ node, data }">
-                    <span>
-                      <m-icon :name="data.item.icon || 'folder-o'" :style="{ color: data.item.iconColor }" class="m-margin-r-5" />
-                      <span>{{ data.item.locales[$i18n.locale] || node.label }}</span>
-                    </span>
-                  </template>
-                </el-tree>
-              </m-scrollbar>
+              <m-container>
+                <m-scrollbar>
+                  <el-tree
+                    ref="treeRef"
+                    :data="treeData"
+                    :current-node-key="0"
+                    node-key="id"
+                    draggable
+                    highlight-current
+                    default-expand-all
+                    :expand-on-click-node="false"
+                    :allow-drop="handleTreeAllowDrop"
+                    :allow-drag="handleTreeAllowDrag"
+                    @current-change="handleTreeChange"
+                    @node-drop="handleTreeNodeDrop"
+                  >
+                    <template #default="{ node, data }">
+                      <span>
+                        <m-icon :name="data.item.icon || 'folder-o'" :style="{ color: data.item.iconColor }" class="m-margin-r-5" />
+                        <span>{{ data.item.locales[$i18n.locale] || node.label }}</span>
+                      </span>
+                    </template>
+                  </el-tree>
+                </m-scrollbar>
+              </m-container>
             </m-flex-auto>
           </m-flex-col>
         </m-box>
@@ -73,6 +75,7 @@ export default {
     const listRef = ref()
     const groupSelectRef = ref()
     const showGroup = ref(false)
+    let isInit = false
 
     //刷新树
     const refreshTree = () => {
@@ -96,13 +99,15 @@ export default {
         ]
         nextTick(() => {
           treeRef.value.setCurrentKey(parent.id)
-          handleTreeChange(treeData.value[0])
+          if (!isInit) {
+            handleTreeChange(treeData.value[0])
+            isInit = true
+          }
         })
       })
     }
 
     const handleTreeChange = data => {
-      console.log(1)
       parent.id = data.id
       parent.locales = data.item.locales
       parent.type = data.item.type

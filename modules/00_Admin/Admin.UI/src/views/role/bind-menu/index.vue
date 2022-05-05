@@ -111,17 +111,19 @@ export default {
       let type = node.item.type
       if (type === 1) {
         const page = pages.find(p => p.name === node.item.routeName)
-        node.page = page
-        if (page.buttons) {
-          node.buttons = Object.values(page.buttons).map(m => {
-            let btn = { ...m }
-            btn.menuId = node.item.id
-            btn.checked = false
-            return btn
-          })
-          allButtons.value.push(...node.buttons)
-        } else {
-          node.buttons = []
+        if (page) {
+          node.page = page
+          if (page.buttons) {
+            node.buttons = Object.values(page.buttons).map(m => {
+              let btn = { ...m }
+              btn.menuId = node.item.id
+              btn.checked = false
+              return btn
+            })
+            allButtons.value.push(...node.buttons)
+          } else {
+            node.buttons = []
+          }
         }
       } else if (type === 0) {
         node.children.forEach(m => {

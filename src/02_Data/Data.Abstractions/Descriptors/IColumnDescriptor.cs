@@ -61,4 +61,9 @@ public interface IColumnDescriptor
     /// 说明
     /// </summary>
     public string Description { get; set; }
+
+    /// <summary>
+    /// 禁止在实体变更日志中记录该属性
+    /// </summary>
+    public bool DisabledEntityChangeLog { get; set; }
 }

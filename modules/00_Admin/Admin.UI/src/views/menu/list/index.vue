@@ -6,7 +6,7 @@
       </el-form-item>
     </template>
     <template #buttons>
-      <m-button-add :code="page.buttons.add.code" :disabled="parent.type !== 0" @click="add"></m-button-add>
+      <m-button-add :code="page.buttons.add.code" :disabled="parent.type !== 0" @click="handleAdd"></m-button-add>
     </template>
     <template #expand="{ row }">
       <el-descriptions :column="4">
@@ -97,18 +97,23 @@ export default {
     })
 
     const handleChange = () => {
-      list.refresh()
       emit('change')
     }
 
+    const handleAdd = () => {
+      console.log(list.mode)
+      list.add()
+    }
+
     return {
+      ...list,
       page,
       model,
       cols,
       query,
       remove,
-      ...list,
       handleChange,
+      handleAdd,
     }
   },
 }

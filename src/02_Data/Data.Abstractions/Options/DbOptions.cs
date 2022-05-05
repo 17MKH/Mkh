@@ -36,4 +36,9 @@ public class DbOptions
     /// 表名称分隔符
     /// </summary>
     public string TableNameSeparator { get; set; } = "_";
+
+    /// <summary>
+    /// 模块编码(17MKH专属属性)
+    /// </summary>
+    public string ModuleCode { get; set; }
 }

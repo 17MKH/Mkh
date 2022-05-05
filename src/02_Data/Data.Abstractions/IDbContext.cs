@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Data;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Descriptors;
-using Mkh.Data.Abstractions.EntityChangeEvents;
 using Mkh.Data.Abstractions.Logger;
 using Mkh.Data.Abstractions.Options;
 using Mkh.Data.Abstractions.Schema;
@@ -55,11 +54,6 @@ public interface IDbContext
     /// 仓储描述符列表
     /// </summary>
     IList<IRepositoryDescriptor> RepositoryDescriptors { get; }
-
-    /// <summary>
-    /// 实体变更事件
-    /// </summary>
-    IList<IEntityChangeEvents> EntityChangeEvents { get; }
 
     #endregion
 

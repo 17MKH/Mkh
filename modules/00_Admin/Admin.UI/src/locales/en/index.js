@@ -25,7 +25,7 @@ export default {
   input_username: 'Please enter a username',
   select_role: 'Please select a role',
   input_phone: 'Please enter the correct phone number',
-  input_phone: 'Please enter the correct email address',
+  input_email: 'Please enter the correct email address',
   not_allow_edit_username: 'The user name and password cannot be changed',
   input_dict_group_name: 'Please enter a dictionary group name',
   input_dict_group_code: 'Please enter a unique code for dictionary grouping',

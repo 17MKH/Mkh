@@ -8,6 +8,7 @@ namespace Mkh.Mod.Admin.Core.Domain.Account;
 /// <summary>
 /// 账户信息
 /// </summary>
+[EnableEntityAllEvent]
 public partial class AccountEntity : EntityBaseSoftDelete<Guid>, ITenant
 {
     public Guid? TenantId { get; set; }

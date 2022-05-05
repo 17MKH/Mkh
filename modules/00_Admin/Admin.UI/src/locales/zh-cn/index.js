@@ -25,7 +25,7 @@ export default {
   input_username: '请输入用户名',
   select_role: '请选择角色',
   input_phone: '请输入正确的手机号',
-  input_phone: '请输入正确的邮箱',
+  input_email: '请输入正确的邮箱',
   not_allow_edit_username: '不允许修改用户名和密码',
   input_dict_group_name: '请输入字典分组名称',
   input_dict_group_code: '请输入字典分组的唯一编码',

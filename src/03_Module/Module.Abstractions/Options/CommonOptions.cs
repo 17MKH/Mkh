@@ -11,6 +11,11 @@
         public string TempDir { get; set; }
 
         /// <summary>
+        /// 默认语言
+        /// </summary>
+        public string Lang { get; set; }
+
+        /// <summary>
         /// 数据库配置
         /// </summary>
         public ModuleDbOptions Db { get; set; }

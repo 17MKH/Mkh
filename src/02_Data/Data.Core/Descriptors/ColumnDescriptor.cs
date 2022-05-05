@@ -67,6 +67,11 @@ internal class ColumnDescriptor : IColumnDescriptor
     /// </summary>
     public string Description { get; set; }
 
+    /// <summary>
+    /// 禁止在实体变更日志中记录该属性
+    /// </summary>
+    public bool DisabledEntityChangeLog { get; set; }
+
     public ColumnDescriptor(PropertyInfo property, IDbAdapter dbAdapter)
     {
         if (property == null)
@@ -124,6 +129,8 @@ internal class ColumnDescriptor : IColumnDescriptor
             if (columnAttribute.Description.NotNull())
                 Description = columnAttribute.Description;
         }
+
+        DisabledEntityChangeLog = PropertyInfo.GetCustomAttribute<DisabledEntityChangeLog>() != null;
 
         //如果未自定义列名，则使用属性名称
         if (Name.IsNull())

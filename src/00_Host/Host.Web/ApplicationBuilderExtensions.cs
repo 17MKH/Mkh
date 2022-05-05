@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Mkh.Module.Abstractions.Options;
 using Mkh.Utils.App;
 using HostOptions = Mkh.Host.Web.Options.HostOptions;
 
@@ -157,9 +158,11 @@ internal static class ApplicationBuilderExtensions
     /// <returns></returns>
     public static IApplicationBuilder UseLocalization(this IApplicationBuilder app)
     {
+        var commonOptions = app.ApplicationServices.GetService<CommonOptions>();
+
         //多语言
         var supportedCultures = new[] { "zh", "en" };
-        var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
+        var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(commonOptions!.Lang ?? supportedCultures[0])
             .AddSupportedCultures(supportedCultures)
             .AddSupportedUICultures(supportedCultures);
 

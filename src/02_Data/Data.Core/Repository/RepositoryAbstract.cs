@@ -20,6 +20,7 @@ public abstract partial class RepositoryAbstract<TEntity> : IRepository<TEntity>
     private IEntitySqlDescriptor _sql;
     private IDbAdapter _adapter;
     private DbLogger _logger;
+    private IServiceProvider _sp;
 
     #endregion
 
@@ -53,9 +54,11 @@ public abstract partial class RepositoryAbstract<TEntity> : IRepository<TEntity>
     /// 初始化
     /// </summary>
     /// <param name="context"></param>
-    internal void Init(IDbContext context)
+    /// <param name="sp"></param>
+    internal void Init(IDbContext context, IServiceProvider sp)
     {
         DbContext = context;
+        _sp = sp;
         EntityDescriptor = context.EntityDescriptors.First(m => m.EntityType == typeof(TEntity));
         _sql = EntityDescriptor.SqlDescriptor;
         _adapter = context.Adapter;
@@ -246,11 +249,13 @@ public abstract partial class RepositoryAbstract<TEntity> : IRepository<TEntity>
 
     private IDbConnection OpenConn(IUnitOfWork uow, out IDbTransaction transaction)
     {
-        if (uow != null)
+        //SQLite无法使用事务
+        if (DbContext.Adapter.Provider != DbProvider.Sqlite && uow != null)
         {
             transaction = uow.Transaction;
             return uow.Transaction.Connection;
         }
+
         //先从事务中获取连接
         if (Transaction != null)
         {
@@ -318,7 +323,7 @@ public abstract partial class RepositoryAbstract<TEntity> : IRepository<TEntity>
         {
             sqlBuilder.AppendFormat("NULL");
         }
-        else if (type.IsEnum)
+        else if (type!.IsEnum)
         {
             sqlBuilder.AppendFormat("{0}", value.ToInt());
         }

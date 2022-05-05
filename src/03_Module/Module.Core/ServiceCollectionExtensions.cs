@@ -21,7 +21,7 @@ public static class ServiceCollectionExtensions
     {
         //加载通用配置
         var commonOptions = configuration.Get<CommonOptions>("Mkh:Common");
-        services.AddSingleton<CommonOptions>(commonOptions);
+        services.AddSingleton(commonOptions);
 
         var modules = new ModuleCollection(configuration);
         modules.Load(commonOptions);

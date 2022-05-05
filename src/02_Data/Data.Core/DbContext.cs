@@ -3,7 +3,6 @@ using System.Data;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Descriptors;
-using Mkh.Data.Abstractions.EntityChangeEvents;
 using Mkh.Data.Abstractions.Logger;
 using Mkh.Data.Abstractions.Options;
 using Mkh.Data.Abstractions.Schema;
@@ -29,8 +28,6 @@ public abstract class DbContext : IDbContext
     public IList<IEntityDescriptor> EntityDescriptors { get; } = new List<IEntityDescriptor>();
 
     public IList<IRepositoryDescriptor> RepositoryDescriptors { get; } = new List<IRepositoryDescriptor>();
-
-    public IList<IEntityChangeEvents> EntityChangeEvents { get; } = new List<IEntityChangeEvents>();
 
     #endregion
 

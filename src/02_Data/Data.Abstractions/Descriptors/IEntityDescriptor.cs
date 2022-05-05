@@ -62,4 +62,24 @@ public interface IEntityDescriptor
     /// 是否使用软删除
     /// </summary>
     bool IsSoftDelete { get; }
+
+    /// <summary>
+    /// 启用新增事件
+    /// </summary>
+    bool EnableAddEvent { get; }
+
+    /// <summary>
+    /// 启用更新事件
+    /// </summary>
+    bool EnableUpdateEvent { get; }
+
+    /// <summary>
+    /// 启用删除事件
+    /// </summary>
+    bool EnableDeleteEvent { get; }
+
+    /// <summary>
+    /// 启用软删除事件
+    /// </summary>
+    bool EnableSoftDeleteEvent { get; }
 }

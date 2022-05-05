@@ -20,7 +20,7 @@ import { useSave, withSaveProps as props } from 'mkh-ui'
 
 export default {
   props,
-  emits: ['success', 'error'],
+  emits: ['success'],
   setup(props, { emit }) {
     const {
       $t,

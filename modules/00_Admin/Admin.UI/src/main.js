@@ -4,7 +4,7 @@ import './index'
 configure({
   http: {
     global: {
-      baseURL: 'http://localhost:6220/api/',
+      baseURL: import.meta.env.MKH_API_URL,
     },
   },
   beforeMount({ config }) {

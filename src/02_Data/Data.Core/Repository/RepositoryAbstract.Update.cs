@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions;
-using Mkh.Data.Abstractions.EntityChangeEvents;
+using Mkh.Data.Abstractions.Events;
 
 namespace Mkh.Data.Core.Repository;
 
@@ -22,24 +25,45 @@ public abstract partial class RepositoryAbstract<TEntity>
 
         SetUpdateInfo(entity);
 
+        TEntity oldEntity = default;
+        List<IEntityUpdateEvent> events = null;
+        if (EntityDescriptor.EnableUpdateEvent && !EntityDescriptor.PrimaryKey.IsNo)
+        {
+            events = _sp.GetServices<IEntityUpdateEvent>().ToList();
+        }
+
+        if (events.NotNullAndEmpty())
+        {
+            oldEntity = await Get(EntityDescriptor.PrimaryKey.PropertyInfo.GetValue(entity), tableName, uow);
+        }
+
         var sql = _sql.GetUpdateSingle(tableName);
 
         if (await Execute(sql, entity, uow) > 0)
         {
-            try
+            if (events.NotNullAndEmpty())
             {
-                foreach (var changeEvents in DbContext.EntityChangeEvents)
+                try
                 {
-                    await changeEvents.OnUpdate(new EntityUpdateEventContext
+                    foreach (var changeEvents in events)
                     {
-                        EntityDescriptor = EntityDescriptor,
-                        Entity = entity
-                    });
+                        await changeEvents.OnUpdate(new EntityUpdateContext
+                        {
+                            DbContext = DbContext,
+                            EntityDescriptor = EntityDescriptor,
+                            NewEntity = entity,
+                            OldEntity = oldEntity,
+                            TableName = tableName,
+                            Uow = uow,
+                            UpdateTime = DateTime.Now,
+                            Operator = DbContext.AccountResolver.AccountId
+                        });
+                    }
                 }
-            }
-            catch
-            {
-                _logger.Write("EntityChangeUpdateEvent", "error");
+                catch (Exception ex)
+                {
+                    _logger.Write("HandleEntityUpdateEvents", ex.Message);
+                }
             }
 
             return true;

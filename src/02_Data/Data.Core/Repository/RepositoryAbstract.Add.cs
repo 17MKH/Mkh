@@ -1,8 +1,9 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions;
-using Mkh.Data.Abstractions.Entities;
-using Mkh.Data.Abstractions.EntityChangeEvents;
+using Mkh.Data.Abstractions.Events;
 
 namespace Mkh.Data.Core.Repository;
 
@@ -46,7 +47,10 @@ public abstract partial class RepositoryAbstract<TEntity>
             {
                 primaryKey.PropertyInfo.SetValue(entity, id);
 
+                await HandleEntityAddEvents(entity, tableName, uow);
+
                 _logger.Write("NewID", id.ToString());
+
                 return true;
             }
 
@@ -61,6 +65,8 @@ public abstract partial class RepositoryAbstract<TEntity>
             if (id > 0)
             {
                 primaryKey.PropertyInfo.SetValue(entity, id);
+
+                await HandleEntityAddEvents(entity, tableName, uow);
 
                 _logger.Write("NewID", id.ToString());
                 return true;
@@ -80,6 +86,8 @@ public abstract partial class RepositoryAbstract<TEntity>
 
             if (await Execute(sql, entity, uow) > 0)
             {
+                await HandleEntityAddEvents(entity, tableName, uow);
+
                 return true;
             }
             return false;
@@ -87,25 +95,47 @@ public abstract partial class RepositoryAbstract<TEntity>
 
         if (await Execute(sql, entity, uow) > 0)
         {
-            try
-            {
-                foreach (var changeEvents in DbContext.EntityChangeEvents)
-                {
-                    await changeEvents.OnAdd(new EntityAddEventContext
-                    {
-                        EntityDescriptor = EntityDescriptor,
-                        Entity = entity
-                    });
-                }
-            }
-            catch
-            {
-                _logger.Write("EntityChangeAddEvent", "error");
-            }
+            await HandleEntityAddEvents(entity, tableName, uow);
 
             return true;
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// 处理实体新增事件
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <param name="tableName"></param>
+    /// <param name="uow"></param>
+    /// <returns></returns>
+    private async Task HandleEntityAddEvents(TEntity entity, string tableName, IUnitOfWork uow)
+    {
+        if (!EntityDescriptor.EnableAddEvent) return;
+
+        var events = _sp.GetServices<IEntityAddEvent>().ToList();
+        if (!events.Any()) return;
+
+        try
+        {
+            foreach (var changeEvents in events)
+            {
+                await changeEvents.OnAdd(new EntityAddContext
+                {
+                    DbContext = DbContext,
+                    EntityDescriptor = EntityDescriptor,
+                    Entity = entity,
+                    TableName = tableName,
+                    Uow = uow,
+                    AddTime = DateTime.Now,
+                    Operator = DbContext.AccountResolver.AccountId
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.Write("HandleEntityAddEvents", ex.Message);
+        }
     }
 }

@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions;
-using Mkh.Data.Abstractions.EntityChangeEvents;
+using Mkh.Data.Abstractions.Events;
 
 namespace Mkh.Data.Core.Repository;
 
@@ -32,25 +34,46 @@ public abstract partial class RepositoryAbstract<TEntity>
 
         if (await Execute(sql, dynParams, uow) > 0)
         {
-            try
-            {
-                foreach (var changeEvents in DbContext.EntityChangeEvents)
-                {
-                    await changeEvents.OnSoftDelete(new EntitySoftDeleteEventContext
-                    {
-                        EntityDescriptor = EntityDescriptor,
-                        Id = id
-                    });
-                }
-            }
-            catch
-            {
-                _logger.Write("EntityChangeAddEvent", "error");
-            }
-
+            await HandleSoftDeleteEvent(id, tableName, uow);
             return true;
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// 处理软删除事件
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="tableName"></param>
+    /// <param name="uow"></param>
+    /// <returns></returns>
+    private async Task HandleSoftDeleteEvent(dynamic id, string tableName, IUnitOfWork uow)
+    {
+        if (!EntityDescriptor.EnableSoftDeleteEvent) return;
+
+        var events = _sp.GetServices<IEntitySoftDeleteEvent>().ToList();
+        if (!events.Any()) return;
+
+        try
+        {
+            foreach (var changeEvents in events)
+            {
+                await changeEvents.OnSoftDelete(new EntitySoftDeleteContext
+                {
+                    DbContext = DbContext,
+                    EntityDescriptor = EntityDescriptor,
+                    Id = id,
+                    TableName = tableName,
+                    Uow = uow,
+                    DeleteTime = DateTime.Now,
+                    Operator = DbContext.AccountResolver.AccountId
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.Write("HandleSoftDeleteEvent", ex.Message);
+        }
     }
 }

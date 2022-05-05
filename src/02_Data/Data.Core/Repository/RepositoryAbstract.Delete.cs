@@ -1,6 +1,9 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions;
-using Mkh.Data.Abstractions.EntityChangeEvents;
+using Mkh.Data.Abstractions.Events;
 
 namespace Mkh.Data.Core.Repository;
 
@@ -29,23 +32,45 @@ public abstract partial class RepositoryAbstract<TEntity>
 
         if (result)
         {
-            try
-            {
-                foreach (var changeEvents in DbContext.EntityChangeEvents)
-                {
-                    await changeEvents.OnDelete(new EntityDeleteEventContext
-                    {
-                        EntityDescriptor = EntityDescriptor,
-                        Id = id
-                    });
-                }
-            }
-            catch
-            {
-                _logger.Write("EntityChangeAddEvent", "error");
-            }
+            await HandleEntityDeleteEvent(id, tableName, uow);
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// 处理实体删除事件
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="tableName"></param>
+    /// <param name="uow"></param>
+    /// <returns></returns>
+    private async Task HandleEntityDeleteEvent(dynamic id, string tableName, IUnitOfWork uow)
+    {
+        if (!EntityDescriptor.EnableDeleteEvent) return;
+
+        var events = _sp.GetServices<IEntityDeleteEvent>().ToList();
+        if (!events.Any()) return;
+
+        try
+        {
+            foreach (var changeEvents in events)
+            {
+                await changeEvents.OnDelete(new EntityDeleteContext
+                {
+                    DbContext = DbContext,
+                    EntityDescriptor = EntityDescriptor,
+                    Id = id,
+                    TableName = tableName,
+                    Uow = uow,
+                    DeleteTime = DateTime.Now,
+                    Operator = DbContext.AccountResolver.AccountId
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.Write("HandleEntityDeleteEvent", ex.Message);
+        }
     }
 }

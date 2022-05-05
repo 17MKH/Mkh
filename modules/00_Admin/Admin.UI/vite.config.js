@@ -9,6 +9,7 @@ export default defineConfig(({ mode, command }) => {
     server: {
       port: 5220,
     },
+    envPrefix: 'MKH',
     plugins: [
       mkh({
         mode,

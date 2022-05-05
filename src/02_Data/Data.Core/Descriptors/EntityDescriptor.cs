@@ -26,7 +26,7 @@ internal class EntityDescriptor : IEntityDescriptor
     /// <summary>
     /// 实体名称
     /// </summary>
-    public string Name { get; private set; }
+    public string Name { get; }
 
     /// <summary>
     /// 表名称
@@ -73,6 +73,26 @@ internal class EntityDescriptor : IEntityDescriptor
     /// </summary>
     public bool IsSoftDelete { get; set; }
 
+    /// <summary>
+    /// 禁用新增事件
+    /// </summary>
+    public bool EnableAddEvent { get; set; }
+
+    /// <summary>
+    /// 禁用更新事件
+    /// </summary>
+    public bool EnableUpdateEvent { get; set; }
+
+    /// <summary>
+    /// 禁用删除事件
+    /// </summary>
+    public bool EnableDeleteEvent { get; set; }
+
+    /// <summary>
+    /// 禁用软删除事件
+    /// </summary>
+    public bool EnableSoftDeleteEvent { get; set; }
+
     #endregion
 
     #region ==构造函数==
@@ -90,6 +110,8 @@ internal class EntityDescriptor : IEntityDescriptor
         SetTableName();
 
         SetColumns();
+
+        SetEvents();
 
         SqlDescriptor = new CrudSqlBuilder(this).Build();
     }
@@ -175,6 +197,27 @@ internal class EntityDescriptor : IEntityDescriptor
         {
             PrimaryKey = new PrimaryKeyDescriptor();
         }
+    }
+
+    /// <summary>
+    /// 设置事件
+    /// </summary>
+    private void SetEvents()
+    {
+        if (EntityType.GetCustomAttribute<EnableEntityAllEvent>(false) != null)
+        {
+            EnableAddEvent = true;
+            EnableUpdateEvent = true;
+            EnableDeleteEvent = true;
+            EnableSoftDeleteEvent = true;
+
+            return;
+        }
+
+        EnableAddEvent = EntityType.GetCustomAttribute<EnableEntityAddEvent>(false) != null;
+        EnableUpdateEvent = EntityType.GetCustomAttribute<EnableEntityUpdateEvent>(false) != null;
+        EnableDeleteEvent = EntityType.GetCustomAttribute<EnableEntityDeleteEvent>(false) != null;
+        EnableSoftDeleteEvent = EntityType.GetCustomAttribute<EnableEntitySoftDeleteEvent>(false) != null;
     }
 
     #endregion

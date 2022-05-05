@@ -39,7 +39,7 @@ public class SqliteCodeFirstProvider : CodeFirstProviderAbstract
                 //更新列
                 if (Options.UpdateColumn)
                 {
-                    //Sqlite不支持从一张表中删除列、添加列操作
+                    Context.Logger.Write("SQLite CreateTable", "SQLite不支持更新列功能，您需要手动更新");
                 }
 
                 con.Close();

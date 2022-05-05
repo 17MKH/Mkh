@@ -143,6 +143,7 @@ internal static class ServiceCollectionExtensions
                 opt.TableNamePrefix = dbOptions.TableNamePrefix;
                 opt.TableNameSeparator = dbOptions.TableNameSeparator;
                 opt.Version = dbOptions.Version;
+                opt.ModuleCode = module.Code;
             });
 
             //加载仓储

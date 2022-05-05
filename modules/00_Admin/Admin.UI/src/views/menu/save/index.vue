@@ -120,13 +120,13 @@
     </el-row>
     <el-row v-if="model.type === 1">
       <el-col :span="12">
-        <el-form-item :label="$t('mod.admin.route_params')" prop="routeQuery">
-          <el-input v-model="model.routeQuery" :rows="5" type="textarea" placeholder="Vue路由的query形式，需使用标准JSON格式" />
+        <el-form-item :label="$t('mod.admin.route_query')" prop="routeQuery">
+          <el-input v-model="model.routeQuery" :rows="5" type="textarea" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item :label="$t('mod.admin.route_query')" prop="routeParams">
-          <el-input v-model="model.routeParams" :rows="5" type="textarea" placeholder="Vue路由的params形式，需使用标准JSON格式" />
+        <el-form-item :label="$t('mod.admin.route_params')" prop="routeParams">
+          <el-input v-model="model.routeParams" :rows="5" type="textarea" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -140,7 +140,7 @@
   </m-form-dialog>
 </template>
 <script>
-import { computed, reactive, watch } from 'vue'
+import { computed, getCurrentInstance, reactive } from 'vue'
 import { useSave, withSaveProps } from 'mkh-ui'
 
 export default {
@@ -155,8 +155,10 @@ export default {
       required: true,
     },
   },
+  emits: ['success'],
   setup(props, { emit }) {
     const { $t } = mkh
+    const cit = getCurrentInstance().proxy
     const api = mkh.api.admin.menu
     const localesTable = [{ lang: 'zh-cn' }, { lang: 'en' }]
 
@@ -220,11 +222,11 @@ export default {
 
     const state = reactive({ pages: [], currPage: null })
     const { bind, on } = useSave({ props, api, model, emit })
+
     bind.width = '900px'
     bind.labelWidth = '130px'
     bind.closeOnSuccess = false
     bind.beforeSubmit = () => {
-      console.log(props.parent)
       //提交前设置分组和父级id
       model.groupId = props.group.id
       model.parentId = props.parent.id
@@ -263,6 +265,10 @@ export default {
         model.name = page.title
         model.icon = page.icon
         state.currPage = page
+
+        for (let key in model.locales) {
+          model.locales[key] = cit.$i18n.messages[key].mkh.routes[page.name]
+        }
       }
     }
 
