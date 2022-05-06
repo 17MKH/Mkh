@@ -3,10 +3,10 @@
 namespace Mkh.Data.Abstractions.Annotations
 {
     /// <summary>
-    /// 禁止在实体变更日志中记录该属性
+    ///  在实体事件中忽略指定属性
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class DisabledEntityChangeLog : Attribute
+    public class IgnoreOnEntityEvent : Attribute
     {
     }
 }

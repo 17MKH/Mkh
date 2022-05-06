@@ -130,7 +130,7 @@ internal class ColumnDescriptor : IColumnDescriptor
                 Description = columnAttribute.Description;
         }
 
-        DisabledEntityChangeLog = PropertyInfo.GetCustomAttribute<DisabledEntityChangeLog>() != null;
+        DisabledEntityChangeLog = PropertyInfo.GetCustomAttribute<IgnoreOnEntityEvent>() != null;
 
         //如果未自定义列名，则使用属性名称
         if (Name.IsNull())

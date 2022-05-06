@@ -82,4 +82,9 @@ public interface IEntityDescriptor
     /// 启用软删除事件
     /// </summary>
     bool EnableSoftDeleteEvent { get; }
+
+    /// <summary>
+    /// 是否分表
+    /// </summary>
+    bool IsSharding { get; }
 }

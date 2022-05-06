@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions;
@@ -14,6 +15,8 @@ namespace Mkh.Data.Adapter.MySql;
 
 public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
 {
+    private System.Timers.Timer _timer;
+
     public MySqlCodeFirstProvider(CodeFirstOptions options, IDbContext context, IServiceCollection service) : base(options, context, service)
     {
     }
@@ -57,41 +60,66 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
 
     public override void CreateTable()
     {
-        //创建表
+        //采用分表的实体
+        var shardingEntities = Context.EntityDescriptors.Where(m => m.AutoCreate && m.IsSharding);
+        if (shardingEntities.Any())
+        {
+            _timer = new System.Timers.Timer();
+            _timer.Interval = 600000;
+            _timer.Elapsed += (sender, e) =>
+            {
+                foreach (var entity in shardingEntities)
+                {
+                    CreateTable(entity);
+                }
+            };
+        }
+
         foreach (var descriptor in Context.EntityDescriptors.Where(m => m.AutoCreate))
         {
-            using var con = Context.NewConnection();
-            con.Open();
-
-            //判断表是否存在，只有不存时会执行创建操作并会触发对应的创建前后事件
-            if (Context.SchemaProvider.IsExistsTable(con.Database, descriptor.TableName))
-            {
-                //更新列
-                if (Options.UpdateColumn)
-                    UpdateColumn(descriptor, con);
-
-                con.Close();
-            }
-            else
-            {
-                Options.BeforeCreateTable?.Invoke(Context, descriptor);
-
-                var sql = GenerateCreateTableSql(descriptor);
-
-                con.Execute(sql);
-
-                con.Close();
-
-                Options.AfterCreateTable?.Invoke(Context, descriptor);
-            }
+            CreateTable(descriptor);
         }
     }
 
-    private string GenerateCreateTableSql(IEntityDescriptor descriptor)
+    /// <summary>
+    /// 创建表
+    /// </summary>
+    /// <param name="descriptor"></param>
+    private void CreateTable(IEntityDescriptor descriptor)
+    {
+        using var con = Context.NewConnection();
+        con.Open();
+
+        var tableName = ResolveTableName(descriptor);
+
+        //判断表是否存在，只有不存时会执行创建操作并会触发对应的创建前后事件
+        if (Context.SchemaProvider.IsExistsTable(con.Database, tableName))
+        {
+            //更新列
+            if (Options.UpdateColumn)
+                UpdateColumn(descriptor, con);
+
+            con.Close();
+        }
+        else
+        {
+            Options.BeforeCreateTable?.Invoke(Context, descriptor);
+
+            var sql = GenerateCreateTableSql(descriptor, tableName);
+
+            con.Execute(sql);
+
+            con.Close();
+
+            Options.AfterCreateTable?.Invoke(Context, descriptor);
+        }
+    }
+
+    private string GenerateCreateTableSql(IEntityDescriptor descriptor, string tableName)
     {
         var columns = descriptor.Columns;
         var sql = new StringBuilder();
-        sql.AppendFormat("CREATE TABLE {0}(", AppendQuote(descriptor.TableName));
+        sql.AppendFormat("CREATE TABLE {0}(", AppendQuote(tableName));
 
         for (int i = 0; i < columns.Count; i++)
         {

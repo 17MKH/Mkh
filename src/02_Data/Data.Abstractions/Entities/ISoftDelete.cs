@@ -11,24 +11,24 @@ public interface ISoftDelete
     /// <summary>
     /// 已删除的
     /// </summary>
-    [DisabledEntityChangeLog]
+    [IgnoreOnEntityEvent]
     bool Deleted { get; set; }
 
     /// <summary>
     /// 删除人账户编号
     /// </summary>
-    [DisabledEntityChangeLog]
+    [IgnoreOnEntityEvent]
     Guid? DeletedBy { get; set; }
 
     /// <summary>
     /// 删除人名称
     /// </summary>
-    [DisabledEntityChangeLog]
+    [IgnoreOnEntityEvent]
     string Deleter { get; set; }
 
     /// <summary>
     /// 删除时间
     /// </summary>
-    [DisabledEntityChangeLog]
+    [IgnoreOnEntityEvent]
     DateTime? DeletedTime { get; set; }
 }

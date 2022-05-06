@@ -93,6 +93,11 @@ internal class EntityDescriptor : IEntityDescriptor
     /// </summary>
     public bool EnableSoftDeleteEvent { get; set; }
 
+    /// <summary>
+    /// 是否分表
+    /// </summary>
+    public bool IsSharding { get; set; }
+
     #endregion
 
     #region ==构造函数==
@@ -112,6 +117,8 @@ internal class EntityDescriptor : IEntityDescriptor
         SetColumns();
 
         SetEvents();
+
+        SetSharding();
 
         SqlDescriptor = new CrudSqlBuilder(this).Build();
     }
@@ -218,6 +225,18 @@ internal class EntityDescriptor : IEntityDescriptor
         EnableUpdateEvent = EntityType.GetCustomAttribute<EnableEntityUpdateEvent>(false) != null;
         EnableDeleteEvent = EntityType.GetCustomAttribute<EnableEntityDeleteEvent>(false) != null;
         EnableSoftDeleteEvent = EntityType.GetCustomAttribute<EnableEntitySoftDeleteEvent>(false) != null;
+    }
+
+    /// <summary>
+    /// 设置分表信息
+    /// </summary>
+    private void SetSharding()
+    {
+        var sharding = EntityType.GetCustomAttribute<ShardingAttribute>(false);
+        if (sharding != null)
+        {
+            IsSharding = true;
+        }
     }
 
     #endregion

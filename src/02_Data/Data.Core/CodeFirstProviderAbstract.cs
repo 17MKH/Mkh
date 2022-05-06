@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions;
+using Mkh.Data.Abstractions.Descriptors;
 using Mkh.Data.Abstractions.Options;
 
 namespace Mkh.Data.Core;
@@ -20,4 +21,19 @@ public abstract class CodeFirstProviderAbstract : ICodeFirstProvider
     public abstract void CreateDatabase();
 
     public abstract void CreateTable();
+
+    /// <summary>
+    /// 解析分表的下一个表名
+    /// </summary>
+    /// <returns></returns>
+    protected string ResolveTableName(IEntityDescriptor descriptor)
+    {
+        var tableName= descriptor.Name;
+        if (descriptor.IsSharding)
+        {
+
+        }
+
+        return tableName;
+    }
 }
