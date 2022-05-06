@@ -11,7 +11,7 @@ namespace Mkh.Utils.Helpers;
 /// <summary>
 /// 程序集操作帮助类
 /// </summary>
-[Singleton]
+[SingletonInject]
 public class AssemblyHelper
 {
     /// <summary>

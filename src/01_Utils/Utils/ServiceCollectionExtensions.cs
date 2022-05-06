@@ -22,7 +22,7 @@ public static class ServiceCollectionExtensions
         {
             #region ==单例注入==
 
-            var singletonAttr = (SingletonAttribute)Attribute.GetCustomAttribute(type, typeof(SingletonAttribute));
+            var singletonAttr = (SingletonInjectAttribute)Attribute.GetCustomAttribute(type, typeof(SingletonInjectAttribute));
             if (singletonAttr != null)
             {
                 //注入自身类型
@@ -52,7 +52,7 @@ public static class ServiceCollectionExtensions
 
             #region ==瞬时注入==
 
-            var transientAttr = (TransientAttribute)Attribute.GetCustomAttribute(type, typeof(TransientAttribute));
+            var transientAttr = (TransientInjectAttribute)Attribute.GetCustomAttribute(type, typeof(TransientInjectAttribute));
             if (transientAttr != null)
             {
                 //注入自身类型
@@ -80,7 +80,7 @@ public static class ServiceCollectionExtensions
             #endregion
 
             #region ==Scoped注入==
-            var scopedAttr = (ScopedAttribute)Attribute.GetCustomAttribute(type, typeof(ScopedAttribute));
+            var scopedAttr = (ScopedInjectAttribute)Attribute.GetCustomAttribute(type, typeof(ScopedInjectAttribute));
             if (scopedAttr != null)
             {
                 //注入自身类型

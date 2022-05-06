@@ -6,7 +6,7 @@ namespace Mkh.Mod.Admin.Core.Infrastructure;
 /// <summary>
 /// 权限管理模块缓存键
 /// </summary>
-[Singleton]
+[SingletonInject]
 public class AdminCacheKeys
 {
     /// <summary>

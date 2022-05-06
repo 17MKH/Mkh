@@ -16,7 +16,7 @@ namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults;
 /// <summary>
 /// 默认账户资料解析器
 /// </summary>
-[Scoped]
+[ScopedInject]
 internal class DefaultAccountProfileResolver : IAccountProfileResolver
 {
     private readonly IMapper _mapper;

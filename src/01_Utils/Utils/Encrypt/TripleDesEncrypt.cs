@@ -9,7 +9,7 @@ namespace Mkh.Utils.Encrypt;
 /// <summary>
 /// 3DES加解密
 /// </summary>
-[Singleton]
+[SingletonInject]
 public class TripleDesEncrypt
 {
     /// <summary>

@@ -3,7 +3,7 @@ using Mkh.Utils.Annotations;
 
 namespace Mkh.Utils.Helpers;
 
-[Singleton]
+[SingletonInject]
 public class DateTimeHelper
 {
     /// <summary>

@@ -8,7 +8,7 @@ namespace Mkh.Utils.Helpers;
 /// <summary>
 /// 配置帮助类
 /// </summary>
-[Singleton]
+[SingletonInject]
 public class ConfigurationHelper
 {
     /// <summary>

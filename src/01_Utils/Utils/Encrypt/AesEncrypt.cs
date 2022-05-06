@@ -9,7 +9,7 @@ namespace Mkh.Utils.Encrypt;
 /// <summary>
 /// AES加解密
 /// </summary>
-[Singleton]
+[SingletonInject]
 public class AesEncrypt
 {
     /// <summary>

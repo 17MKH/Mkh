@@ -11,7 +11,7 @@ namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults;
 /// <summary>
 /// 默认账户权限解析器
 /// </summary>
-[Scoped]
+[ScopedInject]
 internal class DefaultAccountPermissionResolver : IAccountPermissionResolver
 {
     private readonly IAccountRepository _accountRepository;

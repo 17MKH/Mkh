@@ -6,7 +6,7 @@ using Mkh.Utils.Annotations;
 
 namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults;
 
-[Scoped]
+[ScopedInject]
 internal class DefaultCredentialClaimExtender : ICredentialClaimExtender
 {
     public Task Extend(List<Claim> claims, Guid accountId)

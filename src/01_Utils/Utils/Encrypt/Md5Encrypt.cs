@@ -8,7 +8,7 @@ namespace Mkh.Utils.Encrypt;
 /// <summary>
 /// MD5
 /// </summary>
-[Singleton]
+[SingletonInject]
 public class Md5Encrypt
 {
     /// <summary>

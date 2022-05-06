@@ -9,7 +9,7 @@ namespace Mkh.Mod.Admin.Core.Infrastructure;
 /// <summary>
 /// 默认权限验证处理器
 /// </summary>
-[Scoped]
+[ScopedInject]
 internal class AdminPermissionValidateHandler : IPermissionValidateHandler
 {
     private readonly IAccountPermissionResolver _accountPermissionResolver;

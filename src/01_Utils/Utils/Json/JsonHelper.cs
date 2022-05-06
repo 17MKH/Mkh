@@ -14,7 +14,7 @@ namespace Mkh.Utils.Json;
 /// <para>3、最大限度减少字符转义</para>
 /// <para>4、自定义日期转换器 DateTimeConverter</para>
 /// </summary>
-[Singleton]
+[SingletonInject]
 public class JsonHelper
 {
     private readonly JsonSerializerOptions _options = new();

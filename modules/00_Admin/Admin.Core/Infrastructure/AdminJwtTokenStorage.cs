@@ -11,7 +11,7 @@ using Mkh.Utils.Annotations;
 
 namespace Mkh.Mod.Admin.Core.Infrastructure;
 
-[Scoped]
+[ScopedInject]
 internal class AdminJwtTokenStorage : IJwtTokenStorage
 {
     private readonly IJwtAuthInfoRepository _repository;

@@ -14,7 +14,7 @@ namespace Mkh.Mod.Admin.Core.Infrastructure.LoginHandler;
 /// <summary>
 /// 用户名登录处理器
 /// </summary>
-[Scoped]
+[ScopedInject]
 internal class UserNameLoginHandler : IUsernameLoginHandler
 {
     private readonly IOptionsMonitor<AuthOptions> _authOptions;

@@ -8,7 +8,7 @@ namespace Mkh.Utils.Helpers;
 /// <summary>
 /// 特性帮助类
 /// </summary>
-[Singleton]
+[SingletonInject]
 public class AttributeHelper
 {
     /// <summary>

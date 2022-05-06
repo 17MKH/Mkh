@@ -18,7 +18,7 @@ namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults;
 /// <summary>
 /// 默认验证码提供器
 /// </summary>
-[Singleton]
+[SingletonInject]
 internal class DefaultVerifyCodeProvider : IVerifyCodeProvider
 {
 

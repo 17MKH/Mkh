@@ -3,10 +3,10 @@
 namespace Mkh.Utils.Annotations;
 
 /// <summary>
-/// 瞬时注入(使用该特性的服务系统会自动注入)
+/// Scoped注入(使用该特性的服务系统会自动注入)
 /// </summary>
 [AttributeUsage(AttributeTargets.Class)]
-public class TransientAttribute : Attribute
+public class ScopedInjectAttribute : Attribute
 {
     /// <summary>
     /// 是否使用自身的类型进行注入
@@ -16,7 +16,7 @@ public class TransientAttribute : Attribute
     /// <summary>
     /// 
     /// </summary>
-    public TransientAttribute()
+    public ScopedInjectAttribute()
     {
     }
 
@@ -24,7 +24,7 @@ public class TransientAttribute : Attribute
     /// 是否使用自身的类型进行注入
     /// </summary>
     /// <param name="itself"></param>
-    public TransientAttribute(bool itself = false)
+    public ScopedInjectAttribute(bool itself = false)
     {
         Itself = itself;
     }

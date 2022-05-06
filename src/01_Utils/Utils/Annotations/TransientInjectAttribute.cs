@@ -3,29 +3,28 @@
 namespace Mkh.Utils.Annotations;
 
 /// <summary>
-/// 单例注入(使用该特性的服务系统会自动注入)
+/// 瞬时注入(使用该特性的服务系统会自动注入)
 /// </summary>
 [AttributeUsage(AttributeTargets.Class)]
-public class SingletonAttribute : Attribute
+public class TransientInjectAttribute : Attribute
 {
     /// <summary>
-    /// 是否使用自身的类型进行注入，而不是继承的接口
+    /// 是否使用自身的类型进行注入
     /// </summary>
     public bool Itself { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public SingletonAttribute()
+    public TransientInjectAttribute()
     {
-        Itself = false;
     }
 
     /// <summary>
-    /// 是否使用自身的类型进行注入，而不是继承的接口
+    /// 是否使用自身的类型进行注入
     /// </summary>
     /// <param name="itself"></param>
-    public SingletonAttribute(bool itself)
+    public TransientInjectAttribute(bool itself = false)
     {
         Itself = itself;
     }

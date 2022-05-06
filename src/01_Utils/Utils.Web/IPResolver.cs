@@ -6,7 +6,7 @@ namespace Mkh.Utils.Web;
 /// <summary>
 /// IP解析器
 /// </summary>
-[Singleton]
+[SingletonInject]
 // ReSharper disable once InconsistentNaming
 public class IPResolver
 {

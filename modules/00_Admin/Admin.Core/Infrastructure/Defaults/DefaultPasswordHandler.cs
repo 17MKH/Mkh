@@ -4,7 +4,7 @@ using Mkh.Utils.Encrypt;
 
 namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults;
 
-[Singleton]
+[SingletonInject]
 internal class DefaultPasswordHandler : IPasswordHandler
 {
     private readonly Md5Encrypt _encrypt;

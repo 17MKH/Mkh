@@ -13,7 +13,7 @@ namespace Mkh.Utils.Web;
 /// <summary>
 /// 控制器解析器
 /// </summary>
-[Singleton]
+[SingletonInject]
 public class ControllerResolver
 {
     private readonly ApplicationPartManager _partManager;

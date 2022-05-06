@@ -12,7 +12,7 @@ namespace Mkh.Utils.Web.FileUpload;
 /// <summary>
 /// 文件上传处理器
 /// </summary>
-[Singleton]
+[SingletonInject]
 public class FileUploadProvider
 {
     private readonly Md5Encrypt _md5Encrypt;

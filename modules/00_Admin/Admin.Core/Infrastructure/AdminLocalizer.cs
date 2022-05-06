@@ -7,7 +7,7 @@ namespace Mkh.Mod.Admin.Core.Infrastructure
     /// <summary>
     /// Admin 多语言
     /// </summary>
-    [Singleton(true)]
+    [SingletonInject(true)]
     public class AdminLocalizer : ModuleLocalizerAbstract
     {
         public AdminLocalizer(IStringLocalizer<AdminLocalizer> localizer) : base(localizer)

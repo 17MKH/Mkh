@@ -26,7 +26,7 @@ public enum SequentialGuidType
 /// <summary>
 /// 有序Guid生成器
 /// </summary>
-[Singleton]
+[SingletonInject]
 public class SequentialGuidGenerator
 {
     private readonly object _lock = new();

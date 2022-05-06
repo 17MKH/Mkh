@@ -19,7 +19,7 @@ namespace Utils.Tests.Extensions
         string Test();
     }
 
-    [Singleton]
+    [SingletonInject]
     public class OldliTest : ITest
     {
         public string Test()
@@ -28,7 +28,7 @@ namespace Utils.Tests.Extensions
         }
     }
 
-    [Singleton]
+    [SingletonInject]
     public class LaoliTest : ITest
     {
         public string Test()
