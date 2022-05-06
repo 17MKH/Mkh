@@ -22,7 +22,7 @@ namespace Mkh.Data.Core.Repository
         /// <param name="flushSize">单词刷新数</param>
         /// <param name="uow">工作单元</param>
         /// <returns></returns>
-        protected async Task<bool> BulkAdd(IList<TEntity> entities, string tableName, int flushSize = 0, IUnitOfWork uow = null)
+        public async Task<bool> BulkAdd(IList<TEntity> entities, string tableName, int flushSize = 0, IUnitOfWork uow = null)
         {
             if (entities.IsNullOrEmpty())
                 return false;

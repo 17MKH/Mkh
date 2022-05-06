@@ -24,7 +24,7 @@ public abstract partial class RepositoryAbstract<TEntity>
     /// <param name="tableName">自定义表名称</param>
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
-    protected async Task<bool> Delete(dynamic id, string tableName, IUnitOfWork uow = null)
+    public async Task<bool> Delete(dynamic id, string tableName, IUnitOfWork uow = null)
     {
         var dynParams = GetIdParameter(id);
         var sql = _sql.GetDeleteSingle(tableName);

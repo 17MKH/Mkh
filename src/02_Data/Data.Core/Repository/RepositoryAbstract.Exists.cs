@@ -9,7 +9,7 @@ namespace Mkh.Data.Core.Repository;
 /// </summary>
 public abstract partial class RepositoryAbstract<TEntity>
 {
-    protected async Task<bool> Exists(dynamic id, string tableName, IUnitOfWork uow = null)
+    public async Task<bool> Exists(dynamic id, string tableName, IUnitOfWork uow = null)
     {
         //没有主键的表无法使用Exists方法
         if (EntityDescriptor.PrimaryKey.IsNo)

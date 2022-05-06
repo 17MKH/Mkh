@@ -13,9 +13,19 @@ public abstract partial class RepositoryAbstract<TEntity>
         return Get(id, null, uow);
     }
 
-    public Task<TEntity> Get(Expression<Func<TEntity, bool>> expression)
+    public Task<TEntity> Get(dynamic id, string tableName, IUnitOfWork uow = null)
     {
-        return Find(expression).ToFirst();
+        return Get(id, tableName, uow, false, false);
+    }
+
+    public Task<TEntity> Get(Expression<Func<TEntity, bool>> expression, IUnitOfWork uow = null)
+    {
+        return Find(expression).UseUow(uow).ToFirst();
+    }
+
+    public Task<TEntity> Get(Expression<Func<TEntity, bool>> expression, string tableName, IUnitOfWork uow = null)
+    {
+        return Find(expression, tableName).UseUow(uow).ToFirst();
     }
 
     /// <summary>

@@ -19,7 +19,7 @@ public abstract partial class RepositoryAbstract<TEntity>
         return UpdateAsync(entity, null, uow);
     }
 
-    protected async Task<bool> UpdateAsync(TEntity entity, string tableName, IUnitOfWork uow = null)
+    public async Task<bool> UpdateAsync(TEntity entity, string tableName, IUnitOfWork uow = null)
     {
         Check.NotNull(entity, nameof(entity));
 

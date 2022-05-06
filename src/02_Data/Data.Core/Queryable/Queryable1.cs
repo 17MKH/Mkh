@@ -14,9 +14,12 @@ namespace Mkh.Data.Core.Queryable;
 
 internal class Queryable<TEntity> : Queryable, IQueryable<TEntity> where TEntity : IEntity, new()
 {
-    public Queryable(IRepository repository, Expression<Func<TEntity, bool>> expression, bool noLock) : base(repository)
+    public Queryable(IRepository repository, Expression<Func<TEntity, bool>> expression, string tableName, bool noLock) : base(repository)
     {
-        _queryBody.Joins.Add(new QueryJoin(repository.EntityDescriptor, "T1", JoinType.UnKnown, null, noLock));
+        var entityDescriptor = _queryBody.GetEntityDescriptor<TEntity>();
+        var t1 = new QueryJoin(repository.EntityDescriptor, "T1", JoinType.UnKnown, null, noLock);
+        t1.TableName = tableName.NotNull() ? tableName : entityDescriptor.TableName;
+        _queryBody.Joins.Add(t1);
         _queryBody.SetWhere(expression);
     }
 

@@ -146,6 +146,15 @@ public interface IRepository
     Task<bool> Delete(dynamic id, IUnitOfWork uow = null);
 
     /// <summary>
+    /// 删除
+    /// </summary>
+    /// <param name="id">主键</param>
+    /// <param name="tableName">表名</param>
+    /// <param name="uow">工作单元</param>
+    /// <returns></returns>
+    Task<bool> Delete(dynamic id, string tableName, IUnitOfWork uow = null);
+
+    /// <summary>
     /// 软删除
     /// </summary>
     /// <param name="id">主键</param>
@@ -154,12 +163,30 @@ public interface IRepository
     Task<bool> SoftDelete(dynamic id, IUnitOfWork uow = null);
 
     /// <summary>
+    /// 软删除
+    /// </summary>
+    /// <param name="id">主键</param>
+    /// <param name="tableName">表名</param>
+    /// <param name="uow">工作单元</param>
+    /// <returns></returns>
+    Task<bool> SoftDelete(dynamic id, string tableName, IUnitOfWork uow = null);
+
+    /// <summary>
     /// 根据主键判断是否存在
     /// </summary>
     /// <param name="id"></param>
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
     Task<bool> Exists(dynamic id, IUnitOfWork uow = null);
+
+    /// <summary>
+    /// 是否存在
+    /// </summary>
+    /// <param name="id">主键</param>
+    /// <param name="tableName">表名</param>
+    /// <param name="uow">工作单元</param>
+    /// <returns></returns>
+    Task<bool> Exists(dynamic id, string tableName, IUnitOfWork uow = null);
 }
 
 /// <summary>
@@ -176,6 +203,15 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     Task<bool> Add(TEntity entity, IUnitOfWork uow = null);
 
     /// <summary>
+    /// 新增
+    /// </summary>
+    /// <param name="entity">实体</param>
+    /// <param name="tableName">表名</param>
+    /// <param name="uow">工作单元</param>
+    /// <returns></returns>
+    Task<bool> Add(TEntity entity, string tableName, IUnitOfWork uow = null);
+
+    /// <summary>
     /// 批量添加
     /// </summary>
     /// <param name="entities">实体集合</param>
@@ -183,6 +219,16 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
     Task<bool> BulkAdd(IList<TEntity> entities, int flushSize = 0, IUnitOfWork uow = null);
+
+    /// <summary>
+    /// 批量添加
+    /// </summary>
+    /// <param name="entities">实体集合</param>
+    /// <param name="tableName">表名</param>
+    /// <param name="flushSize">单次刷新数量</param>
+    /// <param name="uow">工作单元</param>
+    /// <returns></returns>
+    Task<bool> BulkAdd(IList<TEntity> entities, string tableName, int flushSize = 0, IUnitOfWork uow = null);
 
     /// <summary>
     /// 更新
@@ -193,6 +239,15 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     Task<bool> Update(TEntity entity, IUnitOfWork uow = null);
 
     /// <summary>
+    /// 更新
+    /// </summary>
+    /// <param name="entity">实体</param>
+    /// <param name="tableName">表名</param>
+    /// <param name="uow">工作单元</param>
+    /// <returns></returns>
+    Task<bool> UpdateAsync(TEntity entity, string tableName, IUnitOfWork uow = null);
+
+    /// <summary>
     /// 根据主键获取单个实体
     /// </summary>
     /// <param name="id"></param>
@@ -201,17 +256,58 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     Task<TEntity> Get(dynamic id, IUnitOfWork uow = null);
 
     /// <summary>
+    /// 根据主键获取单个实体
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="tableName">表名</param>
+    /// <param name="uow">工作单元</param>
+    /// <returns></returns>
+    Task<TEntity> Get(dynamic id, string tableName, IUnitOfWork uow = null);
+
+    /// <summary>
     /// 根据条件获取单个实体
     /// </summary>
     /// <param name="expression"></param>
+    /// <param name="uow">工作单元</param>
     /// <returns></returns>
-    Task<TEntity> Get(Expression<Func<TEntity, bool>> expression);
+    Task<TEntity> Get(Expression<Func<TEntity, bool>> expression, IUnitOfWork uow = null);
+
+    /// <summary>
+    /// 根据条件获取单个实体
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <param name="tableName">表名</param>
+    /// <param name="uow">工作单元</param>
+    /// <returns></returns>
+    Task<TEntity> Get(Expression<Func<TEntity, bool>> expression, string tableName, IUnitOfWork uow = null);
 
     /// <summary>
     /// 查询
     /// </summary>
     /// <returns></returns>
     IQueryable<TEntity> Find();
+
+    /// <summary>
+    /// 查询
+    /// </summary>
+    /// <param name="tableName">表名</param>
+    /// <returns></returns>
+    IQueryable<TEntity> Find(string tableName);
+
+    /// <summary>
+    /// 查询
+    /// </summary>
+    /// <param name="tableName">表名</param>
+    /// <param name="noLock">SqlServer的WITH (NOLOCK)特性，为true时添加，默认：true</param>
+    /// <returns></returns>
+    IQueryable<TEntity> Find(string tableName, bool noLock);
+
+    /// <summary>
+    /// 查询
+    /// </summary>
+    /// <param name="noLock">SqlServer的WITH (NOLOCK)特性，为true时添加，默认：true</param>
+    /// <returns></returns>
+    IQueryable<TEntity> Find(bool noLock);
 
     /// <summary>
     /// 查询
@@ -224,7 +320,24 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     /// 查询
     /// </summary>
     /// <param name="expression">过滤条件</param>
+    /// <param name="tableName">表名</param>
+    /// <returns></returns>
+    IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression, string tableName);
+
+    /// <summary>
+    /// 查询
+    /// </summary>
+    /// <param name="expression">过滤条件</param>
     /// <param name="noLock">SqlServer的WITH (NOLOCK)特性，为true时添加，默认：true</param>
     /// <returns></returns>
     IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression, bool noLock);
+
+    /// <summary>
+    /// 查询
+    /// </summary>
+    /// <param name="expression">过滤条件</param>
+    /// <param name="tableName">表名</param>
+    /// <param name="noLock">SqlServer的WITH (NOLOCK)特性，为true时添加，默认：true</param>
+    /// <returns></returns>
+    IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> expression, string tableName, bool noLock);
 }

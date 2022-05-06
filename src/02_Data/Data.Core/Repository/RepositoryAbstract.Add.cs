@@ -24,7 +24,7 @@ public abstract partial class RepositoryAbstract<TEntity>
     /// <param name="tableName"></param>
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
-    protected async Task<bool> Add(TEntity entity, string tableName, IUnitOfWork uow = null)
+    public async Task<bool> Add(TEntity entity, string tableName, IUnitOfWork uow = null)
     {
         if (entity == null)
             throw new ArgumentNullException(nameof(entity), "entity is null");
