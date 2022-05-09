@@ -21,8 +21,6 @@ namespace Data.Adapter.Sqlite.Test
         [Fact]
         public async void AddTest()
         {
-            await ClearTable();
-
             var article = new ArticleEntity
             {
                 Title = "test",
@@ -165,8 +163,6 @@ namespace Data.Adapter.Sqlite.Test
 
         private async Task ClearAndAdd(int count = 10)
         {
-            await ClearTable();
-
             for (int i = 1; i <= count; i++)
             {
                 var article = new ArticleEntity

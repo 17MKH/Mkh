@@ -14,8 +14,6 @@ namespace Data.Adapter.Sqlite.Test
         [Fact]
         public async void SaveChangesTest()
         {
-            await ClearTable();
-
             using var uow = _dbContext.NewUnitOfWork();
 
             var category = new CategoryEntity
@@ -44,8 +42,6 @@ namespace Data.Adapter.Sqlite.Test
         [Fact]
         public async void RollbackTest()
         {
-            await ClearTable();
-
             using var uow = _dbContext.NewUnitOfWork();
             try
             {

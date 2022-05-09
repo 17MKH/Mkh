@@ -224,7 +224,7 @@ export default {
     const { bind, on } = useSave({ props, api, model, emit })
 
     bind.width = '900px'
-    bind.labelWidth = '130px'
+    bind.labelWidth = '150px'
     bind.closeOnSuccess = false
     bind.beforeSubmit = () => {
       //提交前设置分组和父级id

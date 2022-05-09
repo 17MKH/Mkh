@@ -17,7 +17,7 @@
         </template>
       </el-tree>
       <template #footer>
-        <m-button type="success" icon="save" @click="submit">$t('mkh.save')</m-button>
+        <m-button type="success" icon="save" @click="submit">{{ $t('mkh.save') }}</m-button>
       </template>
     </m-box>
   </m-container>

@@ -14,10 +14,8 @@ namespace Data.Adapter.Sqlite.Test
         /// 数据库上下文状态测试
         /// </summary>
         [Fact]
-        public async void NewConnectionTest()
+        public void NewConnectionTest()
         {
-            await ClearTable();
-
             using var con = _dbContext.NewConnection();
 
             Assert.NotNull(con);

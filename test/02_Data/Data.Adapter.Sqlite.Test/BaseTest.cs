@@ -21,7 +21,7 @@ namespace Data.Adapter.Sqlite.Test
 
         public BaseTest(ITestOutputHelper output)
         {
-            var connString = "Data Source=blog.db";
+            var connString = "DataSource=:memory:";
             var services = new ServiceCollection();
             //ÈÕÖ¾
             services.AddLogging(builder =>
@@ -72,12 +72,6 @@ namespace Data.Adapter.Sqlite.Test
             _dbContext = _serviceProvider.GetService<BlogDbContext>();
             _articleRepository = _serviceProvider.GetService<IArticleRepository>();
             _categoryRepository = _serviceProvider.GetService<ICategoryRepository>();
-        }
-
-        protected async Task ClearTable()
-        {
-            await _articleRepository.Execute("DELETE FROM Article;DELETE FROM sqlite_sequence WHERE name = 'Article';");
-            await _articleRepository.Execute("DELETE FROM MyCategory;DELETE FROM sqlite_sequence WHERE name = 'MyCategory';");
         }
     }
 }

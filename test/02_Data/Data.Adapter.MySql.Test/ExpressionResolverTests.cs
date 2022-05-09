@@ -357,6 +357,21 @@ namespace Data.Adapter.MySql.Test
             Assert.Equal("`Id` IN (10,15)", sql);
         }
 
+        /// <summary>
+        /// 解析日期类型
+        /// </summary>
+        [Fact]
+        public void ResolveExpressionTest22()
+        {
+            var date = new DateTime(2022, 05, 09);
+            Expression<Func<ArticleEntity, bool>> exp = m => m.PublishedTime >= date.Date;
+
+            var parameters = new QueryParameters();
+            var sql = ExpressionResolver.Resolve(_queryBody, exp, parameters);
+
+            Assert.Equal("`Id` >= @P1", sql);
+        }
+
         #region ==解析表==
 
         //解析表
