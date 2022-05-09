@@ -7,6 +7,7 @@ using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Annotations;
 using Mkh.Data.Abstractions.Descriptors;
 using Mkh.Data.Abstractions.Entities;
+using Mkh.Data.Abstractions.Sharding;
 using Mkh.Data.Core.SqlBuilder;
 
 namespace Mkh.Data.Core.Descriptors;
@@ -97,6 +98,21 @@ internal class EntityDescriptor : IEntityDescriptor
     /// 是否分表
     /// </summary>
     public bool IsSharding { get; set; }
+
+    /// <summary>
+    /// 分表策略
+    /// </summary>
+    public ShardingPolicy ShardingPolicy { get; set; }
+
+    /// <summary>
+    /// 分表提供器
+    /// </summary>
+    public IShardingPolicyProvider ShardingPolicyProvider { get; set; }
+
+    /// <summary>
+    /// 自定义分表策略提供器类型
+    /// </summary>
+    public Type CustomShardingPolicyProviderType { get; set; }
 
     #endregion
 
@@ -236,6 +252,8 @@ internal class EntityDescriptor : IEntityDescriptor
         if (sharding != null)
         {
             IsSharding = true;
+            ShardingPolicy = sharding.Policy;
+            CustomShardingPolicyProviderType = sharding.CustomProviderType;
         }
     }
 

@@ -187,6 +187,19 @@ public interface IRepository
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
     Task<bool> Exists(dynamic id, string tableName, IUnitOfWork uow = null);
+
+    /// <summary>
+    /// 获取当前时间对应的分表表名
+    /// </summary>
+    /// <returns></returns>
+    string GetShardingTableName();
+
+    /// <summary>
+    /// 获取指定时间分表表名
+    /// </summary>
+    /// <param name="date"></param>
+    /// <returns></returns>
+    string GetShardingTableName(DateTime date);
 }
 
 /// <summary>

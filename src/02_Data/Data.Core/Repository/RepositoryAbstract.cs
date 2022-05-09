@@ -241,6 +241,19 @@ public abstract partial class RepositoryAbstract<TEntity> : IRepository<TEntity>
         return conn.QueryAsync<T>(sql, param, tran, commandType: commandType);
     }
 
+    public string GetShardingTableName()
+    {
+        return GetShardingTableName(DateTime.Now);
+    }
+
+    public string GetShardingTableName(DateTime date)
+    {
+        if (EntityDescriptor.IsSharding)
+            return EntityDescriptor.ShardingPolicyProvider.ResolveTableName(EntityDescriptor, date);
+
+        return EntityDescriptor.TableName;
+    }
+
     #endregion
 
     #endregion

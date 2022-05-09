@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Mkh.Data.Abstractions.Sharding;
 
 namespace Mkh.Data.Abstractions.Descriptors;
 
@@ -87,4 +88,19 @@ public interface IEntityDescriptor
     /// 是否分表
     /// </summary>
     bool IsSharding { get; }
+
+    /// <summary>
+    /// 分表策略
+    /// </summary>
+    ShardingPolicy ShardingPolicy { get; }
+
+    /// <summary>
+    /// 分表策略提供器
+    /// </summary>
+    IShardingPolicyProvider ShardingPolicyProvider { get; }
+
+    /// <summary>
+    /// 自定义分表策略提供器类型
+    /// </summary>
+    Type CustomShardingPolicyProviderType { get; }
 }

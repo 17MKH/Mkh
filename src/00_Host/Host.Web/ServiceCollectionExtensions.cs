@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Core;
+using Mkh.Host.Web.BackgroundServices;
 using Mkh.Host.Web.Filters;
 using Mkh.Host.Web.Swagger.Conventions;
 using Mkh.Module.Abstractions;
@@ -188,6 +189,19 @@ internal static class ServiceCollectionExtensions
         {
             builder.UseRedis(cfg);
         }
+
+        return services;
+    }
+
+    /// <summary>
+    /// 添加后台服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddBackgroundServices(this IServiceCollection services)
+    {
+        //添加创建表后台服务
+        services.AddHostedService<CreateTableBackgroundService>();
 
         return services;
     }

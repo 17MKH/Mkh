@@ -9,7 +9,10 @@ using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Logger;
 using Mkh.Data.Abstractions.Options;
 using Mkh.Data.Abstractions.Schema;
+using Mkh.Data.Abstractions.Sharding;
 using Mkh.Data.Core.Descriptors;
+using Mkh.Data.Core.Sharding;
+using Mkh.Data.Core.Sharding.Providers;
 
 namespace Mkh.Data.Core;
 
@@ -96,6 +99,7 @@ internal class DbBuilder : IDbBuilder
 
         // ReSharper disable once AssignNullToNotNullAttribute
         Services.AddSingleton(_dbContextType, DbContext);
+        Services.AddSingleton(typeof(IDbContext), DbContext);
     }
 
     /// <summary>
@@ -174,8 +178,37 @@ internal class DbBuilder : IDbBuilder
 
                 //按照约定，仓储接口的第一个接口的泛型参数即为对应实体类型
                 var entityType = interfaceType.GetInterfaces()[0].GetGenericArguments()[0];
+
+                var entityDescriptor = new EntityDescriptor(DbContext, entityType);
+
+                //设置分表
+                if (entityDescriptor.IsSharding)
+                {
+                    switch (entityDescriptor.ShardingPolicy)
+                    {
+                        case ShardingPolicy.Year:
+                            entityDescriptor.ShardingPolicyProvider = new YearShardingPolicyProvider();
+                            break;
+                        case ShardingPolicy.Quarter:
+                            entityDescriptor.ShardingPolicyProvider = new QuarterShardingPolicyProvider();
+                            break;
+                        case ShardingPolicy.Month:
+                            entityDescriptor.ShardingPolicyProvider = new MonthShardingPolicyProvider();
+                            break;
+                        case ShardingPolicy.Day:
+                            entityDescriptor.ShardingPolicyProvider = new DayShardingPolicyProvider();
+                            break;
+                        case ShardingPolicy.Custom:
+                            if (entityDescriptor.CustomShardingPolicyProviderType != null)
+                            {
+                                entityDescriptor.ShardingPolicyProvider = (IShardingPolicyProvider)Services.BuildServiceProvider().GetService(entityDescriptor.CustomShardingPolicyProviderType);
+                            }
+                            break;
+                    }
+                }
+
                 //保存实体描述符
-                DbContext.EntityDescriptors.Add(new EntityDescriptor(DbContext, entityType));
+                DbContext.EntityDescriptors.Add(entityDescriptor);
 
                 //优先使用兼容仓储
                 var implementationType = compatibilityRepositoryTypes.FirstOrDefault(m => m.Name == type.Name) ?? type;

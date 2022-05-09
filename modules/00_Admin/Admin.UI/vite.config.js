@@ -3,7 +3,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import mkh from 'mkh-ui/lib/plugins'
 
-export default defineConfig(({ mode, command }) => {
+export default defineConfig(options => {
+  console.log(options)
   let config = {
     base: './',
     server: {

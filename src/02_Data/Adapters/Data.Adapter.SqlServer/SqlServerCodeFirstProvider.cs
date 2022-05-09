@@ -53,47 +53,64 @@ public class SqlServerCodeFirstProvider : CodeFirstProviderAbstract
         //创建后事件
         Options.BeforeCreateDatabase?.Invoke(Context);
     }
-
     #endregion
 
     #region ==创建表==
 
     public override void CreateTable()
     {
-        //创建表
         foreach (var descriptor in Context.EntityDescriptors.Where(m => m.AutoCreate))
         {
-            using var con = Context.NewConnection();
-            con.Open();
+            CreateTable(descriptor);
+        }
+    }
 
-            //判断表是否存在，只有不存时会执行创建操作并会触发对应的创建前后事件
-            if (Context.SchemaProvider.IsExistsTable(con.Database, descriptor.TableName))
+    public override void CreateNextTable()
+    {
+        var shardingEntities = Context.EntityDescriptors.Where(m => m.AutoCreate && m.IsSharding).ToList();
+        if (shardingEntities.Any())
+        {
+            foreach (var entity in shardingEntities)
             {
-                //更新列
-                if (Options.UpdateColumn)
-                    UpdateColumn(descriptor, con);
-
-                con.Close();
-            }
-            else
-            {
-                Options.BeforeCreateTable?.Invoke(Context, descriptor);
-
-                var sql = GenerateCreateTableSql(descriptor);
-
-                con.Execute(sql);
-                con.Close();
-
-                Options.AfterCreateTable?.Invoke(Context, descriptor);
+                CreateTable(entity, true);
             }
         }
     }
 
-    private string GenerateCreateTableSql(IEntityDescriptor descriptor)
+    private void CreateTable(IEntityDescriptor descriptor, bool next = false)
+    {
+        using var con = Context.NewConnection();
+        con.Open();
+
+        var tableName = ResolveTableName(descriptor, next);
+
+        //判断表是否存在，只有不存时会执行创建操作并会触发对应的创建前后事件
+        if (Context.SchemaProvider.IsExistsTable(con.Database, tableName))
+        {
+            //更新列
+            if (Options.UpdateColumn)
+                UpdateColumn(descriptor, con);
+
+            con.Close();
+        }
+        else
+        {
+            Options.BeforeCreateTable?.Invoke(Context, descriptor);
+
+            var sql = GenerateCreateTableSql(descriptor, tableName);
+
+            con.Execute(sql);
+            con.Close();
+
+            Options.AfterCreateTable?.Invoke(Context, descriptor);
+        }
+    }
+
+    private string GenerateCreateTableSql(IEntityDescriptor descriptor, string tableName)
     {
         var columns = descriptor.Columns;
         var sql = new StringBuilder();
-        sql.AppendFormat("CREATE TABLE {0}(", AppendQuote(descriptor.TableName));
+        sql.AppendFormat("CREATE TABLE {0}(", AppendQuote(tableName));
 
         for (int i = 0; i < columns.Count; i++)
         {

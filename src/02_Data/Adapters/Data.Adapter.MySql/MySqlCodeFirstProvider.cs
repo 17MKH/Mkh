@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions;
@@ -15,8 +14,6 @@ namespace Mkh.Data.Adapter.MySql;
 
 public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
 {
-    private System.Timers.Timer _timer;
-
     public MySqlCodeFirstProvider(CodeFirstOptions options, IDbContext context, IServiceCollection service) : base(options, context, service)
     {
     }
@@ -60,24 +57,21 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
 
     public override void CreateTable()
     {
-        //采用分表的实体
-        var shardingEntities = Context.EntityDescriptors.Where(m => m.AutoCreate && m.IsSharding);
-        if (shardingEntities.Any())
-        {
-            _timer = new System.Timers.Timer();
-            _timer.Interval = 600000;
-            _timer.Elapsed += (sender, e) =>
-            {
-                foreach (var entity in shardingEntities)
-                {
-                    CreateTable(entity);
-                }
-            };
-        }
-
         foreach (var descriptor in Context.EntityDescriptors.Where(m => m.AutoCreate))
         {
             CreateTable(descriptor);
+        }
+    }
+
+    public override void CreateNextTable()
+    {
+        var shardingEntities = Context.EntityDescriptors.Where(m => m.AutoCreate && m.IsSharding).ToList();
+        if (shardingEntities.Any())
+        {
+            foreach (var entity in shardingEntities)
+            {
+                CreateTable(entity, true);
+            }
         }
     }
 
@@ -85,12 +79,13 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
     /// 创建表
     /// </summary>
     /// <param name="descriptor"></param>
-    private void CreateTable(IEntityDescriptor descriptor)
+    /// <param name="next"></param>
+    private void CreateTable(IEntityDescriptor descriptor, bool next = false)
     {
         using var con = Context.NewConnection();
         con.Open();
 
-        var tableName = ResolveTableName(descriptor);
+        var tableName = ResolveTableName(descriptor, next);
 
         //判断表是否存在，只有不存时会执行创建操作并会触发对应的创建前后事件
         if (Context.SchemaProvider.IsExistsTable(con.Database, tableName))

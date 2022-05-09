@@ -14,7 +14,13 @@ public abstract partial class RepositoryAbstract<TEntity>
 {
     public Task<bool> Add(TEntity entity, IUnitOfWork uow = null)
     {
-        return Add(entity, null, uow);
+        string tableName = null;
+        if (EntityDescriptor.IsSharding)
+        {
+            tableName = GetShardingTableName();
+        }
+
+        return Add(entity, tableName, uow);
     }
 
     /// <summary>

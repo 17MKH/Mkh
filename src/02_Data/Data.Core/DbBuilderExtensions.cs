@@ -151,7 +151,7 @@ public static class DbBuilderExtensions
             var bindingUowMethod = repositoryType.GetMethod("BindingUow");
             bindingUowMethod!.Invoke(repository, new object[] { uow });
 
-            var bulkAddMethod = repositoryType.GetMethod("BulkAdd");
+            var bulkAddMethod = repositoryType.GetMethods().Single(m => m.Name == "BulkAdd" && m.GetParameters().Length == 3);
             var bulkAddTask = (Task)bulkAddMethod!.Invoke(repository, new object[] { list, 0, uow });
             bulkAddTask!.Wait();
 

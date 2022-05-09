@@ -5,6 +5,7 @@ using Mkh.Data.Abstractions.Logger;
 using Mkh.Data.Abstractions.Options;
 using Mkh.Data.Core;
 using Mkh.Data.Core.Internal;
+using Mkh.Data.Core.Sharding;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;

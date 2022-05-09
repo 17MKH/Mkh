@@ -49,52 +49,70 @@ namespace Mkh.Data.Adapter.PostgreSQL
 
         public override void CreateTable()
         {
-            //创建表
             foreach (var descriptor in Context.EntityDescriptors.Where(m => m.AutoCreate))
             {
-                using var con = Context.NewConnection();
-                con.Open();
+                CreateTable(descriptor);
+            }
+        }
 
-                //判断表是否存在，只有不存时会执行创建操作并会触发对应的创建前后事件
-                if (Context.SchemaProvider.IsExistsTable(con.Database, descriptor.TableName))
+        public override void CreateNextTable()
+        {
+            var shardingEntities = Context.EntityDescriptors.Where(m => m.AutoCreate && m.IsSharding).ToList();
+            if (shardingEntities.Any())
+            {
+                foreach (var entity in shardingEntities)
                 {
-                    //更新列
-                    if (Options.UpdateColumn)
-                        UpdateColumn(descriptor, con);
-
-                    con.Close();
-                }
-                else
-                {
-                    Options.BeforeCreateTable?.Invoke(Context, descriptor);
-
-                    var (sql, commentSql) = GenerateCreateTableSql(descriptor);
-
-                    con.Execute(sql);
-                    if (!string.IsNullOrWhiteSpace(commentSql))
-                    {
-                        con.Execute(commentSql);
-                    }
-
-                    con.Close();
-
-                    Options.AfterCreateTable?.Invoke(Context, descriptor);
+                    CreateTable(entity, true);
                 }
             }
         }
 
-        (string sql, string commentSql) GenerateCreateTableSql(IEntityDescriptor descriptor)
+        private void CreateTable(IEntityDescriptor descriptor, bool next = false)
+        {
+            using var con = Context.NewConnection();
+            con.Open();
+
+            var tableName = ResolveTableName(descriptor, next);
+
+            //判断表是否存在，只有不存时会执行创建操作并会触发对应的创建前后事件
+            if (Context.SchemaProvider.IsExistsTable(con.Database, tableName))
+            {
+                //更新列
+                if (Options.UpdateColumn)
+                    UpdateColumn(descriptor, con);
+
+                con.Close();
+            }
+            else
+            {
+                Options.BeforeCreateTable?.Invoke(Context, descriptor);
+
+                var (sql, commentSql) = GenerateCreateTableSql(descriptor, tableName);
+
+                con.Execute(sql);
+                if (!string.IsNullOrWhiteSpace(commentSql))
+                {
+                    con.Execute(commentSql);
+                }
+
+                con.Close();
+
+                Options.AfterCreateTable?.Invoke(Context, descriptor);
+            }
+        }
+
+        (string sql, string commentSql) GenerateCreateTableSql(IEntityDescriptor descriptor, string tableName)
         {
             var columns = descriptor.Columns;
             var sql = new StringBuilder();
             var sqlComment = new StringBuilder(128);
-            sql.AppendFormat("CREATE TABLE {0}(", AppendQuote(descriptor.TableName));
+            sql.AppendFormat("CREATE TABLE {0}(", AppendQuote(tableName));
 
             for (int i = 0; i < columns.Count; i++)
             {
                 var column = columns[i];
 
-                sql.Append(GenerateColumnAddSql(column, descriptor,ref sqlComment));
+                sql.Append(GenerateColumnAddSql(column, descriptor, ref sqlComment));
 
                 if (i < columns.Count - 1)
                 {
@@ -169,15 +187,15 @@ namespace Mkh.Data.Adapter.PostgreSQL
                     if (descriptor.Length != schema.Length)
                         return true;
                     break;
-                //case "NUMERIC":
-                //case "DOUBLE":
-                //case "FLOAT":
-                //case "FLOAT4":
-                //case "FLOAT8":
-                //    var precision = descriptor.Precision < 1 ? 18 : descriptor.Precision;
-                //    var scale = descriptor.Scale < 1 ? 4 : descriptor.Scale;
-                //    if (precision != schema.Precision || scale != schema.Scale)
-                //        return true;
+                    //case "NUMERIC":
+                    //case "DOUBLE":
+                    //case "FLOAT":
+                    //case "FLOAT4":
+                    //case "FLOAT8":
+                    //    var precision = descriptor.Precision < 1 ? 18 : descriptor.Precision;
+                    //    var scale = descriptor.Scale < 1 ? 4 : descriptor.Scale;
+                    //    if (precision != schema.Precision || scale != schema.Scale)
+                    //        return true;
                     //break;
             }
 
@@ -196,7 +214,7 @@ namespace Mkh.Data.Adapter.PostgreSQL
             return false;
         }
 
-        private string GenerateColumnAddSql(IColumnDescriptor column, IEntityDescriptor descriptor,ref StringBuilder commentSql)
+        private string GenerateColumnAddSql(IColumnDescriptor column, IEntityDescriptor descriptor, ref StringBuilder commentSql)
         {
             var sql = new StringBuilder();
             sql.AppendFormat("{0} ", AppendQuote(column.Name));

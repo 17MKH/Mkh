@@ -7,7 +7,7 @@
   "description": "17MKH权限管理模块",
   "main": "lib/index.es.js",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite --host --target=app",
     "build": "vite build",
     "lib": "vite build --mode=lib && npm run locale",
     "locale": "rollup -c node_modules/mkh-ui/build/locales.config.js",

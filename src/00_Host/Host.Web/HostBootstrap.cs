@@ -117,6 +117,9 @@ public class HostBootstrap
         //添加数据库
         services.AddData(modules);
 
+        //添加后台服务
+        services.AddBackgroundServices();
+
         return modules;
     }
 
