@@ -1,18 +1,17 @@
 const { resolve } = require('path')
-import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import mkh from 'mkh-ui/lib/plugins'
+import mui from 'mkh-ui/lib/plugins'
 
-export default defineConfig(options => {
-  console.log(options)
-  let config = {
+export default ({ target, mode, command }) => {
+  return {
     base: './',
     server: {
       port: 5220,
     },
     envPrefix: 'MKH',
     plugins: [
-      mkh({
+      mui({
+        target,
         mode,
         command,
         /** 依赖模块 */
@@ -25,6 +24,8 @@ export default defineConfig(options => {
         htmlTransform: {
           /** 模板渲染数据，如果使用自己的模板，则自己定义渲染数据 */
           render: {
+            //图标
+            favicon: './assets/mkh/favicon.ico',
             /** 版权信息 */
             copyright: '版权所有：OLDLI',
             /** Logo */
@@ -37,10 +38,27 @@ export default defineConfig(options => {
       vue(),
     ],
     css: {
-      preprocessorOptions: {
-        scss: {
-          charset: false,
-        },
+      postcss: {
+        plugins: [
+          {
+            /** 解决打包时出现 warning: "@charset" must be the first rule in the file */
+            postcssPlugin: 'internal:charset-removal',
+            AtRule: {
+              charset: atRule => {
+                if (atRule.name === 'charset') {
+                  atRule.remove()
+                }
+              },
+            },
+            /**转换css中图片的相对路径 */
+            Declaration(decl) {
+              let reg = /url\((.+?)\)/gi
+              if (decl.value.match(reg)) {
+                decl.value = decl.value.replaceAll('../', '')
+              }
+            },
+          },
+        ],
       },
     },
     resolve: {
@@ -49,28 +67,4 @@ export default defineConfig(options => {
       },
     },
   }
-
-  //打包成库
-  if (mode == 'lib') {
-    //库模式需要取消复制静态资源目录
-    config.publicDir = false
-
-    config.build = {
-      lib: {
-        entry: resolve(__dirname, 'src/index.js'),
-        formats: ['es'],
-        fileName: 'index',
-      },
-      outDir: 'lib',
-      rollupOptions: {
-        /** 排除无需打包进去的依赖库 */
-        external: ['vue', 'vue-router', 'vuex', 'mkh-ui'],
-      },
-    }
-  } else if (mode == 'production') {
-    config.build = {
-      outDir: '../../WebHost/wwwroot/web',
-    }
-  }
-  return config
-})
+}

@@ -7,8 +7,8 @@
             <m-button :code="buttons.add.code" icon="plus" @click="add"></m-button>
           </template>
           <template #action="{ item }">
-            <m-button-edit text="" :code="buttons.edit.code" @click.stop="edit(item)" @success="refresh"></m-button-edit>
-            <m-button-delete text="" :code="buttons.remove.code" :action="remove" :data="item.id" @success="refresh"></m-button-delete>
+            <m-button-edit :code="buttons.edit.code" @click.stop="edit(item)" @success="refresh"></m-button-edit>
+            <m-button-delete :code="buttons.remove.code" :action="remove" :data="item.id" @success="refresh"></m-button-delete>
           </template>
         </m-list-box>
       </m-flex-fixed>
