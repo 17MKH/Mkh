@@ -48,6 +48,9 @@ public static class ServiceCollectionExtensions
         //添加默认权限验证处理器
         services.TryAddSingleton<IPermissionValidateHandler, DefaultPermissionValidateHandler>();
 
+        //添加平台转换器
+        services.TryAddSingleton<IPlatformProvider, DefaultPlatformProvider>();
+
         var builder = new MkhAuthBuilder(services, configuration);
 
         return builder;

@@ -49,7 +49,7 @@ internal class Account : IAccount
         }
     }
 
-    public string Username
+    public string AccountName
     {
         get
         {

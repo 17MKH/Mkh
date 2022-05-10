@@ -1,5 +1,5 @@
 <template>
-  <m-select :action="query"></m-select>
+  <m-select :action="query" :clearable="clearable"></m-select>
 </template>
 <script>
 export default {
@@ -13,6 +13,10 @@ export default {
     name: {
       type: String,
       required: true,
+    },
+    clearable: {
+      type: Boolean,
+      default: true,
     },
   },
   setup(props) {

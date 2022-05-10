@@ -18,9 +18,9 @@ public interface IAccount
     Guid Id { get; }
 
     /// <summary>
-    /// 用户名称
+    /// 账户名称
     /// </summary>
-    string Username { get; }
+    string AccountName { get; }
 
     /// <summary>
     /// 应用平台

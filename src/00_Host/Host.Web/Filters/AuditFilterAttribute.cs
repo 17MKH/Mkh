@@ -107,7 +107,7 @@ namespace Mkh.Host.Web.Filters
                 {
                     AccountId = _account.Id,
                     TenantId = _account.TenantId,
-                    Username = _account.Username,
+                    AccountName = _account.AccountName,
                     ModuleCode = routeValues["area"] ?? "",
                     Controller = routeValues["controller"],
                     Action = routeValues["action"],

@@ -23,8 +23,8 @@ namespace Mkh.Logging.Abstractions
         public int Platform { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 账户名
         /// </summary>
-        public string Username { get; set; }
+        public string AccountName { get; set; }
     }
 }
