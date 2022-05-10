@@ -375,7 +375,7 @@ public class QueryableSqlBuilder
             {
                 var p1 = parameters.Add(_dbContext.AccountResolver.AccountId);
                 sqlBuilder.AppendFormat(",{0} = @{1}", _dbAdapter.AppendQuote(descriptor.GetModifiedByColumnName()), p1);
-                var p2 = parameters.Add(_dbContext.AccountResolver.Username);
+                var p2 = parameters.Add(_dbContext.AccountResolver.AccountName);
                 sqlBuilder.AppendFormat(",{0} = @{1}", _dbAdapter.AppendQuote(descriptor.GetModifierColumnName()), p2);
                 var p3 = parameters.Add(DateTime.Now);
                 sqlBuilder.AppendFormat(",{0} = @{1}", _dbAdapter.AppendQuote(descriptor.GetModifiedTimeColumnName()), p3);
@@ -385,7 +385,7 @@ public class QueryableSqlBuilder
                 sqlBuilder.AppendFormat(",{0} = ", _dbAdapter.AppendQuote(descriptor.GetModifiedByColumnName()));
                 ExpressionResolver.AppendValue(_queryBody, _dbContext.AccountResolver.AccountId, sqlBuilder, parameters);
                 sqlBuilder.AppendFormat(",{0} = ", _dbAdapter.AppendQuote(descriptor.GetModifierColumnName()));
-                ExpressionResolver.AppendValue(_queryBody, _dbContext.AccountResolver.Username, sqlBuilder, parameters);
+                ExpressionResolver.AppendValue(_queryBody, _dbContext.AccountResolver.AccountName, sqlBuilder, parameters);
                 sqlBuilder.AppendFormat(",{0} = ", _dbAdapter.AppendQuote(descriptor.GetModifiedTimeColumnName()));
                 ExpressionResolver.AppendValue(_queryBody, DateTime.Now, sqlBuilder, parameters);
             }
@@ -481,7 +481,7 @@ public class QueryableSqlBuilder
         sqlBuilder.AppendFormat(",{0} = ", _dbAdapter.AppendQuote(deletedByColumnName));
         ExpressionResolver.AppendValue(_queryBody, _dbContext.AccountResolver.AccountId, sqlBuilder, parameters);
         sqlBuilder.AppendFormat(",{0} = ", _dbAdapter.AppendQuote(deleterColumnName));
-        ExpressionResolver.AppendValue(_queryBody, _dbContext.AccountResolver.Username, sqlBuilder, parameters);
+        ExpressionResolver.AppendValue(_queryBody, _dbContext.AccountResolver.AccountName, sqlBuilder, parameters);
 
         var whereSql = ExpressionResolver.ResolveWhere(_queryBody, parameters);
         Check.NotNull(whereSql, nameof(whereSql), "生成条件sql异常");

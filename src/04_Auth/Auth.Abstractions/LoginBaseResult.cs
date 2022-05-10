@@ -23,6 +23,11 @@ namespace Mkh.Auth.Abstractions
         public string Username { get; set; }
 
         /// <summary>
+        /// 姓名
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// 应用平台
         /// <para>1-99为系统保留平台类型，用户需要自定义可使用99之后的数字</para>
         /// </summary>

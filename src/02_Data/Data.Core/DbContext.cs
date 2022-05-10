@@ -23,7 +23,7 @@ public abstract class DbContext : IDbContext
 
     public ICodeFirstProvider CodeFirstProvider { get; internal set; }
 
-    public IAccountResolver AccountResolver { get; internal set; }
+    public IOperatorResolver AccountResolver { get; internal set; }
 
     public IList<IEntityDescriptor> EntityDescriptors { get; } = new List<IEntityDescriptor>();
 

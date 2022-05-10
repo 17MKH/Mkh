@@ -53,7 +53,7 @@ internal class Account : IAccount
     {
         get
         {
-            var accountName = _contextAccessor?.HttpContext?.User?.FindFirst(MkhClaimTypes.USERNAME);
+            var accountName = _contextAccessor?.HttpContext?.User?.FindFirst(MkhClaimTypes.AccountName);
 
             if (accountName == null || accountName.Value.IsNull())
             {

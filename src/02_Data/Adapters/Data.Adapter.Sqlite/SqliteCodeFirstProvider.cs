@@ -134,6 +134,9 @@ public class SqliteCodeFirstProvider : CodeFirstProviderAbstract
             sql.Append(" NOT NULL ");
         }
 
+        //不区分大小写
+        sql.Append(" COLLATE NOCASE ");
+
         return sql.ToString();
     }
 

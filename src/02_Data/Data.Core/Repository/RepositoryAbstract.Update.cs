@@ -56,7 +56,9 @@ public abstract partial class RepositoryAbstract<TEntity>
                             TableName = tableName,
                             Uow = uow,
                             UpdateTime = DateTime.Now,
-                            Operator = DbContext.AccountResolver.AccountId
+                            TenantId = DbContext.AccountResolver.TenantId,
+                            Operator = DbContext.AccountResolver.AccountId,
+                            OperatorName = DbContext.AccountResolver.AccountName
                         });
                     }
                 }
@@ -97,7 +99,7 @@ public abstract partial class RepositoryAbstract<TEntity>
                     var modifier = column.PropertyInfo.GetValue(entity);
                     if (modifier == null)
                     {
-                        column.PropertyInfo.SetValue(entity, DbContext.AccountResolver.Username);
+                        column.PropertyInfo.SetValue(entity, DbContext.AccountResolver.AccountName);
                     }
                     continue;
                 }

@@ -23,7 +23,7 @@ namespace Data.Web.Test
         public void ConfigureServices(IServiceCollection services)
         {
             //自定义账户信息解析器
-            services.AddSingleton<IAccountResolver, CustomAccountResolver>();
+            services.AddSingleton<IOperatorResolver, CustomAccountResolver>();
 
             AddMySql(services);
 

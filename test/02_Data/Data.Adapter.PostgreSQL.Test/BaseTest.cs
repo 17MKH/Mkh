@@ -33,7 +33,7 @@ public class BaseTest
         });
 
         //自定义账户信息解析器
-        services.AddSingleton<IAccountResolver, CustomAccountResolver>();
+        services.AddSingleton<IOperatorResolver, CustomAccountResolver>();
 
         services
             .AddMkhDb<BlogDbContext>(options =>

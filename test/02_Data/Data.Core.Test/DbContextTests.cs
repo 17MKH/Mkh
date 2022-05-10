@@ -27,7 +27,7 @@ namespace Data.Core.Test
                 builder.AddDebug();
             });
 
-            services.AddSingleton<IAccountResolver, CustomAccountResolver>();
+            services.AddSingleton<IOperatorResolver, CustomAccountResolver>();
 
             services
                 .AddMkhDb<BlogDbContext>()

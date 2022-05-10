@@ -124,9 +124,10 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
 
             return result.Success(new UsernameLoginResult
             {
-                Platform = model.Platform,
-                Username = model.Username,
                 AccountId = account.Id,
+                Platform = model.Platform,
+                Username = account.Username,
+                Name = account.Name,
                 IP = model.IP,
                 IPv4 = model.IPv4,
                 IPv6 = model.IPv6,

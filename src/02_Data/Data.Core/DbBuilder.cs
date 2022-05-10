@@ -82,7 +82,7 @@ internal class DbBuilder : IDbBuilder
     {
         var sp = Services.BuildServiceProvider();
         var dbLogger = new DbLogger(Options, sp.GetService<IDbLoggerProvider>());
-        var accountResolver = sp.GetService<IAccountResolver>();
+        var accountResolver = sp.GetService<IOperatorResolver>();
 
         //获取数据库适配器的程序集
         var dbAdapterAssemblyName = Assembly.GetCallingAssembly().GetName().Name!.Replace("Core", "Adapter.") + Options.Provider;

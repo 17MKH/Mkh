@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Mkh.Data.Abstractions.Adapter;
@@ -135,5 +136,12 @@ internal class ColumnDescriptor : IColumnDescriptor
         //如果未自定义列名，则使用属性名称
         if (Name.IsNull())
             Name = property.Name;
+
+        //字段说明
+        var descriptionAttribute = PropertyInfo.GetCustomAttribute<DescriptionAttribute>();
+        if (descriptionAttribute != null)
+        {
+            Description = descriptionAttribute.Description;
+        }
     }
 }

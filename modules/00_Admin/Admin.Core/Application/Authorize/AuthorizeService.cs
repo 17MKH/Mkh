@@ -46,7 +46,7 @@ public class AuthorizeService : IAuthorizeService
         {
             new(MkhClaimTypes.TENANT_ID, loginResult.TenantId != null ? loginResult.TenantId.ToString() : ""),
             new(MkhClaimTypes.ACCOUNT_ID, loginResult.AccountId.ToString()),
-            new(MkhClaimTypes.USERNAME, loginResult.Username),
+            new(MkhClaimTypes.AccountName, loginResult.Name),
             new(MkhClaimTypes.PLATFORM, model.Platform.ToString()),
             new(MkhClaimTypes.LOGIN_TIME, model.LoginTime.ToString())
         };
@@ -75,7 +75,7 @@ public class AuthorizeService : IAuthorizeService
             {
                 new(MkhClaimTypes.TENANT_ID, account.TenantId != null ? account.TenantId.ToString() : ""),
                 new(MkhClaimTypes.ACCOUNT_ID, account.Id.ToString()),
-                new(MkhClaimTypes.USERNAME, account.Username),
+                new(MkhClaimTypes.AccountName, account.Username),
                 new(MkhClaimTypes.PLATFORM, dto.Platform.ToInt().ToString()),
                 new(MkhClaimTypes.LOGIN_TIME, DateTime.Now.ToTimestamp().ToString()),
                 new(MkhClaimTypes.LOGIN_IP, dto.IP)

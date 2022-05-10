@@ -37,7 +37,7 @@ public class AccountService : IAccountService
             .WhereNotNull(dto.Phone, m => m.Phone.Contains(m.Phone))
             .LeftJoin<RoleEntity>(m => m.T1.RoleId == m.T2.Id)
             .Select(m => new { m.T1, RoleName = m.T2.Name });
-
+        
         return query.ToPaginationResult(dto.Paging);
     }
 

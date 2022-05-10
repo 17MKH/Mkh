@@ -16,9 +16,9 @@ public static class MkhClaimTypes
     public const string ACCOUNT_ID = "id";
 
     /// <summary>
-    /// 用户名
+    /// 账户名称
     /// </summary>
-    public const string USERNAME = "un";
+    public const string AccountName = "an";
 
     /// <summary>
     /// 平台类型

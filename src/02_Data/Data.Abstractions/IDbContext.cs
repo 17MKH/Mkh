@@ -43,7 +43,7 @@ public interface IDbContext
     /// <summary>
     /// 账户信息解析器
     /// </summary>
-    IAccountResolver AccountResolver { get; }
+    IOperatorResolver AccountResolver { get; }
 
     /// <summary>
     /// 实体描述符列表

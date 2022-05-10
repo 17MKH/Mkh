@@ -53,9 +53,19 @@ public class EntityUpdateContext
     public IUnitOfWork Uow { get; set; }
 
     /// <summary>
-    /// 操作人
+    /// 租户编号
+    /// </summary>
+    public Guid? TenantId { get; set; }
+
+    /// <summary>
+    /// 操作人编号
     /// </summary>
     public Guid? Operator { get; set; }
+
+    /// <summary>
+    /// 操作人名称
+    /// </summary>
+    public string OperatorName { get; set; }
 
     /// <summary>
     /// 更新时间

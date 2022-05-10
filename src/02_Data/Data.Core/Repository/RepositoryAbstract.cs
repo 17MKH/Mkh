@@ -380,7 +380,7 @@ public abstract partial class RepositoryAbstract<TEntity> : IRepository<TEntity>
                     var creator = column.PropertyInfo.GetValue(entity);
                     if (creator == null)
                     {
-                        column.PropertyInfo.SetValue(entity, DbContext.AccountResolver.Username);
+                        column.PropertyInfo.SetValue(entity, DbContext.AccountResolver.AccountName);
                     }
                     continue;
                 }

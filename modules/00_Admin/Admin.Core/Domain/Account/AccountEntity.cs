@@ -32,6 +32,7 @@ public partial class AccountEntity : EntityBaseSoftDelete<Guid>, ITenant
     /// 用户姓名或者企业名称，具体是什么与业务有关
     /// </summary>
     [Length(250)]
+    [Description("姓名")]
     public string Name { get; set; }
 
     /// <summary>
@@ -39,6 +40,7 @@ public partial class AccountEntity : EntityBaseSoftDelete<Guid>, ITenant
     /// </summary>
     [Length(20)]
     [Nullable]
+    [Description("手机号")]
     public string Phone { get; set; }
 
     /// <summary>
@@ -46,11 +48,13 @@ public partial class AccountEntity : EntityBaseSoftDelete<Guid>, ITenant
     /// </summary>
     [Length(300)]
     [Nullable]
+    [Description("邮箱")]
     public string Email { get; set; }
 
     /// <summary>
     /// 状态
     /// </summary>
+    [Description("状态")]
     public AccountStatus Status { get; set; }
 
     /// <summary>

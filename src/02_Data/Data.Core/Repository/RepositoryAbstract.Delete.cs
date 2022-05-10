@@ -64,7 +64,9 @@ public abstract partial class RepositoryAbstract<TEntity>
                     TableName = tableName,
                     Uow = uow,
                     DeleteTime = DateTime.Now,
-                    Operator = DbContext.AccountResolver.AccountId
+                    TenantId = DbContext.AccountResolver.TenantId,
+                    Operator = DbContext.AccountResolver.AccountId,
+                    OperatorName = DbContext.AccountResolver.AccountName
                 });
             }
         }

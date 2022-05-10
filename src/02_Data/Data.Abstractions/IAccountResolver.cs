@@ -3,9 +3,9 @@ using System;
 namespace Mkh.Data.Abstractions;
 
 /// <summary>
-/// 账户信息解析器
+/// 操作员信息解析器
 /// </summary>
-public interface IAccountResolver
+public interface IOperatorResolver
 {
     /// <summary>
     /// 租户编号
@@ -20,5 +20,5 @@ public interface IAccountResolver
     /// <summary>
     /// 账户名称
     /// </summary>
-    public string Username { get; }
+    public string AccountName { get; }
 }
