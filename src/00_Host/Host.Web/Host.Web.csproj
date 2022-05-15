@@ -18,6 +18,7 @@
     <ProjectReference Include="..\..\06_Mapper\Mapper\Mapper.csproj" />
     <ProjectReference Include="..\..\07_Config\Config.Core\Config.Core.csproj" />
     <ProjectReference Include="..\..\08_Logging\Logging.Core\Logging.Core.csproj" />
+    <ProjectReference Include="..\..\10_Excel\Excel.Integration\Excel.Integration.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -120,6 +120,9 @@ public class HostBootstrap
         //添加后台服务
         services.AddBackgroundServices();
 
+        //excel导出配置
+        services.AddExcel(cfg);
+
         return modules;
     }
 
