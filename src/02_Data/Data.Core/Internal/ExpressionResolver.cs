@@ -483,21 +483,15 @@ public class ExpressionResolver
                     AppendValue(queryBody, val, sqlBuilder, parameters);
                     break;
                 case ExpressionType.MemberAccess:
-                    if (exp.Expression is MemberExpression subMemberExp && subMemberExp.Expression!.NodeType == ExpressionType.Constant)
+                    if (IsParameter(exp))
+                    {
+                        var columnName = queryBody.GetColumnName(exp);
+                        sqlBuilder.Append(columnName);
+                    }
+                    else
                     {
                         val = ResolveDynamicInvoke(exp);
                         AppendValue(queryBody, val, sqlBuilder, parameters);
-                    }
-                    else if (exp.Expression.Type.IsString())
-                    {
-                        var columnName = queryBody.GetColumnName(exp.Expression);
-                        sqlBuilder.AppendFormat("{0}", queryBody.DbAdapter.FunctionMapper(exp.Member.Name, columnName));
-                    }
-                    else if (DbConstants.ENTITY_INTERFACE_TYPE.IsImplementType(exp.Expression.Type))
-                    {
-                        //多表连接解析列信息，如：m.T1.Id
-                        var columnName = queryBody.GetColumnName(exp);
-                        sqlBuilder.Append(columnName);
                     }
                     break;
             }
@@ -545,17 +539,16 @@ public class ExpressionResolver
             default:
                 if (exp.Object != null)
                 {
-                    switch (exp.Object.NodeType)
+                    if (exp.Object is MemberExpression memberExpression && IsParameter(memberExpression))
                     {
-                        case ExpressionType.Constant:
-                            var val = ResolveDynamicInvoke(exp);
-                            AppendValue(queryBody, val, sqlBuilder, parameters);
-                            break;
-                        case ExpressionType.MemberAccess:
-                            columnName = queryBody.GetColumnName(exp!.Object);
-                            var args = Arguments2Object(exp.Arguments);
-                            sqlBuilder.AppendFormat("{0}", queryBody.DbAdapter.FunctionMapper(exp.Method.Name, columnName, exp.Object.Type, args));
-                            break;
+                        columnName = queryBody.GetColumnName(exp.Object);
+                        var args = Arguments2Object(exp.Arguments);
+                        sqlBuilder.AppendFormat("{0}", queryBody.DbAdapter.FunctionMapper(exp.Method.Name, columnName, exp.Object.Type, args));
+                    }
+                    else
+                    {
+                        var val = ResolveDynamicInvoke(exp);
+                        AppendValue(queryBody, val, sqlBuilder, parameters);
                     }
                 }
 
@@ -903,6 +896,16 @@ public class ExpressionResolver
             value = value.ToInt();
 
         return value;
+    }
+
+    private static bool IsParameter(MemberExpression exp)
+    {
+        if (exp.Expression is MemberExpression memberExpression)
+        {
+            return IsParameter(memberExpression);
+        }
+
+        return exp.Expression is ParameterExpression;
     }
 
     #endregion

@@ -25,13 +25,6 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="24">
-        <el-form-item :label="$t('mkh.remarks')" prop="remarks">
-          <el-input v-model="model.remarks" type="textarea" :rows="5" />
-        </el-form-item>
-      </el-col>
-    </el-row>
   </m-form-dialog>
 </template>
 <script>
@@ -46,7 +39,7 @@ export default {
   setup(props, { emit }) {
     const { store, $t } = mkh
     const api = mkh.api.admin.account
-    const model = reactive({ username: '', password: '', name: '', phone: '', email: '', remarks: '' })
+    const model = reactive({ username: '', password: '', name: '', phone: '', email: '' })
     const rules = computed(() => {
       return {
         username: [{ required: true, message: $t('mod.admin.input_username') }],

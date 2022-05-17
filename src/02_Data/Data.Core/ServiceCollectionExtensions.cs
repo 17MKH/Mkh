@@ -41,7 +41,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRepositoryManager, RepositoryManager>();
 
         //尝试添加默认账户信息解析器
-        services.TryAddSingleton<IOperatorResolver, DefaultAccountResolver>();
+        services.TryAddSingleton<IOperatorResolver, DefaultOperatorResolver>();
 
         //尝试添加默认的数据库操作日志记录器
         services.TryAddSingleton<IDbLoggerProvider, DbLoggerProvider>();

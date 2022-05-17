@@ -369,7 +369,7 @@ namespace Data.Adapter.MySql.Test
             var parameters = new QueryParameters();
             var sql = ExpressionResolver.Resolve(_queryBody, exp, parameters);
 
-            Assert.Equal("`Id` >= @P1", sql);
+            Assert.Equal("`PublishedTime` >= @P1", sql);
         }
 
         #region ==解析表==

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Module.Abstractions;
 using Swashbuckle.AspNetCore.Annotations;
@@ -12,10 +13,12 @@ namespace Mkh.Mod.Admin.Web.Controllers;
 public class CommonController : Web.ModuleController
 {
     private readonly IModuleCollection _moduleCollection;
+    private readonly IPlatformProvider _platformProvider;
 
-    public CommonController(IModuleCollection moduleCollection)
+    public CommonController(IModuleCollection moduleCollection, IPlatformProvider platformProvider)
     {
         _moduleCollection = moduleCollection;
+        _platformProvider = platformProvider;
     }
 
     /// <summary>
@@ -36,5 +39,15 @@ public class CommonController : Web.ModuleController
             return ResultModel.Success(new List<OptionResultModel>());
 
         return ResultModel.Success(enumDescriptor.Options);
+    }
+
+    /// <summary>
+    /// 平台下拉选项
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    public IResultModel PlatformOptions()
+    {
+        return ResultModel.Success(_platformProvider.SelectOptions());
     }
 }

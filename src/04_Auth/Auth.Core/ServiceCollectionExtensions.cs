@@ -43,7 +43,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
         //添加数据访问的账户解析器实现
-        services.TryAddSingleton<IOperatorResolver, AccountResolver>();
+        services.TryAddSingleton<IOperatorResolver, OperatorResolver>();
 
         //添加默认权限验证处理器
         services.TryAddSingleton<IPermissionValidateHandler, DefaultPermissionValidateHandler>();

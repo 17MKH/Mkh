@@ -1,4 +1,5 @@
-﻿using Mkh.Auth.Abstractions;
+﻿using System.Collections.Generic;
+using Mkh.Auth.Abstractions;
 
 namespace Mkh.Auth.Core;
 
@@ -13,5 +14,13 @@ internal class DefaultPlatformProvider : IPlatformProvider
             default:
                 return "Other";
         }
+    }
+
+    public List<OptionResultModel> SelectOptions()
+    {
+        return new List<OptionResultModel>
+        {
+            new() {Label = "Web", Value = 0},
+        };
     }
 }

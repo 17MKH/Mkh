@@ -524,7 +524,7 @@ public class QueryableSqlBuilder
         //先解析出要排除的列
         var excludeColumns = ResolveSelectExcludeColumns();
 
-        if (select == null)
+        if (select == null || select.Mode == QuerySelectMode.UnKnown)
         {
             //解析所有实体
             ResolveSelectForEntity(sqlBuilder, 0, excludeColumns);
@@ -726,10 +726,39 @@ public class QueryableSqlBuilder
     public void ResolveSort(StringBuilder sqlBuilder)
     {
         if (_queryBody.Sorts.IsNullOrEmpty())
-            return;
+        {
+            #region ==SqlServer分页需要指定排序==
+
+            //SqlServer分页需要指定排序，此处判断是否有主键，有主键默认按照主键排序
+            if (_queryBody.Take > 0 && _dbAdapter.Provider == DbProvider.SqlServer)
+            {
+                var first = _queryBody.Joins.First();
+                if (first.EntityDescriptor.PrimaryKey.IsNo)
+                {
+                    throw new Exception("SqlServer数据库没有主键的表需要指定排序字段才可以分页查询");
+                }
+
+                _queryBody.Sorts = new List<QuerySort>
+                {
+                    new QuerySort
+                    {
+                        Mode = QuerySortMode.Sql,
+                        Sql = _queryBody.Joins.Count > 1 ? $"{_dbAdapter.AppendQuote(first.Alias)}.{_dbAdapter.AppendQuote(first.EntityDescriptor.PrimaryKey.ColumnName)}" : first.EntityDescriptor.PrimaryKey.ColumnName,
+                        Type = SortType.Desc
+                    }
+                };
+            }
+            else
+            {
+                return;
+            }
+
+            #endregion
+        }
 
         var startLength = sqlBuilder.Length;
-        sqlBuilder.Append(" ORDER BY");
+        var orderBy = " ORDER BY";
+        sqlBuilder.Append(orderBy);
         foreach (var sort in _queryBody.Sorts)
         {
             if (sort.Mode == QuerySortMode.Lambda)
@@ -742,11 +771,11 @@ public class QueryableSqlBuilder
             }
         }
 
-        if (startLength + 9 == sqlBuilder.Length)
+        if (startLength + orderBy.Length == sqlBuilder.Length)
         {
-            sqlBuilder.Remove(sqlBuilder.Length - 9, 9);
+            sqlBuilder.Remove(sqlBuilder.Length - orderBy.Length, orderBy.Length);
         }
-        else if (startLength + 9 < sqlBuilder.Length)
+        else if (startLength + orderBy.Length < sqlBuilder.Length)
         {
             sqlBuilder.Remove(sqlBuilder.Length - 1, 1);
         }

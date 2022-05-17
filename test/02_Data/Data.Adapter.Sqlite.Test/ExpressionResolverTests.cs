@@ -362,12 +362,13 @@ namespace Data.Adapter.Sqlite.Test
         public void ResolveExpressionTest22()
         {
             var date = new DateTime(2022, 05, 09);
-            Expression<Func<ArticleEntity, bool>> exp = m => m.PublishedTime >= date.Date;
+            var dto = new { date };
+            Expression<Func<ArticleEntity, bool>> exp = m => m.PublishedTime >= dto.date.Date;
 
             var parameters = new QueryParameters();
             var sql = ExpressionResolver.Resolve(_queryBody, exp, parameters);
 
-            Assert.Equal("`Id` >= @P1", sql);
+            Assert.Equal("[PublishedTime] >= @P1", sql);
         }
 
         #region ==解析表==

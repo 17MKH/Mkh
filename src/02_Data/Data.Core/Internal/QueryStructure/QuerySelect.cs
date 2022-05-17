@@ -44,6 +44,10 @@ public class QuerySelect
 public enum QuerySelectMode
 {
     /// <summary>
+    /// UnKnown
+    /// </summary>
+    UnKnown,
+    /// <summary>
     /// Lambda
     /// </summary>
     Lambda,

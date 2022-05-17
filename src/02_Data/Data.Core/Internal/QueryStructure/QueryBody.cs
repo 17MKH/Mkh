@@ -290,6 +290,8 @@ public class QueryBody
     public string GetColumnName(Expression expression)
     {
         var join = GetJoin(expression as MemberExpression);
+        if (join == null) return null;
+
         var columnName = join.Item2.Name;
         //只有一个实体的时候，不需要别名
         if (Joins.Count == 1)

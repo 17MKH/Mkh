@@ -46,7 +46,8 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
             LoginMode = LoginMode.Username,
             Platform = model.Platform,
             LoginTime = DateTime.Now,
-            UserAgent = model.UserAgent
+            UserAgent = model.UserAgent,
+            IP = model.IP
         };
 
         try
@@ -86,7 +87,7 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
             model.Username = username;
 
             //解析租户
-            var tenantId = await _tenantResolver.Resolve();
+            var tenantId = await _tenantResolver.ResolveId();
 
             loginLog.TenantId = tenantId;
 
@@ -105,6 +106,7 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
             }
 
             loginLog.AccountId = account.Id;
+            loginLog.AccountName = account.Name;
 
             //账户禁用
             if (account.Status == AccountStatus.Disabled)
@@ -127,7 +129,7 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
                 AccountId = account.Id,
                 Platform = model.Platform,
                 Username = account.Username,
-                Name = account.Name,
+                AccountName = account.Name,
                 IP = model.IP,
                 IPv4 = model.IPv4,
                 IPv6 = model.IPv6,

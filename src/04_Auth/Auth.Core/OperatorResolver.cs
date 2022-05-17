@@ -5,11 +5,11 @@ using Mkh.Data.Abstractions;
 
 namespace Mkh.Auth.Core;
 
-internal class AccountResolver : IOperatorResolver
+internal class OperatorResolver : IOperatorResolver
 {
     private readonly IHttpContextAccessor _contextAccessor;
 
-    public AccountResolver(IHttpContextAccessor contextAccessor)
+    public OperatorResolver(IHttpContextAccessor contextAccessor)
     {
         _contextAccessor = contextAccessor;
     }
@@ -51,7 +51,7 @@ internal class AccountResolver : IOperatorResolver
     {
         get
         {
-            var accountName = _contextAccessor?.HttpContext?.User?.FindFirst(MkhClaimTypes.AccountName);
+            var accountName = _contextAccessor?.HttpContext?.User?.FindFirst(MkhClaimTypes.ACCOUNT_NAME);
 
             if (accountName == null || accountName.Value.IsNull())
             {

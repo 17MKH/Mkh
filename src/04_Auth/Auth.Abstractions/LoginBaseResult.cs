@@ -23,9 +23,9 @@ namespace Mkh.Auth.Abstractions
         public string Username { get; set; }
 
         /// <summary>
-        /// 姓名
+        /// 账户姓名
         /// </summary>
-        public string Name { get; set; }
+        public string AccountName { get; set; }
 
         /// <summary>
         /// 应用平台

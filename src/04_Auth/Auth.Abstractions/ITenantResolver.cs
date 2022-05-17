@@ -9,8 +9,15 @@ namespace Mkh.Auth.Abstractions;
 public interface ITenantResolver
 {
     /// <summary>
-    /// 解析
+    /// 解析租户编号
     /// </summary>
     /// <returns></returns>
-    Task<Guid?> Resolve();
+    Task<Guid?> ResolveId();
+
+    /// <summary>
+    /// 获取租户名称
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task<string> GetTenantName(Guid? id);
 }

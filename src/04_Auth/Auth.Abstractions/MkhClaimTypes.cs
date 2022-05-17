@@ -11,6 +11,11 @@ public static class MkhClaimTypes
     public const string TENANT_ID = "td";
 
     /// <summary>
+    /// 租户名称
+    /// </summary>
+    public const string TENANT_NAME = "tn";
+
+    /// <summary>
     /// 账户编号
     /// </summary>
     public const string ACCOUNT_ID = "id";
@@ -18,7 +23,7 @@ public static class MkhClaimTypes
     /// <summary>
     /// 账户名称
     /// </summary>
-    public const string AccountName = "an";
+    public const string ACCOUNT_NAME = "an";
 
     /// <summary>
     /// 平台类型
