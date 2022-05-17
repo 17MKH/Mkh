@@ -15,5 +15,5 @@ public class QuerySortDto
     /// <summary>
     /// 排序类型
     /// </summary>
-    public string Order { get; set; }
+    public SortType Type { get; set; }
 }

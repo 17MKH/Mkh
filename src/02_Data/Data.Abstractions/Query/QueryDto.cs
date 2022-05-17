@@ -30,7 +30,7 @@ public abstract class QueryDto
                 {
                     foreach (var sort in Page.Sort)
                     {
-                        _paging.OrderBy.Add(new Sort(sort.Field, sort.Order == "ascending" ? SortType.Asc : SortType.Desc));
+                        _paging.OrderBy.Add(new Sort(sort.Field, sort.Type));
                     }
                 }
             }
