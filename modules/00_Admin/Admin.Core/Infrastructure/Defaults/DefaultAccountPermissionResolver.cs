@@ -17,9 +17,9 @@ internal class DefaultAccountPermissionResolver : IAccountPermissionResolver
     private readonly IAccountRepository _accountRepository;
     private readonly IRolePermissionRepository _rolePermissionRepository;
     private readonly AdminCacheKeys _cacheKeys;
-    private readonly ICacheHandler _cacheHandler;
+    private readonly ICacheProvider _cacheHandler;
 
-    public DefaultAccountPermissionResolver(IAccountRepository accountRepository, IRolePermissionRepository rolePermissionRepository, AdminCacheKeys cacheKeys, ICacheHandler cacheHandler)
+    public DefaultAccountPermissionResolver(IAccountRepository accountRepository, IRolePermissionRepository rolePermissionRepository, AdminCacheKeys cacheKeys, ICacheProvider cacheHandler)
     {
         _accountRepository = accountRepository;
         _rolePermissionRepository = rolePermissionRepository;

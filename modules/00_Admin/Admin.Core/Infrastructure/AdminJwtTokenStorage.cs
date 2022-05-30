@@ -16,10 +16,10 @@ internal class AdminJwtTokenStorage : IJwtTokenStorage
 {
     private readonly IJwtAuthInfoRepository _repository;
     private readonly JwtOptions _jwtOptions;
-    private readonly ICacheHandler _cacheHandler;
+    private readonly ICacheProvider _cacheHandler;
     private readonly AdminCacheKeys _cacheKeys;
 
-    public AdminJwtTokenStorage(IJwtAuthInfoRepository repository, JwtOptions jwtOptions, ICacheHandler cacheHandler, AdminCacheKeys cacheKeys)
+    public AdminJwtTokenStorage(IJwtAuthInfoRepository repository, JwtOptions jwtOptions, ICacheProvider cacheHandler, AdminCacheKeys cacheKeys)
     {
         _repository = repository;
         _jwtOptions = jwtOptions;

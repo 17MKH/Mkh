@@ -68,7 +68,7 @@ public class ResultModel<T> : IResultModel<T>
 /// <summary>
 /// 返回结果
 /// </summary>
-public static class ResultModel
+public static partial class ResultModel
 {
     /// <summary>
     /// 成功

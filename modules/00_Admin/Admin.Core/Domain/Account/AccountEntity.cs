@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Mkh.Data.Abstractions.Annotations;
 using Mkh.Data.Abstractions.Entities;
+using Mkh.Excel.Abstractions.Annotations;
 
 namespace Mkh.Mod.Admin.Core.Domain.Account;
 
@@ -26,6 +27,7 @@ public partial class AccountEntity : EntityBaseSoftDelete<Guid>, ITenant
     /// <summary>
     /// 密码
     /// </summary>
+    [IgnoreOnExcelExport]
     public string Password { get; set; }
 
     /// <summary>

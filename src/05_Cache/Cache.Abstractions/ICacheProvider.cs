@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 namespace Mkh.Cache.Abstractions;
 
 /// <summary>
-/// 缓存处理器
+/// 缓存提供器
 /// </summary>
-public interface ICacheHandler
+public interface ICacheProvider
 {
     /// <summary>
     /// 获取

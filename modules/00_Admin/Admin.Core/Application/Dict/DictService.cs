@@ -20,11 +20,11 @@ public class DictService : IDictService
     private readonly IDictRepository _repository;
     private readonly IDictGroupRepository _groupRepository;
     private readonly IDictItemRepository _itemRepository;
-    private readonly ICacheHandler _cacheHandler;
+    private readonly ICacheProvider _cacheHandler;
     private readonly AdminCacheKeys _cacheKeys;
     private readonly AdminLocalizer _localizer;
 
-    public DictService(IMapper mapper, IDictRepository repository, IDictGroupRepository groupRepository, IDictItemRepository itemRepository, ICacheHandler cacheHandler, AdminCacheKeys cacheKeys, AdminLocalizer localizer)
+    public DictService(IMapper mapper, IDictRepository repository, IDictGroupRepository groupRepository, IDictItemRepository itemRepository, ICacheProvider cacheHandler, AdminCacheKeys cacheKeys, AdminLocalizer localizer)
     {
         _mapper = mapper;
         _repository = repository;

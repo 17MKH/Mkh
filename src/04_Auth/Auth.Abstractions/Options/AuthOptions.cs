@@ -29,4 +29,9 @@ public class AuthOptions
     /// 启用检测用户IP地址
     /// </summary>
     public bool EnableCheckIP { get; set; } = true;
+
+    /// <summary>
+    /// 对登录凭证进行加密
+    /// </summary>
+    public bool EncryptCert { get; set; } = true;
 }

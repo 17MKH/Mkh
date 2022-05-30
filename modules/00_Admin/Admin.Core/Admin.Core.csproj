@@ -12,6 +12,7 @@
     <ProjectReference Include="..\..\..\src\05_Cache\Cache.Abstractions\Cache.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\src\07_Config\Config.Abstractions\Config.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\src\08_Logging\Logging.Abstractions\Logging.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\10_Excel\Excel.Abstractions\Excel.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

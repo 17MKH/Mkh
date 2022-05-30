@@ -1,4 +1,5 @@
 ﻿using Mkh.Cache.Abstractions;
+using Mkh.Cache.Core;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
@@ -6,14 +7,14 @@ namespace Microsoft.Extensions.DependencyInjection;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// 添加Redis缓存
+    /// 添加缓存
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static CacheBuilder AddCache(this IServiceCollection services)
+    public static ICacheBuilder AddCache(this IServiceCollection services)
     {
-        services.AddSingleton<ICacheHandler, MemoryCacheHandler>();
+        services.AddSingleton<ICacheProvider, MemoryCacheHandler>();
 
-        return new CacheBuilder { Services = services };
+        return new CacheBuilder(services);
     }
 }

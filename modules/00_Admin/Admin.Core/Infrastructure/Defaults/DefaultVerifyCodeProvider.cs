@@ -26,11 +26,11 @@ internal class DefaultVerifyCodeProvider : IVerifyCodeProvider
     private readonly Color[] _colors = new[] { Color.Black, Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Brown, Color.Brown, Color.DarkBlue };
 
     private readonly StringHelper _stringHelper;
-    private readonly ICacheHandler _cacheHandler;
+    private readonly ICacheProvider _cacheHandler;
     private readonly IOptionsMonitor<AuthOptions> _authOptions;
     private readonly AdminCacheKeys _cacheKeys;
 
-    public DefaultVerifyCodeProvider(StringHelper stringHelper, ICacheHandler cacheHandler, IOptionsMonitor<AuthOptions> authOptions, AdminCacheKeys cacheKeys)
+    public DefaultVerifyCodeProvider(StringHelper stringHelper, ICacheProvider cacheHandler, IOptionsMonitor<AuthOptions> authOptions, AdminCacheKeys cacheKeys)
     {
         _stringHelper = stringHelper;
         _cacheHandler = cacheHandler;

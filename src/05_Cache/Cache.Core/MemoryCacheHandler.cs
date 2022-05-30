@@ -5,10 +5,11 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
+using Mkh.Cache.Abstractions;
 
-namespace Mkh.Cache.Abstractions;
+namespace Mkh.Cache.Core;
 
-public class MemoryCacheHandler : ICacheHandler
+public class MemoryCacheHandler : ICacheProvider
 {
     private readonly IMemoryCache _cache;
 

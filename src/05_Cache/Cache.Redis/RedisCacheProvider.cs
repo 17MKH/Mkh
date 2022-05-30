@@ -4,11 +4,11 @@ using Mkh.Cache.Abstractions;
 
 namespace Mkh.Cache.Redis;
 
-public class RedisCacheHandler : ICacheHandler
+public class RedisCacheProvider : ICacheProvider
 {
     private readonly RedisHelper _helper;
 
-    public RedisCacheHandler(RedisHelper helper)
+    public RedisCacheProvider(RedisHelper helper)
     {
         _helper = helper;
     }

@@ -65,17 +65,21 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
 
             //查询账户
             var msg = _localizer["用户名或密码错误"];
-            string username;
-            string password;
-            try
+            string username = model.Username;
+            string password = model.Password;
+
+            if (_authOptions.CurrentValue.EncryptCert)
             {
-                username = model.Username.FromBase64();
-                password = model.Password.FromBase64();
-            }
-            catch
-            {
-                loginLog.Error = msg;
-                return result.Failed(msg);
+                try
+                {
+                    username = model.Username.FromBase64();
+                    password = model.Password.FromBase64();
+                }
+                catch
+                {
+                    loginLog.Error = msg;
+                    return result.Failed(msg);
+                }
             }
 
             if (username.IsNull() || password.IsNull())
@@ -83,8 +87,6 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
                 loginLog.Error = msg;
                 return result.Failed(msg);
             }
-
-            model.Username = username;
 
             //解析租户
             var tenantId = await _tenantResolver.ResolveId();
@@ -98,7 +100,7 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
                 return result.Failed(msg);
             }
 
-            password = _passwordHandler.Encrypt(model.Password.FromBase64());
+            password = _passwordHandler.Encrypt(password);
             if (!account.Password.Equals(password))
             {
                 loginLog.Error = msg;
@@ -135,7 +137,7 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
                 IPv6 = model.IPv6,
                 LoginTime = DateTime.Now.ToTimestamp(),
                 TenantId = account.TenantId,
-                UserAgent = model.Username
+                UserAgent = model.UserAgent
             });
         }
         finally

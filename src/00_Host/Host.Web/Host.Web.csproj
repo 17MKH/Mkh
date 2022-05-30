@@ -13,12 +13,13 @@
     <ProjectReference Include="..\..\02_Data\Data.Core\Data.Core.csproj" />
     <ProjectReference Include="..\..\03_Module\Module.Web\Module.Web.csproj" />
     <ProjectReference Include="..\..\04_Auth\Auth.Jwt\Auth.Jwt.csproj" />
-    <ProjectReference Include="..\..\05_Cache\Cache.Abstractions\Cache.Abstractions.csproj" />
+    <ProjectReference Include="..\..\05_Cache\Cache.Core\Cache.Core.csproj" />
     <ProjectReference Include="..\..\05_Cache\Cache.Redis\Cache.Redis.csproj" />
     <ProjectReference Include="..\..\06_Mapper\Mapper\Mapper.csproj" />
     <ProjectReference Include="..\..\07_Config\Config.Core\Config.Core.csproj" />
     <ProjectReference Include="..\..\08_Logging\Logging.Core\Logging.Core.csproj" />
-    <ProjectReference Include="..\..\10_Excel\Excel.Integration\Excel.Integration.csproj" />
+    <ProjectReference Include="..\..\10_Excel\Excel.Core\Excel.Core.csproj" />
+    <ProjectReference Include="..\..\10_Excel\Providers\Excel.EPPlus\Excel.EPPlus.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -24,11 +24,11 @@ public class RoleService : IRoleService
     private readonly IRoleButtonRepository _roleButtonRepository;
     private readonly IRolePermissionRepository _rolePermissionRepository;
     private readonly IAccountRepository _accountRepository;
-    private readonly ICacheHandler _cacheHandler;
+    private readonly ICacheProvider _cacheHandler;
     private readonly AdminCacheKeys _cacheKeys;
     private readonly AdminLocalizer _localizer;
 
-    public RoleService(IRoleRepository repository, IMapper mapper, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository, ICacheHandler cacheHandler, AdminCacheKeys cacheKeys, IAccountRepository accountRepository, AdminLocalizer localizer)
+    public RoleService(IRoleRepository repository, IMapper mapper, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository, ICacheProvider cacheHandler, AdminCacheKeys cacheKeys, IAccountRepository accountRepository, AdminLocalizer localizer)
     {
         _repository = repository;
         _mapper = mapper;

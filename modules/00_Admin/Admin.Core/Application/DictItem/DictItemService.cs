@@ -16,11 +16,11 @@ public class DictItemService : IDictItemService
     private readonly IDictItemRepository _repository;
     private readonly IDictRepository _dictRepository;
     private readonly IDictGroupRepository _dictGroupRepository;
-    private readonly ICacheHandler _cacheHandler;
+    private readonly ICacheProvider _cacheHandler;
     private readonly AdminCacheKeys _cacheKeys;
     private readonly AdminLocalizer _localizer;
 
-    public DictItemService(IMapper mapper, IDictItemRepository repository, IDictRepository dictRepository, IDictGroupRepository dictGroupRepository, ICacheHandler cacheHandler, AdminCacheKeys cacheKeys, AdminLocalizer localizer)
+    public DictItemService(IMapper mapper, IDictItemRepository repository, IDictRepository dictRepository, IDictGroupRepository dictGroupRepository, ICacheProvider cacheHandler, AdminCacheKeys cacheKeys, AdminLocalizer localizer)
     {
         _mapper = mapper;
         _repository = repository;

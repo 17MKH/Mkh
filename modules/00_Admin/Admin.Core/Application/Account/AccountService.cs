@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Mkh.Config.Abstractions;
+using Mkh.Data.Abstractions.Query;
+using Mkh.Excel.Abstractions;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Domain.AccountSkin;
@@ -18,8 +20,9 @@ public class AccountService : IAccountService
     private readonly IPasswordHandler _passwordHandler;
     private readonly IAccountSkinRepository _skinRepository;
     private readonly IConfigProvider _configProvider;
+    private readonly IExcelProvider _excelProvider;
 
-    public AccountService(IMapper mapper, IAccountRepository repository, IPasswordHandler passwordHandler, IRoleRepository roleRepository, IAccountSkinRepository skinRepository, IConfigProvider configProvider)
+    public AccountService(IMapper mapper, IAccountRepository repository, IPasswordHandler passwordHandler, IRoleRepository roleRepository, IAccountSkinRepository skinRepository, IConfigProvider configProvider, IExcelProvider excelProvider)
     {
         _mapper = mapper;
         _repository = repository;
@@ -27,18 +30,14 @@ public class AccountService : IAccountService
         _roleRepository = roleRepository;
         _skinRepository = skinRepository;
         _configProvider = configProvider;
+        _excelProvider = excelProvider;
     }
 
-    public Task<IResultModel> Query(AccountQueryDto dto)
+    public async Task<IResultModel> Query(AccountQueryDto dto)
     {
-        var query = _repository.Find()
-            .WhereNotNull(dto.Username, m => m.Username == dto.Username)
-            .WhereNotNull(dto.Name, m => m.Name.Contains(dto.Name))
-            .WhereNotNull(dto.Phone, m => m.Phone.Contains(m.Phone))
-            .LeftJoin<RoleEntity>(m => m.T1.RoleId == m.T2.Id)
-            .Select(m => new { m.T1, RoleName = m.T2.Name });
-        
-        return query.ToPaginationResult(dto.Paging);
+        var list = await _repository.Query(dto);
+        var result = new QueryResultModel<AccountEntity>(list, dto.Paging.TotalCount);
+        return ResultModel.Success(result);
     }
 
     public async Task<IResultModel> Add(AccountAddDto dto)

@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Mkh.Data.Abstractions;
+using Microsoft.Extensions.Options;
+using Mkh.Cache.Redis;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Core;
+using Mkh.Excel.Abstractions;
+using Mkh.Excel.Core;
+using Mkh.Excel.EPPlus;
 using Mkh.Host.Web.BackgroundServices;
 using Mkh.Host.Web.Filters;
 using Mkh.Host.Web.Swagger.Conventions;
@@ -175,6 +179,19 @@ internal static class ServiceCollectionExtensions
     }
 
     /// <summary>
+    /// 添加后台服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddBackgroundServices(this IServiceCollection services)
+    {
+        //添加创建表后台服务
+        services.AddHostedService<CreateTableBackgroundService>();
+
+        return services;
+    }
+
+    /// <summary>
     /// 添加缓存
     /// </summary>
     /// <param name="services"></param>
@@ -184,24 +201,36 @@ internal static class ServiceCollectionExtensions
     {
         var builder = services.AddCache();
 
-        var provider = cfg["Mkh:Cache:Provider"].ToInt();
-        if (provider == 1)
+        var provider = cfg["Mkh:Cache:Provider"];
+
+        if (provider != null && provider.ToLower() == "redis")
         {
             builder.UseRedis(cfg);
         }
+
+        builder.Build();
 
         return services;
     }
 
     /// <summary>
-    /// 添加后台服务
+    /// 添加Excel
     /// </summary>
     /// <param name="services"></param>
+    /// <param name="cfg"></param>
     /// <returns></returns>
-    public static IServiceCollection AddBackgroundServices(this IServiceCollection services)
+    public static IServiceCollection AddExcel(this IServiceCollection services, IConfiguration cfg)
     {
-        //添加创建表后台服务
-        services.AddHostedService<CreateTableBackgroundService>();
+        services.Configure<ExcelOptions>(cfg.GetSection("Mkh:Excel"));
+
+        services.AddExcel(builder =>
+        {
+            var options = services.BuildServiceProvider().GetService<IOptions<ExcelOptions>>().Value;
+            if (options.Provider.IsNull() || options.Provider.Equals("epplus", StringComparison.OrdinalIgnoreCase))
+            {
+                builder.UseEPPlus();
+            }
+        });
 
         return services;
     }
