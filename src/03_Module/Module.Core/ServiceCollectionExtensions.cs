@@ -67,6 +67,75 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
+    /// 添加模块相关服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="modules"></param>
+    /// <param name="environment"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddModulePreServices(this IServiceCollection services, IModuleCollection modules, IHostEnvironment environment, IConfiguration configuration)
+    {
+        foreach (var module in modules)
+        {
+            if (module == null)
+                continue;
+
+            //加载模块初始化器
+            if (module.ServicesConfigurator != null)
+            {
+                var context = new ModuleConfigureContext
+                {
+                    Modules = modules,
+                    Services = services,
+                    Environment = environment,
+                    Configuration = configuration
+                };
+
+                module.ServicesConfigurator.PreConfigure(context);
+            }
+
+        }
+
+        return services;
+    }
+
+    /// <summary>
+    /// 添加模块相关服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="modules"></param>
+    /// <param name="environment"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddModulePostServices(this IServiceCollection services, IModuleCollection modules, IHostEnvironment environment, IConfiguration configuration)
+    {
+        foreach (var module in modules)
+        {
+            if (module == null)
+                continue;
+
+            //加载模块初始化器
+            if (module.ServicesConfigurator != null)
+            {
+                var context = new ModuleConfigureContext
+                {
+                    Modules = modules,
+                    Services = services,
+                    Environment = environment,
+                    Configuration = configuration
+                };
+
+                module.ServicesConfigurator.PostConfigure(context);
+            }
+
+        }
+
+        return services;
+    }
+
+
+    /// <summary>
     /// 添加应用服务
     /// </summary>
     /// <param name="services"></param>

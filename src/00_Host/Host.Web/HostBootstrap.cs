@@ -78,6 +78,9 @@ public class HostBootstrap
         //添加模块
         var modules = services.AddModulesCore(env, cfg);
 
+        //添加模块的前置服务
+        services.AddModulePreServices(modules, env, cfg);
+
         //添加Swagger
         services.AddSwagger(modules, options, env);
 
@@ -106,11 +109,11 @@ public class HostBootstrap
         //添加日志功能
         services.AddMkhLogging();
 
-        //添加模块的自定义特有的服务
-        services.AddModuleServices(modules, env, cfg);
-
         //添加配置功能
         services.AddConfig(cfg, modules);
+
+        //添加模块的自定义特有的服务
+        services.AddModuleServices(modules, env, cfg);
 
         //添加身份认证和授权
         services.AddMkhAuth(cfg).UseJwt();
@@ -123,6 +126,9 @@ public class HostBootstrap
 
         //excel导出配置
         services.AddExcel(cfg);
+
+        //添加模块的后置服务
+        services.AddModulePostServices(modules, env, cfg);
 
         return modules;
     }

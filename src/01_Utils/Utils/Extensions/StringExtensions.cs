@@ -28,6 +28,17 @@ public static class StringExtensions
     }
 
     /// <summary>
+    /// 判断字符串是否为Null、空，如果是则返回字符串本身，如果不是则返回默认值
+    /// </summary>
+    /// <param name="s"></param>
+    /// <param name="defaultValue">默认值</param>
+    /// <returns></returns>
+    public static string IsNull(this string s, string defaultValue)
+    {
+        return s.IsNull() ? defaultValue : s;
+    }
+
+    /// <summary>
     /// 与字符串进行比较，忽略大小写
     /// </summary>
     /// <param name="s"></param>

@@ -7,8 +7,20 @@
 public interface IModuleServicesConfigurator
 {
     /// <summary>
-    /// 注入服务
+    /// 前置服务注入
+    /// </summary>
+    /// <param name="context"></param>
+    void PreConfigure(ModuleConfigureContext context);
+
+    /// <summary>
+    /// 服务注入
     /// </summary>
     /// <param name="context"></param>
     void Configure(ModuleConfigureContext context);
+
+    /// <summary>
+    /// 后置服务注入
+    /// </summary>
+    /// <param name="context"></param>
+    void PostConfigure(ModuleConfigureContext context);
 }
