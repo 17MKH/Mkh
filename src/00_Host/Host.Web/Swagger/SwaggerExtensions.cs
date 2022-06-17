@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Mkh.Host.Web.Swagger.Filters;
 using Mkh.Module.Abstractions;
 using HostOptions = Mkh.Host.Web.Options.HostOptions;
 
@@ -37,8 +38,6 @@ public static class SwaggerExtensions
                             Description = module.Description
                         });
 
-                        //启用注解
-                        c.EnableAnnotations();
 
                         //加载xml文档
                         var xmlPath = module.LayerAssemblies.Web.Location.Replace(".dll", ".xml", StringComparison.OrdinalIgnoreCase);
@@ -81,8 +80,12 @@ public static class SwaggerExtensions
                     }
                 });
 
+                //启用注解
+                c.EnableAnnotations();
+
                 //隐藏属性
-                //c.SchemaFilter<IgnorePropertySchemaFilter>();
+                c.SchemaFilter<SwaggerIgnoreSchemaFilter>();
+                c.OperationFilter<SwaggerIgnoreOperationFilter>();
             });
         }
 

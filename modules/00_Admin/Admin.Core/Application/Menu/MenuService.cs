@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions.Annotations;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.Menu.Dto;
 using Mkh.Mod.Admin.Core.Domain.Menu;
 using Mkh.Mod.Admin.Core.Domain.RoleButton;
@@ -34,7 +35,7 @@ public class MenuService : IMenuService
         _localizer = localizer;
     }
 
-    public Task<IResultModel> Query(MenuQueryDto dto)
+    public Task<PagingQueryResultModel<MenuEntity>> Query(MenuQueryDto dto)
     {
         var query = _repository.Find(m => m.GroupId == dto.GroupId && m.ParentId == dto.ParentId);
         query.OrderBy(m => m.Sort);

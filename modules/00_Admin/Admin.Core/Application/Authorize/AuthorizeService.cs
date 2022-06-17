@@ -8,6 +8,7 @@ using Mkh.Auth.Abstractions.LoginHandlers;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Auth.Jwt;
 using Mkh.Mod.Admin.Core.Application.Authorize.Dto;
+using Mkh.Mod.Admin.Core.Application.Authorize.Vo;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Infrastructure;
 
@@ -22,7 +23,9 @@ public class AuthorizeService : IAuthorizeService
     private readonly IJwtTokenStorage _jwtTokenStorageProvider;
     private readonly IUsernameLoginHandler _usernameLoginHandler;
     private readonly IOptionsMonitor<AuthOptions> _authOptions;
-    public AuthorizeService(IAccountRepository accountRepository, IAccountProfileResolver accountProfileResolver, ICredentialClaimExtender credentialClaimExtender, ICredentialBuilder credentialBuilder, IJwtTokenStorage jwtTokenStorageProvider, IUsernameLoginHandler usernameLoginHandler, IOptionsMonitor<AuthOptions> authOptions)
+    private readonly AdminLocalizer _localizer;
+
+    public AuthorizeService(IAccountRepository accountRepository, IAccountProfileResolver accountProfileResolver, ICredentialClaimExtender credentialClaimExtender, ICredentialBuilder credentialBuilder, IJwtTokenStorage jwtTokenStorageProvider, IUsernameLoginHandler usernameLoginHandler, IOptionsMonitor<AuthOptions> authOptions, AdminLocalizer localizer)
     {
         _accountRepository = accountRepository;
         _accountProfileResolver = accountProfileResolver;
@@ -31,13 +34,14 @@ public class AuthorizeService : IAuthorizeService
         _jwtTokenStorageProvider = jwtTokenStorageProvider;
         _usernameLoginHandler = usernameLoginHandler;
         _authOptions = authOptions;
+        _localizer = localizer;
     }
 
-    public async Task<IResultModel> UsernameLogin(UsernameLoginModel model)
+    public async Task<IResultModel<ICredential>> UsernameLogin(UsernameLoginModel model)
     {
         var result = await _usernameLoginHandler.Handle(model);
         if (!result.Successful)
-            return ResultModel.Failed(result.Msg);
+            return ResultModel.Failed<ICredential>(result.Msg);
 
         var loginResult = result.Data;
 
@@ -64,7 +68,7 @@ public class AuthorizeService : IAuthorizeService
         return ResultModel.Success(await _credentialBuilder.Build(claims));
     }
 
-    public async Task<IResultModel> RefreshToken(RefreshTokenDto dto)
+    public async Task<IResultModel<JwtCredential>> RefreshToken(RefreshTokenDto dto)
     {
         var accountId = await _jwtTokenStorageProvider.CheckRefreshToken(dto.RefreshToken, dto.Platform);
         if (accountId != Guid.Empty)
@@ -95,17 +99,17 @@ public class AuthorizeService : IAuthorizeService
             return ResultModel.Success(jwtCredential);
         }
 
-        return ResultModel.Failed("令牌无效");
+        return ResultModel.Failed<JwtCredential>(_localizer["令牌无效"]);
     }
 
-    public async Task<IResultModel> GetProfile(Guid accountId, int platform)
+    public async Task<IResultModel<ProfileVo>> GetProfile(Guid accountId, int platform)
     {
         var account = await _accountRepository.Get(accountId);
         if (account == null)
-            return ResultModel.Failed("账户不存在");
+            return ResultModel.Failed<ProfileVo>(_localizer["账户不存在"]);
 
         if (account.Status == AccountStatus.Disabled)
-            return ResultModel.Failed("账户已禁用，请联系管理员");
+            return ResultModel.Failed<ProfileVo>(_localizer["账户已禁用，请联系管理员"]);
 
         var profile = await _accountProfileResolver.Resolve(account, platform);
 

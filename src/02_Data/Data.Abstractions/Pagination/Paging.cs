@@ -77,4 +77,11 @@ public class Paging
     /// 排序
     /// </summary>
     public List<Sort> OrderBy { get; } = new List<Sort>();
+
+    public Test Test { get; set; }
+}
+
+public class Test
+{
+    public int Id { get; set; }
 }

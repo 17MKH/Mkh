@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Auth.Abstractions.LoginHandlers;
+using Mkh.Auth.Jwt;
 using Mkh.Mod.Admin.Core.Application.Authorize;
 using Mkh.Mod.Admin.Core.Application.Authorize.Dto;
+using Mkh.Mod.Admin.Core.Application.Authorize.Vo;
 using Mkh.Mod.Admin.Core.Infrastructure;
 using Mkh.Utils.Web;
 
@@ -36,9 +38,9 @@ public class AuthorizeController : Web.ModuleController
     /// <returns></returns>
     [HttpGet]
     [AllowAnonymous]
-    public Task<IResultModel> VerifyCode()
+    public async Task<IResultModel> VerifyCode()
     {
-        return ResultModel.SuccessAsync(_verifyCodeProvider.Create());
+        return ResultModel.Success(await _verifyCodeProvider.Create());
     }
 
     /// <summary>
@@ -48,7 +50,7 @@ public class AuthorizeController : Web.ModuleController
     [HttpPost]
     [AllowAnonymous]
     [DisableAudit]
-    public Task<IResultModel> Login(UsernameLoginModel model)
+    public Task<IResultModel<ICredential>> Login(UsernameLoginModel model)
     {
         model.IP = _ipResolver.IP;
         model.IPv4 = _ipResolver.IPv4;
@@ -65,7 +67,7 @@ public class AuthorizeController : Web.ModuleController
     /// <returns></returns>
     [HttpPost]
     [AllowAnonymous]
-    public Task<IResultModel> RefreshToken(RefreshTokenDto dto)
+    public Task<IResultModel<JwtCredential>> RefreshToken(RefreshTokenDto dto)
     {
         dto.IP = _ipResolver.IP;
         return _service.RefreshToken(dto);
@@ -77,7 +79,7 @@ public class AuthorizeController : Web.ModuleController
     /// <returns></returns>
     [HttpGet]
     [AllowWhenAuthenticated]
-    public Task<IResultModel> Profile()
+    public Task<IResultModel<ProfileVo>> Profile()
     {
         return _service.GetProfile(_account.Id, _account.Platform);
     }

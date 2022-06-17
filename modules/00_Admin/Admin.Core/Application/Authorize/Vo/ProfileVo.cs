@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mkh.Utils.Annotations;
 
 namespace Mkh.Mod.Admin.Core.Application.Authorize.Vo;
 

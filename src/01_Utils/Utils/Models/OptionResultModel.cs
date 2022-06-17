@@ -31,7 +31,7 @@ public class OptionResultModel<T>
     /// <summary>
     /// 子级
     /// </summary>
-    public List<OptionResultModel> Children { get; set; }
+    public List<OptionResultModel<T>> Children { get; set; }
 }
 
 /// <summary>
@@ -39,4 +39,8 @@ public class OptionResultModel<T>
 /// </summary>
 public class OptionResultModel : OptionResultModel<object>
 {
+    /// <summary>
+    /// 子级
+    /// </summary>
+    public new List<OptionResultModel> Children { get; set; }
 }

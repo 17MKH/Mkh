@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.MenuGroup.Dto;
+using Mkh.Mod.Admin.Core.Domain.MenuGroup;
 
 namespace Mkh.Mod.Admin.Core.Application.MenuGroup;
 
@@ -12,7 +14,7 @@ public interface IMenuGroupService
     /// 查询
     /// </summary>
     /// <returns></returns>
-    Task<IResultModel> Query(MenuGroupQueryDto dto);
+    Task<PagingQueryResultModel<MenuGroupEntity>> Query(MenuGroupQueryDto dto);
 
     /// <summary>
     /// 添加

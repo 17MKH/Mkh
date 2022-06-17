@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions.Entities;
 using Mkh.Data.Abstractions.Pagination;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Data.Abstractions.Queryable.Grouping;
 
 namespace Mkh.Data.Abstractions.Queryable;
@@ -378,7 +379,7 @@ public interface IQueryable<TEntity, TEntity2> : IQueryable where TEntity : IEnt
     /// </summary>
     /// <param name="paging">分页对象</param>
     /// <returns></returns>
-    Task<IResultModel> ToPaginationResult(Paging paging);
+    Task<PagingQueryResultModel<TEntity>> ToPaginationResult(Paging paging);
 
     #endregion
 

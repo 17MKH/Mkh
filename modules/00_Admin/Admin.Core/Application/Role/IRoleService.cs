@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Mkh.Mod.Admin.Core.Application.Role.Dto;
+using Mkh.Mod.Admin.Core.Domain.Role;
 
 namespace Mkh.Mod.Admin.Core.Application.Role;
 
@@ -12,7 +14,7 @@ public interface IRoleService
     /// 查询
     /// </summary>
     /// <returns></returns>
-    Task<IResultModel> Query();
+    Task<IResultModel<IList<RoleEntity>>> Query();
 
     /// <summary>
     /// 添加

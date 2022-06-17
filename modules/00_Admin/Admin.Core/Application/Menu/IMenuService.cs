@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.Menu.Dto;
 using Mkh.Mod.Admin.Core.Domain.Menu;
 
@@ -14,7 +15,7 @@ public interface IMenuService
     /// 查询
     /// </summary>
     /// <returns></returns>
-    Task<IResultModel> Query(MenuQueryDto dto);
+    Task<PagingQueryResultModel<MenuEntity>> Query(MenuQueryDto dto);
 
     /// <summary>
     /// 添加

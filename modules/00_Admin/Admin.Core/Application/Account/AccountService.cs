@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Mkh.Config.Abstractions;
 using Mkh.Data.Abstractions.Query;
-using Mkh.Excel.Abstractions;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Domain.AccountSkin;
@@ -20,9 +19,8 @@ public class AccountService : IAccountService
     private readonly IPasswordHandler _passwordHandler;
     private readonly IAccountSkinRepository _skinRepository;
     private readonly IConfigProvider _configProvider;
-    private readonly IExcelProvider _excelProvider;
 
-    public AccountService(IMapper mapper, IAccountRepository repository, IPasswordHandler passwordHandler, IRoleRepository roleRepository, IAccountSkinRepository skinRepository, IConfigProvider configProvider, IExcelProvider excelProvider)
+    public AccountService(IMapper mapper, IAccountRepository repository, IPasswordHandler passwordHandler, IRoleRepository roleRepository, IAccountSkinRepository skinRepository, IConfigProvider configProvider)
     {
         _mapper = mapper;
         _repository = repository;
@@ -30,14 +28,11 @@ public class AccountService : IAccountService
         _roleRepository = roleRepository;
         _skinRepository = skinRepository;
         _configProvider = configProvider;
-        _excelProvider = excelProvider;
     }
 
-    public async Task<IResultModel> Query(AccountQueryDto dto)
+    public Task<PagingQueryResultModel<AccountEntity>> Query(AccountQueryDto dto)
     {
-        var list = await _repository.Query(dto);
-        var result = new QueryResultModel<AccountEntity>(list, dto.Paging.TotalCount);
-        return ResultModel.Success(result);
+        return _repository.Query(dto);
     }
 
     public async Task<IResultModel> Add(AccountAddDto dto)

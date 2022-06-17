@@ -2,7 +2,7 @@
   "id": 0,
   "name": "mkh-mod-admin",
   "label": "权限管理",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "icon": "lock",
   "description": "17MKH权限管理模块",
   "main": "lib/index.es.js",

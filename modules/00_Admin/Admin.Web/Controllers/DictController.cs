@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions.Annotations;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.Dict;
 using Mkh.Mod.Admin.Core.Application.Dict.Dto;
+using Mkh.Mod.Admin.Core.Domain.Dict;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
@@ -22,7 +24,7 @@ public class DictController : Web.ModuleController
     /// 查询
     /// </summary>
     [HttpGet]
-    public Task<IResultModel> Query([FromQuery] DictQueryDto dto)
+    public Task<PagingQueryResultModel<DictEntity>> Query([FromQuery] DictQueryDto dto)
     {
         return _service.Query(dto);
     }

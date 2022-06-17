@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions.Annotations;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.MenuGroup;
 using Mkh.Mod.Admin.Core.Application.MenuGroup.Dto;
+using Mkh.Mod.Admin.Core.Domain.MenuGroup;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
@@ -22,7 +24,7 @@ public class MenuGroupController : Web.ModuleController
     /// 查询
     /// </summary>
     [HttpGet]
-    public Task<IResultModel> Query([FromQuery] MenuGroupQueryDto dto)
+    public Task<PagingQueryResultModel<MenuGroupEntity>> Query([FromQuery] MenuGroupQueryDto dto)
     {
         return _service.Query(dto);
     }

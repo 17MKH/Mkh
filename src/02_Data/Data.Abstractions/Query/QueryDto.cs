@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Mkh.Data.Abstractions.Pagination;
+using Mkh.Utils.Annotations;
 
 namespace Mkh.Data.Abstractions.Query;
 
@@ -18,6 +19,7 @@ public abstract class QueryDto
     /// <summary>
     /// 转换成Paging分页类
     /// </summary>
+    [SwaggerIgnore]
     public Paging Paging
     {
         get

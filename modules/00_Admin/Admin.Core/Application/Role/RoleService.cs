@@ -41,14 +41,14 @@ public class RoleService : IRoleService
         _localizer = localizer;
     }
 
-    public Task<IResultModel> Query()
+    public async Task<IResultModel<IList<RoleEntity>>> Query()
     {
-        var list = _repository.Find()
+        var list = await _repository.Find()
             .LeftJoin<MenuGroupEntity>(m => m.T1.MenuGroupId == m.T2.Id)
             .Select(m => new { m.T1, MenuGroupName = m.T2.Name })
             .ToList();
 
-        return ResultModel.SuccessAsync(list);
+        return ResultModel.Success(list);
     }
 
     public async Task<IResultModel> Add(RoleAddDto dto)

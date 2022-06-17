@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Mkh.Excel.Abstractions;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
+using Mkh.Mod.Admin.Core.Domain.Account;
 
 namespace Mkh.Mod.Admin.Core.Application.Account;
 
@@ -11,7 +12,7 @@ public interface IAccountService
     /// 查询
     /// </summary>
     /// <returns></returns>
-    Task<IResultModel> Query(AccountQueryDto dto);
+    Task<PagingQueryResultModel<AccountEntity>> Query(AccountQueryDto dto);
 
     /// <summary>
     /// 添加

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Mkh.Cache.Abstractions;
 using Mkh.Data.Abstractions.Annotations;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.DictItem.Dto;
 using Mkh.Mod.Admin.Core.Domain.Dict;
 using Mkh.Mod.Admin.Core.Domain.DictGroup;
@@ -31,7 +32,7 @@ public class DictItemService : IDictItemService
         _localizer = localizer;
     }
 
-    public Task<IResultModel> Query(DictItemQueryDto dto)
+    public Task<PagingQueryResultModel<DictItemEntity>> Query(DictItemQueryDto dto)
     {
         var query = _repository.Find(m => m.ParentId == dto.ParentId);
         query.WhereNotNull(dto.GroupCode, m => m.GroupCode.Equals(dto.GroupCode));

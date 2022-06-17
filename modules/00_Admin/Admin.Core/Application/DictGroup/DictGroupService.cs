@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.DictGroup.Dto;
 using Mkh.Mod.Admin.Core.Domain.Dict;
 using Mkh.Mod.Admin.Core.Domain.DictGroup;
@@ -23,11 +24,11 @@ public class DictGroupService : IDictGroupService
         _localizer = localizer;
     }
 
-    public Task<IResultModel> Query(DictGroupQueryDto dto)
+    public Task<PagingQueryResultModel<DictGroupEntity>> Query(DictGroupQueryDto dto)
     {
         var query = _repository.Find();
         query.WhereNotNull(dto.Name, m => m.Name.Equals(dto.Name));
-        return ResultModel.SuccessAsync(query.ToList());
+        return query.ToPaginationResult(dto.Paging);
     }
 
     public async Task<IResultModel> Add(DictGroupAddDto dto)

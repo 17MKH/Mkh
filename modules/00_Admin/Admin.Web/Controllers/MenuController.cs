@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.Menu;
 using Mkh.Mod.Admin.Core.Application.Menu.Dto;
 using Mkh.Mod.Admin.Core.Domain.Menu;
@@ -24,7 +25,7 @@ public class MenuController : Web.ModuleController
     /// </summary>
     /// <remarks>查询角色列表</remarks>
     [HttpGet]
-    public Task<IResultModel> Query([FromQuery] MenuQueryDto dto)
+    public Task<PagingQueryResultModel<MenuEntity>> Query([FromQuery] MenuQueryDto dto)
     {
         return _service.Query(dto);
     }

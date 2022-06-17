@@ -133,8 +133,7 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-
-
+    
     /// <summary>
     /// 添加应用服务
     /// </summary>

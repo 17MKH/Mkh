@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
 
 namespace Mkh.Mod.Admin.Core.Domain.Account;
@@ -12,11 +13,11 @@ namespace Mkh.Mod.Admin.Core.Domain.Account;
 public interface IAccountRepository : IRepository<AccountEntity>
 {
     /// <summary>
-    /// 查询
+    /// 分页查询
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<IList<AccountEntity>> Query(AccountQueryDto dto);
+    Task<PagingQueryResultModel<AccountEntity>> Query(AccountQueryDto dto);
 
     /// <summary>
     /// 判断用户名是否存在

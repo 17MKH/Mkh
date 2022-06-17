@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Config.Abstractions;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.Account;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
+using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Infrastructure;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -31,7 +33,7 @@ public class AccountController : Web.ModuleController
     /// </summary>
     /// <remarks>查询角色列表</remarks>
     [HttpGet]
-    public Task<IResultModel> Query([FromQuery] AccountQueryDto dto)
+    public Task<PagingQueryResultModel<AccountEntity>> Query([FromQuery] AccountQueryDto dto)
     {
         return _service.Query(dto);
     }

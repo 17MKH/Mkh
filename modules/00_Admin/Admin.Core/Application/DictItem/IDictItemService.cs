@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.DictItem.Dto;
+using Mkh.Mod.Admin.Core.Domain.DictItem;
 
 namespace Mkh.Mod.Admin.Core.Application.DictItem;
 
@@ -13,7 +15,7 @@ public interface IDictItemService
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<IResultModel> Query(DictItemQueryDto dto);
+    Task<PagingQueryResultModel<DictItemEntity>> Query(DictItemQueryDto dto);
 
     /// <summary>
     /// 添加

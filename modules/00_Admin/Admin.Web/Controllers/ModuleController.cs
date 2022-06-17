@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions;
 using Swashbuckle.AspNetCore.Annotations;
@@ -20,7 +21,7 @@ public class ModuleController : Web.ModuleController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public IResultModel Permissions([BindRequired] string moduleCode)
+    public IResultModel<IList<PermissionDescriptor>> Permissions([BindRequired] string moduleCode)
     {
         return ResultModel.Success(_permissionResolver.GetPermissions(moduleCode));
     }

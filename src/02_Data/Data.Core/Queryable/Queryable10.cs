@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Entities;
 using Mkh.Data.Abstractions.Pagination;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Data.Abstractions.Queryable;
 using Mkh.Data.Abstractions.Queryable.Grouping;
 using Mkh.Data.Core.Internal.QueryStructure;
@@ -28,8 +29,10 @@ internal class Queryable<TEntity, TEntity2, TEntity3, TEntity4, TEntity5, TEntit
     public Queryable(QueryBody queryBody, JoinType joinType, Expression<Func<IQueryableJoins<TEntity, TEntity2, TEntity3, TEntity4, TEntity5, TEntity6, TEntity7, TEntity8, TEntity9, TEntity10>, bool>> onExpression, string tableName, bool noLock) : base(queryBody)
     {
         var entityDescriptor = _queryBody.GetEntityDescriptor<TEntity10>();
-        var join = new QueryJoin(entityDescriptor, "T10", joinType, onExpression, noLock);
-        join.TableName = tableName.NotNull() ? tableName : entityDescriptor.TableName;
+        var join = new QueryJoin(entityDescriptor, "T10", joinType, onExpression, noLock)
+        {
+            TableName = tableName.NotNull() ? tableName : entityDescriptor.TableName
+        };
 
         _queryBody.Joins.Add(join);
     }
@@ -334,7 +337,7 @@ internal class Queryable<TEntity, TEntity2, TEntity3, TEntity4, TEntity5, TEntit
         return ToPagination<TEntity>(paging);
     }
 
-    public Task<IResultModel> ToPaginationResult(Paging paging)
+    public Task<PagingQueryResultModel<TEntity>> ToPaginationResult(Paging paging)
     {
         return ToPaginationResult<TEntity>(paging);
     }

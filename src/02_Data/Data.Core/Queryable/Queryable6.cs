@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Entities;
 using Mkh.Data.Abstractions.Pagination;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Data.Abstractions.Queryable;
 using Mkh.Data.Abstractions.Queryable.Grouping;
 using Mkh.Data.Core.Internal.QueryStructure;
@@ -324,7 +325,7 @@ internal class Queryable<TEntity, TEntity2, TEntity3, TEntity4, TEntity5, TEntit
         return ToPagination<TEntity>(paging);
     }
 
-    public Task<IResultModel> ToPaginationResult(Paging paging)
+    public Task<PagingQueryResultModel<TEntity>> ToPaginationResult(Paging paging)
     {
         return ToPaginationResult<TEntity>(paging);
     }

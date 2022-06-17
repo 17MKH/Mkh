@@ -121,10 +121,12 @@ internal class Queryable : IQueryable
         return (await task).ToList();
     }
 
-    public async Task<IResultModel> ToPaginationResult<TResult>(Paging paging)
+    public async Task<PagingQueryResultModel<TResult>> ToPaginationResult<TResult>(Paging paging)
     {
         var rows = await ToPagination<TResult>(paging);
-        return ResultModel.Success(new QueryResultModel<TResult>(rows, paging.TotalCount));
+        var result = new PagingQueryResultModel<TResult>();
+        var resultBody = new PagingQueryResultBody<TResult>(rows, paging.TotalCount);
+        return result.Success(resultBody);
     }
 
     public string ToPaginationSql(Paging paging)

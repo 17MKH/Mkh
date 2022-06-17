@@ -75,22 +75,9 @@ public static partial class ResultModel
     /// </summary>
     /// <param name="data">返回数据</param>
     /// <returns></returns>
-    public static IResultModel Success<T>(T data = default)
+    public static IResultModel<T> Success<T>(T data = default)
     {
         return new ResultModel<T>().Success(data);
-    }
-
-    /// <summary>
-    /// 成功
-    /// </summary>
-    /// <param name="task">任务</param>
-    /// <returns></returns>
-    public static async Task<IResultModel> SuccessAsync<T>(Task<T> task = default)
-    {
-        if (task != null)
-            return new ResultModel<T>().Success(await task);
-
-        return new ResultModel<T>();
     }
 
     /// <summary>
@@ -107,7 +94,7 @@ public static partial class ResultModel
     /// </summary>
     /// <param name="error">错误信息</param>
     /// <returns></returns>
-    public static IResultModel Failed<T>(string error = null)
+    public static IResultModel<T> Failed<T>(string error = null)
     {
         return new ResultModel<T>().Failed(error ?? "failed");
     }
@@ -126,7 +113,7 @@ public static partial class ResultModel
     /// </summary>
     /// <param name="success"></param>
     /// <returns></returns>
-    public static IResultModel Result<T>(bool success)
+    public static IResultModel<T> Result<T>(bool success)
     {
         return success ? Success<T>() : Failed<T>();
     }

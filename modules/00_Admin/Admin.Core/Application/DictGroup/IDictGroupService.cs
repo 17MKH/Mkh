@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.DictGroup.Dto;
+using Mkh.Mod.Admin.Core.Domain.DictGroup;
 
 namespace Mkh.Mod.Admin.Core.Application.DictGroup;
 
@@ -13,7 +15,7 @@ public interface IDictGroupService
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<IResultModel> Query(DictGroupQueryDto dto);
+    Task<PagingQueryResultModel<DictGroupEntity>> Query(DictGroupQueryDto dto);
 
     /// <summary>
     /// 添加

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions.Annotations;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.MenuGroup.Dto;
 using Mkh.Mod.Admin.Core.Domain.Menu;
 using Mkh.Mod.Admin.Core.Domain.MenuGroup;
@@ -33,7 +34,7 @@ public class MenuGroupService : IMenuGroupService
         _localizer = localizer;
     }
 
-    public Task<IResultModel> Query(MenuGroupQueryDto dto)
+    public Task<PagingQueryResultModel<MenuGroupEntity>> Query(MenuGroupQueryDto dto)
     {
         var query = _repository.Find();
         query.WhereNotNull(dto.Name, m => m.Name.Equals(dto.Name));

@@ -120,6 +120,9 @@
   <data name="Url不能为空" xml:space="preserve">
     <value>The url cannot be empty</value>
   </data>
+  <data name="令牌无效" xml:space="preserve">
+    <value>The token is invalid</value>
+  </data>
   <data name="分组编码已存在" xml:space="preserve">
     <value>The group code already exists</value>
   </data>
@@ -200,6 +203,9 @@
   </data>
   <data name="请选择角色" xml:space="preserve">
     <value>Please select a role</value>
+  </data>
+  <data name="账户不存在" xml:space="preserve">
+    <value>Account does not exist</value>
   </data>
   <data name="账户已禁用，请联系管理员" xml:space="preserve">
     <value>The account has been disabled. Please contact the administrator</value>

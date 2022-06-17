@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.DictItem;
 using Mkh.Mod.Admin.Core.Application.DictItem.Dto;
+using Mkh.Mod.Admin.Core.Domain.DictItem;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
@@ -21,7 +23,7 @@ public class DictItemController : Web.ModuleController
     /// 查询
     /// </summary>
     [HttpGet]
-    public Task<IResultModel> Query([FromQuery] DictItemQueryDto dto)
+    public Task<PagingQueryResultModel<DictItemEntity>> Query([FromQuery] DictItemQueryDto dto)
     {
         return _service.Query(dto);
     }
