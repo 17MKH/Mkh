@@ -44,7 +44,7 @@ namespace Mkh.Data.Adapter.PostgreSQL
             schemaProvider.CreateDatabase(databaseName);
 
             //创建后事件
-            Options.BeforeCreateDatabase?.Invoke(Context);
+            Options.AfterCreateDatabase?.Invoke(Context);
         }
 
         public override void CreateTable()

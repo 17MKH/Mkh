@@ -48,7 +48,7 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
         con1.Close();
 
         //创建后事件
-        Options.BeforeCreateDatabase?.Invoke(Context);
+        Options.AfterCreateDatabase?.Invoke(Context);
     }
 
     #endregion

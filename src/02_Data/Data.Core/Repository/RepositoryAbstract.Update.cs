@@ -16,10 +16,10 @@ public abstract partial class RepositoryAbstract<TEntity>
 {
     public Task<bool> Update(TEntity entity, IUnitOfWork uow = null)
     {
-        return UpdateAsync(entity, null, uow);
+        return Update(entity, null, uow);
     }
 
-    public async Task<bool> UpdateAsync(TEntity entity, string tableName, IUnitOfWork uow = null)
+    public async Task<bool> Update(TEntity entity, string tableName, IUnitOfWork uow = null)
     {
         Check.NotNull(entity, nameof(entity));
 

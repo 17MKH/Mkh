@@ -12,6 +12,7 @@ using Mkh;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Adapter;
 using Mkh.Data.Abstractions.Descriptors;
+using Mkh.Data.Abstractions.Events;
 using Mkh.Data.Abstractions.Options;
 using Mkh.Data.Core.Internal;
 using Mkh.Utils.Json;
@@ -49,16 +50,11 @@ public static class DbBuilderExtensions
         var options = new CodeFirstOptions();
         configure?.Invoke(options);
 
-        //加载初始化数据对象
-        var initData = LoadInitData(options);
-
-        options.AfterCreateTable = (dbContext, entityDescriptor) =>
-        {
-            //初始化表数据
-            InitTableData(initData, dbContext, entityDescriptor, builder.Services);
-        };
-
         builder.CodeFirstOptions = options;
+
+        builder.RegisterDatabaseEvents();
+
+        builder.RegisterTableEvents();
 
         builder.AddAction(() =>
         {
@@ -157,5 +153,88 @@ public static class DbBuilderExtensions
 
             uow.SaveChanges();
         }
+    }
+
+    /// <summary>
+    /// 注册数据库相关事件
+    /// </summary>
+    /// <param name="builder"></param>
+    private static void RegisterDatabaseEvents(this IDbBuilder builder)
+    {
+        var databaseCreateEvents = builder.Services.BuildServiceProvider().GetServices<IDatabaseCreateEvent>();
+
+        builder.CodeFirstOptions.BeforeCreateDatabase = dbContext =>
+        {
+            var eventContext = new DatabaseCreateContext
+            {
+                DbContext = dbContext,
+                CreateTime = DateTime.Now
+            };
+
+            foreach (var databaseCreateEvent in databaseCreateEvents)
+            {
+                databaseCreateEvent.OnBeforeCreate(eventContext);
+            }
+        };
+
+        builder.CodeFirstOptions.AfterCreateDatabase = dbContext =>
+        {
+            var eventContext = new DatabaseCreateContext
+            {
+                DbContext = dbContext,
+                CreateTime = DateTime.Now
+            };
+
+            foreach (var databaseCreateEvent in databaseCreateEvents)
+            {
+                databaseCreateEvent.OnAfterCreate(eventContext);
+            }
+        };
+    }
+
+    /// <summary>
+    /// 注册表创建事件
+    /// </summary>
+    /// <param name="builder"></param>
+    private static void RegisterTableEvents(this IDbBuilder builder)
+    {
+        //加载初始化数据对象
+        var initData = LoadInitData(builder.CodeFirstOptions);
+
+        var tableCreateEvents = builder.Services.BuildServiceProvider().GetServices<ITableCreateEvent>();
+
+        builder.CodeFirstOptions.BeforeCreateTable = (dbContext, entityDescriptor) =>
+        {
+            var tableCreateContext = new TableCreateContext
+            {
+                DbContext = dbContext,
+                EntityDescriptor = entityDescriptor,
+                CreateTime = DateTime.Now
+            };
+
+            foreach (var tableCreateEvent in tableCreateEvents)
+            {
+                tableCreateEvent.OnBeforeCreate(tableCreateContext);
+            }
+        };
+
+        builder.CodeFirstOptions.AfterCreateTable = (dbContext, entityDescriptor) =>
+        {
+            //初始化表数据
+            InitTableData(initData, dbContext, entityDescriptor, builder.Services);
+
+            var tableCreateContext = new TableCreateContext
+            {
+                DbContext = dbContext,
+                EntityDescriptor = entityDescriptor,
+                CreateTime = DateTime.Now
+            };
+
+            foreach (var tableCreateEvent in tableCreateEvents)
+            {
+                tableCreateEvent.OnAfterCreate(tableCreateContext);
+            }
+        };
+
     }
 }

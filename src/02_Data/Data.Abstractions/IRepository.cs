@@ -258,7 +258,7 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     /// <param name="tableName">表名</param>
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
-    Task<bool> UpdateAsync(TEntity entity, string tableName, IUnitOfWork uow = null);
+    Task<bool> Update(TEntity entity, string tableName, IUnitOfWork uow = null);
 
     /// <summary>
     /// 根据主键获取单个实体

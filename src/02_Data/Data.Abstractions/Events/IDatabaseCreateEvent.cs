@@ -24,7 +24,7 @@ public interface IDatabaseCreateEvent
 }
 
 /// <summary>
-/// 表创建上下文
+/// 数据库创建上下文
 /// </summary>
 public class DatabaseCreateContext
 {

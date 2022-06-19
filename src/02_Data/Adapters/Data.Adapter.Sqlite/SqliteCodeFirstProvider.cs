@@ -1,6 +1,8 @@
+using System.IO;
 using System.Linq;
 using System.Text;
 using Dapper;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Descriptors;
@@ -19,6 +21,20 @@ public class SqliteCodeFirstProvider : CodeFirstProviderAbstract
 
     public override void CreateDatabase()
     {
+        var builder = new SqliteConnectionStringBuilder(Context.Options.ConnectionString);
+        if (File.Exists(builder.ConnectionString))
+        {
+            return;
+        }
+
+        Options.BeforeCreateDatabase?.Invoke(Context);
+
+        //SQLite会自动创建数据库文件
+        using var con = Context.NewConnection();
+        con.Open();
+        con.Close();
+
+        Options.AfterCreateDatabase?.Invoke(Context);
     }
 
     #endregion
