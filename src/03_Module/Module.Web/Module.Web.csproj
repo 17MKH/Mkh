@@ -14,6 +14,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\01_Utils\Utils.Web\Utils.Web.csproj" />
+		<ProjectReference Include="..\..\10_Excel\Excel.Abstractions\Excel.Abstractions.csproj" />
 		<ProjectReference Include="..\Module.Abstractions\Module.Abstractions.csproj" />
 		<ProjectReference Include="..\Module.Core\Module.Core.csproj" />
 	</ItemGroup>
