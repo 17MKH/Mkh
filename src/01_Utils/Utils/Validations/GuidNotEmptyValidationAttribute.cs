@@ -1,15 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Mkh.Utils.Annotations;
+namespace Mkh.Utils.Validations;
 
 /// <summary>
-/// GUID不能为空
+/// GUID不能为空的验证
 /// </summary>
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
-public class GuidNotEmptyAttribute : ValidationAttribute
+public class GuidNotEmptyValidationAttribute : ValidationAttribute
 {
-    public GuidNotEmptyAttribute() : base("属性 {0} 不能为空") { }
+    public GuidNotEmptyValidationAttribute() : base("属性 {0} 不能为空") { }
 
     public override bool IsValid(object value)
     {
