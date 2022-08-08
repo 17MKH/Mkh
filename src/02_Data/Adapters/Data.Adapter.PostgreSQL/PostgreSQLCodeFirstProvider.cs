@@ -79,7 +79,7 @@ namespace Mkh.Data.Adapter.PostgreSQL
             {
                 //更新列
                 if (Options.UpdateColumn)
-                    UpdateColumn(descriptor, con);
+                    UpdateColumn(descriptor, con, tableName);
 
                 con.Close();
             }
@@ -112,7 +112,7 @@ namespace Mkh.Data.Adapter.PostgreSQL
             {
                 var column = columns[i];
 
-                sql.Append(GenerateColumnAddSql(column, descriptor, ref sqlComment));
+                sql.Append(GenerateColumnAddSql(column, tableName, ref sqlComment));
 
                 if (i < columns.Count - 1)
                 {
@@ -129,9 +129,9 @@ namespace Mkh.Data.Adapter.PostgreSQL
         /// <summary>
         /// 更新列信息
         /// </summary>
-        private void UpdateColumn(IEntityDescriptor descriptor, IDbConnection con)
+        private void UpdateColumn(IEntityDescriptor descriptor, IDbConnection con, string tableName)
         {
-            var columns = Context.SchemaProvider.GetColumns(con.Database, descriptor.TableName);
+            var columns = Context.SchemaProvider.GetColumns(con.Database, tableName);
             //保存删除后的列信息
             var cleanColumns = new List<ColumnSchema>();
 
@@ -142,7 +142,7 @@ namespace Mkh.Data.Adapter.PostgreSQL
                 var deleted = descriptor.Columns.FirstOrDefault(m => m.Name.Equals(column.Name, StringComparison.CurrentCultureIgnoreCase));
                 if (deleted == null || CompareColumnInfo(deleted, column))
                 {
-                    var deleteSql = $"ALTER TABLE {AppendQuote(descriptor.TableName)} DROP COLUMN {AppendQuote(column.Name)};";
+                    var deleteSql = $"ALTER TABLE {AppendQuote(tableName)} DROP COLUMN {AppendQuote(column.Name)};";
                     con.Execute(deleteSql);
                 }
                 else
@@ -158,7 +158,7 @@ namespace Mkh.Data.Adapter.PostgreSQL
                 if (add == null)
                 {
                     var commentSql = new StringBuilder(128);
-                    var addSql = $"ALTER TABLE {AppendQuote(descriptor.TableName)} ADD COLUMN {GenerateColumnAddSql(column, descriptor, ref commentSql)}";
+                    var addSql = $"ALTER TABLE {AppendQuote(tableName)} ADD COLUMN {GenerateColumnAddSql(column, tableName, ref commentSql)}";
 
                     con.Execute(addSql);
 
@@ -214,7 +214,7 @@ namespace Mkh.Data.Adapter.PostgreSQL
             return false;
         }
 
-        private string GenerateColumnAddSql(IColumnDescriptor column, IEntityDescriptor descriptor, ref StringBuilder commentSql)
+        private string GenerateColumnAddSql(IColumnDescriptor column, string tableName, ref StringBuilder commentSql)
         {
             var sql = new StringBuilder();
             sql.AppendFormat("{0} ", AppendQuote(column.Name));
@@ -287,7 +287,7 @@ namespace Mkh.Data.Adapter.PostgreSQL
 
             if (column.Description.NotNull())
             {
-                commentSql.AppendFormat($"COMMENT ON COLUMN {this.AppendQuote(descriptor.TableName)}.{this.AppendQuote(column.Name)} is '{column.Description}'; ");
+                commentSql.AppendFormat($"COMMENT ON COLUMN {this.AppendQuote(tableName)}.{this.AppendQuote(column.Name)} is '{column.Description}'; ");
             }
 
             return sql.ToString();

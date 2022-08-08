@@ -92,7 +92,7 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
         {
             //更新列
             if (Options.UpdateColumn)
-                UpdateColumn(descriptor, con);
+                UpdateColumn(descriptor, con, tableName);
 
             con.Close();
         }
@@ -136,9 +136,9 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
     /// <summary>
     /// 更新列信息
     /// </summary>
-    private void UpdateColumn(IEntityDescriptor descriptor, IDbConnection con)
+    private void UpdateColumn(IEntityDescriptor descriptor, IDbConnection con, string tableName)
     {
-        var columns = Context.SchemaProvider.GetColumns(con.Database, descriptor.TableName);
+        var columns = Context.SchemaProvider.GetColumns(con.Database, tableName);
         //保存删除后的列信息
         var cleanColumns = new List<ColumnSchema>();
 
@@ -149,7 +149,7 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
             var deleted = descriptor.Columns.FirstOrDefault(m => m.Name.Equals(column.Name));
             if (deleted == null || CompareColumnInfo(deleted, column))
             {
-                var deleteSql = $"ALTER TABLE {AppendQuote(descriptor.TableName)} DROP COLUMN {AppendQuote(column.Name)};";
+                var deleteSql = $"ALTER TABLE {AppendQuote(tableName)} DROP COLUMN {AppendQuote(column.Name)};";
                 con.Execute(deleteSql);
             }
             else
@@ -164,7 +164,7 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
             var add = cleanColumns.FirstOrDefault(m => m.Name.Equals(column.Name));
             if (add == null)
             {
-                var addSql = $"ALTER TABLE {AppendQuote(descriptor.TableName)} ADD COLUMN {GenerateColumnAddSql(column, descriptor)}";
+                var addSql = $"ALTER TABLE {AppendQuote(tableName)} ADD COLUMN {GenerateColumnAddSql(column, descriptor)}";
 
                 con.Execute(addSql);
             }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -89,7 +90,7 @@ public class SqlServerCodeFirstProvider : CodeFirstProviderAbstract
         {
             //更新列
             if (Options.UpdateColumn)
-                UpdateColumn(descriptor, con);
+                UpdateColumn(descriptor, con, tableName);
 
             con.Close();
         }
@@ -130,7 +131,7 @@ public class SqlServerCodeFirstProvider : CodeFirstProviderAbstract
         {
             if (column.Description.NotNull())
             {
-                sql.AppendFormat("EXECUTE sp_addextendedproperty N'MS_Description','{0}',N'user',N'dbo',N'table',N'{1}',N'column',N'{2}';", column.Description, descriptor.TableName, column.Name);
+                sql.AppendFormat("EXECUTE sp_addextendedproperty N'MS_Description','{0}',N'user',N'dbo',N'table',N'{1}',N'column',N'{2}';", column.Description, tableName, column.Name);
             }
         }
 
@@ -140,9 +141,9 @@ public class SqlServerCodeFirstProvider : CodeFirstProviderAbstract
     /// <summary>
     /// 更新列信息
     /// </summary>
-    private void UpdateColumn(IEntityDescriptor descriptor, IDbConnection con)
+    private void UpdateColumn(IEntityDescriptor descriptor, IDbConnection con, string tableName)
     {
-        var columns = Context.SchemaProvider.GetColumns(con.Database, descriptor.TableName);
+        var columns = Context.SchemaProvider.GetColumns(con.Database, tableName);
         //保存删除后的列信息
         var cleanColumns = new List<ColumnSchema>();
 
@@ -156,22 +157,22 @@ public class SqlServerCodeFirstProvider : CodeFirstProviderAbstract
                 //删除主键约束
                 if (column.IsPrimaryKey)
                 {
-                    var key = con.ExecuteScalar<string>($"SELECT name FROM sys.key_constraints WHERE parent_object_id = OBJECT_ID('{descriptor.TableName}')");
+                    var key = con.ExecuteScalar<string>($"SELECT name FROM sys.key_constraints WHERE parent_object_id = OBJECT_ID('{tableName}')");
                     if (key.NotNull())
                     {
-                        con.Execute($"ALTER TABLE {AppendQuote(descriptor.TableName)} DROP CONSTRAINT {key}");
+                        con.Execute($"ALTER TABLE {AppendQuote(tableName)} DROP CONSTRAINT {key}");
                     }
                 }
                 //删除默认值约束
                 if (column.DefaultValue.NotNull())
                 {
-                    var key = con.ExecuteScalar<string>($"SELECT name FROM sys.default_constraints WHERE parent_object_id = OBJECT_ID('{descriptor.TableName}') AND parent_column_id=(SELECT column_id FROM sys.columns WHERE [object_id] = OBJECT_ID('{descriptor.TableName}') AND name = '{column.Name}')");
+                    var key = con.ExecuteScalar<string>($"SELECT name FROM sys.default_constraints WHERE parent_object_id = OBJECT_ID('{tableName}') AND parent_column_id=(SELECT column_id FROM sys.columns WHERE [object_id] = OBJECT_ID('{tableName}') AND name = '{column.Name}')");
                     if (key.NotNull())
                     {
-                        con.Execute($"ALTER TABLE {AppendQuote(descriptor.TableName)} DROP CONSTRAINT {key}");
+                        con.Execute($"ALTER TABLE {AppendQuote(tableName)} DROP CONSTRAINT {key}");
                     }
                 }
-                var deleteSql = $"ALTER TABLE {AppendQuote(descriptor.TableName)} DROP COLUMN {AppendQuote(column.Name)};";
+                var deleteSql = $"ALTER TABLE {AppendQuote(tableName)} DROP COLUMN {AppendQuote(column.Name)};";
                 con.Execute(deleteSql);
             }
             else
@@ -186,8 +187,8 @@ public class SqlServerCodeFirstProvider : CodeFirstProviderAbstract
             var add = cleanColumns.FirstOrDefault(m => m.Name.Equals(column.Name));
             if (add == null)
             {
-                var addSql = $"ALTER TABLE {AppendQuote(descriptor.TableName)} ADD {GenerateColumnAddSql(column, descriptor)};";
-                addSql += $"EXECUTE sp_addextendedproperty N'MS_Description','{column.Description}',N'user',N'dbo',N'table',N'{descriptor.TableName}',N'column',N'{column.Name}';";
+                var addSql = $"ALTER TABLE {AppendQuote(tableName)} ADD {GenerateColumnAddSql(column, descriptor)};";
+                addSql += $"EXECUTE sp_addextendedproperty N'MS_Description','{column.Description}',N'user',N'dbo',N'table',N'{tableName}',N'column',N'{column.Name}';";
                 con.Execute(addSql);
             }
         }
