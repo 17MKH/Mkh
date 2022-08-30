@@ -1,8 +1,9 @@
-const { resolve } = require('path')
+import type { UserConfig } from 'vite'
+import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
 import mui from 'mkh-ui/lib/plugins'
 
-export default ({ target, mode, command }) => {
+export default ({ target, mode, command }): UserConfig => {
   return {
     base: './',
     server: {
@@ -14,12 +15,6 @@ export default ({ target, mode, command }) => {
         target,
         mode,
         command,
-        /** 依赖模块 */
-        dependencyModules: [],
-        /** 皮肤 */
-        skins: [],
-        /** 语言包 */
-        locales: ['zh-cn', 'en'],
         /** index.html文件转换 */
         htmlTransform: {
           /** 模板渲染数据，如果使用自己的模板，则自己定义渲染数据 */
@@ -63,7 +58,7 @@ export default ({ target, mode, command }) => {
     },
     resolve: {
       alias: {
-        '@': resolve(__dirname),
+        '@': resolve(__dirname, '../src'),
       },
     },
   }

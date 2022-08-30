@@ -28,37 +28,25 @@
     <save :id="selection.id" v-model="saveVisible" :mode="mode" @success="refresh" />
   </m-container>
 </template>
-<script>
+<script setup lang="ts">
 import { useList, entityBaseCols } from 'mkh-ui'
 import { reactive } from 'vue'
-import page from './page.json'
+import page from './page'
 import Save from '../save/index.vue'
-export default {
-  components: { Save },
-  setup() {
-    const { query, remove } = mkh.api.admin.account
-    const model = reactive({ username: '', name: '', phone: '' })
-    const cols = [
-      { prop: 'id', label: 'mkh.id', width: '55', show: false },
-      { prop: 'username', label: 'mkh.login.username' },
-      { prop: 'name', label: 'mod.admin.name' },
-      { prop: 'roleName', label: 'mkh.role' },
-      { prop: 'phone', label: 'mkh.phone' },
-      { prop: 'email', label: 'mkh.email' },
-      { prop: 'status', label: 'mkh.status' },
-      ...entityBaseCols(),
-    ]
+import api from '@/api'
 
-    const list = useList()
+const { query, remove } = api.admin.account
+const model = reactive({ username: '', name: '', phone: '' })
+const cols = [
+  { prop: 'id', label: 'mkh.id', width: '55', show: false },
+  { prop: 'username', label: 'mkh.login.username' },
+  { prop: 'name', label: 'mod.admin.name' },
+  { prop: 'roleName', label: 'mkh.role' },
+  { prop: 'phone', label: 'mkh.phone' },
+  { prop: 'email', label: 'mkh.email' },
+  { prop: 'status', label: 'mkh.status' },
+  ...entityBaseCols(),
+]
 
-    return {
-      page,
-      model,
-      cols,
-      query,
-      remove,
-      ...list,
-    }
-  },
-}
+const list = useList()
 </script>

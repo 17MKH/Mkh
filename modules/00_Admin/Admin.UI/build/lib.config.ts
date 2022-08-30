@@ -1,5 +1,5 @@
 /** 打包库模式 */
-const { resolve } = require('path')
+import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import useBaseConfig from './base.config'
 
