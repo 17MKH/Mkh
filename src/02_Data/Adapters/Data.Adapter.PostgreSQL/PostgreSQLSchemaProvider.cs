@@ -33,39 +33,35 @@ internal class PostgreSQLSchemaProvider : ISchemaProvider
 
     public List<ColumnSchema> GetColumns(string database, string table)
     {
-        var sql = @$"select
-ns.nspname,
-c.relname,
-a.attname as Name,
-t.typname as DataType,
-case when a.atttypmod > 0 and a.atttypmod < 32767 then a.atttypmod - 4 else a.attlen end Length,
-case when t.typelem > 0 and t.typinput::varchar = 'array_in' then t2.typname else t.typname end,
-case when a.attnotnull then false else true end as IsNullable,
---e.adsrc,
-(select pg_get_expr(adbin, adrelid) from pg_attrdef where adrelid = e.adrelid limit 1) is_identity,
-a.attndims,
-coalesce(col_description(a.attrelid,a.attnum), '') as Description ,
-case when pk.colName is not null then true else false end IsPrimaryKey,
-pg_get_expr(d.adbin, d.adrelid) AS DefaultValue
-from pg_class c
-inner join pg_attribute a on a.attnum > 0 and a.attrelid = c.oid
-inner join pg_type t on t.oid = a.atttypid
-left join pg_type t2 on t2.oid = t.typelem
--- left join pg_description d on d.objoid = a.attrelid and d.objsubid = a.attnum
-left join pg_attrdef e on e.adrelid = a.attrelid and e.adnum = a.attnum
-inner join pg_namespace ns on ns.oid = c.relnamespace
-inner join pg_namespace ns2 on ns2.oid = t.typnamespace
-left join ( -- 取主键
-	select pg_attribute.attname colName, * from pg_constraint
-	inner join pg_attribute on pg_attribute.attrelid = pg_constraint.conrelid
-	and  pg_attribute.attnum = pg_constraint.conkey[1]
-	and pg_constraint.contype='p'
-) pk
-on pk.conrelid = c.oid and pk.colName = a.attname
--- 取默认值
-LEFT JOIN pg_catalog.pg_attrdef d ON (a.attrelid, a.attnum) = (d.adrelid,  d.adnum)
--- where ns.nspname = '{database}' and c.relname = '{table}'
-where c.relname = '{table}'";
+        var sql = @$"
+select ordinal_position as Colorder
+    ,column_name as Name
+--     ,data_type as DataType
+    ,c.typname as DataType
+    ,case is_nullable when 'NO' then false else true end as IsNullable
+    ,case when b.pk_name is null then false else true end as IsPrimaryKey
+    ,column_default as DefaultValue
+    ,c.DeText Description
+    ,coalesce(character_maximum_length,numeric_precision,-1) as Length
+    ,coalesce(character_maximum_length,numeric_precision,-1) as Precision
+    ,numeric_scale as Precision
+    ,case  when position('nextval' in column_default)>0 then true else false end as IsIdentity
+from information_schema.columns 
+left join (
+    select pg_attr.attname as colname,pg_constraint.conname as pk_name from pg_constraint  
+    inner join pg_class on pg_constraint.conrelid = pg_class.oid 
+    inner join pg_attribute pg_attr on pg_attr.attrelid = pg_class.oid and  pg_attr.attnum = pg_constraint.conkey[1] 
+    inner join pg_type on pg_type.oid = pg_attr.atttypid
+    where pg_class.relname = '{table}' and pg_constraint.contype='p' 
+) b on b.colname = information_schema.columns.column_name
+left join (
+    select attname,description as DeText, pg_type.typname from pg_class
+    left join pg_attribute pg_attr on pg_attr.attrelid= pg_class.oid
+    left join pg_description pg_desc on pg_desc.objoid = pg_attr.attrelid and pg_desc.objsubid=pg_attr.attnum
+    left join pg_type on pg_type.oid = pg_attr.atttypid
+    where pg_attr.attnum>0 and pg_attr.attrelid=pg_class.oid and pg_class.relname='{table}'
+)c on c.attname = information_schema.columns.column_name
+where table_schema='public' and table_name='{table}' order by ordinal_position asc";
 
         var list = _con.Query<ColumnSchema>(sql).ToList();
 
@@ -89,15 +85,18 @@ where c.relname = '{table}'";
                             schema.DefaultValue = val.ToString();
                         }
                         break;
+                    case "text":
+                    case "bpchar":
+                    case "char":
                     case "varchar":
-                        schema.DefaultValue = schema.DefaultValue.Substring(3, schema.DefaultValue.Length - 5);
+                        //schema.DefaultValue = schema.DefaultValue.Substring(3, schema.DefaultValue.Length - 5);
                         break;
                     case "date":
                     case "timestamp":
                     case "timestampz":
                         schema.DefaultValue = schema.DefaultValue.Replace("(", "").Replace(")", "");
                         if (schema.DefaultValue == "getdate")
-                            schema.DefaultValue = "now()";
+                            schema.DefaultValue = "CURRENT_TIMESTAMP";
                         break;
                 }
             }
