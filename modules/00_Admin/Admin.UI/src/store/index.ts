@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useComponentStore = defineStore('app.skin', {
+export const useAdminStore = defineStore('mod.admin', {
   state: () => {
     return {
       dict: {
