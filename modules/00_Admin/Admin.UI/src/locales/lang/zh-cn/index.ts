@@ -1,4 +1,6 @@
-export default {
+import type { MkhMessagesSchema } from 'mkh-ui'
+
+const messages = {
   name: '姓名',
   account_inactive: '未激活',
   account_activated: '已激活',
@@ -90,3 +92,11 @@ export default {
   input_role_code: '请输入角色唯一编码',
   language: '语言',
 }
+
+export interface MessagesSchema extends MkhMessagesSchema {
+  mod: {
+    admin: typeof messages
+  }
+}
+
+export default messages

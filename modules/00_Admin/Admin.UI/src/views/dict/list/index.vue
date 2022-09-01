@@ -18,56 +18,48 @@
         <m-button-delete :code="buttons.remove.code" :action="remove" :data="row.id" @success="refresh"></m-button-delete>
       </template>
     </m-list>
-    <save :id="selection.id" v-model="saveVisible" :group-code="groupCode" :mode="mode" @success="refresh" />
+    <save :id="selection?.id" v-model="actionDialogVisible" :group-code="groupCode" :mode="actionMode" @success="refresh" />
     <item-dialog v-model="showItemDialog" />
   </m-container>
 </template>
-<script>
-import { reactive, ref, toRefs, watch } from 'vue'
-import { useList, entityBaseCols } from 'mkh-ui'
-import { buttons } from '../index/page.json'
-import Save from '../save/index.vue'
-import ItemDialog from '../item/index/index.vue'
-export default {
-  components: { Save, ItemDialog },
-  props: {
+<script setup lang="ts">
+  import { reactive, ref, toRefs, watch } from 'vue'
+  import { useEntityBaseCols, useList } from 'mkh-ui'
+  import { useAdminStore } from '@/store'
+  import { buttons } from '../index/page.json'
+  import Save from '../save/index.vue'
+  import ItemDialog from '../item/index/index.vue'
+  import api from '@/api/dict'
+  import { DictEntity } from '@/api/dict/dto'
+
+  const props = defineProps({
     groupCode: {
       type: String,
       default: '',
     },
-  },
-  setup(props) {
-    const { store } = mkh
+  })
 
-    const { query, remove } = mkh.api.admin.dict
-    const { groupCode } = toRefs(props)
+  const store = useAdminStore()
 
-    const model = reactive({ groupCode, name: '', code: '' })
-    const cols = [{ prop: 'id', label: 'mkh.id', width: '55', show: false }, { prop: 'name', label: 'mkh.name' }, { prop: 'code', label: 'mkh.code' }, ...entityBaseCols()]
+  const { query, remove } = api
+  const { groupCode } = toRefs(props)
 
-    const list = useList()
-    const showItemDialog = ref(false)
+  const { selection, actionDialogVisible, actionMode, refresh, reset } = useList<DictEntity>()
 
-    const openItemDialog = row => {
-      store.commit('mod/admin/setDict', { groupCode, dictCode: row.code })
-      list.selection.value = row
-      showItemDialog.value = true
-    }
+  const model = reactive({ groupCode, name: '', code: '' })
+  const cols = [{ prop: 'id', label: 'mkh.id', width: '55', show: false }, { prop: 'name', label: 'mkh.name' }, { prop: 'code', label: 'mkh.code' }, ...useEntityBaseCols()]
 
-    watch(groupCode, () => {
-      list.reset()
-    })
+  const showItemDialog = ref(false)
 
-    return {
-      buttons,
-      model,
-      cols,
-      query,
-      remove,
-      ...list,
-      showItemDialog,
-      openItemDialog,
-    }
-  },
-}
+  const openItemDialog = (row) => {
+    store.dict.groupCode = groupCode.value
+    store.dict.dictCode = row.code
+
+    selection.value = row
+    showItemDialog.value = true
+  }
+
+  watch(groupCode, () => {
+    reset()
+  })
 </script>

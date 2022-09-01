@@ -1,5 +1,5 @@
 import { crud } from 'mkh-ui'
-import http from '../http';
+import http from '../http'
 
 const urls = {
   SELECT: 'Dict/Select',
@@ -8,8 +8,8 @@ const urls = {
 }
 
 export default {
-  ...crud(http,'Dict'),
-    select: params => http.get(urls.SELECT, params),
-    tree: params => http.get(urls.TREE, params),
-    cascader: params => http.get(urls.CASCADER, params),
-  }
+  ...crud(http, 'Dict'),
+  select: (params) => http.get(urls.SELECT, params),
+  tree: (params) => http.get(urls.TREE, params),
+  cascader: (params) => http.get(urls.CASCADER, params),
+}

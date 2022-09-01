@@ -1,9 +1,9 @@
 <template>
   <m-select :action="query"></m-select>
 </template>
-<script>
-export default {
-  props: {
+<script setup lang="ts">
+  import api from '@/api'
+  const props = defineProps({
     //分组编码
     group: {
       type: String,
@@ -14,16 +14,10 @@ export default {
       type: String,
       required: true,
     },
-  },
-  setup(props) {
-    const query = () => {
-      const { group, dict } = props
-      return mkh.api.admin.dict.select({ groupCode: group, dictCode: dict })
-    }
+  })
 
-    return {
-      query,
-    }
-  },
-}
+  const query = () => {
+    const { group, dict } = props
+    return api.dict.select({ groupCode: group, dictCode: dict })
+  }
 </script>
