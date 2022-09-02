@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using System.Text.RegularExpressions;
 
 namespace Mkh.Host.Web.Swagger.Conventions;
 
