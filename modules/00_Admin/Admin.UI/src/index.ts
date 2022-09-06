@@ -1,7 +1,7 @@
 import mod from 'virtual:mkh-mod-admin'
 import { useAppService } from 'mkh-ui'
-import api from './api'
 import { useAdminStore } from './store'
+import api from './api'
 
 //注册服务
 useAppService(({ config }) => {

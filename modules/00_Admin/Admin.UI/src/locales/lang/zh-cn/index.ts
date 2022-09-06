@@ -93,10 +93,8 @@ const messages = {
   language: '语言',
 }
 
-export interface MessagesSchema extends MkhMessagesSchema {
-  mod: {
-    admin: typeof messages
-  }
+export interface MessagesSchema {
+  mod: string
 }
 
 export default messages
