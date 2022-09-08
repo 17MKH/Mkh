@@ -11,11 +11,18 @@ namespace Mkh.Mod.Admin.Core.Application.DictGroup;
 public interface IDictGroupService
 {
     /// <summary>
+    /// 分页查询
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    Task<PagingQueryResultModel<DictGroupEntity>> QueryToPagination(DictGroupQueryDto dto);
+
+    /// <summary>
     /// 查询
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<PagingQueryResultModel<DictGroupEntity>> Query(DictGroupQueryDto dto);
+    Task<IResultModel<IList<DictGroupEntity>>> Query(DictGroupQueryDto dto);
 
     /// <summary>
     /// 添加
