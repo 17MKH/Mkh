@@ -24,11 +24,29 @@ public class DictGroupService : IDictGroupService
         _localizer = localizer;
     }
 
-    public Task<PagingQueryResultModel<DictGroupEntity>> Query(DictGroupQueryDto dto)
+    /// <summary>
+    /// 分页查询
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    public Task<PagingQueryResultModel<DictGroupEntity>> QueryToPagination(DictGroupQueryDto dto)
     {
         var query = _repository.Find();
         query.WhereNotNull(dto.Name, m => m.Name.Equals(dto.Name));
         return query.ToPaginationResult(dto.Paging);
+    }
+
+    /// <summary>
+    /// 查询
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    public async Task<IResultModel<IList<DictGroupEntity>>> Query(DictGroupQueryDto dto)
+    {
+        var query = _repository.Find();
+        query.WhereNotNull(dto.Name, m => m.Name.Equals(dto.Name));
+        var result = await query.ToList();
+        return ResultModel.Success(result);
     }
 
     public async Task<IResultModel> Add(DictGroupAddDto dto)
