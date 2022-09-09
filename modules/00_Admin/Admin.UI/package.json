@@ -5,6 +5,7 @@
   "version": "1.2.1",
   "icon": "lock",
   "description": "17MKH权限管理模块",
+  "type": "module",
   "main": "lib/index.es.js",
   "scripts": {
     "dev": "vite --host --config=./build/app.config.ts",

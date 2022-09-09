@@ -1,5 +1,3 @@
-import type { MkhMessagesSchema } from 'mkh-ui'
-
 const messages = {
   name: '姓名',
   account_inactive: '未激活',
@@ -93,8 +91,6 @@ const messages = {
   language: '语言',
 }
 
-export interface MessagesSchema {
-  mod: string
-}
-
 export default messages
+
+export declare type AdminMessagesSchema = typeof messages

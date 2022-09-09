@@ -36,28 +36,22 @@
     <group-save :id="selection.id" v-model="saveVisible" :mode="mode" @success="refresh" />
   </m-container>
 </template>
-<script>
-import { ref } from 'vue'
-import { useList } from 'mkh-ui'
-import page from './page.json'
-import List from '../list/index.vue'
-import GroupSave from '../group-save/index.vue'
-export default {
-  components: { List, GroupSave },
-  setup() {
-    const current = ref({})
-    const listBoxRef = ref()
-    const { selection, mode, saveVisible, add, edit } = useList()
+<script setup lang="ts">
+  import { ref } from 'vue'
+  import { useList } from 'mkh-ui'
+  import page from './page'
+  import List from '../list/index.vue'
+  import GroupSave from '../group-save/index.vue'
 
-    const handleGroupChange = (val, group) => {
-      current.value = group
-    }
+  const current = ref({})
+  const listBoxRef = ref()
+  const { selection, mode, saveVisible, add, edit } = useList()
 
-    const refresh = () => {
-      listBoxRef.value.refresh()
-    }
+  const handleGroupChange = (val, group) => {
+    current.value = group
+  }
 
-    return { page, current, listBoxRef, selection, mode, saveVisible, add, edit, refresh, handleGroupChange }
-  },
-}
+  const refresh = () => {
+    listBoxRef.value.refresh()
+  }
 </script>

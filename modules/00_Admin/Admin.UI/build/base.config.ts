@@ -1,7 +1,7 @@
 import type { UserConfig } from 'vite'
 import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
-import mui from 'mkh-ui/lib/plugins'
+import mui from 'mkh-ui/lib/plugins/index.js'
 
 export default ({ target, mode, command }): UserConfig => {
   return {
@@ -27,7 +27,7 @@ export default ({ target, mode, command }): UserConfig => {
             logo: './assets/mkh/logo.png',
           },
           /** 压缩配置 */
-          htmlMinify: {},
+          minify: {},
         },
       }),
       vue(),
@@ -39,7 +39,7 @@ export default ({ target, mode, command }): UserConfig => {
             /** 解决打包时出现 warning: "@charset" must be the first rule in the file */
             postcssPlugin: 'internal:charset-removal',
             AtRule: {
-              charset: atRule => {
+              charset: (atRule) => {
                 if (atRule.name === 'charset') {
                   atRule.remove()
                 }

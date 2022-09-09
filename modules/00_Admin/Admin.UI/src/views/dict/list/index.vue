@@ -26,7 +26,6 @@
   import { reactive, ref, toRefs, watch } from 'vue'
   import { useEntityBaseCols, useList } from 'mkh-ui'
   import { useAdminStore } from '@/store'
-  import { buttons } from '../index/page.json'
   import Save from '../save/index.vue'
   import ItemDialog from '../item/index/index.vue'
   import api from '@/api/dict'

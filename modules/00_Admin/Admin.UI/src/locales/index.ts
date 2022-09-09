@@ -1,9 +1,19 @@
 import { useI18n as usei18n } from 'vue-i18n'
-import { locale } from 'mkh-ui'
-import { MessagesSchema } from '@/locales/lang/zh-cn/index'
+import { Locale, MkhMessagesSchema } from 'mkh-ui'
+import { AdminMessagesSchema } from '@/locales/lang/zh-cn/index'
 
 const useI18n = () => {
-  return usei18n<{ message: MessagesSchema }, locale>()
+  return usei18n<
+    {
+      message: {
+        mkh: MkhMessagesSchema
+        mod: {
+          admin: AdminMessagesSchema
+        }
+      }
+    },
+    Locale
+  >()
 }
 
 export { useI18n }
