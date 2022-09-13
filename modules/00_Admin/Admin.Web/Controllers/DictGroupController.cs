@@ -21,10 +21,19 @@ public class DictGroupController : Web.ModuleController
     }
 
     /// <summary>
+    /// 分页查询
+    /// </summary>
+    [HttpGet]
+    public Task<PagingQueryResultModel<DictGroupEntity>> QueryToPagination([FromQuery] DictGroupQueryDto dto)
+    {
+        return _service.QueryToPagination(dto);
+    }
+
+    /// <summary>
     /// 查询
     /// </summary>
     [HttpGet]
-    public Task<PagingQueryResultModel<DictGroupEntity>> Query([FromQuery] DictGroupQueryDto dto)
+    public Task<IResultModel<IList<DictGroupEntity>>> Query([FromQuery] DictGroupQueryDto dto)
     {
         return _service.Query(dto);
     }
