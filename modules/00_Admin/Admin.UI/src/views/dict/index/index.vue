@@ -2,7 +2,7 @@
   <m-container>
     <m-flex-row>
       <m-flex-fixed width="300px" class="m-margin-r-10">
-        <m-list-box ref="listBoxRef" :title="$t(`mkh.routes.${page.name}`)" :icon="page.icon" :action="$mkh.api.admin.dictGroup.query" @change="handleGroupChange">
+        <m-list-box ref="listBoxRef" :title="$t(`mkh.routes.${page.name}`)" :icon="page.icon" :action="groupApi.query" @change="handleGroupChange">
           <template #toolbar>
             <m-button :code="page.buttons.groupAdd.code" icon="plus" @click="add"></m-button>
           </template>
@@ -12,7 +12,7 @@
           </template>
           <template #action="{ item }">
             <m-button-edit text="" :code="page.buttons.groupEdit.code" @click.stop="edit(item)" @success="refresh"></m-button-edit>
-            <m-button-delete text="" :code="page.buttons.groupRemove.code" :action="$mkh.api.admin.dictGroup.remove" :data="item.id" @success="refresh"></m-button-delete>
+            <m-button-delete text="" :code="page.buttons.groupRemove.code" :action="groupApi.remove" :data="item.id" @success="refresh"></m-button-delete>
           </template>
         </m-list-box>
       </m-flex-fixed>
@@ -33,7 +33,7 @@
         </m-flex-col>
       </m-flex-auto>
     </m-flex-row>
-    <group-save :id="selection.id" v-model="saveVisible" :mode="mode" @success="refresh" />
+    <group-save :id="id" v-model="actionProps.visible" :mode="actionProps.mode" @success="refresh" />
   </m-container>
 </template>
 <script setup lang="ts">
@@ -42,10 +42,15 @@
   import page from './page'
   import List from '../list/index.vue'
   import GroupSave from '../group-save/index.vue'
+  import groupApi from '@/api/dictGroup'
 
-  const current = ref({})
+  const current = ref({ code: '', name: '', remarks: '' })
   const listBoxRef = ref()
-  const { selection, mode, saveVisible, add, edit } = useList()
+  const {
+    id,
+    actionProps,
+    methods: { add, edit },
+  } = useList()
 
   const handleGroupChange = (val, group) => {
     current.value = group

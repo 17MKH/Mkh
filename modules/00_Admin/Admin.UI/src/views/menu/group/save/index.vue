@@ -9,39 +9,37 @@
   </m-form-dialog>
 </template>
 <script>
-import { computed, reactive, ref } from 'vue'
-import { useSave, withSaveProps } from 'mkh-ui'
+  import { computed, reactive, ref } from 'vue'
+  import { useAction } from 'mkh-ui'
 
-export default {
-  props: {
-    ...withSaveProps,
-  },
-  emits: ['success'],
-  setup(props, { emit }) {
-    const {
-      $t,
-      api: {
-        admin: { menuGroup: api },
-      },
-    } = mkh
+  export default {
+    props: {},
+    emits: ['success'],
+    setup(props, { emit }) {
+      const {
+        $t,
+        api: {
+          admin: { menuGroup: api },
+        },
+      } = mkh
 
-    const model = reactive({ name: '', remarks: '' })
-    const rules = computed(() => {
-      return { name: [{ required: true, message: $t('mod.admin.input_menu_group_name') }] }
-    })
+      const model = reactive({ name: '', remarks: '' })
+      const rules = computed(() => {
+        return { name: [{ required: true, message: $t('mod.admin.input_menu_group_name') }] }
+      })
 
-    const nameRef = ref(null)
-    const { bind, on } = useSave({ props, api, model, rules, emit })
-    bind.autoFocusRef = nameRef
-    bind.width = '700px'
+      const nameRef = ref(null)
+      const { bind, on } = useAction({ props, api, model, rules, emit })
+      bind.autoFocusRef = nameRef
+      bind.width = '700px'
 
-    return {
-      model,
-      rules,
-      bind,
-      on,
-      nameRef,
-    }
-  },
-}
+      return {
+        model,
+        rules,
+        bind,
+        on,
+        nameRef,
+      }
+    },
+  }
 </script>

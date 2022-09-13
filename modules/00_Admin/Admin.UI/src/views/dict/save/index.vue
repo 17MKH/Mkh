@@ -10,11 +10,10 @@
 </template>
 <script>
   import { computed, reactive, ref } from 'vue'
-  import { useSave, withSaveProps } from 'mkh-ui'
+  import { useAction } from 'mkh-ui'
 
   export default {
     props: {
-      ...withSaveProps,
       groupCode: {
         type: String,
         default: '',
@@ -33,7 +32,7 @@
       })
 
       const nameRef = ref(null)
-      const { bind, on } = useSave({ props, api, model, emit })
+      const { bind, on } = useAction({ props, api, model, emit })
       bind.autoFocusRef = nameRef
       bind.width = '500px'
       bind.beforeSubmit = () => {

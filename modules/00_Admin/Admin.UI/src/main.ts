@@ -1,10 +1,10 @@
-import { bootstrap, useAppService, useModule } from 'mkh-ui'
+import { bootstrap, useAppCreatedService, useModule } from 'mkh-ui'
 import options from './options'
 import mod_admin from './index'
 
 useModule(mod_admin)
 
-useAppService(({ config }) => {
+useAppCreatedService(({ config }) => {
   config.site.title = {
     'zh-cn': '通用统一认证平台',
     en: 'Common Authentication Platform',

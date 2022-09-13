@@ -31,59 +31,60 @@
   <save :id="selection.id" v-model="saveVisible" :parent-id="parentId" :mode="mode" @success="handleChange" />
 </template>
 <script>
-import { computed, reactive, toRef, watch } from 'vue'
-import { useList } from 'mkh-ui'
-import { buttons } from '../../index/page.json'
-import Save from '../save/index.vue'
-export default {
-  components: { Save },
-  props: {
-    parentId: {
-      type: Number,
-      default: 0,
+  import { computed, reactive, toRef, watch } from 'vue'
+  import { useList } from 'mkh-ui'
+  import page from '../../index/page.ts'
+  import Save from '../save/index.vue'
+  export default {
+    components: { Save },
+    props: {
+      parentId: {
+        type: Number,
+        default: 0,
+      },
     },
-  },
-  emits: ['change'],
-  setup(props, { emit }) {
-    const { store } = mkh
+    emits: ['change'],
+    setup(props, { emit }) {
+      const { store } = mkh
+      const buttons = page.buttons
 
-    const { query, remove } = mkh.api.admin.dictItem
-    const parentId = toRef(props, 'parentId')
+      const { query, remove } = mkh.api.admin.dictItem
+      const parentId = toRef(props, 'parentId')
 
-    const adminStore = store.state.mod.admin
-    const groupCode = computed(() => adminStore.dict.groupCode)
-    const dictCode = computed(() => adminStore.dict.dictCode)
+      const adminStore = store.state.mod.admin
+      const groupCode = computed(() => adminStore.dict.groupCode)
+      const dictCode = computed(() => adminStore.dict.dictCode)
 
-    const model = reactive({ groupCode, dictCode, parentId, name: '', value: '' })
-    const cols = [
-      { prop: 'id', label: 'mkh.id', width: '55', show: false },
-      { prop: 'name', label: 'mkh.name' },
-      { prop: 'value', label: 'mkh.value' },
-      { prop: 'icon', label: 'mkh.icon' },
-      { prop: 'level', label: 'mkh.level' },
-      { prop: 'sort', label: 'mkh.sort' },
-    ]
+      const model = reactive({ groupCode, dictCode, parentId, name: '', value: '' })
+      const cols = [
+        { prop: 'id', label: 'mkh.id', width: '55', show: false },
+        { prop: 'name', label: 'mkh.name' },
+        { prop: 'value', label: 'mkh.value' },
+        { prop: 'icon', label: 'mkh.icon' },
+        { prop: 'level', label: 'mkh.level' },
+        { prop: 'sort', label: 'mkh.sort' },
+      ]
 
-    const list = useList()
+      const list = useList()
 
-    watch([parentId, groupCode, dictCode], () => {
-      list.refresh()
-    })
+      watch([parentId, groupCode, dictCode], () => {
+        list.refresh()
+      })
 
-    const handleChange = () => {
-      list.refresh()
-      emit('change')
-    }
+      const handleChange = () => {
+        list.refresh()
+        emit('change')
+      }
 
-    return {
-      buttons,
-      model,
-      cols,
-      query,
-      remove,
-      ...list,
-      handleChange,
-    }
-  },
-}
+      return {
+        buttons,
+        model,
+        cols,
+        query,
+        remove,
+        ...list,
+        handleChange,
+      }
+    },
+  }
 </script>

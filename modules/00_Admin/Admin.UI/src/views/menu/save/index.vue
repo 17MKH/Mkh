@@ -140,148 +140,147 @@
   </m-form-dialog>
 </template>
 <script>
-import { computed, getCurrentInstance, reactive } from 'vue'
-import { useSave, withSaveProps } from 'mkh-ui'
+  import { computed, getCurrentInstance, reactive } from 'vue'
+  import { useAction } from 'mkh-ui'
 
-export default {
-  props: {
-    ...withSaveProps,
-    group: {
-      type: Object,
-      required: true,
+  export default {
+    props: {
+      group: {
+        type: Object,
+        required: true,
+      },
+      parent: {
+        type: Object,
+        required: true,
+      },
     },
-    parent: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['success'],
-  setup(props, { emit }) {
-    const { $t } = mkh
-    const cit = getCurrentInstance().proxy
-    const api = mkh.api.admin.menu
-    const localesTable = [{ lang: 'zh-cn' }, { lang: 'en' }]
+    emits: ['success'],
+    setup(props, { emit }) {
+      const { $t } = mkh
+      const cit = getCurrentInstance().proxy
+      const api = mkh.api.admin.menu
+      const localesTable = [{ lang: 'zh-cn' }, { lang: 'en' }]
 
-    const model = reactive({
-      groupId: 0,
-      parentId: 0,
-      type: 1,
-      icon: '',
-      iconColor: '',
-      module: '',
-      routeName: '',
-      routeParams: '',
-      routeQuery: '',
-      url: '',
-      openTarget: 0,
-      dialogWidth: '800px',
-      dialogHeight: '600px',
-      customJs: '',
-      show: true,
-      sort: 0,
-      remarks: '',
-      permissions: [],
-      buttons: [],
-      locales: { 'zh-cn': '', en: '' },
-    })
+      const model = reactive({
+        groupId: 0,
+        parentId: 0,
+        type: 1,
+        icon: '',
+        iconColor: '',
+        module: '',
+        routeName: '',
+        routeParams: '',
+        routeQuery: '',
+        url: '',
+        openTarget: 0,
+        dialogWidth: '800px',
+        dialogHeight: '600px',
+        customJs: '',
+        show: true,
+        sort: 0,
+        remarks: '',
+        permissions: [],
+        buttons: [],
+        locales: { 'zh-cn': '', en: '' },
+      })
 
-    const baseRules = computed(() => {
-      return { name: [{ required: true, message: $t('mod.admin.input_menu_name') }] }
-    })
+      const baseRules = computed(() => {
+        return { name: [{ required: true, message: $t('mod.admin.input_menu_name') }] }
+      })
 
-    const IsJsonString = (rule, value, callback) => {
-      if (!value) {
-        callback()
-      } else {
-        try {
-          JSON.parse(value)
+      const IsJsonString = (rule, value, callback) => {
+        if (!value) {
           callback()
-        } catch {
-          callback(new Error($t('mod.admin.input_standard_json')))
-        }
-      }
-    }
-
-    const rules = computed(() => {
-      switch (model.type) {
-        case 0:
-          return baseRules
-        case 1:
-          return {
-            ...baseRules,
-            module: [{ required: true, message: $t('mod.admin.select_module') }],
-            routeName: [{ required: true, message: $t('mod.admin.select_page_route') }],
-            routeQuery: [{ validator: IsJsonString, trigger: 'blur' }],
+        } else {
+          try {
+            JSON.parse(value)
+            callback()
+          } catch {
+            callback(new Error($t('mod.admin.input_standard_json')))
           }
-        case 3:
-          return { ...baseRules, customJs: [{ required: true, message: $t('mod.admin.input_custom_script') }] }
-        default:
-          return { ...baseRules, url: [{ required: true, message: $t('mod.admin.input_link_url') }], openTarget: [{ required: true, message: $t('mod.admin.select_open_target') }] }
+        }
       }
-    })
 
-    const state = reactive({ pages: [], currPage: null })
-    const { bind, on } = useSave({ props, api, model, emit })
-
-    bind.width = '900px'
-    bind.labelWidth = '150px'
-    bind.closeOnSuccess = false
-    bind.beforeSubmit = () => {
-      //提交前设置分组和父级id
-      model.groupId = props.group.id
-      model.parentId = props.parent.id
-
-      //路由菜单需要设置权限信息和按钮信息
-      if (model.type === 1) {
-        const { permissions, buttons } = state.currPage
-        model.permissions = permissions
-
-        if (buttons) {
-          model.buttons = Object.values(buttons).map(m => {
+      const rules = computed(() => {
+        switch (model.type) {
+          case 0:
+            return baseRules
+          case 1:
             return {
-              name: m.text,
-              code: m.code,
-              icon: m.icon,
-              permissions: m.permissions,
+              ...baseRules,
+              module: [{ required: true, message: $t('mod.admin.select_module') }],
+              routeName: [{ required: true, message: $t('mod.admin.select_page_route') }],
+              routeQuery: [{ validator: IsJsonString, trigger: 'blur' }],
             }
-          })
+          case 3:
+            return { ...baseRules, customJs: [{ required: true, message: $t('mod.admin.input_custom_script') }] }
+          default:
+            return { ...baseRules, url: [{ required: true, message: $t('mod.admin.input_link_url') }], openTarget: [{ required: true, message: $t('mod.admin.select_open_target') }] }
+        }
+      })
+
+      const state = reactive({ pages: [], currPage: null })
+      const { bind, on } = useAction({ props, api, model, emit })
+
+      bind.width = '900px'
+      bind.labelWidth = '150px'
+      bind.closeOnSuccess = false
+      bind.beforeSubmit = () => {
+        //提交前设置分组和父级id
+        model.groupId = props.group.id
+        model.parentId = props.parent.id
+
+        //路由菜单需要设置权限信息和按钮信息
+        if (model.type === 1) {
+          const { permissions, buttons } = state.currPage
+          model.permissions = permissions
+
+          if (buttons) {
+            model.buttons = Object.values(buttons).map((m) => {
+              return {
+                name: m.text,
+                code: m.code,
+                icon: m.icon,
+                permissions: m.permissions,
+              }
+            })
+          }
         }
       }
-    }
 
-    const handleModuleSelectChange = (code, mod) => {
-      if (mod) {
-        state.pages = mod.data.pages.filter(m => !m.noMenu)
-        handleRouteChange(model.routeName)
-      } else {
-        state.pages = []
-        model.routeName = ''
-      }
-    }
-
-    const handleRouteChange = routeName => {
-      let page = state.pages.find(m => m.name === routeName)
-      if (page) {
-        model.name = page.title
-        model.icon = page.icon
-        state.currPage = page
-
-        for (let key in model.locales) {
-          model.locales[key] = cit.$i18n.messages[key].mkh.routes[page.name]
+      const handleModuleSelectChange = (code, mod) => {
+        if (mod) {
+          state.pages = mod.data.pages.filter((m) => !m.noMenu)
+          handleRouteChange(model.routeName)
+        } else {
+          state.pages = []
+          model.routeName = ''
         }
       }
-    }
 
-    return {
-      localesTable,
-      model,
-      rules,
-      bind,
-      on,
-      state,
-      handleModuleSelectChange,
-      handleRouteChange,
-    }
-  },
-}
+      const handleRouteChange = (routeName) => {
+        let page = state.pages.find((m) => m.name === routeName)
+        if (page) {
+          model.name = page.title
+          model.icon = page.icon
+          state.currPage = page
+
+          for (let key in model.locales) {
+            model.locales[key] = cit.$i18n.messages[key].mkh.routes[page.name]
+          }
+        }
+      }
+
+      return {
+        localesTable,
+        model,
+        rules,
+        bind,
+        on,
+        state,
+        handleModuleSelectChange,
+        handleRouteChange,
+      }
+    },
+  }
 </script>

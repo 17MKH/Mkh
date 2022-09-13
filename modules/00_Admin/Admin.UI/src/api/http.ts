@@ -1,5 +1,9 @@
-import { createHttp } from 'mkh-ui'
+import { createHttp, ModuleDefinition } from 'mkh-ui'
 import options from '@/options'
-import mod from '@/index'
 
-export default createHttp(options, mod)
+let http
+
+export const useHttp = function (mod: ModuleDefinition) {
+  http = createHttp(options, mod)
+}
+export default http

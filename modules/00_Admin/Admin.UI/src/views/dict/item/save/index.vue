@@ -28,13 +28,11 @@
 </template>
 <script setup lang="ts">
   import { computed, reactive, ref } from 'vue'
-  import { useFullscreen, use, withSaveProps } from 'mkh-ui'
   import { useI18n } from '@/locales'
   import api from '@/api'
 
   const { t } = useI18n()
   const props = defineProps({
-    ...withSaveProps,
     parentId: {
       type: Number,
       default: 0,
@@ -51,7 +49,7 @@
   })
 
   const nameRef = ref(null)
-  const { bind, on } = useSave({ props, api: api.dictItem, model, emit })
+  const { bind, on } = useAction({ props, api: api.dictItem, model, emit })
   bind.autoFocusRef = nameRef
   bind.width = '700px'
   bind.beforeSubmit = () => {
