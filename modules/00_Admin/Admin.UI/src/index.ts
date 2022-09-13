@@ -1,8 +1,7 @@
-import { useAppCreatedService, useAppMountService } from 'mkh-ui'
+import { useAppCreatedService } from 'mkh-ui'
 import { useAdminStore } from './store'
-import mod from './mod'
-import { useHttp } from './api/http'
 import api from './api'
+import mod from 'virtual:mkh-mod-admin'
 
 //注册服务
 useAppCreatedService(({ config }) => {
@@ -16,10 +15,6 @@ useAppCreatedService(({ config }) => {
     toggleSkin: updateSkin,
     refreshToken,
   }
-})
-
-useAppMountService(() => {
-  useHttp(mod)
 })
 
 export default mod

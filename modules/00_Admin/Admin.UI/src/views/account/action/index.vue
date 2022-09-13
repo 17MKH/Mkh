@@ -14,8 +14,8 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item :label="t('mkh.login.password')" prop="password">
-          <el-input v-model="model.password" :placeholder="`${$t('mod.admin.default_password')}：${defaultPassword}`" :disabled="isEdit" />
+        <el-form-item v-if="isAdd" :label="t('mkh.login.password')" prop="password">
+          <el-input v-model="model.password" :placeholder="`${$t('mod.admin.default_password')}：${defaultPassword}`" />
         </el-form-item>
         <el-form-item :label="t('mkh.role')" prop="roleId">
           <m-admin-role-select v-model="model.roleId" checked-first />
@@ -49,7 +49,8 @@
   })
 
   const nameRef = ref(null)
-  const { form, isEdit } = useAction({ props, api, model })
+  const { form, isAdd, isEdit } = useAction({ props, api, model })
+  form.props.autoFocusRef = nameRef
 
   const defaultPassword = ref('')
   api.getDefaultPassword().then((data) => {

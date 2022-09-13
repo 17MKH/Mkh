@@ -5,7 +5,7 @@
         <el-form-item :label="t('mkh.login.username')" prop="username">
           <el-input v-model="model.username" clearable />
         </el-form-item>
-        <el-form-item :label="t('mod.admin.name')" prop="name">
+        <el-form-item :label="t('mod.')" prop="name">
           <el-input v-model="model.name" clearable />
         </el-form-item>
         <el-form-item :label="t('mkh.phone')" prop="phone">

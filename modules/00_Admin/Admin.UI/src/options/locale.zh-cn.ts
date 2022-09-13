@@ -10,7 +10,7 @@ const options: MkhLocaleMessages = {
   mkh: mkh,
   routes: { ...mod_admin_routes },
   mod: {
-    doc: mod_admin,
+    admin: mod_admin,
   },
   skin: {},
 }
