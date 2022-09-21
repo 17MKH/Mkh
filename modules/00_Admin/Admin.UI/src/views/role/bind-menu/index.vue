@@ -208,6 +208,7 @@
 <style lang="scss">
   .m-admin-bind-menu {
     .el-tree-node__content {
+      position: relative;
       flex-wrap: wrap;
       height: auto;
     }
@@ -218,7 +219,8 @@
 
     &_buttons {
       position: absolute;
-      left: 400px;
+      top: 0;
+      left: 450px;
       .el-checkbox {
         margin-right: 5px;
       }

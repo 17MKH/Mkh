@@ -26,18 +26,6 @@ public class DictGroupService : IDictGroupService
     }
 
     /// <summary>
-    /// 分页查询
-    /// </summary>
-    /// <param name="dto"></param>
-    /// <returns></returns>
-    public Task<PagingQueryResultModel<DictGroupEntity>> QueryToPagination(DictGroupQueryDto dto)
-    {
-        var query = _repository.Find();
-        query.WhereNotNull(dto.Name, m => m.Name.Equals(dto.Name));
-        return query.ToPaginationResult(dto.Paging);
-    }
-
-    /// <summary>
     /// 查询
     /// </summary>
     /// <param name="dto"></param>
