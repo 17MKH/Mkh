@@ -226,10 +226,11 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
         {
             case "CHAR":
                 //MySql中使用CHAR(36)来保存GUID格式
-                sql.AppendFormat("CHAR({0}) ", column.Length);
+                sql.AppendFormat("CHAR({0}) ", column.Length >= 254 ? 254 : column.Length);
                 break;
             case "VARCHAR":
-                sql.AppendFormat("VARCHAR({0}) ", column.Length);
+                //UTF8字符集下最大21845字符，GBK字符集下最大32767字符
+                sql.AppendFormat("{0} ", column.Length >= 21845 ? "TEXT " : $"VARCHAR({column.Length}) ");
                 break;
             case "DECIMAL":
             case "DOUBLE":

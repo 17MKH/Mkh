@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions.Annotations;
-using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.DictGroup;
 using Mkh.Mod.Admin.Core.Application.DictGroup.Dto;
 using Mkh.Mod.Admin.Core.Domain.DictGroup;
@@ -24,7 +24,7 @@ public class DictGroupController : Web.ModuleController
     /// 查询
     /// </summary>
     [HttpGet]
-    public Task<PagingQueryResultModel<DictGroupEntity>> Query([FromQuery] DictGroupQueryDto dto)
+    public Task<IResultModel<IList<DictGroupEntity>>> Query([FromQuery] DictGroupQueryDto dto)
     {
         return _service.Query(dto);
     }

@@ -15,6 +15,8 @@ public class MoreDataTypeEntity : EntityBaseSoftDelete<Guid>
     [Length(32)]
     public string Name { get; set; }
 
+    // 取消注释更改字段
+    // [Precision(18,2)]
     public decimal Money1 { get; set; }
 
     public float Money2 { get; set; }
@@ -35,6 +37,9 @@ public class MoreDataTypeEntity : EntityBaseSoftDelete<Guid>
     public short Field3 { get; set; }
 
     public bool Field4 { get; set; }
+
+    [Column("f_byte")]
+    public byte FByte { get; set; }
 
     public enum TestEnum
     {

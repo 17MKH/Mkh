@@ -73,6 +73,7 @@ internal sealed class PostgreSQLDbAdapter : DbAdapterAbstract
 
     public override IDbConnection NewConnection(string connectionString)
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         return new NpgsqlConnection(connectionString);
     }
 
@@ -105,6 +106,13 @@ internal sealed class PostgreSQLDbAdapter : DbAdapterAbstract
             return;
         }
 
+        //二进制数组
+        if (propertyType.IsArray && typeof(byte[]).IsAssignableFrom(propertyType))
+        {
+            columnDescriptor.TypeName = "bytea";
+            return;
+        }
+
         if (propertyType.IsGuid())
         {
             columnDescriptor.TypeName = "uuid";
@@ -134,7 +142,7 @@ internal sealed class PostgreSQLDbAdapter : DbAdapterAbstract
                 {
                     columnDescriptor.DefaultValue = "0";
                 }
-                columnDescriptor.TypeName = "bytea";
+                columnDescriptor.TypeName = "int2";
                 break;
             case TypeCode.Int16:
                 if (!isNullable)

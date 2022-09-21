@@ -11,6 +11,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Schema;
+using static Npgsql.Replication.PgOutput.Messages.RelationMessage;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Mkh.Data.Adapter.PostgreSQL
 {
@@ -112,7 +116,13 @@ namespace Mkh.Data.Adapter.PostgreSQL
             {
                 var column = columns[i];
 
-                sql.Append(GenerateColumnAddSql(column, tableName, ref sqlComment));
+                sql.Append(GenerateColumnAddSql(column, tableName));
+
+                //生成字段备注
+                if (column.Description.NotNull())
+                {
+                    sqlComment.AppendFormat($"COMMENT ON COLUMN {this.AppendQuote(tableName)}.{this.AppendQuote(column.Name)} is '{column.Description}'; ");
+                }
 
                 if (i < columns.Count - 1)
                 {
@@ -131,90 +141,90 @@ namespace Mkh.Data.Adapter.PostgreSQL
         /// </summary>
         private void UpdateColumn(IEntityDescriptor descriptor, IDbConnection con, string tableName)
         {
+            using var trans = con.BeginTransaction();
+
             var columns = Context.SchemaProvider.GetColumns(con.Database, tableName);
-            //保存删除后的列信息
-            var cleanColumns = new List<ColumnSchema>();
+            var commentSql = new StringBuilder(128);
 
-            //删除列
-            foreach (var column in columns)
+            try
             {
-                //如果列名称、列类型或者可空配置不一样，则删除重建
-                var deleted = descriptor.Columns.FirstOrDefault(m => m.Name.Equals(column.Name, StringComparison.CurrentCultureIgnoreCase));
-                if (deleted == null || CompareColumnInfo(deleted, column))
+                //对比列，添加或修改列
+                foreach (var column in descriptor.Columns)
                 {
-                    var deleteSql = $"ALTER TABLE {AppendQuote(tableName)} DROP COLUMN {AppendQuote(column.Name)};";
-                    con.Execute(deleteSql);
-                }
-                else
-                {
-                    cleanColumns.Add(column);
-                }
-            }
-
-            //添加列
-            foreach (var column in descriptor.Columns)
-            {
-                var add = cleanColumns.FirstOrDefault(m => m.Name.Equals(column.Name, StringComparison.CurrentCultureIgnoreCase));
-                if (add == null)
-                {
-                    var commentSql = new StringBuilder(128);
-                    var addSql = $"ALTER TABLE {AppendQuote(tableName)} ADD COLUMN {GenerateColumnAddSql(column, tableName, ref commentSql)}";
-
-                    con.Execute(addSql);
-
-                    if (commentSql.Length > 0)
+                    var existsCol = columns.FirstOrDefault(m => m.Name.Equals(column.Name, StringComparison.CurrentCultureIgnoreCase));
+                    if (existsCol == null)
                     {
-                        con.Execute(commentSql.ToString());
+                        var addSql = $"ALTER TABLE {AppendQuote(tableName)} ADD COLUMN {GenerateColumnAddSql(column, tableName)}";
+                        //生成字段备注
+                        if (column.Description.NotNull())
+                        {
+                            commentSql.AppendFormat($"COMMENT ON COLUMN {this.AppendQuote(tableName)}.{this.AppendQuote(column.Name)} is '{column.Description}'; ");
+                        }
+                        con.Execute(addSql, transaction: trans);
+                    }
+                    else
+                    {
+                        CompareColumn(column, existsCol, tableName, con, trans);
+
+                        if (string.IsNullOrWhiteSpace(column.Description) && !string.IsNullOrWhiteSpace(existsCol.Description))
+                        {
+                            commentSql.AppendFormat($"COMMENT ON COLUMN {this.AppendQuote(tableName)}.{this.AppendQuote(existsCol.Name)} is '{existsCol.Description}'; ");
+                        }
                     }
                 }
+
+                if (commentSql.Length > 0)
+                {
+                    con.Execute(commentSql.ToString(), transaction: trans);
+                }
+
+                trans.Commit();
             }
+            catch (Exception)
+            {
+                trans.Rollback();
+                throw;
+            }
+            
         }
 
         /// <summary>
-        /// 比对列信息
+        /// 对比字段变化，执行修改sql
         /// </summary>
-        /// <returns></returns>
-        private bool CompareColumnInfo(IColumnDescriptor descriptor, ColumnSchema schema)
+        /// <param name="descriptor"></param>
+        /// <param name="colSchema"></param>
+        /// <param name="tableName"></param>
+        /// <param name="con"></param>
+        /// <param name="trans"></param>
+        void CompareColumn(IColumnDescriptor descriptor, ColumnSchema colSchema, string tableName,  IDbConnection con, IDbTransaction trans)
         {
             //类型修改
-            if (!descriptor.TypeName.EqualsIgnoreCase(schema.DataType))
-                return true;
+            if (!descriptor.TypeName.EqualsIgnoreCase(colSchema.DataType))
+                return ;
 
             switch (descriptor.TypeName?.ToUpper())
             {
                 case "CHAR":
+                    if (descriptor.Length != colSchema.Length)
+                        con.Execute($"ALTER TABLE {this.AppendQuote(tableName)} ALTER COLUMN {this.AppendQuote(descriptor.Name)} TYPE character({descriptor.Length});", transaction: trans);
+                        break;
                 case "VARCHAR":
-                    if (descriptor.Length != schema.Length)
-                        return true;
+                    if (descriptor.Length != colSchema.Length)
+                        con.Execute($"ALTER TABLE {this.AppendQuote(tableName)} ALTER COLUMN {this.AppendQuote(descriptor.Name)} TYPE VARCHAR({descriptor.Length});", transaction: trans);
                     break;
-                    //case "NUMERIC":
-                    //case "DOUBLE":
-                    //case "FLOAT":
-                    //case "FLOAT4":
-                    //case "FLOAT8":
-                    //    var precision = descriptor.Precision < 1 ? 18 : descriptor.Precision;
-                    //    var scale = descriptor.Scale < 1 ? 4 : descriptor.Scale;
-                    //    if (precision != schema.Precision || scale != schema.Scale)
-                    //        return true;
-                    //break;
+                case "NUMERIC":
+                    var precision = descriptor.Precision < 1 ? 18 : descriptor.Precision;
+                    var scale = descriptor.Scale < 1 ? 4 : descriptor.Scale;
+                    if (precision != colSchema.Precision || scale != colSchema.Scale)
+                        con.Execute($"ALTER TABLE {this.AppendQuote(tableName)} ALTER COLUMN {this.AppendQuote(descriptor.Name)} TYPE NUMERIC({precision}, {scale});", transaction: trans);
+                    break;
             }
 
-            //可空修改
-            if (descriptor.Nullable != schema.IsNullable)
-                return true;
-
-            //说明修改
-            if (descriptor.Description != null && !descriptor.Description.EqualsIgnoreCase(schema.Description))
-                return true;
-
-            //默认值修改
-            if (descriptor.DefaultValue != null && !descriptor.DefaultValue.EqualsIgnoreCase(schema.DefaultValue))
-                return true;
-
-            return false;
+            
         }
 
-        private string GenerateColumnAddSql(IColumnDescriptor column, string tableName, ref StringBuilder commentSql)
+
+        private string GenerateColumnAddSql(IColumnDescriptor column, string tableName)
         {
             var sql = new StringBuilder();
             sql.AppendFormat("{0} ", AppendQuote(column.Name));
@@ -222,14 +232,14 @@ namespace Mkh.Data.Adapter.PostgreSQL
             switch (column.TypeName?.ToUpper())
             {
                 case "CHAR":
-                    sql.AppendFormat("CHAR({0}) ", column.Length);
+                    sql.AppendFormat("CHARACTER({0}) ", column.Length);
                     break;
                 case "VARCHAR":
                     sql.AppendFormat("VARCHAR({0}) ", column.Length);
                     break;
                 case "DECIMAL":
-                case "DOUBLE":
-                case "FLOAT":
+                //case "DOUBLE":
+                //case "FLOAT":
                     var precision = column.Precision < 1 ? 18 : column.Precision;
                     var scale = column.Scale < 1 ? 4 : column.Scale;
                     sql.AppendFormat("{0}({1},{2}) ", column.TypeName, precision, scale);
@@ -285,10 +295,10 @@ namespace Mkh.Data.Adapter.PostgreSQL
                 sql.AppendFormat("DEFAULT {0}", column.DefaultValue);
             }
 
-            if (column.Description.NotNull())
-            {
-                commentSql.AppendFormat($"COMMENT ON COLUMN {this.AppendQuote(tableName)}.{this.AppendQuote(column.Name)} is '{column.Description}'; ");
-            }
+            //if (column.Description.NotNull())
+            //{
+            //    commentSql.AppendFormat($"COMMENT ON COLUMN {this.AppendQuote(tableName)}.{this.AppendQuote(column.Name)} is '{column.Description}'; ");
+            //}
 
             return sql.ToString();
         }
