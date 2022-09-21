@@ -1,14 +1,14 @@
 <template>
   <m-container class="m-admin-role">
-    <m-flex-row>
+    <m-flex-row class="m-fill-h">
       <m-flex-fixed width="300px" class="m-margin-r-10">
-        <m-list-box ref="listBoxRef" v-model="roleId" :title="$t('mod.admin.role_list')" icon="role" :action="query" @change="handleRoleChange">
+        <m-list-box ref="listBoxRef" v-model="roleId" :title="$t('mod.admin.role_list')" icon="role" :action="api.query" @change="handleRoleChange">
           <template #toolbar>
             <m-button :code="buttons.add.code" icon="plus" @click="add"></m-button>
           </template>
           <template #action="{ item }">
             <m-button-edit :code="buttons.edit.code" @click.stop="edit(item)" @success="refresh"></m-button-edit>
-            <m-button-delete :code="buttons.remove.code" :action="remove" :data="item.id" @success="refresh"></m-button-delete>
+            <m-button-delete :code="buttons.remove.code" :action="api.remove" :data="item.id" @success="refresh"></m-button-delete>
           </template>
         </m-list-box>
       </m-flex-fixed>
@@ -36,70 +36,54 @@
         </m-flex-col>
       </m-flex-auto>
     </m-flex-row>
-    <save :id="selection.id" v-model="saveVisible" :mode="mode" @success="refresh" />
+    <action v-model="actionProps.visible" :id="id" :mode="actionProps.mode" @success="refresh"></action>
   </m-container>
 </template>
-<script>
-import { ref } from 'vue'
-import { useList } from 'mkh-ui'
-import { buttons } from './page.json'
-import Save from '../save/index.vue'
-import BindMenu from '../bind-menu/index.vue'
-export default {
-  components: { Save, BindMenu },
-  setup() {
-    const { query, remove } = mkh.api.admin.role
-    const roles = ref([])
-    const roleId = ref('')
-    const current = ref({ id: 0 })
-    const listBoxRef = ref()
-    const { selection, mode, saveVisible, add, edit } = useList()
+<script setup lang="ts">
+  import { ref } from 'vue'
+  import { useList } from 'mkh-ui'
+  import Action from '../action/index.vue'
+  import BindMenu from '../bind-menu/index.vue'
+  import page from './page'
+  import api from '@/api/role'
 
-    const handleRoleChange = (val, role) => {
-      current.value = role
-    }
+  const { buttons } = page
+  const roleId = ref('')
+  const current = ref({ id: 0, name: '', code: '', locked: false, menuGroupName: '', creator: '', createdTime: '', remarks: '' })
+  const listBoxRef = ref()
 
-    const refresh = () => {
-      console.log(listBoxRef.value)
-      listBoxRef.value.refresh()
-    }
+  const {
+    id,
+    actionProps,
+    methods: { add, edit },
+  } = useList()
 
-    return {
-      buttons,
-      roles,
-      roleId,
-      current,
-      listBoxRef,
-      selection,
-      mode,
-      saveVisible,
-      add,
-      edit,
-      remove,
-      query,
-      handleRoleChange,
-      refresh,
-    }
-  },
-}
+  const handleRoleChange = (val, role) => {
+    current.value = role
+  }
+
+  const refresh = () => {
+    console.log(listBoxRef.value)
+    listBoxRef.value.refresh()
+  }
 </script>
 <style lang="scss">
-.m-admin-role {
-  &_item {
-    padding: 0 20px;
-    height: 45px;
-    line-height: 45px;
-    cursor: pointer;
-    border-bottom: 1px solid #ebeef5;
+  .m-admin-role {
+    &_item {
+      padding: 0 20px;
+      height: 45px;
+      line-height: 45px;
+      cursor: pointer;
+      border-bottom: 1px solid #ebeef5;
 
-    &:hover {
-      background-color: #ecf5ff;
-    }
+      &:hover {
+        background-color: #ecf5ff;
+      }
 
-    &.active {
-      background-color: #ecf5ff;
-      border-left: 3px solid #409eff;
+      &.active {
+        background-color: #ecf5ff;
+        border-left: 3px solid #409eff;
+      }
     }
   }
-}
 </style>

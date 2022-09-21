@@ -1,6 +1,5 @@
 <template>
   <m-form-dialog :model="model" :rules="rules" v-bind="form.props" v-on="form.on">
-    <el-alert v-if="isEdit" class="m-margin-b-20" :title="t('mod.admin.not_allow_edit_username')" type="warning"> </el-alert>
     <el-row>
       <el-col :span="12">
         <el-form-item :label="t('mkh.login.username')" prop="username">
@@ -15,7 +14,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item v-if="isAdd" :label="t('mkh.login.password')" prop="password">
-          <el-input v-model="model.password" :placeholder="`${$t('mod.admin.default_password')}：${defaultPassword}`" />
+          <el-input v-model="model.password" :placeholder="`${t('mod.admin.default_password')}：${defaultPassword}`" />
         </el-form-item>
         <el-form-item :label="t('mkh.role')" prop="roleId">
           <m-admin-role-select v-model="model.roleId" checked-first />
@@ -37,6 +36,7 @@
 
   const profileStore = useProfileStore()
   const props = defineProps<{ id: string | undefined; mode: ActionMode }>()
+  const emit = defineEmits()
 
   const model = reactive({ id: '', username: '', password: '', name: '', phone: '', email: '', roleId: '' })
   const rules = computed(() => {
@@ -49,12 +49,12 @@
   })
 
   const nameRef = ref(null)
-  const { form, isAdd, isEdit } = useAction({ props, api, model })
+  const { form, isAdd, isEdit } = useAction({ props, emit, api, model })
   form.props.autoFocusRef = nameRef
 
   const defaultPassword = ref('')
   api.getDefaultPassword().then((data) => {
-    defaultPassword.value = data as string
+    defaultPassword.value = data
   })
 
   form.on.success = (data) => {

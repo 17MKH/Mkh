@@ -1,7 +1,7 @@
 import { useAppCreatedService } from 'mkh-ui'
 import { useAdminStore } from './store'
-import api from './api'
 import mod from 'virtual:mkh-mod-admin'
+import api from './api'
 
 //注册服务
 useAppCreatedService(({ config }) => {

@@ -8,7 +8,7 @@ export default {
   /**
    * 获取账户默认密码
    */
-  getDefaultPassword: () => http.get('Account/DefaultPassword'),
+  getDefaultPassword: () => http.get<string>('Account/DefaultPassword'),
   /**
    * 更新皮肤
    */

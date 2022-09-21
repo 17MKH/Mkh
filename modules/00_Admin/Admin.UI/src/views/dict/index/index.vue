@@ -1,8 +1,8 @@
 <template>
   <m-container>
-    <m-flex-row>
+    <m-flex-row class="m-fill-h">
       <m-flex-fixed width="300px" class="m-margin-r-10">
-        <m-list-box ref="listBoxRef" :title="$t(`mkh.routes.${page.name}`)" :icon="page.icon" :action="groupApi.query" @change="handleGroupChange">
+        <m-list-box ref="listBoxRef" :title="$t(`routes.${page.name}`)" :icon="page.icon" :action="groupApi.query" @change="handleGroupChange">
           <template #toolbar>
             <m-button :code="page.buttons.groupAdd.code" icon="plus" @click="add"></m-button>
           </template>
@@ -28,20 +28,21 @@
             </m-box>
           </m-flex-fixed>
           <m-flex-auto class="m-margin-t-10">
-            <list :group-code="current.code" />
+            <!-- <list :group-code="current.code" /> -->
           </m-flex-auto>
         </m-flex-col>
       </m-flex-auto>
     </m-flex-row>
-    <group-save :id="id" v-model="actionProps.visible" :mode="actionProps.mode" @success="refresh" />
+    <!-- <group-save :id="id" v-model="actionProps.visible" :mode="actionProps.mode" @success="refresh" /> -->
   </m-container>
 </template>
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useList } from 'mkh-ui'
+  import moduleName from 'module'
   import page from './page'
-  import List from '../list/index.vue'
-  import GroupSave from '../group-save/index.vue'
+  // import List from '../list/index.vue'
+  // import GroupSave from '../group-save/index.vue'
   import groupApi from '@/api/dictGroup'
 
   const current = ref({ code: '', name: '', remarks: '' })

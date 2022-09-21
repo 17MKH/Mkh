@@ -38,6 +38,7 @@ public class MenuService : IMenuService
     public Task<PagingQueryResultModel<MenuEntity>> Query(MenuQueryDto dto)
     {
         var query = _repository.Find(m => m.GroupId == dto.GroupId && m.ParentId == dto.ParentId);
+        query.WhereNotNull(dto.Name, m => m.LocalesConfig.Contains(dto.Name));
         query.OrderBy(m => m.Sort);
 
         return query.ToPaginationResult(dto.Paging);

@@ -89,4 +89,7 @@ export default {
   input_role_name: 'Please enter a role name',
   input_role_code: 'Please enter a unique role code',
   language: 'Language',
+  role_name: 'Role Name',
+  role_code: 'Role Code',
+  save_and_close: 'Save & Close',
 }

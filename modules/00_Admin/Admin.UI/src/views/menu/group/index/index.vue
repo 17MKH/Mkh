@@ -14,38 +14,33 @@
         <m-button-delete :code="buttons.groupRemove.code" :action="remove" :data="row.id" @success="handleChange"></m-button-delete>
       </template>
     </m-list>
-    <save :id="selection.id" v-model="saveVisible" :mode="mode" @success="handleChange" />
+    <action :id="id" v-model="actionProps.visible" :mode="actionProps.mode" @success="handleChange" />
   </m-drawer>
 </template>
-<script>
-import { useList, entityBaseCols } from 'mkh-ui'
-import { reactive } from 'vue'
-import { buttons } from '../../index/page.json'
-import Save from '../save/index.vue'
-export default {
-  components: { Save },
-  emits: ['change'],
-  setup(props, { emit }) {
-    const { query, remove } = mkh.api.admin.menuGroup
-    const model = reactive({ name: '' })
-    const cols = [{ prop: 'id', label: 'mkh.id', width: '55', show: false }, { prop: 'name', label: 'mkh.name' }, { prop: 'remarks', label: 'mkh.remarks' }, ...entityBaseCols()]
+<script setup lang="ts">
+  import { useList, useEntityBaseCols } from 'mkh-ui'
+  import { reactive } from 'vue'
+  import Action from '../action/index.vue'
+  import page from '../../index/page'
+  import api from '@/api/menuGroup'
 
-    const list = useList()
+  const emit = defineEmits(['change'])
 
-    const handleChange = () => {
-      list.refresh()
-      emit('change')
-    }
+  const { buttons } = page
 
-    return {
-      buttons,
-      model,
-      cols,
-      query,
-      remove,
-      ...list,
-      handleChange,
-    }
-  },
-}
+  const { query, remove } = api
+  const model = reactive({ name: '' })
+  const cols = [{ prop: 'id', label: 'mkh.id', width: '55', show: false }, { prop: 'name', label: 'mkh.name' }, { prop: 'remarks', label: 'mkh.remarks' }, ...useEntityBaseCols()]
+
+  const {
+    listRef,
+    id,
+    actionProps,
+    methods: { add, edit, refresh },
+  } = useList()
+
+  const handleChange = () => {
+    refresh()
+    emit('change')
+  }
 </script>

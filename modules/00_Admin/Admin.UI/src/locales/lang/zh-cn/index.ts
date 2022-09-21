@@ -89,6 +89,9 @@ const messages = {
   input_role_name: '请输入角色名称',
   input_role_code: '请输入角色唯一编码',
   language: '语言',
+  role_name: '角色名称',
+  role_code: '角色编码',
+  save_and_close: '保存并关闭',
 }
 
 export default messages
