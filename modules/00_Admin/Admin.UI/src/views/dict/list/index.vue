@@ -13,7 +13,7 @@
         <m-button-add :code="page.buttons.add.code" @click="add" />
       </template>
       <template #operation="{ row }">
-        <m-button type="text" :text="t('mod.admin.dict_item')" icon="cog" @click="openItemDialog(row)"></m-button>
+        <m-button type="primary" text icon="cog" @click="openItemDialog(row)">{{ t('mod.admin.dict_item') }}</m-button>
         <m-button-edit :code="page.buttons.edit.code" @click="edit(row)" @success="refresh"></m-button-edit>
         <m-button-delete :code="page.buttons.remove.code" :action="remove" :data="row.id" @success="refresh"></m-button-delete>
       </template>
@@ -25,14 +25,15 @@
 <script setup lang="ts">
   import { reactive, ref, toRefs, watch } from 'vue'
   import { useEntityBaseCols, useList } from 'mkh-ui'
-  import { useAdminStore } from '@/store'
   import { useI18n } from '@/locales'
+  import useStore from '@/store'
   import page from '../index/page'
   import Action from '../action/index.vue'
   import ItemDialog from '../item/index/index.vue'
   import api from '@/api/dict'
 
   const { t } = useI18n()
+  const store = useStore()
 
   const props = defineProps({
     groupCode: {
@@ -58,8 +59,6 @@
   const showItemDialog = ref(false)
 
   const openItemDialog = (row) => {
-    const store = useAdminStore()
-
     store.dict.groupCode = groupCode.value
     store.dict.dictCode = row.code
 

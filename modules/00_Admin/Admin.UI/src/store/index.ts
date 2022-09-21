@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useAdminStore = defineStore('mod.admin', {
+export default defineStore('mod.admin', {
   state: () => {
     return {
       dict: {

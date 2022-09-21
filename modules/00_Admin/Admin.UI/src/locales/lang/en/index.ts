@@ -9,6 +9,7 @@ export default {
   delete_group: 'Delete Group',
   group_list: 'Group List',
   group_info: 'Group Info',
+  dict_group: 'Dictionary Group',
   dict_list: 'Dictionary List',
   add_dict: 'Add Dictionary',
   edit_dict: 'Edit Dictionary',

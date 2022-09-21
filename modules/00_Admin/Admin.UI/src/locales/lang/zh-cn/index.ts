@@ -9,6 +9,7 @@ const messages = {
   delete_group: '删除分组',
   group_list: '分组列表',
   group_info: '分组信息',
+  dict_group: '字典分组',
   dict_list: '字典列表',
   add_dict: '添加字典项',
   edit_dict: '编辑字典项',

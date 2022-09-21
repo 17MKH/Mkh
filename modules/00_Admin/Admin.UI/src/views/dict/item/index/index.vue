@@ -10,32 +10,20 @@
     </m-split>
   </m-dialog>
 </template>
-<script>
-import { ref } from 'vue'
-import Tree from '../tree/index.vue'
-import List from '../list/index.vue'
-export default {
-  components: { Tree, List },
-  setup() {
-    const split = ref('250px')
-    const parentId = ref(0)
-    const treeRef = ref()
+<script setup lang="ts">
+  import { ref } from 'vue'
+  import Tree from '../tree/index.vue'
+  import List from '../list/index.vue'
 
-    const handleTreeChange = id => {
-      parentId.value = id
-    }
+  const split = ref('250px')
+  const parentId = ref(0)
+  const treeRef = ref()
 
-    const handleListChange = () => {
-      treeRef.value.refresh()
-    }
+  const handleTreeChange = (id) => {
+    parentId.value = id
+  }
 
-    return {
-      split,
-      parentId,
-      treeRef,
-      handleTreeChange,
-      handleListChange,
-    }
-  },
-}
+  const handleListChange = () => {
+    treeRef.value.refresh()
+  }
 </script>

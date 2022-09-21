@@ -10,42 +10,40 @@
     </el-tree>
   </div>
 </template>
-<script>
-import { computed, nextTick, reactive, ref, watch } from 'vue'
-export default {
-  emits: ['change'],
-  setup(props, { emit }) {
-    const { store } = mkh
+<script setup lang="ts">
+  import { computed, nextTick, reactive, ref, watch } from 'vue'
+  import useStore from '@/store'
+  import api from '@/api/dict'
 
-    const currentKey = ref(0)
-    const treeData = ref([])
-    const treeRef = ref()
+  const emit = defineEmits(['change'])
 
-    const adminStore = store.state.mod.admin
-    const groupCode = computed(() => adminStore.dict.groupCode)
-    const dictCode = computed(() => adminStore.dict.dictCode)
+  const currentKey = ref(0)
+  const treeData = ref([])
+  const treeRef = ref()
 
-    const model = reactive({ groupCode, dictCode })
+  const store = useStore()
+  const groupCode = computed(() => store.dict.groupCode)
+  const dictCode = computed(() => store.dict.dictCode)
 
-    const refresh = () => {
-      mkh.api.admin.dict.tree(model).then(data => {
-        treeData.value = data
-        nextTick(() => {
-          treeRef.value.setCurrentKey(currentKey.value)
-        })
+  const model = reactive({ groupCode, dictCode })
+
+  const refresh = () => {
+    api.tree(model).then((data: any) => {
+      treeData.value = data
+      nextTick(() => {
+        treeRef.value.setCurrentKey(currentKey.value)
       })
-    }
+    })
+  }
 
-    watch([groupCode, dictCode], refresh)
+  watch([groupCode, dictCode], refresh)
 
-    refresh()
+  refresh()
 
-    const handleCurrentChange = ({ id }) => {
-      currentKey.value = id
-      emit('change', id)
-    }
+  const handleCurrentChange = (node) => {
+    currentKey.value = node.data.id
+    emit('change', node.data.id)
+  }
 
-    return { currentKey, treeData, treeRef, refresh, handleCurrentChange }
-  },
-}
+  defineExpose({ refresh })
 </script>

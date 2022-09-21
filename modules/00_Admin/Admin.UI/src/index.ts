@@ -1,5 +1,5 @@
 import { useAppCreatedService } from 'mkh-ui'
-import { useAdminStore } from './store'
+import useStore from './store'
 import mod from 'virtual:mkh-mod-admin'
 import api from './api'
 
@@ -19,4 +19,4 @@ useAppCreatedService(({ config }) => {
 
 export default mod
 
-export { api, useAdminStore }
+export { api, useStore }

@@ -1,5 +1,5 @@
 <template>
-  <m-list ref="listRef" class="m-border-none" :header="false" :cols="cols" :query-model="model" :query-method="query">
+  <m-list ref="listRef" class="m-border-none" :header="false" :cols="cols" :query-model="model" :query-method="api.query">
     <template #querybar>
       <el-form-item :label="$t('mkh.name')" prop="name">
         <el-input v-model="model.name" clearable />
@@ -25,66 +25,62 @@
     </template>
     <template #operation="{ row }">
       <m-button-edit :code="buttons.itemEdit.code" @click="edit(row)" @success="handleChange"></m-button-edit>
-      <m-button-delete :code="buttons.itemRemove.code" :action="remove" :data="row.id" @success="handleChange"></m-button-delete>
+      <m-button-delete :code="buttons.itemRemove.code" :action="api.remove" :data="row.id" @success="handleChange"></m-button-delete>
     </template>
   </m-list>
-  <save :id="selection.id" v-model="saveVisible" :parent-id="parentId" :mode="mode" @success="handleChange" />
+  <action v-model="actionProps.visible" :id="id" :parent-id="parentId" :mode="actionProps.mode" @success="handleChange" />
 </template>
-<script>
+<script setup lang="ts">
   import { computed, reactive, toRef, watch } from 'vue'
   import { useList } from 'mkh-ui'
-  import page from '../../index/page.ts'
-  import Save from '../save/index.vue'
-  export default {
-    components: { Save },
-    props: {
-      parentId: {
-        type: Number,
-        default: 0,
-      },
+  import useStore from '@/store'
+  import Action from '../action/index.vue'
+  import page from '@/views/dict/index/page'
+  import api from '@/api/dictItem'
+
+  const store = useStore()
+
+  const buttons = page.buttons
+
+  const props = defineProps({
+    parentId: {
+      type: Number,
+      default: 0,
     },
-    emits: ['change'],
-    setup(props, { emit }) {
-      const { store } = mkh
-      const buttons = page.buttons
+  })
+  const emit = defineEmits(['change'])
 
-      const { query, remove } = mkh.api.admin.dictItem
-      const parentId = toRef(props, 'parentId')
+  const parentId = toRef(props, 'parentId')
 
-      const adminStore = store.state.mod.admin
-      const groupCode = computed(() => adminStore.dict.groupCode)
-      const dictCode = computed(() => adminStore.dict.dictCode)
+  const groupCode = computed(() => store.dict.groupCode)
+  const dictCode = computed(() => store.dict.dictCode)
 
-      const model = reactive({ groupCode, dictCode, parentId, name: '', value: '' })
-      const cols = [
-        { prop: 'id', label: 'mkh.id', width: '55', show: false },
-        { prop: 'name', label: 'mkh.name' },
-        { prop: 'value', label: 'mkh.value' },
-        { prop: 'icon', label: 'mkh.icon' },
-        { prop: 'level', label: 'mkh.level' },
-        { prop: 'sort', label: 'mkh.sort' },
-      ]
+  const model = reactive({ groupCode, dictCode, parentId, name: '', code: '', value: '' })
+  const cols = [
+    { prop: 'id', label: 'mkh.id', width: '55', show: false },
+    { prop: 'name', label: 'mkh.name' },
+    { prop: 'value', label: 'mkh.value' },
+    { prop: 'icon', label: 'mkh.icon' },
+    { prop: 'level', label: 'mkh.level' },
+    { prop: 'sort', label: 'mkh.sort' },
+  ]
+  const {
+    listRef,
+    id,
+    actionProps,
+    methods: { add, edit, refresh },
+  } = useList()
 
-      const list = useList()
+  watch([parentId, groupCode, dictCode], () => {
+    console.log(parentId.value)
 
-      watch([parentId, groupCode, dictCode], () => {
-        list.refresh()
-      })
+    console.log(model.parentId)
 
-      const handleChange = () => {
-        list.refresh()
-        emit('change')
-      }
+    refresh()
+  })
 
-      return {
-        buttons,
-        model,
-        cols,
-        query,
-        remove,
-        ...list,
-        handleChange,
-      }
-    },
+  const handleChange = () => {
+    refresh()
+    emit('change')
   }
 </script>
