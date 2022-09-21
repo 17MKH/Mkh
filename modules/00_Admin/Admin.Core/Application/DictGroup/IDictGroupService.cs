@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Mkh.Data.Abstractions.Query;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Mkh.Mod.Admin.Core.Application.DictGroup.Dto;
 using Mkh.Mod.Admin.Core.Domain.DictGroup;
 
@@ -10,13 +10,6 @@ namespace Mkh.Mod.Admin.Core.Application.DictGroup;
 /// </summary>
 public interface IDictGroupService
 {
-    /// <summary>
-    /// 分页查询
-    /// </summary>
-    /// <param name="dto"></param>
-    /// <returns></returns>
-    Task<PagingQueryResultModel<DictGroupEntity>> QueryToPagination(DictGroupQueryDto dto);
-
     /// <summary>
     /// 查询
     /// </summary>

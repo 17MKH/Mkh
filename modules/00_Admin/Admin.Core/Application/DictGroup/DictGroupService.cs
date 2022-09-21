@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.DictGroup.Dto;
