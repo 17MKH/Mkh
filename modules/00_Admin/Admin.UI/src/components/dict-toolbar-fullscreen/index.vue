@@ -3,7 +3,6 @@
 </template>
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { dom } from 'mkh-ui'
 
   const isFullscreen = ref(false)
 
@@ -11,10 +10,12 @@
     isFullscreen.value = !isFullscreen.value
 
     let el = document.querySelector('.m-admin-dict-extend')
-    if (isFullscreen.value) {
-      dom.addClass(el, 'fullscreen')
-    } else {
-      dom.removeClass(el, 'fullscreen')
+    if (el) {
+      if (isFullscreen.value) {
+        el.classList.add('fullscreen')
+      } else {
+        el.classList.remove('fullscreen')
+      }
     }
   }
 </script>

@@ -36,7 +36,7 @@
 
   const profileStore = useProfileStore()
   const props = defineProps<{ id: string | undefined; mode: ActionMode }>()
-  const emit = defineEmits()
+  const emit = defineEmits(['success'])
 
   const model = reactive({ id: '', username: '', password: '', name: '', phone: '', email: '', roleId: '' })
   const rules = computed(() => {
@@ -61,10 +61,10 @@
     //如果编辑的是当前登录人的信息，则执行刷新操作
     if (isEdit.value && props.id === profileStore.accountId) {
       profileStore.init().then(() => {
-        form.emit('success', data)
+        emit('success', data)
       })
     } else {
-      form.emit('success', data)
+      emit('success', data)
     }
   }
 </script>

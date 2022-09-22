@@ -1,9 +1,9 @@
 <template>
   <m-select :action="query" :clearable="clearable"></m-select>
 </template>
-<script>
-export default {
-  props: {
+<script setup lang="ts">
+  import api from '@/api/common'
+  const props = defineProps({
     //模块编码
     module: {
       type: String,
@@ -18,16 +18,8 @@ export default {
       type: Boolean,
       default: true,
     },
-  },
-  setup(props) {
-    const { queryEnumOptions } = mkh.api.admin.common
-    const query = () => {
-      return queryEnumOptions({ moduleCode: props.module, enumName: props.name })
-    }
-
-    return {
-      query,
-    }
-  },
-}
+  })
+  const query = () => {
+    return api.queryEnumOptions({ moduleCode: props.module, enumName: props.name })
+  }
 </script>
