@@ -15,7 +15,7 @@ const createConfig = (input, fileName) => ({
   plugins: [typescript({ tsconfigOverride: { compilerOptions: { declaration: false }, include: [input] } })],
 })
 
-let localePath  = path.resolve(rootDir, 'src/locales')
+let localePath = path.resolve(rootDir, 'src/locales/lang')
 
 export default fs.readdirSync(localePath).map((m) => {
   return createConfig(path.resolve(localePath, m, 'index.ts'), m)
