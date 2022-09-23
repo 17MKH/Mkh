@@ -1,5 +1,4 @@
-import { createHttp } from 'mkh-ui'
-import options from '@/options'
+import { createHttp, bootstrapOptions } from 'mkh-ui'
 import mod from 'virtual:mkh-mod-admin?base'
 
-export default createHttp(options, mod.code)
+export default createHttp(bootstrapOptions, mod.code)

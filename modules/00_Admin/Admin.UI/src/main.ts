@@ -1,5 +1,5 @@
 import { bootstrap, useAppCreatedService, useModule } from 'mkh-ui'
-import options from './options'
+import './options'
 import mod_admin from './index'
 
 useModule(mod_admin)
@@ -19,4 +19,4 @@ useAppCreatedService(({ config }) => {
   config.component.login = 'k'
 })
 
-bootstrap(options)
+bootstrap()

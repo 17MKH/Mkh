@@ -1,4 +1,5 @@
 import type { BootstrapOptions } from 'mkh-ui'
+import { useBootstrapOptions } from 'mkh-ui'
 import messages_zh_cn from './locale.zh-cn'
 import messages_en from './locale.en'
 
@@ -15,6 +16,7 @@ const options: BootstrapOptions = {
     },
   },
 }
-export type MessageSchema = typeof messages_zh_cn
 
-export default options
+useBootstrapOptions(options)
+
+export type MessageSchema = typeof messages_zh_cn
