@@ -12,7 +12,7 @@ const createConfig = (input, fileName, output) => ({
       format: 'es',
     },
   ],
-  plugins: [typescript({ tsconfigOverride: { compilerOptions: { declaration: false }, include: [input] } })],
+  plugins: [typescript({ tsconfigOverride: { compilerOptions: { declaration: true }, include: [input] } })],
 })
 
 let localePath = path.resolve(rootDir, 'src/locales/lang')
