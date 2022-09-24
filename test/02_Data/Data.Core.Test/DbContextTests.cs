@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Data.Common.Test;
 using Data.Common.Test.Domain.Article;
 using Data.Common.Test.Domain.Category;
@@ -19,7 +19,8 @@ namespace Data.Core.Test
 
         public DbContextTests()
         {
-            var connString = "";
+            var connString = "server=localhost;user id=root;password=xxx;port=3306;persistsecurityinfo=True;database=test_sharding;Convert Zero Datetime=True;TreatTinyAsBoolean=true;allowuservariables=True;";
+
             var services = new ServiceCollection();
             //日志
             services.AddLogging(builder =>
@@ -33,6 +34,32 @@ namespace Data.Core.Test
                 .AddMkhDb<BlogDbContext>()
                 .UseMySql(connString)
                 .AddRepositoriesFromAssembly(typeof(BlogDbContext).Assembly)
+                //开启代码优先
+                .AddCodeFirst(options =>
+                {
+                    //创建库
+                    options.CreateDatabase = true;
+
+                    //更新列
+                    options.UpdateColumn = true;
+
+                    options.BeforeCreateDatabase = ctx =>
+                    {
+                        ctx.Logger.Write("BeforeCreateDatabase", "数据库创建前事件");
+                    };
+                    options.AfterCreateDatabase = ctx =>
+                    {
+                        ctx.Logger.Write("AfterCreateDatabase", "数据库创建后事件");
+                    };
+                    options.BeforeCreateTable = (ctx, entityDescriptor) =>
+                    {
+                        ctx.Logger.Write("BeforeCreateTable", "表创建前事件，表名称：" + entityDescriptor.TableName);
+                    };
+                    options.AfterCreateTable = (ctx, entityDescriptor) =>
+                    {
+                        ctx.Logger.Write("AfterCreateTable", "表创建后事件，表名称：" + entityDescriptor.TableName);
+                    };
+                })
                 .Build();
 
             _serviceProvider = services.BuildServiceProvider();
@@ -53,6 +80,26 @@ namespace Data.Core.Test
         {
             var accountResolverType = _context.AccountResolver.GetType();
             Assert.Equal(typeof(CustomAccountResolver), accountResolverType);
+        }
+
+        /// <summary>
+        /// 测试分表
+        /// ArticleEntity 已经启用分表策略 -> [Sharding(ShardingPolicy.Month)]
+        /// </summary>
+        [Fact]
+        public async void ArticleEntityAddTest()
+        {
+            var article = new ArticleEntity
+            {
+                Title = "test",
+                Content = "test",
+                //该字段为分表字段
+                PublishedTime = DateTime.Parse("2022-06-06 00:00:00")
+            };
+
+            await _articleRepository.Add(article);
+
+            Assert.True(article.Id > 0);
         }
     }
 }
