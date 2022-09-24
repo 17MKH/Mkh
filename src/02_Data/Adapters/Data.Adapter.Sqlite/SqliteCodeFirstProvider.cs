@@ -61,12 +61,18 @@ public class SqliteCodeFirstProvider : CodeFirstProviderAbstract
         }
     }
 
-    private void CreateTable(IEntityDescriptor descriptor, bool next = false)
+    /// <summary>
+    /// 创建表
+    /// </summary>
+    /// <param name="descriptor"></param>
+    /// <param name="next"></param>
+    /// <param name="entity"></param>
+    private void CreateTable(IEntityDescriptor descriptor, bool next = false, IEntity entity = null)
     {
         using var con = Context.NewConnection();
         con.Open();
 
-        var tableName = ResolveTableName(descriptor, next);
+        var tableName = ResolveTableName(descriptor, next,entity);
 
         //判断表是否存在，只有不存时会执行创建操作并会触发对应的创建前后事件
         if (Context.SchemaProvider.IsExistsTable(con.Database, tableName))
