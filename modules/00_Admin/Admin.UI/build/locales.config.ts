@@ -4,11 +4,11 @@ import path from 'path'
 
 let rootDir = process.cwd()
 
-const createConfig = (input, fileName) => ({
+const createConfig = (input, fileName, output) => ({
   input,
   output: [
     {
-      file: path.resolve(rootDir, `lib/locales/${fileName}/index.js`),
+      file: path.resolve(rootDir, `lib/locales/${fileName}/${output}.js`),
       format: 'es',
     },
   ],
@@ -17,6 +17,12 @@ const createConfig = (input, fileName) => ({
 
 let localePath = path.resolve(rootDir, 'src/locales/lang')
 
-export default fs.readdirSync(localePath).map((m) => {
-  return createConfig(path.resolve(localePath, m, 'index.ts'), m)
+const tasks = fs.readdirSync(localePath).map((m) => {
+  return createConfig(path.resolve(localePath, m, 'index.ts'), m, 'index')
 })
+
+const routeTasks = fs.readdirSync(localePath).map((m) => {
+  return createConfig(path.resolve(localePath, m, 'routes.ts'), m, 'routes')
+})
+
+export default tasks.concat(routeTasks)
