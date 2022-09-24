@@ -11,9 +11,10 @@ public interface ICodeFirstProvider
     void CreateDatabase();
 
     /// <summary>
-    /// 创建表
+    /// 根据实体创建表
     /// </summary>
-    void CreateTable();
+    /// <param name="entity">可选，要创建表的实体</param>
+    void CreateTable(IEntity entity = null);
 
     /// <summary>
     /// 创建表
