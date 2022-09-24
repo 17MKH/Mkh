@@ -12,15 +12,28 @@ namespace Mkh.Data.Core.Repository;
 /// </summary>
 public abstract partial class RepositoryAbstract<TEntity>
 {
-    public Task<bool> Add(TEntity entity, IUnitOfWork uow = null)
+    public async Task<bool> Add(TEntity entity, IUnitOfWork uow = null)
     {
         string tableName = null;
+
+        //启用按时间分表策略时
         if (EntityDescriptor.IsSharding)
         {
-            tableName = GetShardingTableName();
+            //取分表字段的日期，为空时使用系统日期
+            var date = EntityDescriptor.GetShardingFieldValue(entity);
+
+            //获取指定时间分表表名
+            tableName = GetShardingTableName(date);
+
+            //如果分表架构不存在则创建
+            var provider = DbContext.CodeFirstProvider;
+            if (provider != null)
+            {
+                provider.CreateTable(entity);
+            }
         }
 
-        return Add(entity, tableName, uow);
+        return await Add(entity, tableName, uow);
     }
 
     /// <summary>
