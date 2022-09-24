@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Mod.Admin.Core.Application.DictGroup;
 using Mkh.Mod.Admin.Core.Application.DictGroup.Dto;
 using Mkh.Mod.Admin.Core.Domain.DictGroup;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
 
-[SwaggerTag("数据字典分组")]
+[Tags("数据字典分组")]
 public class DictGroupController : Web.ModuleController
 {
     private readonly IDictGroupService _service;

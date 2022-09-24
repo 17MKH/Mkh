@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions;
@@ -10,11 +11,10 @@ using Mkh.Mod.Admin.Core.Application.Account;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Infrastructure;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
 
-[SwaggerTag("账户管理")]
+[Tags("账户管理")]
 public class AccountController : Web.ModuleController
 {
     private readonly IAccountService _service;

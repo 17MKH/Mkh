@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.Menu;
 using Mkh.Mod.Admin.Core.Application.Menu.Dto;
 using Mkh.Mod.Admin.Core.Domain.Menu;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
 
-[SwaggerTag("菜单管理")]
+[Tags("菜单管理")]
 public class MenuController : Web.ModuleController
 {
     private readonly IMenuService _service;

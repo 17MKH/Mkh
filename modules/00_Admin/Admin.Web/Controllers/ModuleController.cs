@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
 
-[SwaggerTag("模块管理")]
+[Tags("模块管理")]
 public class ModuleController : Web.ModuleController
 {
     private readonly IPermissionResolver _permissionResolver;

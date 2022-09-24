@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions.Annotations;
@@ -6,11 +7,10 @@ using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.Dict;
 using Mkh.Mod.Admin.Core.Application.Dict.Dto;
 using Mkh.Mod.Admin.Core.Domain.Dict;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
 
-[SwaggerTag("数据字典")]
+[Tags("数据字典")]
 public class DictController : Web.ModuleController
 {
     private readonly IDictService _service;

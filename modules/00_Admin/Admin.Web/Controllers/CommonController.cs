@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Module.Abstractions;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
 
-[SwaggerTag("通用功能")]
+[Tags("通用功能")]
 [AllowWhenAuthenticated]
 public class CommonController : Web.ModuleController
 {

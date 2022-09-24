@@ -1,15 +1,15 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.DictItem;
 using Mkh.Mod.Admin.Core.Application.DictItem.Dto;
 using Mkh.Mod.Admin.Core.Domain.DictItem;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
 
-[SwaggerTag("数据字典项")]
+[Tags("数据字典项")]
 public class DictItemController : Web.ModuleController
 {
     private readonly IDictItemService _service;

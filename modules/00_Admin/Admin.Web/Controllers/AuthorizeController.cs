@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Annotations;
@@ -14,9 +15,7 @@ using Mkh.Utils.Web;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
 
-/// <summary>
-/// 身份认证
-/// </summary>
+[Tags("身份认证")]
 public class AuthorizeController : Web.ModuleController
 {
     private readonly IAuthorizeService _service;

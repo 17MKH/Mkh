@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions.Annotations;
@@ -6,11 +7,10 @@ using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.MenuGroup;
 using Mkh.Mod.Admin.Core.Application.MenuGroup.Dto;
 using Mkh.Mod.Admin.Core.Domain.MenuGroup;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
 
-[SwaggerTag("菜单分组")]
+[Tags("菜单分组")]
 public class MenuGroupController : Web.ModuleController
 {
     private readonly IMenuGroupService _service;
