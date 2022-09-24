@@ -55,11 +55,11 @@ public class MySqlCodeFirstProvider : CodeFirstProviderAbstract
 
     #region ==创建表==
 
-    public override void CreateTable()
+    public override void CreateTable(IEntity entity = null)
     {
         foreach (var descriptor in Context.EntityDescriptors.Where(m => m.AutoCreate))
         {
-            CreateTable(descriptor);
+            CreateTable(descriptor, entity: entity);
         }
     }
 
