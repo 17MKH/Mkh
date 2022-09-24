@@ -38,4 +38,33 @@ namespace Mkh.Data.Abstractions.Annotations
             CustomProviderType = customProviderType;
         }
     }
+    
+    /// <summary>
+    /// 表示分表字段特性
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
+    public class ShardingFieldAttribute : Attribute
+    {
+        protected bool _enable;
+
+        /// <summary>
+        ///  是否为分表字段
+        /// </summary>
+        public bool Enable
+        {
+            get
+            {
+                return this._enable;
+            }
+        }
+
+        /// <summary>
+        /// 分表字段
+        /// </summary>
+        /// <param name="enable"></param>
+        public ShardingFieldAttribute(bool enable = true)
+        {
+            _enable = enable;
+        }
+    }
 }
