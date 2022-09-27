@@ -31,7 +31,7 @@
   </m-form-dialog>
 </template>
 <script setup lang="ts">
-  import { computed, reactive, ref } from 'vue'
+  import { computed, ref } from 'vue'
   import { mkh, useAction } from 'mkh-ui'
   import { useI18n } from '@/locales'
   import useStore from '@/store'
@@ -55,7 +55,7 @@
   })
   const emit = defineEmits()
 
-  const model = reactive({ groupCode: '', dictCode: '', parentId: 0, name: '', value: '', icon: '', extend: '', sort: 0 })
+  const model = ref({ groupCode: '', dictCode: '', parentId: 0, name: '', value: '', icon: '', extend: '', sort: 0 })
   const rules = computed(() => {
     return {
       name: [{ required: true, message: t('mod.admin.input_dict_item_name') }],
@@ -70,9 +70,9 @@
   form.props.width = '700px'
   form.props.beforeSubmit = () => {
     const { groupCode, dictCode } = store.dict
-    model.groupCode = groupCode
-    model.dictCode = dictCode
-    model.parentId = props.parentId
+    model.value.groupCode = groupCode
+    model.value.dictCode = dictCode
+    model.value.parentId = props.parentId
   }
 
   const toolbars = mkh.components.filter((m) => m.includes('dict-toolbar-'))

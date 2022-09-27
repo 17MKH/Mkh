@@ -160,7 +160,7 @@
     { lang: 'en', label: 'English' },
   ]
 
-  const model: any = reactive({
+  const model: any = ref({
     groupId: 0,
     parentId: 0,
     type: 1,

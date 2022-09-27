@@ -14,7 +14,7 @@ using Mkh.Mod.Admin.Core.Infrastructure;
 
 namespace Mkh.Mod.Admin.Core.Application.Authorize;
 
-public class AuthorizeService : IAuthorizeService
+internal class AuthorizeService : IAuthorizeService
 {
     private readonly IAccountRepository _accountRepository;
     private readonly IAccountProfileResolver _accountProfileResolver;

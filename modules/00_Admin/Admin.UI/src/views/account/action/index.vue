@@ -27,7 +27,7 @@
   </m-form-dialog>
 </template>
 <script setup lang="ts">
-  import { computed, reactive, ref } from 'vue'
+  import { computed, ref } from 'vue'
   import { ActionMode, regex, useAction, useProfileStore } from 'mkh-ui'
   import { useI18n } from '@/locales'
   import api from '@/api/account'
@@ -38,7 +38,7 @@
   const props = defineProps<{ id: string | undefined; mode: ActionMode }>()
   const emit = defineEmits(['success'])
 
-  const model = reactive({ id: '', username: '', password: '', name: '', phone: '', email: '', roleId: '' })
+  const model = ref({ id: '', username: '', password: '', name: '', phone: '', email: '', roleId: '' })
   const rules = computed(() => {
     return {
       username: [{ required: true, message: t('mod.admin.input_username') }],

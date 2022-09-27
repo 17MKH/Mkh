@@ -13,7 +13,7 @@
   </m-form-dialog>
 </template>
 <script setup lang="ts">
-  import { computed, reactive, ref } from 'vue'
+  import { computed, ref } from 'vue'
   import { ActionMode, useAction } from 'mkh-ui'
   import { useI18n } from '@/locales'
   import api from '@/api/menuGroup'
@@ -23,7 +23,7 @@
   const props = defineProps<{ id: string | undefined; mode: ActionMode }>()
   const emit = defineEmits()
 
-  const model = reactive({ name: '', remarks: '' })
+  const model = ref({ name: '', remarks: '' })
   const rules = computed(() => {
     return { name: [{ required: true, message: t('mod.admin.input_menu_group_name') }] }
   })

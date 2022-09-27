@@ -10,7 +10,7 @@ using Mkh.Utils.Map;
 
 namespace Mkh.Mod.Admin.Core.Application.DictGroup;
 
-public class DictGroupService : IDictGroupService
+internal class DictGroupService : IDictGroupService
 {
     private readonly IMapper _mapper;
     private readonly IDictGroupRepository _repository;

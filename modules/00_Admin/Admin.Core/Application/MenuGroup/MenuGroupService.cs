@@ -13,7 +13,7 @@ using Mkh.Utils.Map;
 
 namespace Mkh.Mod.Admin.Core.Application.MenuGroup;
 
-public class MenuGroupService : IMenuGroupService
+internal class MenuGroupService : IMenuGroupService
 {
     private readonly IMapper _mapper;
     private readonly IMenuGroupRepository _repository;

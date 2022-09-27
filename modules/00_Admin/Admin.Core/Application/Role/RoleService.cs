@@ -16,7 +16,7 @@ using Mkh.Utils.Map;
 
 namespace Mkh.Mod.Admin.Core.Application.Role;
 
-public class RoleService : IRoleService
+internal class RoleService : IRoleService
 {
     private readonly IRoleRepository _repository;
     private readonly IMapper _mapper;

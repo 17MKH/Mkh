@@ -19,7 +19,7 @@
   </m-form-dialog>
 </template>
 <script setup lang="ts">
-  import { computed, reactive, ref } from 'vue'
+  import { computed, ref } from 'vue'
   import { ActionMode, useAction } from 'mkh-ui'
   import { useI18n } from '@/locales'
   import api from '@/api/dictGroup'
@@ -29,7 +29,7 @@
   const props = defineProps<{ id: string | undefined; mode: ActionMode }>()
   const emit = defineEmits()
 
-  const model = reactive({ name: '', code: '', icon: '', remarks: '' })
+  const model = ref({ name: '', code: '', icon: '', remarks: '' })
   const rules = computed(() => {
     return { name: [{ required: true, message: t('mod.admin.input_dict_group_name') }], code: [{ required: true, message: t('mod.admin.input_dict_group_code') }] }
   })

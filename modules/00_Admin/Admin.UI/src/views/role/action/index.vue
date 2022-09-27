@@ -30,7 +30,7 @@
   const props = defineProps<{ id: string | undefined; mode: ActionMode }>()
   const emit = defineEmits()
 
-  const model = reactive({ menuGroupId: '', name: '', code: '', remarks: '' })
+  const model = ref({ menuGroupId: '', name: '', code: '', remarks: '' })
   const rules = computed(() => {
     return {
       menuGroupId: [{ required: true, message: t('mod.admin.select_menu_group') }],

@@ -14,7 +14,7 @@ using Mkh.Utils.Map;
 
 namespace Mkh.Mod.Admin.Core.Application.Menu;
 
-public class MenuService : IMenuService
+internal class MenuService : IMenuService
 {
     private readonly IMapper _mapper;
     private readonly IMenuRepository _repository;

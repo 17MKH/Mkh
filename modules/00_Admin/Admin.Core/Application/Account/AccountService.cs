@@ -11,7 +11,7 @@ using Mkh.Utils.Map;
 
 namespace Mkh.Mod.Admin.Core.Application.Account;
 
-public class AccountService : IAccountService
+internal class AccountService : IAccountService
 {
     private readonly IMapper _mapper;
     private readonly IAccountRepository _repository;

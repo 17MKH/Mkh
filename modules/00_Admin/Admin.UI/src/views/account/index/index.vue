@@ -29,9 +29,8 @@
   </m-container>
 </template>
 <script setup lang="ts">
-  import { useEntityBaseCols } from 'mkh-ui'
+  import { useList, useEntityBaseCols } from 'mkh-ui'
   import { reactive } from 'vue'
-  import { useList } from 'mkh-ui'
   import page from './page'
   import Action from '../action/index.vue'
   import api from '@/api/account'

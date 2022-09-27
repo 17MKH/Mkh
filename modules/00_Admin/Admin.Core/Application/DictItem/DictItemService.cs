@@ -11,7 +11,7 @@ using Mkh.Utils.Map;
 
 namespace Mkh.Mod.Admin.Core.Application.DictItem;
 
-public class DictItemService : IDictItemService
+internal class DictItemService : IDictItemService
 {
     private readonly IMapper _mapper;
     private readonly IDictItemRepository _repository;
