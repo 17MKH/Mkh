@@ -4,6 +4,10 @@ using Mkh.Data.Abstractions.Entities;
 
 namespace Data.Common.Test.Domain.Article
 {
+    /// <summary>
+    ///  分表策略: 使用ShardingField特性，按指定发布日期（PublishedTime），为分表字段
+    /// </summary>
+    [Sharding(ShardingPolicy.Month)]
     public class ArticleEntity : EntityBaseSoftDelete
     {
         [Column("分类编号")]
@@ -21,6 +25,7 @@ namespace Data.Common.Test.Domain.Article
         public bool Published { get; set; }
 
         [Column("发布日期")]
+        [ShardingField]//分表字段
         public DateTime? PublishedTime { get; set; }
 
         [Column("价格")]
