@@ -48,6 +48,6 @@
   form.props.autoFocusRef = nameRef
   form.props.width = '500px'
   form.props.beforeSubmit = () => {
-    model.groupCode = props.groupCode
+    model.value.groupCode = props.groupCode
   }
 </script>

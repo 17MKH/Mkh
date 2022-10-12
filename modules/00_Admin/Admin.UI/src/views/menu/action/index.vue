@@ -201,7 +201,7 @@
       name: [
         {
           validator: (rule: any, value: any, callback: any) => {
-            if (model.locales['zh-cn'] === '') {
+            if (model.value.locales['zh-cn'] === '') {
               callback(new Error(t('mod.admin.input_menu_name')))
             } else {
               callback()
@@ -211,7 +211,7 @@
       ],
     }
 
-    switch (model.type) {
+    switch (model.value.type) {
       case 0:
         return baseRules
       case 1:
@@ -240,16 +240,16 @@
   form.props.closeOnSuccess = false
   form.props.beforeSubmit = () => {
     //提交前设置分组和父级id
-    model.groupId = props.group.id
-    model.parentId = props.parent.id
+    model.value.groupId = props.group.id
+    model.value.parentId = props.parent.id
 
     //路由菜单需要设置权限信息和按钮信息
-    if (model.type === 1) {
+    if (model.value.type === 1) {
       const { permissions, buttons } = state.currPage
-      model.permissions = permissions
+      model.value.permissions = permissions
 
       if (buttons) {
-        model.buttons = Object.values(buttons).map((m: any) => {
+        model.value.buttons = Object.values(buttons).map((m: any) => {
           return {
             name: m.text,
             code: m.code,
@@ -264,22 +264,22 @@
   const handleModuleSelectChange = (code, mod) => {
     if (mod) {
       state.pages = mod.data.pages.filter((m) => !m.noMenu)
-      handleRouteChange(model.routeName)
+      handleRouteChange(model.value.routeName)
     } else {
       state.pages = []
-      model.routeName = ''
+      model.value.routeName = ''
     }
   }
 
   const handleRouteChange = (routeName) => {
     let page: any = state.pages.find((m: any) => m.name === routeName)
     if (page) {
-      model.name = page.title
-      model.icon = page.icon
+      model.value.name = page.title
+      model.value.icon = page.icon
       state.currPage = page
 
-      for (let key in model.locales) {
-        model.locales[key] = messages.value[key].routes[page.name]
+      for (let key in model.value.locales) {
+        model.value.locales[key] = messages.value[key].routes[page.name]
       }
     }
   }
