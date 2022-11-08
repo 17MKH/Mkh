@@ -2,7 +2,7 @@
   "id": 0,
   "name": "mkh-mod-admin",
   "label": "权限管理",
-  "version": "1.3.8",
+  "version": "1.3.9",
   "icon": "lock",
   "description": "17MKH权限管理模块",
   "type": "module",

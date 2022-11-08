@@ -109,7 +109,7 @@
     })
   }
 
-  const handleTreeChange = ({ data }) => {
+  const handleTreeChange = (data) => {
     parent.id = data.id
     parent.locales = data.item.locales
     parent.type = data.item.type
