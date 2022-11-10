@@ -102,7 +102,7 @@
         treeRef.value.setCurrentKey(parent.id)
         if (!isInit) {
           const root = treeData.value[0]
-          handleTreeChange({ data: root })
+          handleTreeChange(root)
           isInit = true
         }
       })
