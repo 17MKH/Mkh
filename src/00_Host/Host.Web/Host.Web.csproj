@@ -1,33 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <Description>17MKH Web主机库</Description>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Description>17MKH Web主机库</Description>
+		<OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\01_Utils\Utils\Utils.csproj" />
-    <ProjectReference Include="..\..\02_Data\Data.Core\Data.Core.csproj" />
-    <ProjectReference Include="..\..\03_Module\Module.Web\Module.Web.csproj" />
-    <ProjectReference Include="..\..\04_Auth\Auth.Jwt\Auth.Jwt.csproj" />
-    <ProjectReference Include="..\..\05_Cache\Cache.Core\Cache.Core.csproj" />
-    <ProjectReference Include="..\..\05_Cache\Cache.Redis\Cache.Redis.csproj" />
-    <ProjectReference Include="..\..\06_Mapper\Mapper\Mapper.csproj" />
-    <ProjectReference Include="..\..\07_Config\Config.Core\Config.Core.csproj" />
-    <ProjectReference Include="..\..\08_Logging\Logging.Core\Logging.Core.csproj" />
-    <ProjectReference Include="..\..\10_Excel\Excel.Core\Excel.Core.csproj" />
-    <ProjectReference Include="..\..\10_Excel\Providers\Excel.EPPlus\Excel.EPPlus.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\01_Utils\Utils\Utils.csproj" />
+		<ProjectReference Include="..\..\02_Data\Data.Core\Data.Core.csproj" />
+		<ProjectReference Include="..\..\03_Module\Module.Web\Module.Web.csproj" />
+		<ProjectReference Include="..\..\04_Auth\Auth.Jwt\Auth.Jwt.csproj" />
+		<ProjectReference Include="..\..\05_Cache\Cache.Core\Cache.Core.csproj" />
+		<ProjectReference Include="..\..\05_Cache\Cache.Redis\Cache.Redis.csproj" />
+		<ProjectReference Include="..\..\06_Mapper\Mapper\Mapper.csproj" />
+		<ProjectReference Include="..\..\07_Config\Config.Core\Config.Core.csproj" />
+		<ProjectReference Include="..\..\08_Logging\Logging.Core\Logging.Core.csproj" />
+		<ProjectReference Include="..\..\10_Excel\Excel.Core\Excel.Core.csproj" />
+		<ProjectReference Include="..\..\10_Excel\Providers\Excel.EPPlus\Excel.EPPlus.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
-    <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+	</ItemGroup>
 
 </Project>

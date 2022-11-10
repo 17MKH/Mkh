@@ -1,17 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Description>17MKH Excel EPPlus实现库</Description>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="EPPlus" Version="6.0.6" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="EPPlus" Version="6.1.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Excel.Core\Excel.Core.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Excel.Core\Excel.Core.csproj" />
+	</ItemGroup>
 
 </Project>
