@@ -26,7 +26,7 @@
 
   const { t } = useI18n()
 
-  const props = defineProps<{ id: string | undefined; mode: ActionMode }>()
+  const props = defineProps<{ id?: string; mode: ActionMode }>()
   const emit = defineEmits()
 
   const model = ref({ name: '', code: '', icon: '', remarks: '' })

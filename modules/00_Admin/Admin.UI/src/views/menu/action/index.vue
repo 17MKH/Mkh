@@ -152,7 +152,7 @@
 
   const { t, locale, messages } = useI18n()
 
-  const props = defineProps<{ id: string | undefined; mode: ActionMode; group: any; parent: any }>()
+  const props = defineProps<{ id?: string; mode: ActionMode; group: any; parent: any }>()
   const emit = defineEmits()
 
   const localesTable = [

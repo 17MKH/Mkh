@@ -35,7 +35,9 @@
   const { t } = useI18n()
 
   const profileStore = useProfileStore()
-  const props = defineProps<{ id: string | undefined; mode: ActionMode }>()
+
+  const props = defineProps<{ id?: string; mode: ActionMode }>()
+
   const emit = defineEmits(['success'])
 
   const model = ref({ id: '', username: '', password: '', name: '', phone: '', email: '', roleId: '' })
