@@ -1,5 +1,5 @@
 declare module 'virtual:mkh-mod-admin*' {
-  import type { MoudleDefinition } from 'mkh-ui'
-  const mod: MoudleDefinition
+  import type { ModuleDefinition } from 'mkh-ui'
+  const mod: ModuleDefinition
   export default mod
 }
