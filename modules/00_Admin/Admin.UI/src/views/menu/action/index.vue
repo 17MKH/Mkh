@@ -158,6 +158,7 @@
   const localesTable = [
     { lang: 'zh-cn', label: '中文简体' },
     { lang: 'en', label: 'English' },
+    { lang: 'th', label: 'ไทย' },
   ]
 
   const model: any = ref({
