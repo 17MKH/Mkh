@@ -17,6 +17,7 @@ useAppCreatedService(({ config }) => {
 
   /** 配置登录组件 */
   config.component.login = 'k'
+  config.auth.enableVerifyCode = false
 })
 
 bootstrap()
