@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
 
 namespace Mkh.Module.Web;
 
@@ -12,5 +13,20 @@ public interface IModuleMiddlewareConfigurator
     /// 配置中间件
     /// </summary>
     /// <param name="app"></param>
-    void Configure(IApplicationBuilder app);
+    /// <param name="env"></param>
+    void PreConfigure(IApplicationBuilder app, IHostEnvironment env);
+
+    /// <summary>
+    /// 配置中间件
+    /// </summary>
+    /// <param name="app"></param>
+    /// <param name="env"></param>
+    void Configure(IApplicationBuilder app, IHostEnvironment env);
+
+    /// <summary>
+    /// 配置中间件
+    /// </summary>
+    /// <param name="app"></param>
+    /// <param name="env"></param>
+    void PostConfigure(IApplicationBuilder app, IHostEnvironment env);
 }

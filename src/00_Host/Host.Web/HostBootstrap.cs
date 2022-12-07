@@ -137,6 +137,9 @@ public class HostBootstrap
     /// </summary>
     private void Configure(WebApplication app, IModuleCollection modules, HostOptions options, IWebHostEnvironment env)
     {
+        //使用模块化
+        var moduleMiddlewareConfigurators = app.UseModules(modules, env);
+
         //使用全局异常处理中间件
         app.UseMiddleware<ExceptionHandleMiddleware>();
 
@@ -164,6 +167,11 @@ public class HostBootstrap
             });
         }
 
+        moduleMiddlewareConfigurators.ForEach(m =>
+        {
+            m.PreConfigure(app, env);
+        });
+
         //路由
         app.UseRouting();
 
@@ -188,14 +196,21 @@ public class HostBootstrap
         //启用Swagger
         app.UseSwagger(modules, options, app.Environment);
 
-        //使用模块化
-        app.UseModules(modules);
+        moduleMiddlewareConfigurators.ForEach(m =>
+        {
+            m.Configure(app, env);
+        });
 
         //启用Banner图
         app.UseBanner(app.Lifetime, options);
 
         //启用应用关闭处理
         app.UseShutdownHandler();
+
+        moduleMiddlewareConfigurators.ForEach(m =>
+        {
+            m.PostConfigure(app, env);
+        });
     }
 
     /// <summary>
