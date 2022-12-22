@@ -14,7 +14,10 @@ public interface IModuleMiddlewareConfigurator
     /// </summary>
     /// <param name="app"></param>
     /// <param name="env"></param>
-    void PreConfigure(IApplicationBuilder app, IHostEnvironment env);
+    public void PreConfigure(IApplicationBuilder app, IHostEnvironment env)
+    {
+
+    }
 
     /// <summary>
     /// 配置中间件
@@ -28,5 +31,8 @@ public interface IModuleMiddlewareConfigurator
     /// </summary>
     /// <param name="app"></param>
     /// <param name="env"></param>
-    void PostConfigure(IApplicationBuilder app, IHostEnvironment env);
+    public void PostConfigure(IApplicationBuilder app, IHostEnvironment env)
+    {
+
+    }
 }
