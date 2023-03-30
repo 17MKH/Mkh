@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Description>17MKH Excel抽象库</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Data\Data.Abstractions\Data.Abstractions.csproj" />
+		<ProjectReference Include="..\..\Idenity\Identity.Abstractions\Identity.Abstractions.csproj" />
+		<ProjectReference Include="..\..\Module\Module.Abstractions\Module.Abstractions.csproj" />
+	</ItemGroup>
+
+</Project>

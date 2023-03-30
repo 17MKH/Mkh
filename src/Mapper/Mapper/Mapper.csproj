@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Description>17MKH 对象映射库</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="12.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Utils\Utils\Utils.csproj" />
+		<ProjectReference Include="..\..\Module\Module.Abstractions\Module.Abstractions.csproj" />
+	</ItemGroup>
+
+</Project>

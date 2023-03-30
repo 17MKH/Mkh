@@ -33,9 +33,9 @@ public class DictItemController : Web.ModuleController
     /// </summary>
     /// <remarks></remarks>
     [HttpPost]
-    public Task<IResultModel> Add(DictItemAddDto dto)
+    public Task<IResultModel<int>> Add(DictItemAddDto dto)
     {
-        return _service.Add(dto);
+        return Success(_service.Add(dto));
     }
 
     /// <summary>
@@ -44,9 +44,9 @@ public class DictItemController : Web.ModuleController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResultModel> Edit(int id)
+    public Task<IResultModel<DictItemUpdateDto>> Edit(int id)
     {
-        return _service.Edit(id);
+        return Success(_service.Edit(id));
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class DictItemController : Web.ModuleController
     [HttpPost]
     public Task<IResultModel> Update(DictItemUpdateDto dto)
     {
-        return _service.Update(dto);
+        return Success(_service.Update(dto));
     }
 
     /// <summary>
@@ -67,6 +67,6 @@ public class DictItemController : Web.ModuleController
     [HttpDelete]
     public Task<IResultModel> Delete([BindRequired] int id)
     {
-        return _service.Delete(id);
+        return Success(_service.Delete(id));
     }
 }

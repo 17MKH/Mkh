@@ -22,31 +22,32 @@ public interface IDictGroupService
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<IResultModel> Add(DictGroupAddDto dto);
+    Task<int> Add(DictGroupAddDto dto);
+
     /// <summary>
     /// 编辑
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResultModel> Edit(int id);
+    Task<DictGroupUpdateDto> Edit(int id);
 
     /// <summary>
     /// 更新
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<IResultModel> Update(DictGroupUpdateDto dto);
+    Task Update(DictGroupUpdateDto dto);
 
     /// <summary>
     /// 删除
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResultModel> Delete(int id);
+    Task Delete(int id);
 
     /// <summary>
     /// 下拉选项
     /// </summary>
     /// <returns></returns>
-    Task<IResultModel> Select();
+    Task<IEnumerable<OptionResultModel>> Select();
 }

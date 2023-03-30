@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions.Annotations;
 using Mkh.Data.Abstractions.Query;
@@ -21,9 +22,8 @@ internal class MenuGroupService : IMenuGroupService
     private readonly IMenuRepository _menuRepository;
     private readonly IRoleMenuRepository _roleMenuRepository;
     private readonly IRolePermissionRepository _rolePermissionRepository;
-    private readonly AdminLocalizer _localizer;
 
-    public MenuGroupService(IMapper mapper, IMenuGroupRepository repository, IRoleRepository roleRepository, IMenuRepository menuRepository, IRoleMenuRepository roleMenuRepository, IRolePermissionRepository rolePermissionRepository, AdminLocalizer localizer)
+    public MenuGroupService(IMapper mapper, IMenuGroupRepository repository, IRoleRepository roleRepository, IMenuRepository menuRepository, IRoleMenuRepository roleMenuRepository, IRolePermissionRepository rolePermissionRepository)
     {
         _mapper = mapper;
         _repository = repository;
@@ -31,7 +31,6 @@ internal class MenuGroupService : IMenuGroupService
         _menuRepository = menuRepository;
         _roleMenuRepository = roleMenuRepository;
         _rolePermissionRepository = rolePermissionRepository;
-        _localizer = localizer;
     }
 
     public Task<PagingQueryResultModel<MenuGroupEntity>> Query(MenuGroupQueryDto dto)
@@ -42,48 +41,38 @@ internal class MenuGroupService : IMenuGroupService
         return query.ToPaginationResult(dto.Paging);
     }
 
-    public async Task<IResultModel> Add(MenuGroupAddDto dto)
+    public async Task<int> Add(MenuGroupAddDto dto)
     {
         var entity = _mapper.Map<MenuGroupEntity>(dto);
 
-        var result = await _repository.Add(entity);
-        return ResultModel.Result(result);
+        await _repository.Add(entity);
+        return entity.Id;
     }
 
-    public async Task<IResultModel> Edit(int id)
+    public async Task<MenuGroupUpdateDto> Edit(int id)
     {
         var entity = await _repository.Get(id);
-        if (entity == null)
-            return ResultModel.NotExists;
 
-        var model = _mapper.Map<MenuGroupUpdateDto>(entity);
-        return ResultModel.Success(model);
+        return _mapper.Map<MenuGroupUpdateDto>(entity);
     }
 
-    public async Task<IResultModel> Update(MenuGroupUpdateDto dto)
+    public async Task Update(MenuGroupUpdateDto dto)
     {
         var entity = await _repository.Get(dto.Id);
-        if (entity == null)
-            return ResultModel.NotExists;
 
         _mapper.Map(dto, entity);
 
-        var result = await _repository.Update(entity);
-        return ResultModel.Result(result);
+        await _repository.Update(entity);
     }
 
     [Transaction]
-    public async Task<IResultModel> Delete(int id)
+    public async Task Delete(int id)
     {
-        if (!await _repository.Exists(id))
-            return ResultModel.NotExists;
-
         //如果有角色绑定了该菜单分组，则不允许删除
         if (await _roleRepository.Find(m => m.MenuGroupId == id).ToExists())
-            return ResultModel.Failed(_localizer["有角色绑定了该菜单分组，不允许删除"]);
+            throw new AdminException(AdminErrorCode.MenuGroupNotAllowDelete);
 
-        var result = await _repository.Delete(id);
-        if (result)
+        if (await _repository.Delete(id))
         {
             //删除关联菜单
             var task1 = _menuRepository.Find(m => m.GroupId == id).ToDelete();
@@ -96,19 +85,15 @@ internal class MenuGroupService : IMenuGroupService
             await task2;
             await task3;
         }
-
-        return ResultModel.Result(result);
     }
 
-    public async Task<IResultModel> Select()
+    public async Task<IEnumerable<OptionResultModel>> Select()
     {
         var list = await _repository.Find().ToList();
-        var options = list.Select(m => new OptionResultModel
+        return list.Select(m => new OptionResultModel
         {
             Label = m.Name,
             Value = m.Id
         });
-
-        return ResultModel.Success(options);
     }
 }

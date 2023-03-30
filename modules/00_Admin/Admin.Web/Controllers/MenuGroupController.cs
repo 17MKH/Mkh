@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -34,9 +35,9 @@ public class MenuGroupController : Web.ModuleController
     /// </summary>
     /// <remarks></remarks>
     [HttpPost]
-    public Task<IResultModel> Add(MenuGroupAddDto dto)
+    public Task<IResultModel<int>> Add(MenuGroupAddDto dto)
     {
-        return _service.Add(dto);
+        return Success(_service.Add(dto));
     }
 
     /// <summary>
@@ -45,9 +46,9 @@ public class MenuGroupController : Web.ModuleController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResultModel> Edit(int id)
+    public Task<IResultModel<MenuGroupUpdateDto>> Edit(int id)
     {
-        return _service.Edit(id);
+        return Success(_service.Edit(id));
     }
 
     /// <summary>
@@ -57,7 +58,7 @@ public class MenuGroupController : Web.ModuleController
     [HttpPost]
     public Task<IResultModel> Update(MenuGroupUpdateDto dto)
     {
-        return _service.Update(dto);
+        return Success(_service.Update(dto));
     }
 
     /// <summary>
@@ -68,7 +69,7 @@ public class MenuGroupController : Web.ModuleController
     [HttpDelete]
     public Task<IResultModel> Delete([BindRequired] int id)
     {
-        return _service.Delete(id);
+        return Success(_service.Delete(id));
     }
 
     /// <summary>
@@ -77,8 +78,8 @@ public class MenuGroupController : Web.ModuleController
     /// <returns></returns>
     [HttpGet]
     [AllowWhenAuthenticated]
-    public Task<IResultModel> Select()
+    public Task<IResultModel<IEnumerable<OptionResultModel>>> Select()
     {
-        return _service.Select();
+        return Success(_service.Select());
     }
 }

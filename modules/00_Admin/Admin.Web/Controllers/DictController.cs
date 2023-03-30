@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -6,6 +7,7 @@ using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.Dict;
 using Mkh.Mod.Admin.Core.Application.Dict.Dto;
+using Mkh.Mod.Admin.Core.Application.Dict.Vo;
 using Mkh.Mod.Admin.Core.Domain.Dict;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
@@ -34,9 +36,9 @@ public class DictController : Web.ModuleController
     /// </summary>
     /// <remarks></remarks>
     [HttpPost]
-    public Task<IResultModel> Add(DictAddDto dto)
+    public Task<IResultModel<int>> Add(DictAddDto dto)
     {
-        return _service.Add(dto);
+        return Success(_service.Add(dto));
     }
 
     /// <summary>
@@ -45,9 +47,9 @@ public class DictController : Web.ModuleController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResultModel> Edit(int id)
+    public Task<IResultModel<DictUpdateDto>> Edit(int id)
     {
-        return _service.Edit(id);
+        return Success(_service.Edit(id));
     }
 
     /// <summary>
@@ -57,7 +59,7 @@ public class DictController : Web.ModuleController
     [HttpPost]
     public Task<IResultModel> Update(DictUpdateDto dto)
     {
-        return _service.Update(dto);
+        return Success(_service.Update(dto));
     }
 
     /// <summary>
@@ -68,7 +70,7 @@ public class DictController : Web.ModuleController
     [HttpDelete]
     public Task<IResultModel> Delete([BindRequired] int id)
     {
-        return _service.Delete(id);
+        return Success(_service.Delete(id));
     }
 
     /// <summary>
@@ -79,9 +81,9 @@ public class DictController : Web.ModuleController
     /// <returns></returns>
     [AllowWhenAuthenticated]
     [HttpGet]
-    public Task<IResultModel> Select([BindRequired] string groupCode, [BindRequired] string dictCode)
+    public Task<IResultModel<List<OptionResultModel>>> Select([BindRequired] string groupCode, [BindRequired] string dictCode)
     {
-        return _service.Select(groupCode, dictCode);
+        return Success(_service.Select(groupCode, dictCode));
     }
 
     /// <summary>
@@ -92,9 +94,9 @@ public class DictController : Web.ModuleController
     /// <returns></returns>
     [AllowWhenAuthenticated]
     [HttpGet]
-    public Task<IResultModel> Tree([BindRequired] string groupCode, [BindRequired] string dictCode)
+    public Task<IResultModel<List<TreeResultModel<int, DictItemTreeVo>>>> Tree([BindRequired] string groupCode, [BindRequired] string dictCode)
     {
-        return _service.Tree(groupCode, dictCode);
+        return Success(_service.Tree(groupCode, dictCode));
     }
 
     /// <summary>
@@ -105,8 +107,8 @@ public class DictController : Web.ModuleController
     /// <returns></returns>
     [AllowWhenAuthenticated]
     [HttpGet]
-    public Task<IResultModel> Cascader([BindRequired] string groupCode, [BindRequired] string dictCode)
+    public Task<IResultModel<List<OptionResultModel>>> Cascader([BindRequired] string groupCode, [BindRequired] string dictCode)
     {
-        return _service.Cascader(groupCode, dictCode);
+        return Success(_service.Cascader(groupCode, dictCode));
     }
 }

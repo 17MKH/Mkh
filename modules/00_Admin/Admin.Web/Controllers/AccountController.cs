@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Config.Abstractions;
 using Mkh.Data.Abstractions.Query;
+using Mkh.Identity.Abstractions;
 using Mkh.Mod.Admin.Core.Application.Account;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
@@ -18,10 +18,10 @@ namespace Mkh.Mod.Admin.Web.Controllers;
 public class AccountController : Web.ModuleController
 {
     private readonly IAccountService _service;
-    private readonly IAccount _account;
+    private readonly ICurrentAccount _account;
     private readonly IConfigProvider _configProvider;
 
-    public AccountController(IAccountService service, IAccount account, IConfigProvider configProvider)
+    public AccountController(IAccountService service, ICurrentAccount account, IConfigProvider configProvider)
     {
         _service = service;
         _account = account;
@@ -39,13 +39,13 @@ public class AccountController : Web.ModuleController
     }
 
     /// <summary>
-    /// 添加
+    /// 添加账户，添加成功返回新增账户ID
     /// </summary>
     /// <remarks></remarks>
     [HttpPost]
-    public Task<IResultModel> Add(AccountAddDto dto)
+    public Task<IResultModel<Guid>> Add(AccountAddDto dto)
     {
-        return _service.Add(dto);
+        return Success(_service.Add(dto));
     }
 
     /// <summary>
@@ -54,9 +54,9 @@ public class AccountController : Web.ModuleController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResultModel> Edit(Guid id)
+    public Task<IResultModel<AccountUpdateDto>> Edit(Guid id)
     {
-        return _service.Edit(id);
+        return Success(_service.Edit(id));
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class AccountController : Web.ModuleController
     [HttpPost]
     public Task<IResultModel> Update(AccountUpdateDto dto)
     {
-        return _service.Update(dto);
+        return Success(_service.Update(dto));
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public class AccountController : Web.ModuleController
     [HttpDelete]
     public Task<IResultModel> Delete([BindRequired] Guid id)
     {
-        return _service.Delete(id);
+        return Success(_service.Delete(id));
     }
 
     /// <summary>
@@ -102,6 +102,6 @@ public class AccountController : Web.ModuleController
     {
         dto.AccountId = _account.Id;
 
-        return _service.UpdateSkin(dto);
+        return Success(_service.UpdateSkin(dto));
     }
 }

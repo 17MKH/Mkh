@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+    <Description>17mkh模块化Web库</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Utils\Utils.Web\Utils.Web.csproj" />
+		<ProjectReference Include="..\..\Excel\Excel.Abstractions\Excel.Abstractions.csproj" />
+		<ProjectReference Include="..\Module.Abstractions\Module.Abstractions.csproj" />
+		<ProjectReference Include="..\Module.Core\Module.Core.csproj" />
+	</ItemGroup>
+
+</Project>

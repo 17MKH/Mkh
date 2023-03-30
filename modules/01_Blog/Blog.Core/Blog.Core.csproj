@@ -1,11 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\02_Data\Data.Core\Data.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\Data\Data.Core\Data.Core.csproj" />
   </ItemGroup>
 
 </Project>

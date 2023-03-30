@@ -35,9 +35,9 @@ public class MenuController : Web.ModuleController
     /// </summary>
     /// <remarks></remarks>
     [HttpPost]
-    public Task<IResultModel> Add(MenuAddDto dto)
+    public Task<IResultModel<int>> Add(MenuAddDto dto)
     {
-        return _service.Add(dto);
+        return Success(_service.Add(dto));
     }
 
     /// <summary>
@@ -46,9 +46,9 @@ public class MenuController : Web.ModuleController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResultModel> Edit(int id)
+    public Task<IResultModel<MenuUpdateDto>> Edit(int id)
     {
-        return _service.Edit(id);
+        return Success(_service.Edit(id));
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class MenuController : Web.ModuleController
     [HttpPost]
     public Task<IResultModel> Update(MenuUpdateDto dto)
     {
-        return _service.Update(dto);
+        return Success(_service.Update(dto));
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class MenuController : Web.ModuleController
     [HttpDelete]
     public Task<IResultModel> Delete([BindRequired] int id)
     {
-        return _service.Delete(id);
+        return Success(_service.Delete(id));
     }
 
     /// <summary>
@@ -77,9 +77,9 @@ public class MenuController : Web.ModuleController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResultModel> Tree([BindRequired] int groupId)
+    public Task<IResultModel<List<TreeResultModel<MenuEntity>>>> Tree([BindRequired] int groupId)
     {
-        return _service.GetTree(groupId);
+        return Success(_service.GetTree(groupId));
     }
 
     /// <summary>
@@ -90,6 +90,6 @@ public class MenuController : Web.ModuleController
     [HttpPost]
     public Task<IResultModel> UpdateSort(IList<MenuEntity> menus)
     {
-        return _service.UpdateSort(menus);
+        return Success(_service.UpdateSort(menus));
     }
 }

@@ -21,46 +21,46 @@ public interface IRoleService
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<IResultModel> Add(RoleAddDto dto);
+    Task<int> Add(RoleAddDto dto);
 
     /// <summary>
     /// 编辑
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResultModel> Edit(int id);
+    Task<RoleUpdateDto> Edit(int id);
 
     /// <summary>
     /// 更新
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<IResultModel> Update(RoleUpdateDto dto);
+    Task Update(RoleUpdateDto dto);
 
     /// <summary>
     /// 删除
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResultModel> Delete(int id);
+    Task Delete(int id);
 
     /// <summary>
     /// 查询指定角色绑定的菜单信息
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResultModel> QueryBindMenus(int id);
+    Task<RoleBindMenusUpdateDto> QueryBindMenus(int id);
 
     /// <summary>
     /// 更新角色绑定的菜单信息
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<IResultModel> UpdateBindMenus(RoleBindMenusUpdateDto dto);
+    Task UpdateBindMenus(RoleBindMenusUpdateDto dto);
 
     /// <summary>
     /// 下拉列表
     /// </summary>
     /// <returns></returns>
-    Task<IResultModel> Select();
+    Task<IEnumerable<OptionResultModel>> Select();
 }

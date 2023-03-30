@@ -5,14 +5,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\03_Module\Module.Web\Module.Web.csproj" />
+    <ProjectReference Include="..\..\..\src\Module\Module.Web\Module.Web.csproj" />
     <ProjectReference Include="..\Admin.Core\Admin.Core.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\module.build.targets" />
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
   </ItemGroup>
 
 </Project>
