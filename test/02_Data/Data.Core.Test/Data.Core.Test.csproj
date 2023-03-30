@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\02_Data\Adapters\Data.Adapter.MySql\Data.Adapter.MySql.csproj" />
+    <ProjectReference Include="..\..\..\src\Data\Adapters\Data.Adapter.MySql\Data.Adapter.MySql.csproj" />
     <ProjectReference Include="..\Data.Common.Test\Data.Common.Test.csproj" />
   </ItemGroup>
 

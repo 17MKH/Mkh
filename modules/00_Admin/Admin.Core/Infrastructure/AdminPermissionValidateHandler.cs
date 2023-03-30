@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Mkh.Auth.Abstractions;
+using Mkh.Identity.Abstractions;
 using Mkh.Utils.Annotations;
 
 namespace Mkh.Mod.Admin.Core.Infrastructure;
@@ -13,9 +14,9 @@ namespace Mkh.Mod.Admin.Core.Infrastructure;
 internal class AdminPermissionValidateHandler : IPermissionValidateHandler
 {
     private readonly IAccountPermissionResolver _accountPermissionResolver;
-    private readonly IAccount _account;
+    private readonly ICurrentAccount _account;
 
-    public AdminPermissionValidateHandler(IAccountPermissionResolver accountPermissionResolver, IAccount account)
+    public AdminPermissionValidateHandler(IAccountPermissionResolver accountPermissionResolver, ICurrentAccount account)
     {
         _accountPermissionResolver = accountPermissionResolver;
         _account = account;

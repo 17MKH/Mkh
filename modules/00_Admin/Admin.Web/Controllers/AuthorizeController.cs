@@ -7,6 +7,7 @@ using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Auth.Abstractions.LoginHandlers;
 using Mkh.Auth.Jwt;
+using Mkh.Identity.Abstractions;
 using Mkh.Mod.Admin.Core.Application.Authorize;
 using Mkh.Mod.Admin.Core.Application.Authorize.Dto;
 using Mkh.Mod.Admin.Core.Application.Authorize.Vo;
@@ -21,9 +22,9 @@ public class AuthorizeController : Web.ModuleController
     private readonly IAuthorizeService _service;
     private readonly IPResolver _ipResolver;
     private readonly IVerifyCodeProvider _verifyCodeProvider;
-    private readonly IAccount _account;
+    private readonly ICurrentAccount _account;
 
-    public AuthorizeController(IAuthorizeService service, IPResolver ipResolver, IVerifyCodeProvider verifyCodeProvider, IAccount account)
+    public AuthorizeController(IAuthorizeService service, IPResolver ipResolver, IVerifyCodeProvider verifyCodeProvider, ICurrentAccount account)
     {
         _service = service;
         _ipResolver = ipResolver;

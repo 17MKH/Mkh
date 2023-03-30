@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Description>17MKH 任务调度核心库</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Utils\Utils\Utils.csproj" />
+		<ProjectReference Include="..\..\Module\Module.Abstractions\Module.Abstractions.csproj" />
+		<ProjectReference Include="..\TaskScheduler.Abstractions\TaskScheduler.Abstractions.csproj" />
+	</ItemGroup>
+
+</Project>

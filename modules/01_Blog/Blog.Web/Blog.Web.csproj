@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\03_Module\Module.Web\Module.Web.csproj" />
+    <ProjectReference Include="..\..\..\src\Module\Module.Web\Module.Web.csproj" />
     <ProjectReference Include="..\Blog.Core\Blog.Core.csproj" />
   </ItemGroup>
 

@@ -7,6 +7,7 @@ using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Config.Abstractions;
 using Mkh.Data.Abstractions.Query;
+using Mkh.Identity.Abstractions;
 using Mkh.Mod.Admin.Core.Application.Account;
 using Mkh.Mod.Admin.Core.Application.Account.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
@@ -18,10 +19,10 @@ namespace Mkh.Mod.Admin.Web.Controllers;
 public class AccountController : Web.ModuleController
 {
     private readonly IAccountService _service;
-    private readonly IAccount _account;
+    private readonly ICurrentAccount _account;
     private readonly IConfigProvider _configProvider;
 
-    public AccountController(IAccountService service, IAccount account, IConfigProvider configProvider)
+    public AccountController(IAccountService service, ICurrentAccount account, IConfigProvider configProvider)
     {
         _service = service;
         _account = account;

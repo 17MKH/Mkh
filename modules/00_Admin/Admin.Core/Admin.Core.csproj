@@ -1,14 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\02_Data\Data.Core\Data.Core.csproj" />
-    <ProjectReference Include="..\..\..\src\03_Module\Module.Core\Module.Core.csproj" />
-    <ProjectReference Include="..\..\..\src\04_Auth\Auth.Abstractions\Auth.Abstractions.csproj" />
-    <ProjectReference Include="..\..\..\src\04_Auth\Auth.Jwt\Auth.Jwt.csproj" />
-    <ProjectReference Include="..\..\..\src\05_Cache\Cache.Abstractions\Cache.Abstractions.csproj" />
-    <ProjectReference Include="..\..\..\src\07_Config\Config.Abstractions\Config.Abstractions.csproj" />
-    <ProjectReference Include="..\..\..\src\08_Logging\Logging.Abstractions\Logging.Abstractions.csproj" />
-    <ProjectReference Include="..\..\..\src\10_Excel\Excel.Abstractions\Excel.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\Data\Data.Core\Data.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\Idenity\Identity.Abstractions\Identity.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\Module\Module.Core\Module.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\Auth\Auth.Abstractions\Auth.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\Auth\Auth.Jwt\Auth.Jwt.csproj" />
+    <ProjectReference Include="..\..\..\src\Cache\Cache.Abstractions\Cache.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\Config\Config.Abstractions\Config.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\Logging\Logging.Abstractions\Logging.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\Excel\Excel.Abstractions\Excel.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
