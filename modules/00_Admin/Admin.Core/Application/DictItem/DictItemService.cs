@@ -19,9 +19,8 @@ internal class DictItemService : IDictItemService
     private readonly IDictGroupRepository _dictGroupRepository;
     private readonly ICacheProvider _cacheHandler;
     private readonly AdminCacheKeys _cacheKeys;
-    private readonly AdminLocalizer _localizer;
 
-    public DictItemService(IMapper mapper, IDictItemRepository repository, IDictRepository dictRepository, IDictGroupRepository dictGroupRepository, ICacheProvider cacheHandler, AdminCacheKeys cacheKeys, AdminLocalizer localizer)
+    public DictItemService(IMapper mapper, IDictItemRepository repository, IDictRepository dictRepository, IDictGroupRepository dictGroupRepository, ICacheProvider cacheHandler, AdminCacheKeys cacheKeys)
     {
         _mapper = mapper;
         _repository = repository;
@@ -29,7 +28,6 @@ internal class DictItemService : IDictItemService
         _dictGroupRepository = dictGroupRepository;
         _cacheHandler = cacheHandler;
         _cacheKeys = cacheKeys;
-        _localizer = localizer;
     }
 
     public Task<PagingQueryResultModel<DictItemEntity>> Query(DictItemQueryDto dto)
@@ -44,76 +42,62 @@ internal class DictItemService : IDictItemService
     }
 
     [Transaction]
-    public async Task<IResultModel> Add(DictItemAddDto dto)
+    public async Task<int> Add(DictItemAddDto dto)
     {
         if (!await _dictGroupRepository.Find(m => m.Code == dto.GroupCode).ToExists())
-            return ResultModel.Failed(_localizer["当前分组不存在"]);
+            throw new AdminException(AdminErrorCode.DictGroupNotExists);
 
         if (!await _dictRepository.Find(m => m.Code == dto.DictCode).ToExists())
-            return ResultModel.Failed(_localizer["字典不存在"]);
+            throw new AdminException(AdminErrorCode.DictNotExists);
 
         if (await _repository.Find(m => m.GroupCode == dto.GroupCode && m.DictCode == dto.DictCode && m.Value == dto.Value).ToExists())
-            return ResultModel.Failed(_localizer["当前项的值已存在"]);
+            throw new AdminException(AdminErrorCode.DictItemValueExists);
 
         var entity = _mapper.Map<DictItemEntity>(dto);
 
-        var result = await _repository.Add(entity);
-        if (result)
-        {
-            await ClearCache(dto.GroupCode, dto.DictCode);
-        }
+        await _repository.Add(entity);
 
-        return ResultModel.Result(result);
+        await ClearCache(dto.GroupCode, dto.DictCode);
+
+        return entity.Id;
     }
 
-    public async Task<IResultModel> Edit(int id)
+    public async Task<DictItemUpdateDto> Edit(int id)
     {
         var entity = await _repository.Get(id);
-        if (entity == null)
-            return ResultModel.NotExists;
 
-        var model = _mapper.Map<DictItemUpdateDto>(entity);
-        return ResultModel.Success(model);
+        return _mapper.Map<DictItemUpdateDto>(entity);
     }
 
     [Transaction]
-    public async Task<IResultModel> Update(DictItemUpdateDto dto)
+    public async Task Update(DictItemUpdateDto dto)
     {
         var entity = await _repository.Get(dto.Id);
-        if (entity == null)
-            return ResultModel.NotExists;
 
         if (!await _dictGroupRepository.Find(m => m.Code == dto.GroupCode).ToExists())
-            return ResultModel.Failed(_localizer["当前分组不存在"]);
+            throw new AdminException(AdminErrorCode.DictGroupNotExists);
 
         if (!await _dictRepository.Find(m => m.Code == dto.DictCode).ToExists())
-            return ResultModel.Failed(_localizer["字典不存在"]);
+            throw new AdminException(AdminErrorCode.DictNotExists);
 
         if (await _repository.Find(m => m.GroupCode == dto.GroupCode && m.DictCode == dto.DictCode && m.Value == dto.Value && m.Id != dto.Id).ToExists())
-            return ResultModel.Failed(_localizer["当前项的值已存在"]);
+            throw new AdminException(AdminErrorCode.DictItemValueExists);
 
         _mapper.Map(dto, entity);
 
-        var result = await _repository.Update(entity);
-        if (result)
-        {
-            await ClearCache(dto.GroupCode, dto.DictCode);
-        }
-        return ResultModel.Result(result);
+        await _repository.Update(entity);
+
+        await ClearCache(dto.GroupCode, dto.DictCode);
     }
 
-    public async Task<IResultModel> Delete(int id)
+    public async Task Delete(int id)
     {
         var entity = await _repository.Get(id);
-        if (entity == null)
-            return ResultModel.NotExists;
 
-        var result = await _repository.SoftDelete(id);
-        if (result)
+        if (await _repository.SoftDelete(id))
         {
             await ClearCache(entity.GroupCode, entity.DictCode);
         }
-        return ResultModel.Result(result);
     }
 
     private async Task ClearCache(string groupCode, string dictCode)

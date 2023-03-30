@@ -34,9 +34,9 @@ public class DictGroupController : Web.ModuleController
     /// </summary>
     /// <remarks></remarks>
     [HttpPost]
-    public Task<IResultModel> Add(DictGroupAddDto dto)
+    public Task<IResultModel<int>> Add(DictGroupAddDto dto)
     {
-        return _service.Add(dto);
+        return Success(_service.Add(dto));
     }
 
     /// <summary>
@@ -45,9 +45,9 @@ public class DictGroupController : Web.ModuleController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResultModel> Edit(int id)
+    public Task<IResultModel<DictGroupUpdateDto>> Edit(int id)
     {
-        return _service.Edit(id);
+        return Success(_service.Edit(id));
     }
 
     /// <summary>
@@ -57,7 +57,7 @@ public class DictGroupController : Web.ModuleController
     [HttpPost]
     public Task<IResultModel> Update(DictGroupUpdateDto dto)
     {
-        return _service.Update(dto);
+        return Success(_service.Update(dto));
     }
 
     /// <summary>
@@ -68,7 +68,7 @@ public class DictGroupController : Web.ModuleController
     [HttpDelete]
     public Task<IResultModel> Delete([BindRequired] int id)
     {
-        return _service.Delete(id);
+        return Success(_service.Delete(id));
     }
 
     /// <summary>
@@ -77,8 +77,8 @@ public class DictGroupController : Web.ModuleController
     /// <returns></returns>
     [HttpGet]
     [AllowWhenAuthenticated]
-    public Task<IResultModel> Select()
+    public Task<IResultModel<IEnumerable<OptionResultModel>>> Select()
     {
-        return _service.Select();
+        return Success(_service.Select());
     }
 }

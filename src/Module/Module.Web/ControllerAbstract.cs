@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mkh.Excel.Abstractions;
@@ -15,6 +16,27 @@ namespace Mkh.Module.Web;
 [ValidateResultFormat]
 public abstract class ControllerAbstract : ControllerBase
 {
+    /// <summary>
+    /// 成功
+    /// </summary>
+    /// <param name="task"></param>
+    /// <returns></returns>
+    protected Task<IResultModel> Success(Task task)
+    {
+        return ResultModel.SuccessAsync(task);
+    }
+
+    /// <summary>
+    /// 成功
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="task"></param>
+    /// <returns></returns>
+    protected Task<IResultModel<T>> Success<T>(Task<T> task)
+    {
+        return ResultModel.SuccessAsync(task);
+    }
+
     /// <summary>
     /// 文件下载
     /// </summary>

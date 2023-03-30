@@ -41,71 +41,61 @@ internal class DictService : IDictService
         return _repository.Query(dto);
     }
 
-    public async Task<IResultModel> Add(DictAddDto dto)
+    public async Task<int> Add(DictAddDto dto)
     {
         if (await _repository.Find(m => m.GroupCode == dto.GroupCode && m.Code == dto.Code).ToExists())
-            return ResultModel.Failed(_localizer["当前分组下字典编码已存在"]);
+            throw new AdminException(AdminErrorCode.DictCodeExists);
 
         if (!await _groupRepository.Find(m => m.Code == dto.GroupCode).ToExists())
-            return ResultModel.Failed(_localizer["当前分组不存在"]);
+            throw new AdminException(AdminErrorCode.DictGroupNotExists);
 
         var entity = _mapper.Map<DictEntity>(dto);
 
-        var result = await _repository.Add(entity);
+        await _repository.Add(entity);
 
-        return ResultModel.Result(result);
+        return entity.Id;
     }
 
-    public async Task<IResultModel> Edit(int id)
+    public async Task<DictUpdateDto> Edit(int id)
     {
         var entity = await _repository.Get(id);
-        if (entity == null)
-            return ResultModel.NotExists;
 
-        var model = _mapper.Map<DictUpdateDto>(entity);
-        return ResultModel.Success(model);
+        return _mapper.Map<DictUpdateDto>(entity);
     }
 
     [Transaction]
-    public async Task<IResultModel> Update(DictUpdateDto dto)
+    public async Task Update(DictUpdateDto dto)
     {
         var entity = await _repository.Get(dto.Id);
-        if (entity == null)
-            return ResultModel.NotExists;
 
         if (await _repository.Find(m => m.GroupCode == dto.GroupCode && m.Code == dto.Code && m.Id != dto.Id).ToExists())
-            return ResultModel.Failed("当前分组下字典编码已存在");
+            throw new AdminException(AdminErrorCode.DictCodeExists);
 
         if (!await _groupRepository.Find(m => m.Code == dto.GroupCode).ToExists())
-            return ResultModel.Failed("当前分组不存在");
+            throw new AdminException(AdminErrorCode.DictGroupNotExists);
 
         _mapper.Map(dto, entity);
 
-        var result = await _repository.Update(entity);
-        return ResultModel.Result(result);
+        await _repository.Update(entity);
     }
 
-    public async Task<IResultModel> Delete(int id)
+    public async Task Delete(int id)
     {
         var entity = await _repository.Get(id);
-        if (entity == null)
-            return ResultModel.NotExists;
 
-        if (await _itemRepository.Find(m => m.GroupCode == entity.GroupCode && m.DictCode == entity.Code)
-            .ToExists())
-            return ResultModel.Failed(_localizer["该字典包含数据项，请先删除数据项"]);
+        if (await _itemRepository.Find(m => m.GroupCode == entity.GroupCode && m.DictCode == entity.Code).ToExists())
+            throw new AdminException(AdminErrorCode.DictIncludeDataItem);
 
-        var result = await _repository.SoftDelete(id);
-        return ResultModel.Result(result);
+        await _repository.SoftDelete(id);
     }
 
-    public async Task<IResultModel> Select(string groupCode, string dictCode)
+    public async Task<List<OptionResultModel>> Select(string groupCode, string dictCode)
     {
         var key = _cacheKeys.DictSelect(groupCode, dictCode);
         var list = await _cacheHandler.Get<List<OptionResultModel>>(key);
         if (list != null)
         {
-            return ResultModel.Success(list);
+            return list;
         }
 
         var all = await _itemRepository.Find(m => m.GroupCode == groupCode && m.DictCode == dictCode && m.ParentId == 0)
@@ -132,21 +122,21 @@ internal class DictService : IDictService
         else
             await _cacheHandler.Set(key, list, new TimeSpan(0, 0, 5));
 
-        return ResultModel.Success(list);
+        return list;
     }
 
-    public async Task<IResultModel> Tree(string groupCode, string dictCode)
+    public async Task<List<TreeResultModel<int, DictItemTreeVo>>> Tree(string groupCode, string dictCode)
     {
         var key = _cacheKeys.DictTree(groupCode, dictCode);
         var tree = await _cacheHandler.Get<List<TreeResultModel<int, DictItemTreeVo>>>(key);
         if (tree != null)
         {
-            return ResultModel.Success(tree);
+            return tree;
         }
 
         var dict = await _repository.Find(m => m.GroupCode == groupCode && m.Code == dictCode).ToFirst();
         if (dict == null)
-            return ResultModel.Failed(_localizer["字典不存在"]);
+            throw new AdminException(AdminErrorCode.DictNotExists);
 
         tree = new List<TreeResultModel<int, DictItemTreeVo>>();
         var root = new TreeResultModel<int, DictItemTreeVo>
@@ -172,7 +162,7 @@ internal class DictService : IDictService
         else
             await _cacheHandler.Set(key, tree, new TimeSpan(0, 0, 5));
 
-        return ResultModel.Success(tree);
+        return tree;
     }
 
     private List<TreeResultModel<int, DictItemTreeVo>> ResolveTree(IList<DictItemEntity> all, int parentId = 0)
@@ -192,13 +182,13 @@ internal class DictService : IDictService
         }).ToList();
     }
 
-    public async Task<IResultModel> Cascader(string groupCode, string dictCode)
+    public async Task<List<OptionResultModel>> Cascader(string groupCode, string dictCode)
     {
         var key = _cacheKeys.DictCascader(groupCode, dictCode);
         var list = await _cacheHandler.Get<List<OptionResultModel>>(key);
         if (list != null)
         {
-            return ResultModel.Success(list);
+            return list;
         }
 
         var all = await _itemRepository.Find(m => m.GroupCode == groupCode && m.DictCode == dictCode)
@@ -211,7 +201,7 @@ internal class DictService : IDictService
         else
             await _cacheHandler.Set(key, list, new TimeSpan(0, 0, 5));
 
-        return ResultModel.Success(list);
+        return list;
     }
 
     private List<OptionResultModel> ResolveCascader(IList<DictItemEntity> all, int parentId = 0)

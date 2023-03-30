@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.DictGroup.Dto;
 using Mkh.Mod.Admin.Core.Domain.Dict;
 using Mkh.Mod.Admin.Core.Domain.DictGroup;
@@ -38,66 +37,55 @@ internal class DictGroupService : IDictGroupService
         return ResultModel.Success(result);
     }
 
-    public async Task<IResultModel> Add(DictGroupAddDto dto)
+    public async Task<int> Add(DictGroupAddDto dto)
     {
         if (await _repository.Find(m => m.Code == dto.Code).ToExists())
-            return ResultModel.Failed(_localizer["分组编码已存在"]);
+            throw new AdminException(AdminErrorCode.DictGroupCodeExists);
 
         var entity = _mapper.Map<DictGroupEntity>(dto);
 
-        var result = await _repository.Add(entity);
+        await _repository.Add(entity);
 
-        return ResultModel.Result(result);
+        return entity.Id;
     }
 
-    public async Task<IResultModel> Edit(int id)
+    public async Task<DictGroupUpdateDto> Edit(int id)
     {
         var entity = await _repository.Get(id);
-        if (entity == null)
-            return ResultModel.NotExists;
 
-        var model = _mapper.Map<DictGroupUpdateDto>(entity);
-        return ResultModel.Success(model);
+        return _mapper.Map<DictGroupUpdateDto>(entity);
     }
 
-    public async Task<IResultModel> Update(DictGroupUpdateDto dto)
+    public async Task Update(DictGroupUpdateDto dto)
     {
         var entity = await _repository.Get(dto.Id);
-        if (entity == null)
-            return ResultModel.NotExists;
 
         if (await _repository.Find(m => m.Code == dto.Code && m.Id != dto.Id).ToExists())
-            return ResultModel.Failed(_localizer["分组编码已存在"]);
+            throw new AdminException(AdminErrorCode.DictGroupCodeExists);
 
         _mapper.Map(dto, entity);
 
-        var result = await _repository.Update(entity);
-        return ResultModel.Result(result);
+        await _repository.Update(entity);
     }
 
-    public async Task<IResultModel> Delete(int id)
+    public async Task Delete(int id)
     {
         var group = await _repository.Get(id);
-        if (group == null)
-            return ResultModel.NotExists;
 
         if (await _dictRepository.Find(m => m.GroupCode == group.Code).ToExists())
-            return ResultModel.Failed(_localizer["该分组下面包含字典数据，请先删除字典数据后在删除分组"]);
+            throw new AdminException(AdminErrorCode.DictGroupIncludeDict);
 
-        var result = await _repository.SoftDelete(id);
-        return ResultModel.Result(result);
+        await _repository.SoftDelete(id);
     }
 
-    public async Task<IResultModel> Select()
+    public async Task<IEnumerable<OptionResultModel>> Select()
     {
         var list = await _repository.Find().ToList();
-        var options = list.Select(m => new OptionResultModel
+        return list.Select(m => new OptionResultModel
         {
             Label = m.Name,
             Value = m.Code,
             Data = m.Id
         });
-
-        return ResultModel.Success(options);
     }
 }

@@ -1,31 +1,42 @@
-using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Adapter;
+using Mkh.Data.Abstractions.Exceptions;
 
 namespace Mkh.Data.Core.Repository;
 
 public abstract partial class RepositoryAbstract<TEntity>
 {
-    public Task<TEntity> Get(dynamic id, IUnitOfWork uow = null)
+    public async Task<TEntity> Get(dynamic id, IUnitOfWork uow = null)
     {
-        return Get(id, null, uow);
+        var entity = await Get(id, null, uow);
+        if (entity == null)
+        {
+            throw new EntityNotFoundException();
+        }
+
+        return entity;
     }
 
-    public Task<TEntity> Get(dynamic id, string tableName, IUnitOfWork uow = null)
+    public async Task<TEntity> Get(dynamic id, string tableName, IUnitOfWork uow = null)
+    {
+        var entity = await Get(id, tableName, uow, false, false);
+        if (entity == null)
+        {
+            throw new EntityNotFoundException();
+        }
+
+        return entity;
+    }
+
+    public Task<TEntity> GetOrDefault(dynamic id, IUnitOfWork uow = null)
+    {
+        return Get(id, null, uow, false, false);
+    }
+
+    public Task<TEntity> GetOrDefault(dynamic id, string tableName, IUnitOfWork uow = null)
     {
         return Get(id, tableName, uow, false, false);
-    }
-
-    public Task<TEntity> Get(Expression<Func<TEntity, bool>> expression, IUnitOfWork uow = null)
-    {
-        return Find(expression).UseUow(uow).ToFirst();
-    }
-
-    public Task<TEntity> Get(Expression<Func<TEntity, bool>> expression, string tableName, IUnitOfWork uow = null)
-    {
-        return Find(expression, tableName).UseUow(uow).ToFirst();
     }
 
     /// <summary>
@@ -37,7 +48,7 @@ public abstract partial class RepositoryAbstract<TEntity>
     /// <param name="rowLock">行锁</param>
     /// <param name="noLock">无锁(SqlServer有效)</param>
     /// <returns></returns>
-    protected Task<TEntity> Get(dynamic id, string tableName, IUnitOfWork uow = null, bool rowLock = false, bool noLock = false)
+    protected Task<TEntity> Get(dynamic id, string tableName, IUnitOfWork uow, bool rowLock, bool noLock = false)
     {
         var dynParams = GetIdParameter(id);
         string sql;

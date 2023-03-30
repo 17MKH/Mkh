@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Events;
+using Mkh.Data.Abstractions.Exceptions;
 
 namespace Mkh.Data.Core.Repository;
 
@@ -12,7 +13,7 @@ namespace Mkh.Data.Core.Repository;
 /// </summary>
 public abstract partial class RepositoryAbstract<TEntity>
 {
-    public Task<bool> Add(TEntity entity, IUnitOfWork uow = null)
+    public Task Add(TEntity entity, IUnitOfWork uow = null)
     {
         string tableName = null;
         if (EntityDescriptor.IsSharding)
@@ -30,7 +31,7 @@ public abstract partial class RepositoryAbstract<TEntity>
     /// <param name="tableName"></param>
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
-    public async Task<bool> Add(TEntity entity, string tableName, IUnitOfWork uow = null)
+    public async Task Add(TEntity entity, string tableName, IUnitOfWork uow = null)
     {
         if (entity == null)
             throw new ArgumentNullException(nameof(entity), "entity is null");
@@ -56,11 +57,9 @@ public abstract partial class RepositoryAbstract<TEntity>
                 await HandleEntityAddEvents(entity, tableName, uow);
 
                 _logger.Write("NewID", id.ToString());
-
-                return true;
             }
 
-            return false;
+            throw new EntityAddException();
         }
 
         if (primaryKey.IsLong)
@@ -75,9 +74,9 @@ public abstract partial class RepositoryAbstract<TEntity>
                 await HandleEntityAddEvents(entity, tableName, uow);
 
                 _logger.Write("NewID", id.ToString());
-                return true;
             }
-            return false;
+
+            throw new EntityAddException();
         }
 
         if (primaryKey.IsGuid)
@@ -93,20 +92,17 @@ public abstract partial class RepositoryAbstract<TEntity>
             if (await Execute(sql, entity, uow) > 0)
             {
                 await HandleEntityAddEvents(entity, tableName, uow);
-
-                return true;
             }
-            return false;
+
+            throw new EntityAddException();
         }
 
         if (await Execute(sql, entity, uow) > 0)
         {
             await HandleEntityAddEvents(entity, tableName, uow);
-
-            return true;
         }
 
-        return false;
+        throw new EntityAddException();
     }
 
     /// <summary>

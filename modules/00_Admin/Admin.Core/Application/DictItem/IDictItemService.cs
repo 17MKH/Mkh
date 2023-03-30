@@ -22,25 +22,26 @@ public interface IDictItemService
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<IResultModel> Add(DictItemAddDto dto);
+    Task<int> Add(DictItemAddDto dto);
+
     /// <summary>
     /// 编辑
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResultModel> Edit(int id);
+    Task<DictItemUpdateDto> Edit(int id);
 
     /// <summary>
     /// 更新
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<IResultModel> Update(DictItemUpdateDto dto);
+    Task Update(DictItemUpdateDto dto);
 
     /// <summary>
     /// 删除
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResultModel> Delete(int id);
+    Task Delete(int id);
 }

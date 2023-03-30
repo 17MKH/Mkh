@@ -23,9 +23,8 @@ internal class AuthorizeService : IAuthorizeService
     private readonly IJwtTokenStorage _jwtTokenStorageProvider;
     private readonly IUsernameLoginHandler _usernameLoginHandler;
     private readonly IOptionsMonitor<AuthOptions> _authOptions;
-    private readonly AdminLocalizer _localizer;
 
-    public AuthorizeService(IAccountRepository accountRepository, IAccountProfileResolver accountProfileResolver, ICredentialClaimExtender credentialClaimExtender, ICredentialBuilder credentialBuilder, IJwtTokenStorage jwtTokenStorageProvider, IUsernameLoginHandler usernameLoginHandler, IOptionsMonitor<AuthOptions> authOptions, AdminLocalizer localizer)
+    public AuthorizeService(IAccountRepository accountRepository, IAccountProfileResolver accountProfileResolver, ICredentialClaimExtender credentialClaimExtender, ICredentialBuilder credentialBuilder, IJwtTokenStorage jwtTokenStorageProvider, IUsernameLoginHandler usernameLoginHandler, IOptionsMonitor<AuthOptions> authOptions)
     {
         _accountRepository = accountRepository;
         _accountProfileResolver = accountProfileResolver;
@@ -34,14 +33,13 @@ internal class AuthorizeService : IAuthorizeService
         _jwtTokenStorageProvider = jwtTokenStorageProvider;
         _usernameLoginHandler = usernameLoginHandler;
         _authOptions = authOptions;
-        _localizer = localizer;
     }
 
-    public async Task<IResultModel<ICredential>> UsernameLogin(UsernameLoginModel model)
+    public async Task<ICredential> UsernameLogin(UsernameLoginModel model)
     {
         var result = await _usernameLoginHandler.Handle(model);
         if (!result.Successful)
-            return ResultModel.Failed<ICredential>(result.Msg);
+            throw new AdminException(AdminErrorCode.AuthorizeUsernameLoginFailed);
 
         var loginResult = result.Data;
 
@@ -65,54 +63,51 @@ internal class AuthorizeService : IAuthorizeService
             await _credentialClaimExtender.Extend(claims, loginResult.AccountId);
         }
 
-        return ResultModel.Success(await _credentialBuilder.Build(claims));
+        return await _credentialBuilder.Build(claims);
     }
 
-    public async Task<IResultModel<JwtCredential>> RefreshToken(RefreshTokenDto dto)
+    public async Task<JwtCredential> RefreshToken(RefreshTokenDto dto)
     {
         var accountId = await _jwtTokenStorageProvider.CheckRefreshToken(dto.RefreshToken, dto.Platform);
-        if (accountId != Guid.Empty)
+
+        if (accountId == Guid.Empty)
+            throw new AdminException(AdminErrorCode.AuthorizeRefreshTokenInvalid);
+
+        var account = await _accountRepository.Get(accountId);
+        var claims = new List<Claim>
         {
-            var account = await _accountRepository.Get(accountId);
-            var claims = new List<Claim>
-            {
-                new(MkhClaimTypes.TENANT_ID, account.TenantId != null ? account.TenantId.ToString() : ""),
-                new(MkhClaimTypes.ACCOUNT_ID, account.Id.ToString()),
-                new(MkhClaimTypes.ACCOUNT_NAME, account.Name),
-                new(MkhClaimTypes.PLATFORM, dto.Platform.ToInt().ToString()),
-                new(MkhClaimTypes.LOGIN_TIME, DateTime.Now.ToTimestamp().ToString()),
-                new(MkhClaimTypes.LOGIN_IP, dto.IP)
-            };
+            new(MkhClaimTypes.TENANT_ID, account.TenantId != null ? account.TenantId.ToString() : ""),
+            new(MkhClaimTypes.ACCOUNT_ID, account.Id.ToString()),
+            new(MkhClaimTypes.ACCOUNT_NAME, account.Name),
+            new(MkhClaimTypes.PLATFORM, dto.Platform.ToInt().ToString()),
+            new(MkhClaimTypes.LOGIN_TIME, DateTime.Now.ToTimestamp().ToString()),
+            new(MkhClaimTypes.LOGIN_IP, dto.IP)
+        };
 
-            if (account.TenantId != null)
-            {
-            }
-
-            if (_credentialClaimExtender != null)
-            {
-                await _credentialClaimExtender.Extend(claims, account.Id);
-            }
-
-            var jwtCredential = (JwtCredential)await _credentialBuilder.Build(claims);
-            jwtCredential.RefreshToken = dto.RefreshToken;
-
-            return ResultModel.Success(jwtCredential);
+        if (account.TenantId != null)
+        {
         }
 
-        return ResultModel.Failed<JwtCredential>(_localizer["令牌无效"]);
+        if (_credentialClaimExtender != null)
+        {
+            await _credentialClaimExtender.Extend(claims, account.Id);
+        }
+
+        var jwtCredential = (JwtCredential)await _credentialBuilder.Build(claims);
+        jwtCredential.RefreshToken = dto.RefreshToken;
+
+        return jwtCredential;
     }
 
-    public async Task<IResultModel<ProfileVo>> GetProfile(Guid accountId, int platform)
+    public async Task<ProfileVo> GetProfile(Guid accountId, int platform)
     {
         var account = await _accountRepository.Get(accountId);
         if (account == null)
-            return ResultModel.Failed<ProfileVo>(_localizer["账户不存在"]);
+            throw new AdminException(AdminErrorCode.AuthorizeAccountNotExists);
 
         if (account.Status == AccountStatus.Disabled)
-            return ResultModel.Failed<ProfileVo>(_localizer["账户已禁用，请联系管理员"]);
+            throw new AdminException(AdminErrorCode.AuthorizeAccountDisabled);
 
-        var profile = await _accountProfileResolver.Resolve(account, platform);
-
-        return ResultModel.Success(profile);
+        return await _accountProfileResolver.Resolve(account, platform);
     }
 }

@@ -38,9 +38,9 @@ public class AuthorizeController : Web.ModuleController
     /// <returns></returns>
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IResultModel> VerifyCode()
+    public Task<IResultModel<VerifyCodeModel>> VerifyCode()
     {
-        return ResultModel.Success(await _verifyCodeProvider.Create());
+        return Success(_verifyCodeProvider.Create());
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class AuthorizeController : Web.ModuleController
         model.UserAgent = _ipResolver.UserAgent;
         model.LoginTime = DateTime.Now.ToTimestamp();
 
-        return _service.UsernameLogin(model);
+        return Success(_service.UsernameLogin(model));
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public class AuthorizeController : Web.ModuleController
     public Task<IResultModel<JwtCredential>> RefreshToken(RefreshTokenDto dto)
     {
         dto.IP = _ipResolver.IP;
-        return _service.RefreshToken(dto);
+        return Success(_service.RefreshToken(dto));
     }
 
     /// <summary>
@@ -81,6 +81,6 @@ public class AuthorizeController : Web.ModuleController
     [AllowWhenAuthenticated]
     public Task<IResultModel<ProfileVo>> Profile()
     {
-        return _service.GetProfile(_account.Id, _account.Platform);
+        return Success(_service.GetProfile(_account.Id, _account.Platform));
     }
 }

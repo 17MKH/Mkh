@@ -25,9 +25,14 @@ public class ResultModel<T> : IResultModel<T>
     public string Code { get; set; }
 
     /// <summary>
+    /// 错误码
+    /// </summary>
+    public string ErrorCode { get; private set; }
+
+    /// <summary>
     /// 时间戳
     /// </summary>
-    public long Timestamp { get; private set; }
+    public long Timestamp { get; }
 
     /// <summary>
     /// 返回数据
@@ -52,10 +57,13 @@ public class ResultModel<T> : IResultModel<T>
     /// 失败
     /// </summary>
     /// <param name="msg">说明</param>
-    public ResultModel<T> Failed(string msg = "failed")
+    /// <param name="errorCode">错误码</param>
+    public ResultModel<T> Failed(string msg = "failed", string errorCode = null)
     {
         Successful = false;
         Msg = msg;
+        ErrorCode = errorCode;
+
         return this;
     }
 
@@ -68,7 +76,7 @@ public class ResultModel<T> : IResultModel<T>
 /// <summary>
 /// 返回结果
 /// </summary>
-public static partial class ResultModel
+public static class ResultModel
 {
     /// <summary>
     /// 成功
@@ -83,6 +91,19 @@ public static partial class ResultModel
     /// <summary>
     /// 成功
     /// </summary>
+    /// <param name="task">任务</param>
+    /// <returns></returns>
+    public static async Task<IResultModel<T>> SuccessAsync<T>(Task<T> task)
+    {
+        if (task != null)
+            return new ResultModel<T>().Success(await task);
+
+        return new ResultModel<T>();
+    }
+
+    /// <summary>
+    /// 成功
+    /// </summary>
     /// <returns></returns>
     public static IResultModel Success()
     {
@@ -90,22 +111,40 @@ public static partial class ResultModel
     }
 
     /// <summary>
-    /// 失败
+    /// 成功
     /// </summary>
-    /// <param name="error">错误信息</param>
+    /// <param name="task">任务</param>
     /// <returns></returns>
-    public static IResultModel<T> Failed<T>(string error = null)
+    public static async Task<IResultModel> SuccessAsync(Task task)
     {
-        return new ResultModel<T>().Failed(error ?? "failed");
+        if (task != null)
+        {
+            await task;
+        }
+
+        return Success();
     }
 
     /// <summary>
     /// 失败
     /// </summary>
+    /// <param name="error">错误信息</param>
+    /// <param name="errorCode">错误码</param>
     /// <returns></returns>
-    public static IResultModel Failed(string error = null)
+    public static IResultModel<T> Failed<T>(string error = null, string errorCode = null)
     {
-        return Failed<string>(error);
+        return new ResultModel<T>().Failed(error ?? "failed", errorCode);
+    }
+
+    /// <summary>
+    /// 失败
+    /// </summary>
+    /// <param name="error">错误信息</param>
+    /// <param name="errorCode">错误码</param>
+    /// <returns></returns>
+    public static IResultModel Failed(string error = null, string errorCode = null)
+    {
+        return Failed<string>(error, errorCode);
     }
 
     /// <summary>
@@ -137,15 +176,4 @@ public static partial class ResultModel
     {
         return success ? Success() : Failed();
     }
-
-    /// <summary>
-    /// 数据已存在
-    /// </summary>
-    /// <returns></returns>
-    public static IResultModel HasExists => Failed("data already exists");
-
-    /// <summary>
-    /// 数据不存在
-    /// </summary>
-    public static IResultModel NotExists => Failed("data doesn't exist");
 }

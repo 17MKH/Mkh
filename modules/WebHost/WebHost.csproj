@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,8 +14,8 @@
     <ProjectReference Include="..\..\src\Data\Adapters\Data.Adapter.PostgreSQL\Data.Adapter.PostgreSQL.csproj" />
     <ProjectReference Include="..\..\src\Data\Adapters\Data.Adapter.Sqlite\Data.Adapter.Sqlite.csproj" />
     <ProjectReference Include="..\..\src\Data\Adapters\Data.Adapter.SqlServer\Data.Adapter.SqlServer.csproj" />
-    <ProjectReference Include="..\Admin\Admin.Web\Admin.Web.csproj" />
-    <ProjectReference Include="..\Blog\Blog.Web\Blog.Web.csproj" />
+    <ProjectReference Include="..\00_Admin\Admin.Web\Admin.Web.csproj" />
+    <ProjectReference Include="..\01_Blog\Blog.Web\Blog.Web.csproj" />
   </ItemGroup>
 
 </Project>

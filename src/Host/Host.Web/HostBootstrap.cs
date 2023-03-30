@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Mkh.Config.Core;
 using Mkh.Host.Web.Middleware;
 using Mkh.Host.Web.Swagger;
+using Mkh.Identity.Core;
 using Mkh.Logging.Core;
 using Mkh.Module.Abstractions;
 using Mkh.Module.Core;
@@ -114,7 +115,10 @@ public class HostBootstrap
         //添加模块的自定义特有的服务
         services.AddModuleServices(modules, env, cfg);
 
-        //添加身份认证和授权
+        //添加身份系统
+        services.AddIdentity();
+
+        //添加认证和授权
         services.AddMkhAuth(cfg).UseJwt();
 
         //添加数据库

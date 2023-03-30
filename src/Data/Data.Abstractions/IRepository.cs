@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Mkh.Data.Abstractions.Descriptors;
 using Mkh.Data.Abstractions.Entities;
+using Mkh.Data.Abstractions.Exceptions;
 using Mkh.Data.Abstractions.Queryable;
 
 namespace Mkh.Data.Abstractions;
@@ -213,7 +214,7 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     /// <param name="entity">实体</param>
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
-    Task<bool> Add(TEntity entity, IUnitOfWork uow = null);
+    Task Add(TEntity entity, IUnitOfWork uow = null);
 
     /// <summary>
     /// 新增
@@ -222,7 +223,7 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     /// <param name="tableName">表名</param>
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
-    Task<bool> Add(TEntity entity, string tableName, IUnitOfWork uow = null);
+    Task Add(TEntity entity, string tableName, IUnitOfWork uow = null);
 
     /// <summary>
     /// 批量添加
@@ -249,7 +250,7 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     /// <param name="entity">实体</param>
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
-    Task<bool> Update(TEntity entity, IUnitOfWork uow = null);
+    Task Update(TEntity entity, IUnitOfWork uow = null);
 
     /// <summary>
     /// 更新
@@ -258,10 +259,10 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     /// <param name="tableName">表名</param>
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
-    Task<bool> Update(TEntity entity, string tableName, IUnitOfWork uow = null);
+    Task Update(TEntity entity, string tableName, IUnitOfWork uow = null);
 
     /// <summary>
-    /// 根据主键获取单个实体
+    /// 根据主键获取单个实体，如果指定的主键查询不到实体，会抛出异常 <see cref="EntityNotFoundException"/>
     /// </summary>
     /// <param name="id"></param>
     /// <param name="uow">工作单元</param>
@@ -269,7 +270,7 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     Task<TEntity> Get(dynamic id, IUnitOfWork uow = null);
 
     /// <summary>
-    /// 根据主键获取单个实体
+    /// 根据主键获取单个实体，如果指定的主键查询不到实体，会抛出异常 <see cref="EntityNotFoundException"/>
     /// </summary>
     /// <param name="id"></param>
     /// <param name="tableName">表名</param>
@@ -278,21 +279,21 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     Task<TEntity> Get(dynamic id, string tableName, IUnitOfWork uow = null);
 
     /// <summary>
-    /// 根据条件获取单个实体
+    /// 根据主键获取单个实体
     /// </summary>
-    /// <param name="expression"></param>
+    /// <param name="id"></param>
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
-    Task<TEntity> Get(Expression<Func<TEntity, bool>> expression, IUnitOfWork uow = null);
+    Task<TEntity> GetOrDefault(dynamic id, IUnitOfWork uow = null);
 
     /// <summary>
-    /// 根据条件获取单个实体
+    /// 根据主键获取单个实体
     /// </summary>
-    /// <param name="expression"></param>
+    /// <param name="id"></param>
     /// <param name="tableName">表名</param>
     /// <param name="uow">工作单元</param>
     /// <returns></returns>
-    Task<TEntity> Get(Expression<Func<TEntity, bool>> expression, string tableName, IUnitOfWork uow = null);
+    Task<TEntity> GetOrDefault(dynamic id, string tableName, IUnitOfWork uow = null);
 
     /// <summary>
     /// 查询

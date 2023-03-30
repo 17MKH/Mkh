@@ -45,7 +45,7 @@ internal class MenuService : IMenuService
     }
 
     [Transaction]
-    public async Task<IResultModel> Add(MenuAddDto dto)
+    public async Task<int> Add(MenuAddDto dto)
     {
         var menu = _mapper.Map<MenuEntity>(dto);
         menu.Level = 1;
@@ -53,20 +53,20 @@ internal class MenuService : IMenuService
         if (dto.Type == MenuType.Route)
         {
             if (dto.Module.IsNull())
-                return ResultModel.Failed(_localizer["模块编码不能为空"]);
+                throw new AdminException(AdminErrorCode.MenuModuleCodeNull);
 
             if (dto.RouteName.IsNull())
-                return ResultModel.Failed(_localizer["路由名称不能为空"]);
+                throw new AdminException(AdminErrorCode.MenuRouteNameNull);
         }
         else if (dto.Type == MenuType.Link)
         {
             if (dto.Url.IsNull())
-                return ResultModel.Failed(_localizer["Url不能为空"]);
+                throw new AdminException(AdminErrorCode.MenuUrlNull);
         }
         else if (dto.Type == MenuType.CustomJs)
         {
             if (dto.CustomJs.IsNull())
-                return ResultModel.Failed(_localizer["自定义Javascript不能为空"]);
+                throw new AdminException(AdminErrorCode.MenuCustomJsNull);
         }
 
         if (dto.Locales != null)
@@ -79,21 +79,19 @@ internal class MenuService : IMenuService
             var parent = await _repository.Get(dto.ParentId);
             if (parent == null)
             {
-                return ResultModel.Failed(_localizer["父节点菜单不存在"]);
+                throw new AdminException(AdminErrorCode.MenuParentNotExists);
             }
 
             menu.Level = parent.Level + 1;
         }
 
-        var result = await _repository.Add(menu);
-        return ResultModel.Result(result);
+        await _repository.Add(menu);
+        return menu.Id;
     }
 
-    public async Task<IResultModel> Edit(int id)
+    public async Task<MenuUpdateDto> Edit(int id)
     {
         var menu = await _repository.Get(id);
-        if (menu == null)
-            return ResultModel.NotExists;
 
         var model = _mapper.Map<MenuUpdateDto>(menu);
 
@@ -102,14 +100,12 @@ internal class MenuService : IMenuService
             model.Locales = menu.Locales;
         }
 
-        return ResultModel.Success(model);
+        return model;
     }
 
-    public async Task<IResultModel> Update(MenuUpdateDto dto)
+    public async Task Update(MenuUpdateDto dto)
     {
         var menu = await _repository.Get(dto.Id);
-        if (menu == null)
-            return ResultModel.NotExists;
 
         _mapper.Map(dto, menu);
 
@@ -118,16 +114,13 @@ internal class MenuService : IMenuService
             menu.LocalesConfig = _jsonHelper.Serialize(dto.Locales);
         }
 
-        var result = await _repository.Update(menu);
-
-        return ResultModel.Result(result);
+        await _repository.Update(menu);
     }
 
     [Transaction]
-    public async Task<IResultModel> Delete(int id)
+    public async Task Delete(int id)
     {
-        var result = await _repository.Delete(id);
-        if (result)
+        if (await _repository.Delete(id))
         {
             //删除角色菜单绑定数据
             await _roleMenuRepository.Find(m => m.MenuId == id).ToDelete();
@@ -136,18 +129,16 @@ internal class MenuService : IMenuService
             //删除角色权限绑定数据
             await _rolePermissionRepository.Find(m => m.MenuId == id).ToDelete();
         }
-
-        return ResultModel.Result(result);
     }
 
-    public async Task<IResultModel> GetTree(int groupId)
+    public async Task<List<TreeResultModel<MenuEntity>>> GetTree(int groupId)
     {
         var root = new TreeResultModel<MenuEntity>();
         var all = await _repository.Find(m => m.GroupId == groupId).ToList();
 
         ResolveTree(all, root);
 
-        return ResultModel.Success(root.Children);
+        return root.Children;
     }
 
     private void ResolveTree(IList<MenuEntity> all, TreeResultModel<MenuEntity> parent)
@@ -171,10 +162,10 @@ internal class MenuService : IMenuService
     }
 
     [Transaction]
-    public async Task<IResultModel> UpdateSort(IList<MenuEntity> menus)
+    public async Task UpdateSort(IList<MenuEntity> menus)
     {
         if (!menus.Any())
-            return ResultModel.Success();
+            return;
 
         foreach (var menu in menus)
         {
@@ -184,8 +175,5 @@ internal class MenuService : IMenuService
                 Sort = menu.Sort
             });
         }
-
-        return ResultModel.Success();
     }
-
 }

@@ -26,9 +26,8 @@ internal class RoleService : IRoleService
     private readonly IAccountRepository _accountRepository;
     private readonly ICacheProvider _cacheHandler;
     private readonly AdminCacheKeys _cacheKeys;
-    private readonly AdminLocalizer _localizer;
 
-    public RoleService(IRoleRepository repository, IMapper mapper, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository, ICacheProvider cacheHandler, AdminCacheKeys cacheKeys, IAccountRepository accountRepository, AdminLocalizer localizer)
+    public RoleService(IRoleRepository repository, IMapper mapper, IRoleMenuRepository roleMenuRepository, IRoleButtonRepository roleButtonRepository, IRolePermissionRepository rolePermissionRepository, ICacheProvider cacheHandler, AdminCacheKeys cacheKeys, IAccountRepository accountRepository)
     {
         _repository = repository;
         _mapper = mapper;
@@ -38,7 +37,6 @@ internal class RoleService : IRoleService
         _cacheHandler = cacheHandler;
         _cacheKeys = cacheKeys;
         _accountRepository = accountRepository;
-        _localizer = localizer;
     }
 
     public async Task<IResultModel<IList<RoleEntity>>> Query()
@@ -51,69 +49,49 @@ internal class RoleService : IRoleService
         return ResultModel.Success(list);
     }
 
-    public async Task<IResultModel> Add(RoleAddDto dto)
+    public async Task<int> Add(RoleAddDto dto)
     {
         if (await _repository.Find(m => m.Name == dto.Name).ToExists())
-        {
-            return ResultModel.Failed(_localizer["角色名称({0})已存在", dto.Name]);
-        }
+            throw new AdminException(AdminErrorCode.RoleNameExists);
 
         if (await _repository.Find(m => m.Code == dto.Code).ToExists())
-        {
-            return ResultModel.Failed(_localizer["角色编码({0})已存在", dto.Code]);
-        }
+            throw new AdminException(AdminErrorCode.RoleCodeExists);
 
         var role = _mapper.Map<RoleEntity>(dto);
-
-        return ResultModel.Result(await _repository.Add(role));
+        await _repository.Add(role);
+        return role.Id;
     }
 
-    public async Task<IResultModel> Edit(int id)
+    public async Task<RoleUpdateDto> Edit(int id)
     {
         var role = await _repository.Get(id);
-        if (role == null)
-            return ResultModel.NotExists;
 
-        return ResultModel.Success(_mapper.Map<RoleUpdateDto>(role));
+        return _mapper.Map<RoleUpdateDto>(role);
     }
 
-    public async Task<IResultModel> Update(RoleUpdateDto dto)
+    public async Task Update(RoleUpdateDto dto)
     {
         var role = await _repository.Get(dto.Id);
-        if (role == null)
-            return ResultModel.NotExists;
 
         if (await _repository.Find(m => m.Name == dto.Name && m.Id != dto.Id).ToExists())
-        {
-            return ResultModel.Failed(_localizer["角色名称({0})已存在", dto.Name]);
-        }
+            throw new AdminException(AdminErrorCode.RoleNameExists);
 
         if (await _repository.Find(m => m.Code == dto.Code && m.Id != dto.Id).ToExists())
-        {
-            return ResultModel.Failed(_localizer["角色编码({0})已存在", dto.Code]);
-        }
+            throw new AdminException(AdminErrorCode.RoleCodeExists);
 
         _mapper.Map(dto, role);
 
-        return ResultModel.Success(await _repository.Update(role));
+        await _repository.Update(role);
     }
 
-    public async Task<IResultModel> Delete(int id)
+    public Task Delete(int id)
     {
-        var role = await _repository.Get(id);
-        if (role == null)
-            return ResultModel.NotExists;
-
-        var result = await _repository.Delete(id);
-
-        return ResultModel.Result(result);
+        return _repository.Delete(id);
     }
 
-    public async Task<IResultModel> QueryBindMenus(int id)
+    public async Task<RoleBindMenusUpdateDto> QueryBindMenus(int id)
     {
         var role = await _repository.Get(id);
-        if (role == null)
-            return ResultModel.NotExists;
 
         var roleMenus = await _roleMenuRepository
             .Find(m => m.MenuGroupId == role.MenuGroupId && m.RoleId == id)
@@ -136,19 +114,17 @@ internal class RoleService : IRoleService
             menus.Add(bindMenuUpdateDto);
         }
 
-        return ResultModel.Success(new RoleBindMenusUpdateDto
+        return new RoleBindMenusUpdateDto
         {
             RoleId = id,
             Menus = menus
-        });
+        };
     }
 
     [Transaction]
-    public async Task<IResultModel> UpdateBindMenus(RoleBindMenusUpdateDto dto)
+    public async Task UpdateBindMenus(RoleBindMenusUpdateDto dto)
     {
         var role = await _repository.Get(dto.RoleId);
-        if (role == null)
-            return ResultModel.NotExists;
 
         //删除当前角色已绑定的菜单数据
         await _roleMenuRepository.Find(m => m.MenuGroupId == role.MenuGroupId && m.RoleId == role.Id).ToDelete();
@@ -221,19 +197,15 @@ internal class RoleService : IRoleService
                 await _cacheHandler.Remove(_cacheKeys.AccountPermissions(accountId, 0));
             }
         }
-
-        return ResultModel.Success();
     }
 
-    public async Task<IResultModel> Select()
+    public async Task<IEnumerable<OptionResultModel>> Select()
     {
         var list = await _repository.Find().ToList();
-        var options = list.Select(m => new OptionResultModel
+        return list.Select(m => new OptionResultModel
         {
             Label = m.Name,
             Value = m.Id
         });
-
-        return ResultModel.Success(options);
     }
 }

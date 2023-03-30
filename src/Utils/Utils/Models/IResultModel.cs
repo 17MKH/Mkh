@@ -26,6 +26,11 @@ public interface IResultModel
     string Code { get; set; }
 
     /// <summary>
+    /// 错误码
+    /// </summary>
+    string ErrorCode { get; }
+
+    /// <summary>
     /// 时间戳
     /// </summary>
     long Timestamp { get; }

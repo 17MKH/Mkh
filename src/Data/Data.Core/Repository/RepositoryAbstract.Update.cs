@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Mkh.Data.Abstractions;
 using Mkh.Data.Abstractions.Events;
+using Mkh.Data.Abstractions.Exceptions;
 
 namespace Mkh.Data.Core.Repository;
 
@@ -14,12 +15,12 @@ namespace Mkh.Data.Core.Repository;
 /// <typeparam name="TEntity"></typeparam>
 public abstract partial class RepositoryAbstract<TEntity>
 {
-    public Task<bool> Update(TEntity entity, IUnitOfWork uow = null)
+    public Task Update(TEntity entity, IUnitOfWork uow = null)
     {
         return Update(entity, null, uow);
     }
 
-    public async Task<bool> Update(TEntity entity, string tableName, IUnitOfWork uow = null)
+    public async Task Update(TEntity entity, string tableName, IUnitOfWork uow = null)
     {
         Check.NotNull(entity, nameof(entity));
 
@@ -67,10 +68,9 @@ public abstract partial class RepositoryAbstract<TEntity>
                     _logger.Write("HandleEntityUpdateEvents", ex.Message);
                 }
             }
-
-            return true;
         }
-        return false;
+
+        throw new EntityUpdateException();
     }
 
     /// <summary>

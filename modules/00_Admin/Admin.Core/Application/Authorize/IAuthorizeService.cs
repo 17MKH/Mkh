@@ -18,14 +18,14 @@ public interface IAuthorizeService
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    Task<IResultModel<ICredential>> UsernameLogin(UsernameLoginModel model);
+    Task<ICredential> UsernameLogin(UsernameLoginModel model);
 
     /// <summary>
     /// 刷新令牌
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<IResultModel<JwtCredential>> RefreshToken(RefreshTokenDto dto);
+    Task<JwtCredential> RefreshToken(RefreshTokenDto dto);
 
     /// <summary>
     /// 获取指定账户的个人信息
@@ -33,5 +33,5 @@ public interface IAuthorizeService
     /// <param name="accountId"></param>
     /// <param name="platform">登录平台</param>
     /// <returns></returns>
-    Task<IResultModel<ProfileVo>> GetProfile(Guid accountId, int platform);
+    Task<ProfileVo> GetProfile(Guid accountId, int platform);
 }

@@ -35,9 +35,9 @@ public class RoleController : Web.ModuleController
     /// </summary>
     /// <remarks></remarks>
     [HttpPost]
-    public Task<IResultModel> Add(RoleAddDto dto)
+    public Task<IResultModel<int>> Add(RoleAddDto dto)
     {
-        return _service.Add(dto);
+        return Success(_service.Add(dto));
     }
 
     /// <summary>
@@ -46,9 +46,9 @@ public class RoleController : Web.ModuleController
     /// <param name="id">主键</param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResultModel> Edit(int id)
+    public Task<IResultModel<RoleUpdateDto>> Edit(int id)
     {
-        return _service.Edit(id);
+        return Success(_service.Edit(id));
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class RoleController : Web.ModuleController
     [HttpPost]
     public Task<IResultModel> Update(RoleUpdateDto dto)
     {
-        return _service.Update(dto);
+        return Success(_service.Update(dto));
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class RoleController : Web.ModuleController
     [HttpDelete]
     public Task<IResultModel> Delete([BindRequired] int id)
     {
-        return _service.Delete(id);
+        return Success(_service.Delete(id));
     }
 
     /// <summary>
@@ -78,9 +78,9 @@ public class RoleController : Web.ModuleController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResultModel> QueryBindMenus([BindRequired] int id)
+    public Task<IResultModel<RoleBindMenusUpdateDto>> QueryBindMenus([BindRequired] int id)
     {
-        return _service.QueryBindMenus(id);
+        return Success(_service.QueryBindMenus(id));
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public class RoleController : Web.ModuleController
     [HttpPost]
     public Task<IResultModel> UpdateBindMenus(RoleBindMenusUpdateDto dto)
     {
-        return _service.UpdateBindMenus(dto);
+        return Success(_service.UpdateBindMenus(dto));
     }
 
     /// <summary>
@@ -100,8 +100,8 @@ public class RoleController : Web.ModuleController
     /// <returns></returns>
     [HttpGet]
     [AllowWhenAuthenticated]
-    public Task<IResultModel> Select()
+    public Task<IResultModel<IEnumerable<OptionResultModel>>> Select()
     {
-        return _service.Select();
+        return Success(_service.Select());
     }
 }

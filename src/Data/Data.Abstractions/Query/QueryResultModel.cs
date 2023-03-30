@@ -25,9 +25,14 @@ public class PagingQueryResultModel<T> : IResultModel<PagingQueryResultBody<T>>
     public string Code { get; set; }
 
     /// <summary>
+    /// 错误码
+    /// </summary>
+    public string ErrorCode { get; }
+
+    /// <summary>
     /// 时间戳
     /// </summary>
-    public long Timestamp { get; private set; }
+    public long Timestamp { get; }
 
     /// <summary>
     /// 返回数据
@@ -52,18 +57,6 @@ public class PagingQueryResultModel<T> : IResultModel<PagingQueryResultBody<T>>
 
         return this;
     }
-
-    /// <summary>
-    /// 失败
-    /// </summary>
-    /// <param name="msg">说明</param>
-    public PagingQueryResultModel<T> Failed(string msg = "failed")
-    {
-        Successful = false;
-        Msg = msg;
-        return this;
-    }
-
 }
 
 /// <summary>

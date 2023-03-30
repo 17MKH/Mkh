@@ -35,16 +35,19 @@ internal class AccountService : IAccountService
         return _repository.Query(dto);
     }
 
-    public async Task<IResultModel> Add(AccountAddDto dto)
+    public async Task<Guid> Add(AccountAddDto dto)
     {
         if (await _repository.ExistsUsername(dto.Username))
-            return ResultModel.Failed("用户名已存在");
+            AdminException.Throw(AdminErrorCode.AccountUsernameExists);
+
         if (dto.Phone.NotNull() && await _repository.ExistsPhone(dto.Phone))
-            return ResultModel.Failed("手机号已存在");
+            AdminException.Throw(AdminErrorCode.AccountPhoneExists);
+
         if (dto.Email.NotNull() && await _repository.ExistsUsername(dto.Email))
-            return ResultModel.Failed("邮箱已存在");
+            AdminException.Throw(AdminErrorCode.AccountEmailExists);
+
         if (!await _roleRepository.Exists(dto.RoleId))
-            return ResultModel.Failed("绑定角色不存在");
+            AdminException.Throw(AdminErrorCode.AccountBindRoleExists);
 
         var account = _mapper.Map<AccountEntity>(dto);
         if (account.Password.IsNull())
@@ -54,33 +57,31 @@ internal class AccountService : IAccountService
         }
 
         account.Password = _passwordHandler.Encrypt(account.Password);
-        var result = await _repository.Add(account);
-        return ResultModel.Result(result);
+        await _repository.Add(account);
+        return account.Id;
     }
 
-    public async Task<IResultModel> Edit(Guid id)
+    public async Task<AccountUpdateDto> Edit(Guid id)
     {
         var account = await _repository.Get(id);
-        if (account == null)
-            return ResultModel.NotExists;
 
         var model = _mapper.Map<AccountUpdateDto>(account);
         model.Password = "";
-
-        return ResultModel.Success(model);
+        return model;
     }
 
-    public async Task<IResultModel> Update(AccountUpdateDto dto)
+    public async Task Update(AccountUpdateDto dto)
     {
         var account = await _repository.Get(dto.Id);
-        if (account == null)
-            return ResultModel.NotExists;
+
         if (dto.Phone.NotNull() && await _repository.ExistsPhone(dto.Phone, dto.Id))
-            return ResultModel.Failed("手机号已存在");
+            AdminException.Throw(AdminErrorCode.AccountPhoneExists);
+
         if (dto.Email.NotNull() && await _repository.ExistsUsername(dto.Email, dto.Id))
-            return ResultModel.Failed("邮箱已存在");
+            AdminException.Throw(AdminErrorCode.AccountEmailExists);
+
         if (!await _roleRepository.Exists(dto.RoleId))
-            return ResultModel.Failed("绑定角色不存在");
+            AdminException.Throw(AdminErrorCode.AccountBindRoleExists);
 
         var username = account.Username;
         var password = account.Password;
@@ -90,22 +91,15 @@ internal class AccountService : IAccountService
         account.Username = username;
         account.Password = password;
 
-        var result = await _repository.Update(account);
-        return ResultModel.Result(result);
+        await _repository.Update(account);
     }
 
-    public async Task<IResultModel> Delete(Guid id)
+    public Task Delete(Guid id)
     {
-        var account = await _repository.Get(id);
-        if (account == null)
-            return ResultModel.NotExists;
-
-        var result = await _repository.SoftDelete(id);
-
-        return ResultModel.Result(result);
+        return _repository.SoftDelete(id);
     }
 
-    public async Task<IResultModel> UpdateSkin(AccountSkinUpdateDto dto)
+    public async Task UpdateSkin(AccountSkinUpdateDto dto)
     {
         var config = await _skinRepository.Find(m => m.AccountId == dto.AccountId).ToFirst();
 
@@ -124,13 +118,13 @@ internal class AccountService : IAccountService
 
         if (config.Id < 1)
         {
-            return ResultModel.Result(await _skinRepository.Add(config));
+            await _skinRepository.Add(config);
         }
 
-        return ResultModel.Result(await _skinRepository.Update(config));
+        await _skinRepository.Update(config);
     }
 
-    public Task<bool> Activate(Guid id)
+    public Task Activate(Guid id)
     {
         return _repository
             .Find(m => m.Id == id)
