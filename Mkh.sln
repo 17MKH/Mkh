@@ -57,7 +57,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{4769
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00_Admin", "Admin", "{3E472592-34B0-4564-95AB-D904F34B1B7A}"
 	ProjectSection(SolutionItems) = preProject
-		modules\00_Admin\Directory.Build.props = modules\Admin\Directory.Build.props
+		modules\Admin\Directory.Build.props = modules\Admin\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin.Core", "modules\Admin\Admin.Core\Admin.Core.csproj", "{AD44BB22-EA8D-4FEE-95DE-FA547F1AF1B3}"
@@ -68,7 +68,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHost", "modules\WebHost\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Blog", "Blog", "{AC243BF9-4E30-4C8B-8A94-07735FFBFCCD}"
 	ProjectSection(SolutionItems) = preProject
-		modules\01_Blog\Directory.Build.props = modules\Blog\Directory.Build.props
+		modules\Blog\Directory.Build.props = modules\Blog\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Core", "modules\Blog\Blog.Core\Blog.Core.csproj", "{B39A20AC-8676-4B30-9012-5068E8D0305A}"
