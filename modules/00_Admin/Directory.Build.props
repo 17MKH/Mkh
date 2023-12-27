@@ -8,7 +8,7 @@
 		<Version>1.3.1</Version>
 		<Description>17MKH Module Admin($(Name)) - $(MSBuildProjectName)</Description>
 		<NoWarn>$(NoWarn);1591</NoWarn>
-		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+		<TargetFramework>net8.0</TargetFramework>
 		<LangVersion>Latest</LangVersion>
 		<!--禁用隐式命名空间导入，防止与自定义文件冲突-->
 		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>

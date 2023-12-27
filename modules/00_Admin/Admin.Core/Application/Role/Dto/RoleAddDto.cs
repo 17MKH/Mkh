@@ -1,13 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Mkh.Mod.Admin.Core.Domain.Role;
-using Mkh.Utils.Annotations;
 
 namespace Mkh.Mod.Admin.Core.Application.Role.Dto;
 
 /// <summary>
 /// 角色添加
 /// </summary>
-[ObjectMap(typeof(RoleEntity))]
 public class RoleAddDto
 {
     /// <summary>

@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Mkh.Data.Abstractions.Query;
-using Mkh.Mod.Admin.Core.Application.Account.Dto;
-using Mkh.Mod.Admin.Core.Domain.Account;
+using Mkh.Domain.Abstractions;
+using Mkh.Domain.Abstractions.Repositories.Query;
+using Mkh.Mod.Admin.Core.Application.Accounts.Dto;
+using Mkh.Mod.Admin.Core.Application.Accounts.Rto;
 
-namespace Mkh.Mod.Admin.Core.Application.Account;
+namespace Mkh.Mod.Admin.Core.Application.Accounts;
 
-public interface IAccountService
+public interface IAccountAppService : IAppService
 {
     /// <summary>
     /// 查询
     /// </summary>
     /// <returns></returns>
-    Task<PagingQueryResultModel<AccountEntity>> Query(AccountQueryDto dto);
+    Task<PagingQueryResult<AccountInfoRto>> Query(AccountQueryDto dto);
 
     /// <summary>
     /// 添加账户，返回主键
@@ -26,7 +27,7 @@ public interface IAccountService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<AccountUpdateDto> Edit(Guid id);
+    Task<AccountInfoRto> Edit(Guid id);
 
     /// <summary>
     /// 更新

@@ -5,12 +5,12 @@ using Mkh.Utils.Encrypt;
 namespace Mkh.Mod.Admin.Core.Infrastructure.Defaults;
 
 [SingletonInject]
-internal class DefaultPasswordHandler : IPasswordHandler
+internal class DefaultPasswordEncryptor : IPasswordEncryptor
 {
     private readonly Md5Encrypt _encrypt;
     private const string KEY = "mkh_";
 
-    public DefaultPasswordHandler(Md5Encrypt encrypt)
+    public DefaultPasswordEncryptor(Md5Encrypt encrypt)
     {
         _encrypt = encrypt;
     }

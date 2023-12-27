@@ -1,8 +1,8 @@
-﻿using Mkh.Data.Abstractions.Query;
+﻿using Mkh.Domain.Abstractions.Repositories.Query;
 
-namespace Mkh.Mod.Admin.Core.Application.Account.Dto;
+namespace Mkh.Mod.Admin.Core.Application.Accounts.Dto;
 
-public class AccountQueryDto : QueryDto
+public class AccountQueryDto : PagingQueryBase
 {
     /// <summary>
     /// 用户名

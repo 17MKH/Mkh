@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions.Annotations;
 using Mkh.Mod.Admin.Core.Application.Role;
 using Mkh.Mod.Admin.Core.Application.Role.Dto;
-using Mkh.Mod.Admin.Core.Domain.Role;
+using Role = Mkh.Mod.Admin.Core.Domain.Roles.Role;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
 
@@ -25,7 +25,7 @@ public class RoleController : Web.ModuleController
     /// </summary>
     /// <remarks>查询角色列表</remarks>
     [HttpGet]
-    public Task<IResultModel<IList<RoleEntity>>> Query()
+    public Task<IResultModel<IList<Role>>> Query()
     {
         return _service.Query();
     }

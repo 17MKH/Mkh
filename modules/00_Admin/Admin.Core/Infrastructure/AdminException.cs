@@ -1,11 +1,10 @@
-﻿using System;
-using Mkh.Utils.Exceptions;
+﻿using Mkh.Utils.Exceptions;
 
 namespace Mkh.Mod.Admin.Core.Infrastructure;
 
 public class AdminException : MkhBusinessException
 {
-    public AdminException(Enum errorCode) : base("Admin", errorCode)
+    public AdminException(AdminErrorCode errorCode) : base("Admin", errorCode)
     {
     }
 

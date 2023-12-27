@@ -1,9 +1,9 @@
 ﻿namespace Mkh.Mod.Admin.Core.Infrastructure;
 
 /// <summary>
-/// 密码处理器接口
+/// 密码安全
 /// </summary>
-public interface IPasswordHandler
+public interface IPasswordEncryptor
 {
     /// <summary>
     /// 加密

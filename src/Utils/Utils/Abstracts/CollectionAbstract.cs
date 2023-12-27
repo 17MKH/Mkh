@@ -3,9 +3,13 @@ using System.Collections.Generic;
 
 namespace Mkh.Utils.Abstracts;
 
+/// <summary>
+/// 集合抽象类
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
 public abstract class CollectionAbstract<TEntity> : IList<TEntity>
 {
-    protected readonly List<TEntity> Collection = new List<TEntity>();
+    protected readonly List<TEntity> Collection = new();
 
     public IEnumerator<TEntity> GetEnumerator()
     {

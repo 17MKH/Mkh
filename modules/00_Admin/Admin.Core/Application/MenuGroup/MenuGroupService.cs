@@ -6,9 +6,9 @@ using Mkh.Data.Abstractions.Query;
 using Mkh.Mod.Admin.Core.Application.MenuGroup.Dto;
 using Mkh.Mod.Admin.Core.Domain.Menu;
 using Mkh.Mod.Admin.Core.Domain.MenuGroup;
-using Mkh.Mod.Admin.Core.Domain.Role;
 using Mkh.Mod.Admin.Core.Domain.RoleMenu;
 using Mkh.Mod.Admin.Core.Domain.RolePermission;
+using Mkh.Mod.Admin.Core.Domain.Roles;
 using Mkh.Mod.Admin.Core.Infrastructure;
 using Mkh.Utils.Map;
 

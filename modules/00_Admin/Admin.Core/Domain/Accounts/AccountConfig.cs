@@ -1,36 +1,35 @@
 ﻿using System;
-using Mkh.Utils.Annotations;
+using Mkh.Domain.Abstractions.Entities;
 
-namespace Mkh.Mod.Admin.Core.Application.Account.Dto;
+namespace Mkh.Mod.Admin.Core.Domain.Accounts;
 
 /// <summary>
-/// 账户皮肤更新
+/// 账户配置
 /// </summary>
-public class AccountSkinUpdateDto
+public class AccountConfig : Entity
 {
     /// <summary>
     /// 账户编号
     /// </summary>
-    [Ignore]
     public Guid AccountId { get; set; }
 
     /// <summary>
     /// 皮肤名称
     /// </summary>
-    public string Name { get; set; }
+    public string SkinName { get; set; }
 
     /// <summary>
     /// 皮肤编码
     /// </summary>
-    public string Code { get; set; }
+    public string SkinCode { get; set; }
 
     /// <summary>
     /// 皮肤主题
     /// </summary>
-    public string Theme { get; set; }
+    public string SkinTheme { get; set; }
 
     /// <summary>
     /// 皮肤尺寸
     /// </summary>
-    public string Size { get; set; }
+    public string SkinSize { get; set; }
 }

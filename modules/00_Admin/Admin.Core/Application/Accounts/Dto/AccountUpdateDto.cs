@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Utils.Annotations;
 using Mkh.Utils.Validations;
 
-namespace Mkh.Mod.Admin.Core.Application.Account.Dto;
+namespace Mkh.Mod.Admin.Core.Application.Accounts.Dto;
 
 [ObjectMap(typeof(AccountEntity), true)]
 public class AccountUpdateDto : AccountAddDto

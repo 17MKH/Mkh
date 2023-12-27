@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 using Mkh.Data.Abstractions.Query;
 using Mkh.Data.Abstractions.Queryable;
 using Mkh.Data.Core.Repository;
-using Mkh.Mod.Admin.Core.Application.Account.Dto;
 using Mkh.Mod.Admin.Core.Domain.Account;
-using Mkh.Mod.Admin.Core.Domain.Role;
+using Role = Mkh.Mod.Admin.Core.Domain.Roles.Role;
 
 namespace Mkh.Mod.Admin.Core.Infrastructure.Repositories;
 
@@ -37,13 +36,13 @@ public class AccountRepository : RepositoryAbstract<AccountEntity>, IAccountRepo
         return Find(m => m.Username == username).WhereNotNull(tenantId, m => m.TenantId == tenantId.Value).ToFirst();
     }
 
-    private IQueryable<AccountEntity, RoleEntity> QueryBuilder(AccountQueryDto dto)
+    private IQueryable<AccountEntity, Role> QueryBuilder(AccountQueryDto dto)
     {
         return Find()
             .WhereNotNull(dto.Username, m => m.Username == dto.Username)
             .WhereNotNull(dto.Name, m => m.Name.Contains(dto.Name))
             .WhereNotNull(dto.Phone, m => m.Phone.Contains(dto.Phone))
-            .LeftJoin<RoleEntity>(m => m.T1.RoleId == m.T2.Id)
+            .LeftJoin<Role>(m => m.T1.RoleId == m.T2.Id)
             .Select(m => new { m.T1, RoleName = m.T2.Name })
             .OrderByDescending(m => m.T1.Id);
     }

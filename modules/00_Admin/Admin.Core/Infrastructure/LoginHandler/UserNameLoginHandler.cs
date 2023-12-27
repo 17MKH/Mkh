@@ -5,7 +5,6 @@ using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.LoginHandlers;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Logging.Abstractions.Providers;
-using Mkh.Mod.Admin.Core.Application.Account;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Utils.Annotations;
 
@@ -20,13 +19,13 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
     private readonly IOptionsMonitor<AuthOptions> _authOptions;
     private readonly IVerifyCodeProvider _verifyCodeProvider;
     private readonly IAccountRepository _accountRepository;
-    private readonly IPasswordHandler _passwordHandler;
+    private readonly IPasswordEncryptor _passwordHandler;
     private readonly ILoginLogHandler _loginLogProvider;
     private readonly IAccountService _accountService;
     private readonly ITenantResolver _tenantResolver;
     private readonly AdminLocalizer _localizer;
 
-    public UserNameLoginHandler(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordHandler passwordHandler, ILoginLogHandler loginLogProvider, IAccountService accountService, ITenantResolver tenantResolver, AdminLocalizer localizer)
+    public UserNameLoginHandler(IOptionsMonitor<AuthOptions> authOptions, IVerifyCodeProvider verifyCodeProvider, IAccountRepository accountRepository, IPasswordEncryptor passwordHandler, ILoginLogHandler loginLogProvider, IAccountService accountService, ITenantResolver tenantResolver, AdminLocalizer localizer)
     {
         _authOptions = authOptions;
         _verifyCodeProvider = verifyCodeProvider;

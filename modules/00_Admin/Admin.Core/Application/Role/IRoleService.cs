@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mkh.Mod.Admin.Core.Application.Role.Dto;
-using Mkh.Mod.Admin.Core.Domain.Role;
+using Mkh.Mod.Admin.Core.Application.Role.Rto;
 
 namespace Mkh.Mod.Admin.Core.Application.Role;
 
@@ -11,10 +12,10 @@ namespace Mkh.Mod.Admin.Core.Application.Role;
 public interface IRoleService
 {
     /// <summary>
-    /// 查询
+    /// 查询所有角色信息
     /// </summary>
     /// <returns></returns>
-    Task<IResultModel<IList<RoleEntity>>> Query();
+    Task<IList<RoleDetailsRto>> QueryAll();
 
     /// <summary>
     /// 添加
@@ -24,11 +25,11 @@ public interface IRoleService
     Task<int> Add(RoleAddDto dto);
 
     /// <summary>
-    /// 编辑
+    /// 查询单个角色
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<RoleUpdateDto> Edit(int id);
+    Task<RoleDetailsRto> Get(Guid id);
 
     /// <summary>
     /// 更新
@@ -42,25 +43,5 @@ public interface IRoleService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task Delete(int id);
-
-    /// <summary>
-    /// 查询指定角色绑定的菜单信息
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    Task<RoleBindMenusUpdateDto> QueryBindMenus(int id);
-
-    /// <summary>
-    /// 更新角色绑定的菜单信息
-    /// </summary>
-    /// <param name="dto"></param>
-    /// <returns></returns>
-    Task UpdateBindMenus(RoleBindMenusUpdateDto dto);
-
-    /// <summary>
-    /// 下拉列表
-    /// </summary>
-    /// <returns></returns>
-    Task<IEnumerable<OptionResultModel>> Select();
+    Task Delete(Guid id);
 }
