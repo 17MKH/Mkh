@@ -31,13 +31,13 @@ public class ExceptionHandleMiddleware
         {
             await _next(httpContext);
         }
-        catch (MkhSystemException ex)
+        catch (Utils.Exceptions.SystemException ex)
         {
             _logger.LogError("throw system exception,the module is {module},the code is {code}", ex.Module, ex.Code);
 
             await HandleExceptionAsync(httpContext, ex.Message, $"System.{ex.Module}.{ex.Code}");
         }
-        catch (MkhBusinessException ex)
+        catch (BusinessException ex)
         {
             _logger.LogError("throw business exception,the module code is {moduleCode},the error code is {errorCode}", ex.ModuleCode, ex.ErrorCode);
 

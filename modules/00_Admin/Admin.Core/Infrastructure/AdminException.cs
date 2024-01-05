@@ -2,7 +2,7 @@
 
 namespace Mkh.Mod.Admin.Core.Infrastructure;
 
-public class AdminException : MkhBusinessException
+public class AdminException : BusinessException
 {
     public AdminException(AdminErrorCode errorCode) : base("Admin", errorCode)
     {

@@ -7,5 +7,5 @@ namespace Mkh.Mod.Admin.Core.Domain.Roles;
 /// </summary>
 internal interface IRoleRepository : IRepository<Role>
 {
-        
+
 }

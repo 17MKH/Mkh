@@ -9,10 +9,6 @@ public abstract class Entity<TKey> : IEntity<TKey>
 {
     public TKey Id { get; }
 
-    protected Entity()
-    {
-    }
-
     protected Entity(TKey id)
     {
         Id = id;
@@ -22,13 +18,13 @@ public abstract class Entity<TKey> : IEntity<TKey>
 /// <summary>
 /// 实体
 /// </summary>
-public class Entity : Entity<Guid>
+public abstract class Entity : Entity<Guid>
 {
-    public Entity() : base(Guid.NewGuid())
+    protected Entity() : base(Guid.NewGuid())
     {
     }
 
-    public Entity(Guid id) : base(id)
+    protected Entity(Guid id) : base(id)
     {
     }
 }

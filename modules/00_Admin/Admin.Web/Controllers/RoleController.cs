@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mkh.Auth.Abstractions.Annotations;
-using Mkh.Mod.Admin.Core.Application.Role;
-using Mkh.Mod.Admin.Core.Application.Role.Dto;
+using Mkh.Mod.Admin.Core.Application.Roles;
+using Mkh.Mod.Admin.Core.Application.Roles.Dto;
+using Mkh.Mod.Admin.Core.Application.Roles.Rto;
 using Role = Mkh.Mod.Admin.Core.Domain.Roles.Role;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
@@ -21,23 +22,13 @@ public class RoleController : Web.ModuleController
     }
 
     /// <summary>
-    /// 查询
-    /// </summary>
-    /// <remarks>查询角色列表</remarks>
-    [HttpGet]
-    public Task<IResultModel<IList<Role>>> Query()
-    {
-        return _service.Query();
-    }
-
-    /// <summary>
     /// 添加
     /// </summary>
     /// <remarks></remarks>
     [HttpPost]
-    public Task<IResultModel<int>> Add(RoleAddDto dto)
+    public Task<IResultModel<RoleDetailsRto>> Create(RoleCreateDto dto)
     {
-        return Success(_service.Add(dto));
+        return Success(_service.Create(dto));
     }
 
     /// <summary>

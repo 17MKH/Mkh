@@ -2,7 +2,7 @@
 
 namespace Mkh.Data.Abstractions.Exceptions;
 
-public class EntityAddException : MkhSystemException
+public class EntityAddException : SystemException
 {
     public EntityAddException() : base("Data", "AddError")
     {

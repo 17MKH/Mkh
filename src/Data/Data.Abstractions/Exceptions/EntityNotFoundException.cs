@@ -2,7 +2,7 @@
 
 namespace Mkh.Data.Abstractions.Exceptions;
 
-public class EntityNotFoundException : MkhSystemException
+public class EntityNotFoundException : SystemException
 {
     public EntityNotFoundException() : base("Data", "EntityNotFound")
     {

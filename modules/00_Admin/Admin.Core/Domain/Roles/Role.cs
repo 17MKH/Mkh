@@ -1,5 +1,4 @@
-﻿using System;
-using Mkh.Domain.Abstractions.Entities;
+﻿using Mkh.Domain.Abstractions.Entities;
 
 namespace Mkh.Mod.Admin.Core.Domain.Roles;
 
@@ -21,13 +20,15 @@ internal class Role : CommonAggregateRoot
     /// <summary>
     /// 备注
     /// </summary>
-    public string Remarks { get; set; }
+    public string? Remarks { get; set; }
 
     public Role()
     {
+        Name = string.Empty;
+        Code = string.Empty;
     }
 
-    public Role(string name, string code, Guid createdBy) : base(createdBy)
+    public Role(string name, string code)
     {
         Name = name;
         Code = code;
