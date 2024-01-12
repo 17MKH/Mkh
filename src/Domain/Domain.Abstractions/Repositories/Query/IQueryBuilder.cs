@@ -258,7 +258,22 @@ public interface IQueryBuilder<TEntity> where TEntity : IEntity, new()
     /// <typeparam name="TResult"></typeparam>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns></returns>
+    IList<TResult> ToList<TResult>(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 查询列表，返回指定类型
+    /// </summary>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns></returns>
     Task<IList<TResult>> ToListAsync<TResult>(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 查询第一条数据，返回指定类型
+    /// </summary>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns></returns>
+    TResult FirstOrDefault<TResult>(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 查询第一条数据，返回指定类型
@@ -272,7 +287,21 @@ public interface IQueryBuilder<TEntity> where TEntity : IEntity, new()
     /// </summary>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns></returns>
-    Task<long> GetCountAsync(CancellationToken cancellationToken = default);
+    long Count(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 查询数量
+    /// </summary>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns></returns>
+    Task<long> CountAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 判断是否存在
+    /// </summary>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns></returns>
+    bool Exists(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 判断是否存在
@@ -282,14 +311,21 @@ public interface IQueryBuilder<TEntity> where TEntity : IEntity, new()
     Task<bool> ExistsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// 查询列表，返回指定类型
+    /// 查询列表，返回实体类型
+    /// </summary>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns></returns>
+    IList<TEntity> ToList(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 查询列表，返回实体类型
     /// </summary>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns></returns>
     Task<IList<TEntity>> ToListAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// 查询第一条数据，如果没有数据则返回指定类型的默认值
+    /// 查询第一条数据，如果没有数据则返回实体类型的默认值
     /// </summary>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns></returns>
@@ -336,10 +372,21 @@ public interface IQueryBuilder<TEntity> where TEntity : IEntity, new()
     #region ==Copy==
 
     /// <summary>
-    /// 复制一个新的实例
+    /// 克隆一个新的实例
     /// </summary>
     /// <returns></returns>
-    IQueryBuilder<TEntity> Copy();
+    IQueryBuilder<TEntity> Clone();
+
+    #endregion
+
+    #region ==Delete==
+
+    /// <summary>
+    /// 删除
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns>数据库影响的行数</returns>
+    Task<bool> DeleteAsync(CancellationToken cancellationToken = default);
 
     #endregion
 }

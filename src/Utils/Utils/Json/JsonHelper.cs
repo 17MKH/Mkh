@@ -2,7 +2,6 @@
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using Mkh.Utils.Annotations;
-using Mkh.Utils.Json.Converters;
 
 namespace Mkh.Utils.Json;
 
@@ -12,7 +11,6 @@ namespace Mkh.Utils.Json;
 /// <para>1、不区分大小写的反序列化</para>
 /// <para>2、属性名称使用 camel 大小写</para>
 /// <para>3、最大限度减少字符转义</para>
-/// <para>4、自定义日期转换器 DateTimeConverter</para>
 /// </summary>
 [SingletonInject]
 public class JsonHelper
@@ -32,10 +30,6 @@ public class JsonHelper
         _options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         //最大限度减少字符转义
         _options.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
-        //添加日期转换器
-        _options.Converters.Add(new DateTimeConverter());
-        //添加多态嵌套序列化
-        _options.AddPolymorphism();
     }
 
     /// <summary>
@@ -55,7 +49,7 @@ public class JsonHelper
     /// <typeparam name="T"></typeparam>
     /// <param name="json"></param>
     /// <returns></returns>
-    public T Deserialize<T>(string json)
+    public T? Deserialize<T>(string json)
     {
         return JsonSerializer.Deserialize<T>(json, _options);
     }
@@ -66,7 +60,7 @@ public class JsonHelper
     /// <param name="json">json文本</param>
     /// <param name="type">类型</param>
     /// <returns></returns>
-    public object Deserialize(string json, Type type)
+    public object? Deserialize(string json, Type type)
     {
         return JsonSerializer.Deserialize(json, type, _options);
     }

@@ -17,12 +17,12 @@ public class PagingQueryResultModel<T> : IResultModel<PagingQueryResultBody<T>>
     /// <summary>
     /// 错误信息
     /// </summary>
-    public string Msg { get; private set; }
+    public string Message { get; private set; }
 
     /// <summary>
     /// 业务码
     /// </summary>
-    public string Code { get; set; }
+    public string BusinessCode { get; set; }
 
     /// <summary>
     /// 错误码
@@ -53,7 +53,7 @@ public class PagingQueryResultModel<T> : IResultModel<PagingQueryResultBody<T>>
     {
         Successful = true;
         Data = data;
-        Msg = msg;
+        Message = msg;
 
         return this;
     }

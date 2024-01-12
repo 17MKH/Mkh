@@ -3,6 +3,15 @@
 public enum AdminErrorCode
 {
     /// <summary>
+    /// 角色名称已存在
+    /// </summary>
+    RoleNameExists,
+    /// <summary>
+    /// 角色编码已存在
+    /// </summary>
+    RoleCodeExists,
+
+    /// <summary>
     /// 用户名已存在
     /// </summary>
     AccountUsernameExists,
@@ -89,13 +98,4 @@ public enum AdminErrorCode
     /// 菜单分组不允许删除
     /// </summary>
     MenuGroupNotAllowDelete,
-
-    /// <summary>
-    /// 角色名称已存在
-    /// </summary>
-    RoleNameExists,
-    /// <summary>
-    /// 角色编码已存在
-    /// </summary>
-    RoleCodeExists
 }

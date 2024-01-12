@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Mkh.Utils;
 
 namespace Mkh.Module.Web;
 
@@ -31,7 +32,7 @@ public class ValidateResultFormatAttribute : ActionFilterAttribute
                     })
                     .Aggregate((x, y) => x + "|" + y);
 
-                context.Result = new JsonResult(ResultModel.Failed(errors));
+                context.Result = new JsonResult(Result.Failed(errors));
             }
             catch
             {

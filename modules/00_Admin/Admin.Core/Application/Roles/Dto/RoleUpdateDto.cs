@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Mkh.Utils.Annotations;
+using Mkh.Utils.Validations;
 
 namespace Mkh.Mod.Admin.Core.Application.Roles.Dto;
 
@@ -9,7 +11,7 @@ namespace Mkh.Mod.Admin.Core.Application.Roles.Dto;
 [ObjectMap(typeof(Domain.Roles.Role), true)]
 public class RoleUpdateDto : RoleCreateDto
 {
-    [Required(ErrorMessage = "请选择要修改的角色")]
-    [Range(1, int.MaxValue, ErrorMessage = "请选择要修改的角色")]
-    public int Id { get; set; }
+    [Required]
+    [GuidNotEmptyValidation]
+    public Guid Id { get; set; }
 }

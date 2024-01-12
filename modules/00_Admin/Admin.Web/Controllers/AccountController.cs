@@ -9,6 +9,7 @@ using Mkh.Data.Abstractions.Query;
 using Mkh.Identity.Abstractions;
 using Mkh.Mod.Admin.Core.Domain.Account;
 using Mkh.Mod.Admin.Core.Infrastructure;
+using Mkh.Utils;
 
 namespace Mkh.Mod.Admin.Web.Controllers;
 
@@ -86,7 +87,7 @@ public class AccountController : Web.ModuleController
     public IResultModel DefaultPassword()
     {
         var config = _configProvider.Get<AdminConfig>();
-        return ResultModel.Success(config.DefaultPassword);
+        return Result.Success(config.DefaultPassword);
     }
 
     /// <summary>

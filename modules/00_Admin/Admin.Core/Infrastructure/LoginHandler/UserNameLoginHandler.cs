@@ -57,8 +57,8 @@ internal class UserNameLoginHandler : IUsernameLoginHandler
                 var verifyCodeCheckResult = await _verifyCodeProvider.Verify(model.VerifyCodeId, model.VerifyCode);
                 if (!verifyCodeCheckResult.Successful)
                 {
-                    loginLog.Error = verifyCodeCheckResult.Msg;
-                    return result.Failed(verifyCodeCheckResult.Msg);
+                    loginLog.Error = verifyCodeCheckResult.Message;
+                    return result.Failed(verifyCodeCheckResult.Message);
                 }
             }
 

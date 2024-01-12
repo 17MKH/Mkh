@@ -9,9 +9,7 @@ namespace Mkh.Utils.Validations;
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
 public class GuidNotEmptyValidationAttribute : ValidationAttribute
 {
-    public GuidNotEmptyValidationAttribute() : base("属性 {0} 不能为空") { }
-
-    public override bool IsValid(object value)
+    public override bool IsValid(object? value)
     {
         if (value is null)
         {

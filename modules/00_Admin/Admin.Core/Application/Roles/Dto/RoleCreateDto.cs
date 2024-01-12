@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Mkh.Mod.Admin.Core.Application.Roles.Dto;
+﻿namespace Mkh.Mod.Admin.Core.Application.Roles.Dto;
 
 /// <summary>
 /// 角色添加

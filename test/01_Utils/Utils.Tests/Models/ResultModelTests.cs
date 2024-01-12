@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Mkh;
+using Mkh.Utils;
 using Xunit;
 
 namespace Utils.Tests.Models
@@ -9,7 +9,7 @@ namespace Utils.Tests.Models
         [Fact]
         public void SuccessTest()
         {
-            var result = ResultModel.Success();
+            var result = Result.Success();
             var json = JsonSerializer.Serialize(result);
 
             Assert.NotNull(json);

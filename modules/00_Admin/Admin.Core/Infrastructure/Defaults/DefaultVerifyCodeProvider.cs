@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Cache.Abstractions;
+using Mkh.Utils;
 using Mkh.Utils.Annotations;
 using Mkh.Utils.Helpers;
 using SixLabors.Fonts;
@@ -61,20 +62,20 @@ internal class DefaultVerifyCodeProvider : IVerifyCodeProvider
         if (_authOptions.CurrentValue.EnableVerifyCode)
         {
             if (code.IsNull())
-                return ResultModel.Failed("请输入验证码");
+                return Result.Failed("请输入验证码");
 
             if (id.IsNull())
-                return ResultModel.Failed("验证码不存在");
+                return Result.Failed("验证码不存在");
 
             var cacheCode = await _cacheHandler.Get(_cacheKeys.VerifyCode(id));
             if (cacheCode.IsNull())
-                return ResultModel.Failed("验证码不存在");
+                return Result.Failed("验证码不存在");
 
             if (!cacheCode.Equals(code))
-                return ResultModel.Failed("验证码有误");
+                return Result.Failed("验证码有误");
         }
 
-        return ResultModel.Success();
+        return Result.Success();
     }
 
     /// <summary>

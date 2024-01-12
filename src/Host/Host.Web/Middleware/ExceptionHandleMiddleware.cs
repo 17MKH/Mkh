@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Mkh.Utils;
 using Mkh.Utils.Exceptions;
 using Mkh.Utils.Json;
 
@@ -59,6 +60,6 @@ public class ExceptionHandleMiddleware
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)HttpStatusCode.OK;
 
-        return context.Response.WriteAsync(_jsonHelper.Serialize(ResultModel.Failed(error, errorCode)));
+        return context.Response.WriteAsync(_jsonHelper.Serialize(Result.Failed(error, errorCode)));
     }
 }

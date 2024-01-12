@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mkh.Excel.Abstractions;
+using Mkh.Utils;
 using Mkh.Utils.Models;
 
 namespace Mkh.Module.Web;
@@ -23,7 +24,7 @@ public abstract class ControllerAbstract : ControllerBase
     /// <returns></returns>
     protected Task<IResultModel> Success(Task task)
     {
-        return ResultModel.SuccessAsync(task);
+        return Result.SuccessAsync(task);
     }
 
     /// <summary>
@@ -34,7 +35,7 @@ public abstract class ControllerAbstract : ControllerBase
     /// <returns></returns>
     protected Task<IResultModel<T>> Success<T>(Task<T> task)
     {
-        return ResultModel.SuccessAsync(task);
+        return Result.SuccessAsync(task);
     }
 
     /// <summary>

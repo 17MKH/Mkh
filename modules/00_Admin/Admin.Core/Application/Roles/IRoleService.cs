@@ -15,26 +15,26 @@ public interface IRoleService
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<RoleDetailsRto> Create(RoleCreateDto dto);
+    Task<Result<Guid>> Create(RoleCreateDto dto);
 
     /// <summary>
     /// 更新
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task Update(RoleUpdateDto dto);
+    Task<Result> Update(RoleUpdateDto dto);
 
     /// <summary>
     /// 查询
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<RoleDetailsRto> Get(Guid id);
+    Task<Result<RoleDetailsRto>> Get(Guid id);
 
     /// <summary>
     /// 删除
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task Delete(Guid id);
+    Task<Result> Delete(Guid id);
 }

@@ -10,12 +10,12 @@ internal class Role : CommonAggregateRoot
     /// <summary>
     /// 名称
     /// </summary>
-    public string Name { get; }
+    public string Name { get; set; }
 
     /// <summary>
     /// 编码
     /// </summary>
-    public string Code { get; }
+    public string Code { get; set; }
 
     /// <summary>
     /// 备注
