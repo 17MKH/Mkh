@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mkh.Domain.Abstractions.Entities;
+using Mkh.Mod.Admin.Core.Domain.Roles;
 
 namespace Mkh.Mod.Admin.Core.Domain.Accounts;
 
@@ -9,6 +10,9 @@ namespace Mkh.Mod.Admin.Core.Domain.Accounts;
 /// </summary>
 internal class Account : AggregateRoot, ITenant
 {
+    /// <summary>
+    /// 租户编号
+    /// </summary>
     public Guid? TenantId { get; }
 
     /// <summary>
@@ -24,12 +28,12 @@ internal class Account : AggregateRoot, ITenant
     /// <summary>
     /// 手机号
     /// </summary>
-    public string Phone { get; set; }
+    public string? Phone { get; set; }
 
     /// <summary>
     /// 邮箱
     /// </summary>
-    public string Email { get; set; }
+    public string? Email { get; set; }
 
     /// <summary>
     /// 是否禁用
@@ -39,12 +43,7 @@ internal class Account : AggregateRoot, ITenant
     /// <summary>
     /// 关联角色ID
     /// </summary>
-    public List<Guid> RoleIds { get; set; }
-
-    public Account()
-    {
-
-    }
+    public IEnumerable<Role>? Roles { get; set; }
 
     /// <summary>
     /// 

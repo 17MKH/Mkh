@@ -15,15 +15,15 @@ public class RoleDetailsRto
     /// <summary>
     /// 名称
     /// </summary>
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// 编码
     /// </summary>
-    public string Code { get; set; }
+    public required string Code { get; set; }
 
     /// <summary>
     /// 备注
     /// </summary>
-    public string Remarks { get; set; }
+    public string? Remarks { get; set; }
 }

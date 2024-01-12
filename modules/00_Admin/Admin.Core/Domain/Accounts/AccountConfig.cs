@@ -1,7 +1,7 @@
 ﻿using System;
 using Mkh.Domain.Abstractions.Entities;
 
-namespace Mkh.Mod.Admin.Core.Domain.Accounts;
+namespace Mkh.Mod.Admin.Domain.Accounts;
 
 /// <summary>
 /// 账户配置

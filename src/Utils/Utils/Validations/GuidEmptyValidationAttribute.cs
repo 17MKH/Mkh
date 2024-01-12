@@ -7,7 +7,7 @@ namespace Mkh.Utils.Validations;
 /// GUID不能为空的验证
 /// </summary>
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
-public class GuidNotEmptyValidationAttribute : ValidationAttribute
+public class GuidEmptyValidationAttribute : ValidationAttribute
 {
     public override bool IsValid(object? value)
     {

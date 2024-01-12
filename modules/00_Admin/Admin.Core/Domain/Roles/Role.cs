@@ -5,7 +5,7 @@ namespace Mkh.Mod.Admin.Core.Domain.Roles;
 /// <summary>
 /// 角色
 /// </summary>
-internal class Role : CommonAggregateRoot
+public class Role : CommonAggregateRoot
 {
     /// <summary>
     /// 名称

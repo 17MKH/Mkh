@@ -84,7 +84,7 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<long> GetCountAsync(CancellationToken cancellationToken = default);
+    Task<long> CountAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 判断是否存在

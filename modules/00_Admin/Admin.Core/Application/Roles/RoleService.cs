@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Mkh.Mod.Admin.Core.Application.Roles.Dto;
+using Mkh.Mod.Admin.Core.Application.Roles.Event;
 using Mkh.Mod.Admin.Core.Application.Roles.Rto;
 using Mkh.Mod.Admin.Core.Domain.Roles;
 using Mkh.Mod.Admin.Core.Infrastructure;
@@ -19,7 +21,7 @@ internal class RoleService : IRoleService
         _mediator = mediator;
     }
 
-    public async Task<Result<Guid>> Create(RoleCreateDto dto)
+    public async Task<Result<Guid>> CreateAsync(RoleCreateDto dto)
     {
         var result = ResultBuilder.Success<Guid>();
 
@@ -33,14 +35,17 @@ internal class RoleService : IRoleService
             return result.Failed(AdminErrorCode.RoleCodeExists);
         }
 
-        var role = new Role(dto.Name, dto.Code);
+        var role = new Role(dto.Name, dto.Code)
+        {
+            Remarks = dto.Remarks
+        };
 
         await _repository.InsertAsync(role);
 
         return result;
     }
 
-    public async Task<Result> Update(RoleUpdateDto dto)
+    public async Task<Result> UpdateAsync(RoleUpdateDto dto)
     {
         var role = await _repository.GetAsync(dto.Id);
 
@@ -64,7 +69,7 @@ internal class RoleService : IRoleService
         return result;
     }
 
-    public async Task<Result<RoleDetailsRto>> Get(Guid id)
+    public async Task<Result<RoleDetailsRto>> GetAsync(Guid id)
     {
         var role = await _repository.GetAsync(id);
 
@@ -73,17 +78,28 @@ internal class RoleService : IRoleService
             Id = role.Id,
             Name = role.Name,
             Code = role.Code,
+            Remarks = role.Remarks
         });
     }
 
-    public async Task<Result> Delete(Guid id)
+    public async Task<Result> DeleteAsync(Guid id)
     {
-        var result = await _repository.Find(m => m.Id == id).DeleteAsync();
-        if (result)
-        {
-            _mediator.Publish()
-        }
+        var role = await _repository.GetAsync(id);
 
-        return ResultBuilder.Condition(result);
+        await _repository.DeleteAsync(role);
+
+        await _mediator.Publish(new RoleDeleteEvent(id, role.Name, role.Code));
+
+        return ResultBuilder.Success();
+    }
+
+    public async Task<bool> IsExistAsync(Guid[] ids)
+    {
+        if (ids.IsNullOrEmpty())
+            return true;
+
+        var count = await _repository.Find(m => ids.Contains(m.Id)).CountAsync();
+
+        return count == ids.Length;
     }
 }

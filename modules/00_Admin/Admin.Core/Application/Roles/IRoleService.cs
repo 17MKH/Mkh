@@ -15,26 +15,33 @@ public interface IRoleService
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<Result<Guid>> Create(RoleCreateDto dto);
+    Task<Result<Guid>> CreateAsync(RoleCreateDto dto);
 
     /// <summary>
     /// 更新
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<Result> Update(RoleUpdateDto dto);
+    Task<Result> UpdateAsync(RoleUpdateDto dto);
 
     /// <summary>
     /// 查询
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<Result<RoleDetailsRto>> Get(Guid id);
+    Task<Result<RoleDetailsRto>> GetAsync(Guid id);
 
     /// <summary>
     /// 删除
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<Result> Delete(Guid id);
+    Task<Result> DeleteAsync(Guid id);
+
+    /// <summary>
+    /// 判断指定id的角色是否都存在
+    /// </summary>
+    /// <param name="ids"></param>
+    /// <returns></returns>
+    Task<bool> IsExistAsync(Guid[] ids);
 }

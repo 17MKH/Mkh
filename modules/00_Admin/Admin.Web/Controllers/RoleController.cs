@@ -28,7 +28,7 @@ public class RoleController : Web.ModuleController
     [HttpPost]
     public Task<IResultModel<RoleDetailsRto>> Create(RoleCreateDto dto)
     {
-        return Success(_service.Create(dto));
+        return Success(_service.CreateAsync(dto));
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class RoleController : Web.ModuleController
     [HttpPost]
     public Task<IResultModel> Update(RoleUpdateDto dto)
     {
-        return Success(_service.Update(dto));
+        return Success(_service.UpdateAsync(dto));
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public class RoleController : Web.ModuleController
     [HttpDelete]
     public Task<IResultModel> Delete([BindRequired] int id)
     {
-        return Success(_service.Delete(id));
+        return Success(_service.DeleteAsync(id));
     }
 
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Mkh.Mod.Admin.Core.Domain.Accounts;
+namespace Mkh.Mod.Admin.Domain.Accounts;
 
 /// <summary>
 /// 账户状态

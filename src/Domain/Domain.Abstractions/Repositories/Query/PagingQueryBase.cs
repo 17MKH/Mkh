@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mkh.Domain.Abstractions.Repositories.Paging;
+﻿using Mkh.Domain.Abstractions.Repositories.Paging;
 
 namespace Mkh.Domain.Abstractions.Repositories.Query;
 
@@ -21,5 +20,5 @@ public abstract class PagingQueryBase
     /// <summary>
     /// 排序规则
     /// </summary>
-    public IEnumerable<Sort> OrderBy { get; set; }
+    public Sort[]? OrderBy { get; set; }
 }

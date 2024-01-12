@@ -8,8 +8,13 @@ namespace Mkh.Mod.Admin.Core.Domain.Accounts;
 /// </summary>
 public class AccountRoleRelation : Entity
 {
+    /// <summary>
+    /// 账户编号
+    /// </summary>
     public Guid AccountId { get; set; }
 
+    /// <summary>
+    /// 角色编号
+    /// </summary>
     public Guid RoleId { get; set; }
-
 }

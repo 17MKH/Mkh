@@ -7,20 +7,20 @@ using Mkh.Mod.Admin.Core.Application.Accounts.Rto;
 
 namespace Mkh.Mod.Admin.Core.Application.Accounts;
 
-public interface IAccountAppService : IAppService
+public interface IAccountService : IAppService
 {
     /// <summary>
-    /// 查询
+    /// 分页查询
     /// </summary>
     /// <returns></returns>
     Task<PagingQueryResult<AccountInfoRto>> Query(AccountQueryDto dto);
 
     /// <summary>
-    /// 添加账户，返回主键
+    /// 创建账户，返回主键
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<Guid> Add(AccountAddDto dto);
+    Task<Result<Guid>> Create(AccountCreateDto dto);
 
     /// <summary>
     /// 编辑
