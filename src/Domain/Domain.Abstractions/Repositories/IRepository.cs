@@ -20,7 +20,7 @@ public interface IRepository
 /// <summary>
 /// 泛型仓储接口
 /// </summary>
-public interface IRepository<TEntity> : IRepository where TEntity : IEntity, new()
+public interface IRepository<TEntity> : IRepository where TEntity : IEntity
 {
     /// <summary>
     /// 插入一个实体

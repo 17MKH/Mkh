@@ -8,7 +8,7 @@ namespace Mkh.Mod.Admin.Core.Domain.Accounts;
 /// <summary>
 /// 账户信息
 /// </summary>
-internal class Account : AggregateRoot, ITenant
+internal class Account : CommonAggregateRoot, ITenant
 {
     /// <summary>
     /// 租户编号

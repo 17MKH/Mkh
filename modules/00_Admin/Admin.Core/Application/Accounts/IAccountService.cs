@@ -10,50 +10,36 @@ namespace Mkh.Mod.Admin.Core.Application.Accounts;
 public interface IAccountService : IAppService
 {
     /// <summary>
-    /// 分页查询
+    /// 查询
     /// </summary>
     /// <returns></returns>
-    Task<PagingQueryResult<AccountInfoRto>> Query(AccountQueryDto dto);
+    Task<PagingQueryResult<AccountDetailsRto>> QueryAsync(AccountQueryDto dto);
 
     /// <summary>
     /// 创建账户，返回主键
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<Result<Guid>> Create(AccountCreateDto dto);
+    Task<Result<Guid>> CreateAsync(AccountCreateDto dto);
 
     /// <summary>
     /// 编辑
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<AccountInfoRto> Edit(Guid id);
+    Task<Result<AccountDetailsRto>> GetAsync(Guid id);
 
     /// <summary>
     /// 更新
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task Update(AccountUpdateDto dto);
+    Task<Result> UpdateAsync(AccountUpdateDto dto);
 
     /// <summary>
     /// 删除
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task Delete(Guid id);
-
-    /// <summary>
-    /// 更新皮肤配置
-    /// </summary>
-    /// <param name="dto"></param>
-    /// <returns></returns>
-    Task UpdateSkin(AccountSkinUpdateDto dto);
-
-    /// <summary>
-    /// 激活账户
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    Task Activate(Guid id);
+    Task<Result> DeleteAsync(Guid id);
 }

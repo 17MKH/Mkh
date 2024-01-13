@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Mkh.Auth.Abstractions;
 using Mkh.Domain.Abstractions.Repositories.Query;
@@ -31,14 +30,14 @@ internal class AccountService : BaseAppService, IAccountService
         _roleService = roleService;
     }
 
-    public async Task<PagingQueryResult<AccountInfoRto>> Query(AccountQueryDto dto)
+    public async Task<PagingQueryResult<AccountDetailsRto>> QueryAsync(AccountQueryDto dto)
     {
-        var result = await _repository.PagingQuery(dto);
-        var rows = _mapper.Map<IEnumerable<AccountInfoRto>>(result.Rows);
-        return new PagingQueryResult<AccountInfoRto>(rows, result.Total);
+        var result = await _repository.QueryAsync(dto);
+        var rows = _mapper.Map<IEnumerable<AccountDetailsRto>>(result.Rows);
+        return new PagingQueryResult<AccountDetailsRto>(rows, result.Total);
     }
 
-    public async Task<Result<Guid>> Create(AccountCreateDto dto)
+    public async Task<Result<Guid>> CreateAsync(AccountCreateDto dto)
     {
         var result = ResultBuilder.Success<Guid>();
 
@@ -66,37 +65,27 @@ internal class AccountService : BaseAppService, IAccountService
             Email = dto.Email,
         };
 
+        await _repository.InsertAsync(account);
+
         if (dto.RoleIds.NotNullAndEmpty())
         {
-            account.Roles= dto.RoleIds.Select(m=>new AccountRoleRelation())
+            await _repository.BindRolesAsync(dto.RoleIds);
         }
-
-        await _repository.InsertAsync(account);
 
         return result.Success(account.Id);
     }
 
-    public Task<AccountInfoRto> Edit(Guid id)
+    public Task<Result<AccountDetailsRto>> GetAsync(Guid id)
     {
         throw new NotImplementedException();
     }
 
-    public Task Update(AccountUpdateDto dto)
+    public Task<Result> UpdateAsync(AccountUpdateDto dto)
     {
         throw new NotImplementedException();
     }
 
-    public Task Delete(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateSkin(AccountSkinUpdateDto dto)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task Activate(Guid id)
+    public Task<Result> DeleteAsync(Guid id)
     {
         throw new NotImplementedException();
     }

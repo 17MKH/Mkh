@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Mkh.Domain.Abstractions.Repositories;
 using Mkh.Domain.Abstractions.Repositories.Query;
@@ -18,20 +16,12 @@ internal interface IAccountRepository : IRepository<Account>
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<PagingQueryResult<Account>> PagingQuery(AccountQueryDto dto);
+    Task<PagingQueryResult<Account>> QueryAsync(AccountQueryDto dto);
 
     /// <summary>
-    /// 根据用户名查询账户信息
+    /// 绑定角色
     /// </summary>
-    /// <param name="username">用户名</param>
-    /// <param name="cancellationToken">取消令牌</param>
+    /// <param name="roleIds"></param>
     /// <returns></returns>
-    Task<Account> GetByUserName(string username, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// 查询指定账户关联的角色编号列表
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    Task<List<Guid>> QueryRoleIds(Guid id);
+    Task BindRolesAsync(Guid[] roleIds);
 }

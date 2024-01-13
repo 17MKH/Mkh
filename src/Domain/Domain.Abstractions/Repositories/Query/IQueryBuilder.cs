@@ -7,7 +7,7 @@ using Mkh.Domain.Abstractions.Entities;
 
 namespace Mkh.Domain.Abstractions.Repositories.Query;
 
-public interface IQueryBuilder<TEntity> where TEntity : IEntity, new()
+public interface IQueryBuilder<TEntity> where TEntity : IEntity
 {
     #region ==Sort==
 
