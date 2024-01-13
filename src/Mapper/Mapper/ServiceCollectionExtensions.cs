@@ -25,8 +25,8 @@ public static class ServiceCollectionExtensions
 
                 foreach (var type in types)
                 {
-                    var map = (ObjectMapAttribute)Attribute.GetCustomAttribute(type, typeof(ObjectMapAttribute));
-                    if (map != null)
+                    var mapAttr = Attribute.GetCustomAttribute(type, typeof(ObjectMapAttribute));
+                    if (mapAttr is ObjectMapAttribute map)
                     {
                         cfg.CreateMap(type, map.TargetType);
 

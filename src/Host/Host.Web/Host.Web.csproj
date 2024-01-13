@@ -17,7 +17,6 @@
 		<ProjectReference Include="..\..\Auth\Auth.Jwt\Auth.Jwt.csproj" />
 		<ProjectReference Include="..\..\Cache\Cache.Core\Cache.Core.csproj" />
 		<ProjectReference Include="..\..\Cache\Cache.Redis\Cache.Redis.csproj" />
-		<ProjectReference Include="..\..\Mapper\Mapper\Mapper.csproj" />
 		<ProjectReference Include="..\..\Config\Config.Core\Config.Core.csproj" />
 		<ProjectReference Include="..\..\Logging\Logging.Core\Logging.Core.csproj" />
 		<ProjectReference Include="..\..\Excel\Excel.Core\Excel.Core.csproj" />

@@ -77,7 +77,7 @@ internal class AccountService : BaseAppService, IAccountService
 
     public Task<Result<AccountDetailsRto>> GetAsync(Guid id)
     {
-        throw new NotImplementedException();
+        
     }
 
     public Task<Result> UpdateAsync(AccountUpdateDto dto)

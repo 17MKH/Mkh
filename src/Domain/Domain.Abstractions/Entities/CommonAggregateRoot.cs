@@ -44,7 +44,7 @@ public abstract class CommonAggregateRoot<TKey> : AggregateRoot<TKey>
     protected CommonAggregateRoot(TKey id, Guid createdBy) : base(id)
     {
         CreatedBy = createdBy;
-        CreatedTime = DateTimeOffset.Now;
+        CreatedTime = DateTimeOffset.UtcNow;
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public abstract class CommonAggregateRoot<TKey> : AggregateRoot<TKey>
     public void SetModifiedBy(Guid modifiedBy)
     {
         LastModifiedBy = modifiedBy;
-        LastModifiedTime = DateTimeOffset.Now;
+        LastModifiedTime = DateTimeOffset.UtcNow;
     }
 }
 
