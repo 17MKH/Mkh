@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mkh.Domain.Abstractions.Exceptions;
+namespace Mkh.Domain.Exceptions;
 
 /// <summary>
 /// 找不到实体

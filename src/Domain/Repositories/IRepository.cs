@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Mkh.Domain.Abstractions.Entities;
-using Mkh.Domain.Abstractions.Exceptions;
-using Mkh.Domain.Abstractions.Repositories.Query;
+using Mkh.Domain.Entities;
+using Mkh.Domain.Exceptions;
+using Mkh.Domain.Repositories.Query;
 
-namespace Mkh.Domain.Abstractions.Repositories;
+namespace Mkh.Domain.Repositories;
 
 /// <summary>
 /// 仓储接口

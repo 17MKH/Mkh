@@ -1,4 +1,4 @@
-namespace Mkh.Domain.Abstractions.Repositories.Paging;
+namespace Mkh.Domain.Repositories.Paging;
 
 /// <summary>
 /// 排序规则

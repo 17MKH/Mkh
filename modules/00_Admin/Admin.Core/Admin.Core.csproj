@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Data\Data.Core\Data.Core.csproj" />
-    <ProjectReference Include="..\..\..\src\Domain\Domain.Core\Domain.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\..\src\Idenity\Identity.Abstractions\Identity.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\src\Module\Module.Core\Module.Core.csproj" />
     <ProjectReference Include="..\..\..\src\Auth\Auth.Abstractions\Auth.Abstractions.csproj" />

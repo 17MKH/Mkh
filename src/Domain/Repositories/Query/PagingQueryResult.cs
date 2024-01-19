@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mkh.Domain.Abstractions.Repositories.Query;
+namespace Mkh.Domain.Repositories.Query;
 
 /// <summary>
 /// 分页查询结果

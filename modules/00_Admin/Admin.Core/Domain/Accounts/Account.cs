@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mkh.Domain.Abstractions.Entities;
-using Mkh.Mod.Admin.Core.Domain.Roles;
+using Mkh.Domain.Entities;
 
 namespace Mkh.Mod.Admin.Core.Domain.Accounts;
 
@@ -41,9 +40,9 @@ internal class Account : CommonAggregateRoot, ITenant
     public bool IsDisabled { get; set; }
 
     /// <summary>
-    /// 关联角色ID
+    /// 绑定角色
     /// </summary>
-    public IEnumerable<Role>? Roles { get; set; }
+    public IEnumerable<AccountRole>? Roles { get; set; }
 
     /// <summary>
     /// 

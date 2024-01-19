@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mkh.Domain.Abstractions.Entities;
+namespace Mkh.Domain.Entities;
 
 /// <summary>
 /// 实体

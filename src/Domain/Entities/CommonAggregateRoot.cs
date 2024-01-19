@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mkh.Domain.Abstractions.Entities;
+namespace Mkh.Domain.Entities;
 
 /// <summary>
 /// 通用聚合根，包含创建人编号、创建时间、最后修改人编号、最后修改时间

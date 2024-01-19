@@ -1,4 +1,4 @@
-﻿namespace Mkh.Domain.Abstractions;
+﻿namespace Mkh.Domain.Applications;
 
 /// <summary>
 /// 应用服务接口

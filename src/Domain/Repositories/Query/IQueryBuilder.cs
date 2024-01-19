@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Mkh.Domain.Abstractions.Entities;
+using Mkh.Domain.Entities;
 
-namespace Mkh.Domain.Abstractions.Repositories.Query;
+namespace Mkh.Domain.Repositories.Query;
 
 public interface IQueryBuilder<TEntity> where TEntity : IEntity
 {

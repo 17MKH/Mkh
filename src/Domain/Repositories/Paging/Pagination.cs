@@ -1,4 +1,6 @@
-namespace Mkh.Domain.Abstractions.Repositories.Paging;
+using System.Collections.Generic;
+
+namespace Mkh.Domain.Repositories.Paging;
 
 /// <summary>
 /// 分页类

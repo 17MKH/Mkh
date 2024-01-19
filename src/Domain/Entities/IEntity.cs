@@ -1,4 +1,4 @@
-﻿namespace Mkh.Domain.Abstractions.Entities;
+﻿namespace Mkh.Domain.Entities;
 
 
 /// <summary>

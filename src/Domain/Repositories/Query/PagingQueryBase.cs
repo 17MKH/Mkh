@@ -1,6 +1,6 @@
-﻿using Mkh.Domain.Abstractions.Repositories.Paging;
+﻿using Mkh.Domain.Repositories.Paging;
 
-namespace Mkh.Domain.Abstractions.Repositories.Query;
+namespace Mkh.Domain.Repositories.Query;
 
 /// <summary>
 /// 分页查询基类
