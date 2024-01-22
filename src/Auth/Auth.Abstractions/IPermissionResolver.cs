@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mkh.Utils.Permissions;
 
 namespace Mkh.Auth.Abstractions;
 
@@ -12,5 +13,5 @@ public interface IPermissionResolver
     /// </summary>
     /// <param name="moduleCode">模块编码</param>
     /// <returns></returns>
-    List<PermissionDescriptor> GetPermissions(string moduleCode);
+    List<PermissionDescriptor> GetModulePermissions(string moduleCode);
 }

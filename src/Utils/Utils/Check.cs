@@ -16,7 +16,7 @@ public class Check
     /// <param name="obj"></param>
     /// <param name="parameterName"></param>
     /// <param name="message"></param>
-    public static void NotNull<T>(T obj, string parameterName, string message = null)
+    public static void NotNull<T>(T obj, string parameterName, string? message = null)
     {
         if (ReferenceEquals(obj, null))
             throw new ArgumentNullException(parameterName, message ?? $"{parameterName} is null");
@@ -28,7 +28,7 @@ public class Check
     /// <param name="obj"></param>
     /// <param name="parameterName"></param>
     /// <param name="message"></param>
-    public static void NotNull(string obj, string parameterName, string message = null)
+    public static void NotNull(string obj, string parameterName, string? message = null)
     {
         if (string.IsNullOrWhiteSpace(obj))
             throw new ArgumentNullException(parameterName, message ?? $"{parameterName} is null");

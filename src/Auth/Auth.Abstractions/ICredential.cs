@@ -1,12 +1,8 @@
-﻿using Mkh.Utils.Json.Converters;
+﻿namespace Mkh.Auth.Abstractions;
 
-namespace Mkh.Auth.Abstractions
+/// <summary>
+/// 登陆凭据
+/// </summary>
+public interface ICredential
 {
-    /// <summary>
-    /// 凭据
-    /// </summary>
-    [JsonPolymorphism]
-    public interface ICredential
-    {
-    }
 }

@@ -4,7 +4,10 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Mkh.Auth.Abstractions;
 using Mkh.Auth.Abstractions.Options;
 using Mkh.Auth.Core;
+using Mkh.Auth.Core.Identity;
 using Mkh.Data.Abstractions;
+using Mkh.Identity.Abstractions;
+using Mkh.Utils.Identity;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
@@ -45,8 +48,27 @@ public static class ServiceCollectionExtensions
         //添加平台转换器
         services.TryAddSingleton<IPlatformProvider, DefaultPlatformProvider>();
 
+        services.AddIdentity();
+
         var builder = new MkhAuthBuilder(services, configuration);
 
         return builder;
+    }
+
+    /// <summary>
+    /// 添加身份服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddIdentity(this IServiceCollection services)
+    {
+        //添加http上下文访问器，用于获取认证信息
+        services.AddHttpContextAccessor();
+
+        services.TryAddSingleton<ICurrentAccount, DefaultCurrentAccount>();
+
+        services.TryAddSingleton<ICurrentTenant, DefaultCurrentTenant>();
+
+        return services;
     }
 }

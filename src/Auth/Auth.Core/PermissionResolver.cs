@@ -74,7 +74,7 @@ public class PermissionResolver : IPermissionResolver
         }
     }
 
-    public List<PermissionDescriptor> GetPermissions(string moduleCode)
+    public List<PermissionDescriptor> GetModulePermissions(string moduleCode)
     {
         return _descriptors.Where(m => m.ModuleCode.EqualsIgnoreCase(moduleCode)).ToList();
     }

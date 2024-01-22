@@ -49,13 +49,7 @@ public static class ServiceCollectionExtensions
             //加载模块初始化器
             if (module.ServicesConfigurator != null)
             {
-                var context = new ModuleConfigureContext
-                {
-                    Modules = modules,
-                    Services = services,
-                    Environment = environment,
-                    Configuration = configuration
-                };
+                var context = new ModuleConfigureContext(services, environment, configuration, modules);
 
                 module.ServicesConfigurator.Configure(context);
             }
@@ -133,7 +127,7 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-    
+
     /// <summary>
     /// 添加应用服务
     /// </summary>

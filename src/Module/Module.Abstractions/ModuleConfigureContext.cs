@@ -9,23 +9,31 @@ namespace Mkh.Module.Abstractions;
 /// </summary>
 public class ModuleConfigureContext
 {
+    public ModuleConfigureContext(IServiceCollection services, IHostEnvironment environment, IConfiguration configuration, IModuleCollection modules)
+    {
+        Services = services;
+        Environment = environment;
+        Configuration = configuration;
+        Modules = modules;
+    }
+
     /// <summary>
     /// 服务集合
     /// </summary>
-    public IServiceCollection Services { get; set; }
+    public IServiceCollection Services { get; }
 
     /// <summary>
     /// 环境变量
     /// </summary>
-    public IHostEnvironment Environment { get; set; }
+    public IHostEnvironment Environment { get; }
 
     /// <summary>
     /// 配置对象
     /// </summary>
-    public IConfiguration Configuration { get; set; }
+    public IConfiguration Configuration { get; }
 
     /// <summary>
     /// 模块集合
     /// </summary>
-    public IModuleCollection Modules { get; set; }
+    public IModuleCollection Modules { get; }
 }

@@ -2,7 +2,8 @@
 
 namespace Mkh.Domain.Values;
 
-/*从ABP中拷贝过来的*/
+/*从ABP中拷贝过来的 https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.Ddd.Domain/Volo/Abp/Domain/Values/ValueObject.cs */
+/*值对象文档 https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/implement-value-objects */
 
 /// <summary>
 /// 值对象

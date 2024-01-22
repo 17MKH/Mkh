@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Mkh.Module.Abstractions.Options;
+using Mkh.Utils.Permissions;
 
 namespace Mkh.Module.Abstractions;
 
@@ -13,42 +13,42 @@ public class ModuleDescriptor
     /// <summary>
     /// 编号
     /// </summary>
-    public int Id { get; set; }
+    public int Id { get; }
 
     /// <summary>
     /// 编码
     /// </summary>
-    public string Code { get; set; }
+    public string Code { get; }
 
     /// <summary>
     /// 名称
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// 图标
     /// </summary>
-    public string Icon { get; set; }
+    public string? Icon { get; set; }
 
     /// <summary>
     /// 版本
     /// </summary>
-    public string Version { get; set; }
+    public string? Version { get; set; }
 
     /// <summary>
     /// 说明介绍
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// 数据库初始化数据文件路径
     /// </summary>
-    public string DbInitFilePath { get; set; }
+    public string? DbInitFilePath { get; set; }
 
     /// <summary>
     /// 模块配置项
     /// </summary>
-    public ModuleOptions Options { get; set; }
+    public ModuleOptions? Options { get; set; }
 
     /// <summary>
     /// 初始化器
@@ -58,12 +58,7 @@ public class ModuleDescriptor
     /// <summary>
     /// 多语言读取器类型
     /// </summary>
-    public Type LocalizerType { get; set; }
-
-    /// <summary>
-    /// 应用服务集合
-    /// </summary>
-    public Dictionary<Type, Type> ApplicationServices { get; set; } = new();
+    public Type LocalizerType { get; }
 
     /// <summary>
     /// 分层信息
@@ -71,17 +66,20 @@ public class ModuleDescriptor
     public ModuleLayerAssemblies LayerAssemblies { get; } = new();
 
     /// <summary>
-    /// 枚举描述符集合
+    /// 应用服务集合
     /// </summary>
-    public List<ModuleEnumDescriptor> EnumDescriptors { get; } = new();
+    public Dictionary<Type, Type> ApplicationServices { get; set; } = new();
 
     /// <summary>
-    /// 获取指定枚举描述符信息
+    /// 权限列表
     /// </summary>
-    /// <param name="enumName">枚举名称</param>
-    /// <returns></returns>
-    public ModuleEnumDescriptor GetEnum(string enumName)
+    public List<PermissionDescriptor> Permissions { get; } = new();
+
+    public ModuleDescriptor(int id, string code, IModuleServicesConfigurator servicesConfigurator, Type localizerType)
     {
-        return EnumDescriptors.FirstOrDefault(m => m.Name.Equals(enumName));
+        Id = id;
+        Code = code;
+        ServicesConfigurator = servicesConfigurator;
+        LocalizerType = localizerType;
     }
 }

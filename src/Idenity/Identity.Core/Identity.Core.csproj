@@ -7,7 +7,6 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Auth\Auth.Abstractions\Auth.Abstractions.csproj" />
 	  <ProjectReference Include="..\..\Utils\Utils.Web\Utils.Web.csproj" />
-	  <ProjectReference Include="..\Identity.Abstractions\Identity.Abstractions.csproj" />
 	</ItemGroup>
 
 </Project>

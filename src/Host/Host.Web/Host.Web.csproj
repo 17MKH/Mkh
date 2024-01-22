@@ -10,7 +10,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Idenity\Identity.Core\Identity.Core.csproj" />
 		<ProjectReference Include="..\..\Utils\Utils\Utils.csproj" />
 		<ProjectReference Include="..\..\Data\Data.Core\Data.Core.csproj" />
 		<ProjectReference Include="..\..\Module\Module.Web\Module.Web.csproj" />
